@@ -27,11 +27,12 @@ public class PhaseManager : MonoBehaviour
     [SerializeField] Text enemyText;             //敵の数を表示するUI
 
     /*フェイズ管理関連*/
-    enum Phase { 
+    enum Phase {
         Puzzle,
         Defence }
     Phase phase;
     [SerializeField] Text phaseNameText;        //現在のフェーズを見るよう
+    [SerializeField] GameObject puzzles;        //パズル用
 
     /*ゲームフラグ関連*/
     bool isGame = false;        //ウェーブ開始フラグ
@@ -50,15 +51,15 @@ public class PhaseManager : MonoBehaviour
         switch (phase) {
             case Phase.Puzzle:
 
-                //時間を減らす
-                nowTime -= Time.deltaTime;
+                ////時間を減らす
+                //nowTime -= Time.deltaTime;
 
-                //現ウェーブの時間が0になったら
-                if (nowTime < 0)
-                {
-                    nowTime = 0;                //0で初期化
-                    phase = Phase.Defence;       //パズルフェイズに移行
-                }
+                ////現ウェーブの時間が0になったら
+                //if (nowTime < 0)
+                //{
+                //    nowTime = 0;                //0で初期化
+                //    phase = Phase.Defence;       //パズルフェイズに移行
+                //}
 
                 //テキストUIに表示させる
                 timeText.text = "残り" + nowTime.ToString("00") + "秒";
@@ -79,7 +80,7 @@ public class PhaseManager : MonoBehaviour
                     {
                         FinichFunctions.Invoke();   //イベントを呼び出す
                         WaveInit();                 //ウェーブ初期化
-                        phase = Phase.Puzzle;       //パズルフェイズに移行
+                        //phase = Phase.Puzzle;       //パズルフェイズに移行
                     }
 
                     //テキストUIに表示させる
@@ -88,15 +89,22 @@ public class PhaseManager : MonoBehaviour
                 break;
         }
 
+        //Bボタンでフェーズ切替え
+        if (Input.GetButtonDown("Fire2")) {
+            phase = 1 - phase;
+            if (phase == Phase.Puzzle) puzzles.SetActive(true);
+            else puzzles.SetActive(false);
+        }
+
         //現在のフェーズを出す
         phaseNameText.text = phase.ToString();
-
     }
 
     //ゲーム初期化関数
     void GameInit() {
         currentWaveNum = 0;     //ウェーブ数の初期化
-        phase = Phase.Puzzle;   //最初のフェーズをパズルに
+        phase = Phase.Defence;  //最初のフェーズをパズルに
+        puzzles.SetActive(false);
     }
 
     //ウェーブ初期化関数

@@ -116,10 +116,10 @@ public class PointControl : MonoBehaviour
                         //tf.position = o.transform.position;
 
                         //Bボタンで反転処理
-                        if (Input.GetButtonDown("Fire2")){
-                            sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
-                            gp.ChangeColor();
-                        }
+                        //if (Input.GetButtonDown("Fire2")){
+                        //    sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
+                        //    gp.ChangeColor();
+                        //}
 
                         //Aボタン選択
                         SelectCircle(o);
@@ -152,7 +152,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("DECIDE");//SEを鳴らす（魔方陣を選択した音）
+                //sePlay.Play("DECIDE");//SEを鳴らす（魔方陣を選択した音）
                 selA = obj;                                   //選択したオブジェ保存
                 selTf = selA.transform.parent;              //1個目の親オブジェ
                                                             //selA.transform.parent = c_Select;           //選択位置に移動
@@ -166,7 +166,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("SWITCH");//SEを鳴らす（魔方陣の位置が入れ替わる）
+                //sePlay.Play("SWITCH");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;

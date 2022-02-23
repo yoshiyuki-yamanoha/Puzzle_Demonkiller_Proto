@@ -85,7 +85,7 @@ public class ClearCheck : MonoBehaviour
         }
 
         //表か裏か決めるやつ
-        SetRandomSide();
+        //SetRandomSide();
 
         SetAnswer();
 
