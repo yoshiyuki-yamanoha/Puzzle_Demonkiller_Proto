@@ -63,7 +63,7 @@ public class PointControl : MonoBehaviour
 
         float hori = Input.GetAxis("Horizontal");
         float vert = Input.GetAxis("Vertical");
-        Vector3 ppos = oriPos + new Vector3(hori * power, 0,vert * power);
+        Vector3 ppos = oriPos + new Vector3(hori * power,vert * power,0);
 
         //tf.position = ppos;
         tf.position = oldOverlapObject.transform.position;
