@@ -33,6 +33,6 @@ public class ShootMagic : MonoBehaviour
     
     public void Enelist_Delete(GameObject obj)
     {
-        Enemy_List.(obj);
+        //Enemy_List.(obj);
     }
 }

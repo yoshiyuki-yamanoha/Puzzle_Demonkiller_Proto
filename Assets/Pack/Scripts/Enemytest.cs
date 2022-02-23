@@ -16,8 +16,6 @@ public class Enemytest : MonoBehaviour
     void Update()
     {
         this.transform.position += new Vector3(0, 0, -MoveSpeed * Time.deltaTime);
-
-
     }
 
     public void Damege()
