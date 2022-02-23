@@ -40,7 +40,6 @@ public class ClearCheck : MonoBehaviour
             Instantiate(clearEffe, effePos);
 
             //
-            GameObject.Find("MihonCircle").GetComponent<Enemytest>().Damege();
             GameObject.Find("Sphere").GetComponent<ShootMagic>().CreateMagic();
         }
 

@@ -22,6 +22,8 @@ public class GoToParent : MonoBehaviour
     //選択サークルのインスタンス化保存用
     private GameObject s_circle = null;
 
+    [SerializeField] Vector3 power;
+
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
@@ -39,17 +41,42 @@ public class GoToParent : MonoBehaviour
         if (c_ColorFlg)
         {
             curAngleY = 15f;
-            if (transform.eulerAngles.y > 165)
-                curAngleY = 0;
 
-            transform.Rotate(new Vector3(0, curAngleY, 0));
+            if(power.x != 0f)
+            {
+                if (transform.eulerAngles.x > 165)
+                    curAngleY = 0;
+            }else if(power.y != 0f)
+            {
+                if (transform.eulerAngles.y > 165)
+                    curAngleY = 0;
+            }
+            else
+            {
+                if (transform.eulerAngles.z > 165)
+                    curAngleY = 0;
+            }
+
+            transform.Rotate(new Vector3(curAngleY * power.x, curAngleY * power.y, curAngleY * power.z));
         }
         else {
             curAngleY = -15f;
-            if (transform.eulerAngles.y <= 1.5f)
-                curAngleY = 0;
+            if (power.x != 0f)
+            {
+                if (transform.eulerAngles.x <= 1.5f)
+                    curAngleY = 0;
+            }else if(power.y != 0f)
+            {
+                if (transform.eulerAngles.y <= 1.5f)
+                    curAngleY = 0;
+            }
+            else
+            {
+                if (transform.eulerAngles.z <= 1.5f)
+                    curAngleY = 0;
+            }
 
-            transform.Rotate(new Vector3(0, curAngleY, 0));
+            transform.Rotate(new Vector3(curAngleY * power.x, curAngleY * power.y, curAngleY * power.z));
         }
 
         //選択サークルの位置を魔法陣に合わせる

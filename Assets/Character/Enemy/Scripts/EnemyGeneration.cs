@@ -11,6 +11,8 @@ public class EnemyGeneration : MonoBehaviour
     float time = 0;//時間計測
     [SerializeField] float span = 3;//敵スパン
     float enemy_count = 0;
+
+    [SerializeField] GameObject Ene_MagicCircle;
     
     // Update is called once per frame
     void Update()
@@ -33,6 +35,13 @@ public class EnemyGeneration : MonoBehaviour
     {
         GameObject enemy = Instantiate(prefab[Random.Range(0,2)]);//生成
         enemy.transform.position = new Vector3( generationPos[num].position.x + Random.Range(-30,30), generationPos[num].position.y, generationPos[num].position.z);//位置
+        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy);
+
+        Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);
+        GameObject MC = Instantiate(Ene_MagicCircle, MCPos, Ene_MagicCircle.transform.rotation);
+        MC.transform.parent = enemy.transform;
+
+
         time = 0;//時間リセット
         enemy_count++;//敵カウント
     }
