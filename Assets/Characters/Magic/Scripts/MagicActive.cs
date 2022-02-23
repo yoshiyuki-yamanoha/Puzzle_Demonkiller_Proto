@@ -16,7 +16,7 @@ public class MagicActive : MonoBehaviour
     {
         if (Input.GetKeyDown("a"))
         {
-            Instantiate(particleObject, this.transform.position, Quaternion.identity);
+            Instantiate(particleObject, this.transform.position,transform.rotation);
 
         }
     }

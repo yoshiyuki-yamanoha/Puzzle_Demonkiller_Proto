@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject mainCamera;
-    public GameObject TargetObject;
+    public GameObject particleObject;
 
+    private Vector3 cameraDefaultPosition = new Vector3(0,15,-12);
     private Vector3 lastMousePosition;
     private Vector3 newAngle = new Vector3(0, 0, 0);
 
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mainCamera.transform.position = cameraDefaultPosition;
         newAngle = this.transform.localEulerAngles;
         lastMousePosition = Input.mousePosition;
     }
@@ -35,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerAttack()
     {
-        Debug.Log("ズドドドドドドドドドド");
+        
+        Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+
     }
 }
