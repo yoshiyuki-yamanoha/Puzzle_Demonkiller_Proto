@@ -38,6 +38,10 @@ public class ClearCheck : MonoBehaviour
             //クリア
             Shuffle();
             Instantiate(clearEffe, effePos);
+
+            //
+            GameObject.Find("MihonCircle").GetComponent<Enemytest>().Damege();
+            GameObject.Find("Sphere").GetComponent<ShootMagic>().CreateMagic();
         }
 
     }

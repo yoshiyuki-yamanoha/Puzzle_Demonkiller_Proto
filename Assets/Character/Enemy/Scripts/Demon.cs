@@ -16,7 +16,7 @@ public class Demon : EnemyBase
     {
         //hierarchyからターゲットを取得
         if (target == null) {
-            target = GameObject.Find("Player");
+            target = GameObject.FindGameObjectWithTag("Player");
         }
 
         if (TargetDir(this.gameObject,target).magnitude > distance) {//ターゲットの距離によって移動。
@@ -73,6 +73,7 @@ public class Demon : EnemyBase
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("HIt");
+            GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
         }
     }
 }

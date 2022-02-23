@@ -14,6 +14,7 @@ public class AnimEvent : MonoBehaviour
     public void Destroy()
     {
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
+        GameObject.Find("Stage1Mgr").GetComponent<Stage1Mgr>().DieEnemyCount();
     }
 
     public void ShowAttack()
