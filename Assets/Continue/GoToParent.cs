@@ -22,10 +22,14 @@ public class GoToParent : MonoBehaviour
     //選択サークルのインスタンス化保存用
     private GameObject s_circle = null;
 
+    //線用
+    LineRenderer lr;
+
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
         oriName = gameObject.name;
+        lr = GetComponent<LineRenderer>();
     }
 
     private void Update()
@@ -90,5 +94,16 @@ public class GoToParent : MonoBehaviour
                 gameObject.name = oriName;
                 break;
         }
+    }
+
+    //線を結ぶ用の関数
+    public void SetLine(GameObject obj) {
+        var positions = new Vector3[]{
+            transform.position,
+            obj.transform.position
+        };
+
+        // 線を引く場所を指定する
+        lr.SetPositions(positions);
     }
 }
