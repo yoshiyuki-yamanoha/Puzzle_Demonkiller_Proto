@@ -26,7 +26,7 @@ public class ClearCheck : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //それぞれの名前を繋げる処理 あとで関数にまとめまーす💛
         {

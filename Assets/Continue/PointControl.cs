@@ -45,7 +45,7 @@ public class PointControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+        //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
         tf = transform;
 
@@ -58,7 +58,7 @@ public class PointControl : MonoBehaviour
 
     GameObject circleA = null;
 
-    void Update()
+    void FixedUpdate()
     {
         //カーソルの基準点がずっと中央
         float hori = Input.GetAxis("Horizontal");
@@ -80,7 +80,6 @@ public class PointControl : MonoBehaviour
         {
 
             //ポインターが一定以上の範囲に出た時
-            if (Vector3.Distance(Vector3.zero, tf.position) > 0.3f)
             {
                 //当たり判定
                 foreach (GameObject o in circles)
@@ -93,7 +92,7 @@ public class PointControl : MonoBehaviour
                     {
                         currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                        if (Vector3.Distance(ppos, o.transform.position) < dist)
+                        if (Vector3.Distance(ppos, o.transform.position) < dist && oldOverlapObject != o)
                         {
                             //最近選択していたオブジェクト
                             oldOverlapObject = o;
