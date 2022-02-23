@@ -1,0 +1,40 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public GameObject mainCamera;
+    public GameObject TargetObject;
+
+    private Vector3 lastMousePosition;
+    private Vector3 newAngle = new Vector3(0, 0, 0);
+
+    public float y_rotate, x_rotate, y_reverce, x_reverce;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        newAngle = this.transform.localEulerAngles;
+        lastMousePosition = Input.mousePosition;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        newAngle.y += (Input.mousePosition.x - lastMousePosition.x) * y_rotate * x_reverce;
+        newAngle.x -= (Input.mousePosition.y - lastMousePosition.y) * x_rotate * y_reverce;
+        mainCamera.gameObject.transform.localEulerAngles = newAngle;
+        lastMousePosition = Input.mousePosition;
+
+        if (Input.GetKeyDown("a"))
+        {
+            PlayerAttack();
+        }
+    }
+
+    private void PlayerAttack()
+    {
+        Debug.Log("ズドドドドドドドドドド");
+    }
+}
