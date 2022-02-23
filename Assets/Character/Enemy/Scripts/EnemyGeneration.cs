@@ -34,7 +34,7 @@ public class EnemyGeneration : MonoBehaviour
     void Generation(int num)
     {
         GameObject enemy = Instantiate(prefab[Random.Range(0,2)]);//生成
-        enemy.transform.position = new Vector3( generationPos[num].position.x + Random.Range(-30,30), generationPos[num].position.y, generationPos[num].position.z);//位置
+        enemy.transform.position = new Vector3( generationPos[num].position.x + Random.Range(-3,3), generationPos[num].position.y, generationPos[num].position.z);//位置
         GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy);
 
         Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);

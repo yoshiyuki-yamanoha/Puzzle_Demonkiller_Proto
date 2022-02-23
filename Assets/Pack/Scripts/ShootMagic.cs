@@ -43,7 +43,8 @@ public class ShootMagic : MonoBehaviour
         foreach (GameObject del in Del_Obj)
         {
             Enemy_List.Remove(del);
-            Destroy(del);
+            Destroy(del.transform.GetChild(1).gameObject);
+            del.GetComponent<Demon>().Damage(100.0f);
         }
     }
 
