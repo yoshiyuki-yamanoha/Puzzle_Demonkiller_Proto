@@ -23,14 +23,21 @@ public class GoToParent : MonoBehaviour
     private GameObject s_circle = null;
 
     //線用
-    LineRenderer lr;
+    [SerializeField] LineRenderer lr;
 
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
         oriName = gameObject.name;
-        lr = GetComponent<LineRenderer>();
+        //lr = GetComponent<LineRenderer>();
+
+        //線
+        //SetLine(GameObject.Find("Puzzles"));
+        lr.startWidth = 0.3f;                   // 開始点の太さを0.1にする
+        lr.endWidth = 0.1f;                     // 終了点の太さを0.1にする
     }
+
+    GameObject endLinePos;
 
     private void Update()
     {
@@ -59,6 +66,19 @@ public class GoToParent : MonoBehaviour
         //選択サークルの位置を魔法陣に合わせる
         if(s_circle)
             s_circle.transform.position = transform.position;
+
+        if(endLinePos){
+            var positions = new Vector3[]{
+            transform.position,
+            endLinePos.transform.position
+        };
+
+            // 線を引く場所を指定する
+            if (lr)
+            {
+                lr.SetPositions(positions);
+            }
+        }
     }
 
     //選択サークル表示
@@ -98,12 +118,10 @@ public class GoToParent : MonoBehaviour
 
     //線を結ぶ用の関数
     public void SetLine(GameObject obj) {
-        var positions = new Vector3[]{
-            transform.position,
-            obj.transform.position
-        };
+        endLinePos = obj;
+    }
 
-        // 線を引く場所を指定する
-        lr.SetPositions(positions);
+    public GameObject GetLineEnd() {
+        return endLinePos;
     }
 }
