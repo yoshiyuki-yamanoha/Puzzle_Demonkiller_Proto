@@ -26,10 +26,11 @@ public class FallingMagic : MagicBas
 
     public void M_FireFall(GameObject ene)
     {
-        Vector3 heightToDropMagic = new Vector3(0.0f, 10.0f, 0.0f);
+        Vector3 heightToDropMagic = new Vector3(0.0f, 20.0f, 0.0f);
         Vector3 overTheEnemy = ene.transform.position + heightToDropMagic;
+        //Debug.Log(ene.transform.position);
 
         GameObject obj = Instantiate(fx_fallingMagic, overTheEnemy, this.transform.rotation);
-        obj.GetComponent<Meteo>().targetEnemy = ene;
+        obj.GetComponent<Meteor>().targetEnemy = ene;
     }
 }

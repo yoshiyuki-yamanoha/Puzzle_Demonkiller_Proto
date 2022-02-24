@@ -76,4 +76,11 @@ public class Demon : EnemyBase
             GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 魔法が当たるとダメージ
+        if(collision.gameObject.tag == "Magic")
+            this.GetComponent<Demon>().Damage(100.0f);
+    }
 }
