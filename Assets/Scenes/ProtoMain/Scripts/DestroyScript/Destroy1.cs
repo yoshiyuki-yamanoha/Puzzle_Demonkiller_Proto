@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destroy : MonoBehaviour
+public class Destroy1 : MonoBehaviour
 {
     public GameObject PrefabEnemy;
-
+    
+    
     void Update()
     {
 
@@ -16,7 +17,7 @@ public class Destroy : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Destroy(gameObject,0.2f);
-            Instantiate(PrefabEnemy);
+            Instantiate(PrefabEnemy,new Vector3(0.0f,0.0f,0.0f),Quaternion.identity);
         }
     }
 }
