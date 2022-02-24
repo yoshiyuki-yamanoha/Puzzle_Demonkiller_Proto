@@ -161,6 +161,7 @@ public class ClearCheck : MonoBehaviour
         //Debug.Log("とけい");
         Shuffle();
         AddMagicPoint(1);
+        ShowEffeLingSound();
     }
 
     void CheckRingLineR() {
@@ -178,6 +179,7 @@ public class ClearCheck : MonoBehaviour
         //Debug.Log("はんとけい");
         Shuffle();
         AddMagicPoint(1);
+        ShowEffeLingSound();
     }
 
     void CheckStarLine() {
@@ -195,6 +197,7 @@ public class ClearCheck : MonoBehaviour
         //Debug.Log("ほし");
         Shuffle();
         AddMagicPoint(2);
+        ShowEffeLingSound();
     }
 
     void CheckStarLineR()
@@ -213,11 +216,17 @@ public class ClearCheck : MonoBehaviour
         //Debug.Log("逆ほし");
         Shuffle();
         AddMagicPoint(2);
+        ShowEffeLingSound();
     }
 
     //魔力を増やす
     void AddMagicPoint(int num) {
         magicPoint += num;
         mpText.text = "魔力: "+ magicPoint.ToString("0");
+    }
+
+    void ShowEffeLingSound() {
+        Instantiate(clearEffe, effePos);
+        ass.PlayOneShot(se);
     }
 }

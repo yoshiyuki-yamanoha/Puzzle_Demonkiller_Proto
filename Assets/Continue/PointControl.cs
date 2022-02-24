@@ -45,7 +45,7 @@ public class PointControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+        sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
         tf = transform;
 
