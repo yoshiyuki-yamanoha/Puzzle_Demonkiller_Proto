@@ -111,6 +111,13 @@ public class EnemyMove : MonoBehaviour
             CloneEnem.name = "CloneEnemy";
         }
 
+        if (other.CompareTag("Magic"))
+        {
+            Destroy(gameObject);
+            CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+            CloneEnem.name = "CloneEnemy";
+        }
+
     }
 
   
