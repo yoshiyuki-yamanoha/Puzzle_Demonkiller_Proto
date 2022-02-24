@@ -58,7 +58,7 @@ public class PointControl : MonoBehaviour
 
     GameObject circleA = null;
 
-    void FixedUpdate()
+    void Update()
     {
         //カーソルの基準点がずっと中央
         float hori = Input.GetAxis("Horizontal");
