@@ -24,12 +24,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        newAngle.y += (Input.mousePosition.x - lastMousePosition.x) * y_rotate * x_reverce;
-        newAngle.x -= (Input.mousePosition.y - lastMousePosition.y) * x_rotate * y_reverce;
+        newAngle.y += Input.GetAxis("Horizontal") * y_rotate * x_reverce;
+        //newAngle.y += (Input.mousePosition.x - lastMousePosition.x) * y_rotate * x_reverce;
+        newAngle.x -= Input.GetAxis("Vertical") * x_rotate * y_reverce;
+        //newAngle.x -= (Input.mousePosition.y - lastMousePosition.y) * x_rotate * y_reverce;
         mainCamera.gameObject.transform.localEulerAngles = newAngle;
         lastMousePosition = Input.mousePosition;
 
-        if (Input.GetKeyDown("a"))
+        if (Input.GetButtonDown("Fire1"))
         {
             PlayerAttack();
         }
