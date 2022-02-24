@@ -59,7 +59,7 @@ public class FlyTowardsTheEnemy : MonoBehaviour
 
     private void HitMagic()
     {
-        Instantiate(fx_explosion, this.transform.position, Quaternion.identity);
+        //Instantiate(fx_explosion, this.transform.position, Quaternion.identity);
 
         StopAnimation();
     }
