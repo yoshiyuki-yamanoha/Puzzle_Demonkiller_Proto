@@ -42,6 +42,11 @@ public class ShootMagic : MonoBehaviour
 
         foreach (GameObject del in Del_Obj)
         {
+            //魔法を撃つ
+            this.gameObject.GetComponent<FallingMagic>().M_FireFall(del);
+            //this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(del);
+
+            //敵が倒れる処理
             Enemy_List.Remove(del);
             Destroy(del.transform.GetChild(1).gameObject);
             del.GetComponent<Demon>().Damage(100.0f);

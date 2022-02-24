@@ -216,6 +216,8 @@ GameObject:
   - component: {fileID: 373692254}
   - component: {fileID: 373692258}
   - component: {fileID: 373692259}
+  - component: {fileID: 373692261}
+  - component: {fileID: 373692260}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Player
@@ -330,6 +332,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coreLife_Max: 5
+--- !u!114 &373692260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373692253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb3aae88c5547a4ba4b4a7a0c5fb8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx_fallingMagic: {fileID: 1301581063026653108, guid: c90bb15d4991a854585747c499ab9ee7,
+    type: 3}
+  enemy: {fileID: 0}
+--- !u!114 &373692261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373692253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd786c6998228f94bb2dc65e01927498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx_flyingMagic: {fileID: 6406510760957520319, guid: d2c86b9df524f66489af20e2a11b0f5e,
+    type: 3}
 --- !u!1001 &423792807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -417,7 +448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &485724622
 BoxCollider:
   m_ObjectHideFlags: 0

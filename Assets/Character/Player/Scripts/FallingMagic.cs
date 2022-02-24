@@ -20,10 +20,16 @@ public class FallingMagic : MagicBas
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Vector3 heightToDropMagic = new Vector3(0.0f, 10.0f, 0.0f);
-            Vector3 overTheEnemy = enemy.transform.position + heightToDropMagic;
-
-            InstantiateMagic(fx_fallingMagic, overTheEnemy, this.transform.rotation);
+            M_FireFall(this.gameObject);
         }
+    }
+
+    public void M_FireFall(GameObject ene)
+    {
+        Vector3 heightToDropMagic = new Vector3(0.0f, 10.0f, 0.0f);
+        Vector3 overTheEnemy = ene.transform.position + heightToDropMagic;
+
+        GameObject obj = Instantiate(fx_fallingMagic, overTheEnemy, this.transform.rotation);
+        obj.GetComponent<Meteo>().targetEnemy = ene;
     }
 }
