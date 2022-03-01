@@ -15,9 +15,8 @@ public class EnemyNumText : MonoBehaviour
     {
         Enemy_num_text = this.gameObject.GetComponent<Text>();
     }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Enemy_Count > 0)
         {

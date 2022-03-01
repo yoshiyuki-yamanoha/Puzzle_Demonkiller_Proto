@@ -19,7 +19,8 @@ public class EnemyMove : MonoBehaviour
     public GameObject PrefabEnemy;
     private GameObject CloneEnem;
 
-    private float Time;
+    private float time;
+    private float interval = 0.5f;
 
     //敵の数を表示するためのScript
     public EnemyNumText ENT;
@@ -38,12 +39,13 @@ public class EnemyMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        time += Time.deltaTime;
         //if (RimitFlg == true) {
-            
-       //     RimitFlg = false;
-      //  }
+
+        //     RimitFlg = false;
+        //  }
 
         if (RandR==0)
         {
@@ -118,23 +120,28 @@ public class EnemyMove : MonoBehaviour
             CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
             CloneEnem.name = "CloneEnemy";
         }
-
-        if (other.gameObject.tag == "Magic" && flag == false)
+        //0.5f待つ(デストロイするまでの時間)
+        if (interval < time)
         {
-            Destroy(gameObject, 0.2f);
-
-            if (ENT.Enemy_Count > 0)
+            if (other.gameObject.tag == "Magic" && flag == false)
             {
-                // 生成が速すぎるのでそこを直せ
-                CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
-                CloneEnem.name = "CloneEnemy";
+                //自分を破壊
+                Destroy(gameObject, 0.2f);
 
-                inArea = true;
-                EneChasing();
+                //敵がでてくるりょうを制限
+                if (ENT.Enemy_Count > 0)
+                {
+                    // 生成をする
+                    CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+                    CloneEnem.name = "CloneEnemy";
+                    //ナビのエリア取得
+                    inArea = true;
+                    EneChasing();
+                }
+
+                ENT.Enemy_Num();
+                flag = true;
             }
-
-            ENT.Enemy_Num();
-            flag = true;
         }
 
     }
