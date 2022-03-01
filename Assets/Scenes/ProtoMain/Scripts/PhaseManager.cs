@@ -38,6 +38,8 @@ public class PhaseManager : MonoBehaviour
     bool isGame = false;        //ウェーブ開始フラグ
     bool isPause = false;       //一時停止フラグ
 
+    [SerializeField] PlayerController pc;
+
     void Start()
     {
         GameInit();             //ゲーム初期化
@@ -92,8 +94,16 @@ public class PhaseManager : MonoBehaviour
         //Bボタンでフェーズ切替え
         if (Input.GetButtonDown("Fire2")) {
             phase = 1 - phase;
-            if (phase == Phase.Puzzle) puzzles.SetActive(true);
-            else puzzles.SetActive(false);
+            if (phase == Phase.Puzzle)
+            {
+                puzzles.SetActive(true);
+                pc.enabled = false;
+            }
+            else
+            {
+                puzzles.SetActive(false);
+                pc.enabled = true;
+            }
         }
 
         //現在のフェーズを出す

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public float y_rotate, x_rotate, y_reverce, x_reverce;
 
+    public ClearCheck cc;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             PlayerAttack();
+            cc.SubMP();
         }
     }
 

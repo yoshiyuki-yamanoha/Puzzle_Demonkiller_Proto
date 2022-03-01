@@ -229,4 +229,10 @@ public class ClearCheck : MonoBehaviour
         Instantiate(clearEffe, effePos);
         ass.PlayOneShot(se);
     }
+
+    public void SubMP() {
+
+        magicPoint -= 3;
+        mpText.text = "魔力: " + magicPoint.ToString("0");
+    }
 }
