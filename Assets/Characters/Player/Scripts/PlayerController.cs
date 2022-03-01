@@ -32,11 +32,13 @@ public class PlayerController : MonoBehaviour
         //newAngle.x -= (Input.mousePosition.y - lastMousePosition.y) * x_rotate * y_reverce;
         mainCamera.gameObject.transform.localEulerAngles = newAngle;
         lastMousePosition = Input.mousePosition;
-
-        if (Input.GetButtonDown("Fire1"))
+        if (cc.magicPoint > 0)
         {
-            PlayerAttack();
-            cc.SubMP();
+            if (Input.GetButtonDown("Fire1"))
+            {
+                PlayerAttack();
+                cc.SubMP();
+            }
         }
     }
 

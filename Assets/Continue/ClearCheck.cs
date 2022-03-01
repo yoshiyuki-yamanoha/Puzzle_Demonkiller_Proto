@@ -22,7 +22,7 @@ public class ClearCheck : MonoBehaviour
     [SerializeField] int[] soe = new int[5] { 2, 3, 0, 4, 1 };
 
     //魔力 ←あとで増やす
-    float magicPoint;
+    public float magicPoint;
     [SerializeField] Text mpText;
 
     private void Start()

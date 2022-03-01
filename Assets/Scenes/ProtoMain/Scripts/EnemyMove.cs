@@ -21,6 +21,10 @@ public class EnemyMove : MonoBehaviour
 
     private float Time;
 
+    //敵の数を表示するためのScript
+    public EnemyNumText ENT;
+
+    bool flag;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +33,8 @@ public class EnemyMove : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
         //GotoNextPoint();
+        ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
+        flag = false;
     }
 
     // Update is called once per frame
@@ -113,12 +119,14 @@ public class EnemyMove : MonoBehaviour
             CloneEnem.name = "CloneEnemy";
         }
 
-        if (other.gameObject.tag == "Magic")
+        if (other.gameObject.tag == "Magic" && flag == false)
         {
             Destroy(gameObject);
-            ///生成が速すぎるのでそこを直せ
-            //    CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
-            //    CloneEnem.name = "CloneEnemy";
+            // 生成が速すぎるのでそこを直せ
+            CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+            CloneEnem.name = "CloneEnemy";
+            ENT.Enemy_Num();
+            flag = true;
         }
 
     }

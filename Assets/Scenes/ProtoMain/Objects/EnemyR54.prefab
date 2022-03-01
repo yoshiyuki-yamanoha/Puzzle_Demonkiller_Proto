@@ -116,6 +116,7 @@ MonoBehaviour:
   - {fileID: 0}
   chasespeed: 0.6
   PrefabEnemy: {fileID: 5267486753033640789}
+  ENT: {fileID: 0}
 --- !u!54 &5267486753033640779
 Rigidbody:
   m_ObjectHideFlags: 0
