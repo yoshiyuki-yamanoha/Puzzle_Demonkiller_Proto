@@ -13,21 +13,28 @@ public class EnemyGeneration : MonoBehaviour
     float enemy_count = 0;
 
     [SerializeField] GameObject Ene_MagicCircle;
-    
+
+    private void Start()
+    {
+        Generation(0);
+        Generation(1);
+        Generation(2);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(enemy_count >= enemymax)//最大値超えていたら何もしなーい。
-        {
-            return;
-        }
+        //if(enemy_count >= enemymax)//最大値超えていたら何もしなーい。
+        //{
+        //    return;
+        //}
 
-        time += Time.deltaTime;//時間計測 //生成するときにカウント
+        //time += Time.deltaTime;//時間計測 //生成するときにカウント
 
-        if (time > span)//秒おきに生成
-        {
-            Generation(Random.Range(0,3));//生成。
-        }
+        //if (time > span)//秒おきに生成
+        //{
+        //    Generation(Random.Range(0,3));//生成。
+        //}
     }
 
     //Enemy生成
@@ -40,6 +47,8 @@ public class EnemyGeneration : MonoBehaviour
         Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);
         GameObject MC = Instantiate(Ene_MagicCircle, MCPos, Ene_MagicCircle.transform.rotation);
         MC.transform.parent = enemy.transform;
+        MC.transform.localScale = new Vector3(1.3f, 1.3f,1.3f);
+        MC.transform.localPosition += new Vector3(0, 2.8f, 0f);
 
 
         time = 0;//時間リセット

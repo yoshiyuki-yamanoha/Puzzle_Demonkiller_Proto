@@ -17,8 +17,18 @@ public class Stage1Mgr : MonoBehaviour
     {
         if(dieEnemy_Max <= dieEnemyCount)   // ゲームクリア判定の確認
         {
+            GameMgr.Instance.Restart();
             // GameClear
-            Debug.Log("GameClear");
+        }
+
+        if (Input.GetButtonDown("Fire4"))
+        {
+            GameMgr.Instance.GotoQuit();
+        }
+
+        if (Input.GetButtonDown("Fire5"))
+        {
+            //GameMgr.Instance.Restart();
         }
     }
 

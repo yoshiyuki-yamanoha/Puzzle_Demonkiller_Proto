@@ -15,6 +15,7 @@ public class Ene_MagicCircle : MonoBehaviour
     {
         Shuffle();
         SetAnswer();
+        //string pstr = GameObject.Find("Sphere").GetComponent<ShootMagic>().Get_Str();
     }
 
     // Update is called once per frame

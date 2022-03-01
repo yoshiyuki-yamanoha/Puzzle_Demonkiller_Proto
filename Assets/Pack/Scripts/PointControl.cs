@@ -100,10 +100,10 @@ public class PointControl : MonoBehaviour
                         //tf.position = o.transform.position;
 
                         //Bボタンで反転処理
-                        if (Input.GetButtonDown("Fire2")){
-                            sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
-                            gp.ChangeColor();
-                        }
+                        //if (Input.GetButtonDown("Fire2")){
+                        //    sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
+                        //    gp.ChangeColor();
+                        //}
 
                         //Aボタン選択
                         SelectCircle(o);
