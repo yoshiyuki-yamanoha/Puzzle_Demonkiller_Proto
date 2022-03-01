@@ -36,7 +36,7 @@ public class PointControl : MonoBehaviour
     [SerializeField, Range(0, 100)] private float dist = 1.5f;
 
     //ゲームオブジェクト用
-    private GameObject[] circles;
+    [SerializeField]private GameObject[] circles;
     private int num;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
@@ -45,7 +45,7 @@ public class PointControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+        //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
         tf = transform;
 
@@ -66,7 +66,11 @@ public class PointControl : MonoBehaviour
         Vector3 ppos = oriPos + new Vector3(hori * power,vert * power,0);
 
         //tf.position = ppos;
-        tf.position = oldOverlapObject.transform.position;
+        if(oldOverlapObject)
+            tf.position = oldOverlapObject.transform.position;
+
+        //デバッグ用
+        Debug.DrawLine(tf.position, ppos);
 
         //スティックの角度を求める
         ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
@@ -76,17 +80,32 @@ public class PointControl : MonoBehaviour
         {
 
             //ポインターが一定以上の範囲に出た時
-            if (Vector3.Distance(Vector3.zero, tf.position) > 0.3f)
+            //if (Vector3.Distance(Vector3.zero, tf.position) > 0.3f)
             {
 
+                //当たり判定
                 foreach (GameObject o in circles)
                 {
                     GoToParent gp = o.GetComponent<GoToParent>();
 
-                    if(Vector3.Distance(ppos, o.transform.position) < dist)
+                    float per = 0.1f;
+                    Vector3 currentPerPos;
+                    while (per < 1.0f)
                     {
-                        //最近選択していたオブジェクト
-                        oldOverlapObject = o;
+                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+
+                        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                        {
+                            //最近選択していたオブジェクト
+                            oldOverlapObject = o;
+
+                            //選択した親オブジェクトの位置にいく
+                            oriPos = o.transform.position;
+
+                            break;
+                        }
+
+                        per += 0.1f;
                     }
 
                     //魔法陣の中心からdist分の範囲内に入ったら
@@ -96,25 +115,15 @@ public class PointControl : MonoBehaviour
                         //選択サークルを出させる
                         gp.ShowSelectCircle(selectCircle);
 
-                        //吸いつき
-                        //tf.position = o.transform.position;
-
-                        //Bボタンで反転処理
-                        //if (Input.GetButtonDown("Fire2")){
-                        //    sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
-                        //    gp.ChangeColor();
-                        //}
-
                         //Aボタン選択
                         SelectCircle(o);
 
-                        
+
                     }
-                    else {  //入って無ければ
+                    else
+                    {  //入って無ければ
                         gp.FadeSelectCircle();
                     }
-
-                    
 
                 }
             }
@@ -136,7 +145,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("DECIDE");//SEを鳴らす（魔方陣を選択した音）
+                //sePlay.Play("DECIDE");//SEを鳴らす（魔方陣を選択した音）
                 selA = obj;                                   //選択したオブジェ保存
                 selTf = selA.transform.parent;              //1個目の親オブジェ
                                                             //selA.transform.parent = c_Select;           //選択位置に移動
@@ -150,7 +159,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("SWITCH");//SEを鳴らす（魔方陣の位置が入れ替わる）
+                //sePlay.Play("SWITCH");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
