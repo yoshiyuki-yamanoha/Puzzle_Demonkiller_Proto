@@ -16,8 +16,8 @@ public class Meteor : MonoBehaviour
     {
         child = this.transform.GetChild(0).gameObject.transform;
         //StopAnimation();
-        Debug.Log(this.gameObject);
-        Debug.Log(Time.time);
+        //Debug.Log(this.gameObject);
+        //Debug.Log(Time.time);
 
 
         targetPos = new Vector3(targetEnemy.transform.position.x, 0f, targetEnemy.transform.position.z);
@@ -42,10 +42,10 @@ public class Meteor : MonoBehaviour
     //}
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Floor")
         {
-            Debug.Log("Fcolli");
-            Debug.Log(Time.time);
+            //Debug.Log("Fcolli");
+            //Debug.Log(Time.time);
 
             HitMagic();
         }

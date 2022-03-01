@@ -30,10 +30,8 @@ public class FlyTowardsTheEnemy : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag != "Player")
+        if (collision.gameObject == targetEnemy)
         {
-            Debug.Log("hit.m");
-
             HitMagic();
         }
     }
