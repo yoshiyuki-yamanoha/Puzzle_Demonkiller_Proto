@@ -121,10 +121,14 @@ public class EnemyMove : MonoBehaviour
 
         if (other.gameObject.tag == "Magic" && flag == false)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.2f);
             // 生成が速すぎるのでそこを直せ
             CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
             CloneEnem.name = "CloneEnemy";
+
+            inArea = true;
+            EneChasing();
+
             ENT.Enemy_Num();
             flag = true;
         }
