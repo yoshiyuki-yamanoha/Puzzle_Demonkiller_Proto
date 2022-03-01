@@ -30,6 +30,7 @@ public class MagicPointer : MonoBehaviour
 
         var point = mePos + ((h - Vector3.Dot(floorNormal,mePos)) / (Vector3.Dot(floorNormal, meVec))) * meVec;
 
-        pointer.transform.position = point;
+        //pointer.transform.position = point;
+        pointer.transform.position = EnemyMove.instance.enemyPosition;
     }
 }

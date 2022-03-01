@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
+    public static EnemyMove instance;
 
     public GameObject[] points=null;
     private int destPoint = 0;
@@ -12,6 +13,7 @@ public class EnemyMove : MonoBehaviour
    // public GameObject target;
     private bool inArea = false;
     public float chasespeed = 0.05f;
+    public Vector3 enemyPosition;
 
     private int ROOT;
     private int RandR;
@@ -27,6 +29,11 @@ public class EnemyMove : MonoBehaviour
 
     bool flag;
 
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +48,7 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        enemyPosition = transform.position;
         time += Time.deltaTime;
         //if (RimitFlg == true) {
 
