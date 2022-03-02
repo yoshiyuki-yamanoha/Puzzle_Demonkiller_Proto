@@ -5203,11 +5203,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyR54
       objectReference: {fileID: 0}
-    - target: {fileID: 5267486753033640790, guid: 521f1ee0d8b09124281942a1768f2297,
-        type: 3}
-      propertyPath: ENT
-      value: 
-      objectReference: {fileID: 3820433669844096096}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 521f1ee0d8b09124281942a1768f2297, type: 3}
 --- !u!1 &300807540
@@ -5657,11 +5652,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyR54 (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 5267486753033640790, guid: 521f1ee0d8b09124281942a1768f2297,
+    - target: {fileID: 5267486753033640789, guid: 521f1ee0d8b09124281942a1768f2297,
         type: 3}
-      propertyPath: ENT
-      value: 
-      objectReference: {fileID: 3820433669844096096}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 521f1ee0d8b09124281942a1768f2297, type: 3}
 --- !u!1 &621114131
@@ -6522,11 +6517,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyR54 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5267486753033640790, guid: 521f1ee0d8b09124281942a1768f2297,
+    - target: {fileID: 5267486753033640789, guid: 521f1ee0d8b09124281942a1768f2297,
         type: 3}
-      propertyPath: ENT
-      value: 
-      objectReference: {fileID: 3820433669844096096}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 521f1ee0d8b09124281942a1768f2297, type: 3}
 --- !u!1 &1041498062
@@ -6613,7 +6608,7 @@ BoxCollider:
   m_GameObject: {fileID: 1062558190}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -32703,7 +32698,7 @@ MonoBehaviour:
   selB: {fileID: 0}
   selTf: {fileID: 0}
   ang: 0
-  dist: 1
+  dist: 1.1
 --- !u!23 &1290645486538509420
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32788,6 +32783,7 @@ MonoBehaviour:
   - {fileID: 1290645485981680244}
   - {fileID: 1290645486727995985}
   - {fileID: 1290645487049846167}
+  stageNum: {fileID: 1290645486908348030}
   clearEffe: {fileID: 7864723750715375111, guid: 52031f95c3f14694ba88bf5832980f7d,
     type: 3}
   effePos: {fileID: 1290645485161632445}
@@ -32800,7 +32796,6 @@ MonoBehaviour:
   - {fileID: 1290645485209605191}
   - {fileID: 1290645485861094202}
   soe: 0200000003000000000000000400000001000000
-  magicPoint: 0
   mpText: {fileID: 3820433668574415681}
 --- !u!114 &1290645486648335523
 MonoBehaviour:
@@ -33368,7 +33363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -360, y: 234}
+  m_AnchoredPosition: {x: -360, y: 223}
   m_SizeDelta: {x: -764, y: -490}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3820433668574415681
@@ -33791,7 +33786,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6575\u306E\u6570\uFF1A"
+  m_Text: New Text
 --- !u!222 &3820433669844096093
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33811,7 +33806,6 @@ GameObject:
   - component: {fileID: 3820433669844096095}
   - component: {fileID: 3820433669844096093}
   - component: {fileID: 3820433669844096092}
-  - component: {fileID: 3820433669844096096}
   m_Layer: 5
   m_Name: EnemyNum
   m_TagString: Untagged
@@ -33835,23 +33829,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -176, y: 88}
+  m_AnchoredPosition: {x: -340, y: 88}
   m_SizeDelta: {x: -397, y: -260}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3820433669844096096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3820433669844096094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e89e32ca2e484fd429f454296fc6bb39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Enemy_Count: 10000
-  Enemy_num_text: {fileID: 0}
 --- !u!1 &3820433670192141576
 GameObject:
   m_ObjectHideFlags: 0

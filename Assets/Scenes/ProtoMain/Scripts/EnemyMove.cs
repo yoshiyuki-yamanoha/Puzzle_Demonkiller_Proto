@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
+    public static EnemyMove instance;
 
     public GameObject[] points=null;
     private int destPoint = 0;
@@ -12,6 +13,7 @@ public class EnemyMove : MonoBehaviour
    // public GameObject target;
     private bool inArea = false;
     public float chasespeed = 0.05f;
+    public Vector3 enemyPosition;
 
     private int ROOT;
     private int RandR;
@@ -19,8 +21,18 @@ public class EnemyMove : MonoBehaviour
     public GameObject PrefabEnemy;
     private GameObject CloneEnem;
 
-    private float Time;
+    private float time;
+    private float interval = 0.5f;
 
+    //敵の数を表示するためのScript
+    public EnemyNumText ENT;
+
+    bool flag;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,15 +41,19 @@ public class EnemyMove : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
         //GotoNextPoint();
+        ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
+        flag = false;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        enemyPosition = transform.position;
+        time += Time.deltaTime;
         //if (RimitFlg == true) {
-            
-       //     RimitFlg = false;
-      //  }
+
+        //     RimitFlg = false;
+        //  }
 
         if (RandR==0)
         {
@@ -112,13 +128,28 @@ public class EnemyMove : MonoBehaviour
             CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
             CloneEnem.name = "CloneEnemy";
         }
-
-        if (other.gameObject.tag == "Magic")
+        //0.5f待つ(デストロイするまでの時間)
+        if (interval < time)
         {
-            Destroy(gameObject);
-            ///生成が速すぎるのでそこを直せ
-            //    CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
-            //    CloneEnem.name = "CloneEnemy";
+            if (other.gameObject.tag == "Magic" && flag == false)
+            {
+                //自分を破壊
+                Destroy(gameObject, 0.2f);
+
+                //敵がでてくるりょうを制限
+                if (ENT.Enemy_Count > 0)
+                {
+                    // 生成をする
+                    CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+                    CloneEnem.name = "CloneEnemy";
+                    //ナビのエリア取得
+                    inArea = true;
+                    EneChasing();
+                }
+
+                ENT.Enemy_Num();
+                flag = true;
+            }
         }
 
     }
