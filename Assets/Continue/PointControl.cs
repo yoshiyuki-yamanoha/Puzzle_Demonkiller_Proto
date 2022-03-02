@@ -74,56 +74,47 @@ public class PointControl : MonoBehaviour
         ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
         if (ang < 0) ang = 360.0f + ang;
 
-        //吸いつき
+        //ポインターと魔法陣の当たり判定
+        foreach (GameObject o in circles)
         {
+            GoToParent gp = o.GetComponent<GoToParent>();
 
-            //ポインターが一定以上の範囲に出た時
+            float per = 0.1f;
+            Vector3 currentPerPos;
+            while (per < 1.0f)
             {
-                //当たり判定
-                foreach (GameObject o in circles)
+                currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+
+                if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
                 {
-                    GoToParent gp = o.GetComponent<GoToParent>();
+                    //最近選択していたオブジェクト
+                    oldOverlapObject = o;
 
-                    float per = 0.1f;
-                    Vector3 currentPerPos;
-                    while (per < 1.0f)
-                    {
-                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+                    //選択した親オブジェクトの位置にいく
+                    oriPos = o.transform.parent.position;
 
-                        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
-                        {
-                            //最近選択していたオブジェクト
-                            oldOverlapObject = o;
-
-                            //選択した親オブジェクトの位置にいく
-                            oriPos = o.transform.parent.position;
-
-                            break;
-                        }
-
-                        per += 0.1f;
-                    }
-
-                    //魔法陣の中心からdist分の範囲内に入ったら
-                    if (Vector3.Distance(tf.position, o.transform.position) < dist)
-                    {
-
-                        //選択サークルを出させる
-                        gp.ShowSelectCircle(selectCircle);
-
-                        //Aボタン選択
-                        SelectCircle(o);
-
-                        
-                    }
-                    else {  //入って無ければ
-                        gp.FadeSelectCircle();
-                    }
-
+                    break;
                 }
+
+                per += 0.1f;
             }
 
-            
+            //魔法陣の中心からdist分の範囲内に入ったら
+            if (Vector3.Distance(tf.position, o.transform.position) < dist)
+            {
+
+                  //選択サークルを出させる
+                  gp.ShowSelectCircle(selectCircle);
+
+                  //Aボタン選択
+                  SelectCircle(o);
+
+                        
+            }
+            else {  //入って無ければ
+                 gp.FadeSelectCircle();
+            }
+
         }
 
     }

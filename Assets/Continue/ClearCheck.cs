@@ -17,13 +17,12 @@ public class ClearCheck : MonoBehaviour
     [SerializeField] int[] soe = new int[5] { 2, 3, 0, 4, 1 };
 
     //魔力 ←あとで増やす
-    float magicPoint;
+    public float magicPoint;
     [SerializeField] Text mpText;
 
     private void Start()
     {
         DrawLine();
-        SetAnswer();
     }
 
     // Update is called once per frame
@@ -43,26 +42,6 @@ public class ClearCheck : MonoBehaviour
 
     }
 
-    void SetAnswer() {
-        //answerStr = "";
-
-        //foreach (Transform o in ans)
-        //{
-        //    if (o.childCount > 0)
-        //        answerStr = answerStr + o.GetChild(0).gameObject.name;
-        //}
-    }
-
-    void SetRandomSide() {
-        //foreach (Transform t in ans) {
-
-        //    GameObject g = t.GetChild(0).gameObject;
-
-        //    int num = Random.Range(0, 2);
-        //    g.GetComponent<GoToParent>().ChangeMat(num);
-
-        //}
-    }
 
     void Shuffle() {
         int n = playObjs.Length;
