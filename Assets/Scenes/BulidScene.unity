@@ -32688,7 +32688,7 @@ MonoBehaviour:
   selB: {fileID: 0}
   selTf: {fileID: 0}
   ang: 0
-  dist: 1.1
+  dist: 1
 --- !u!23 &1290645486538509420
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32773,7 +32773,6 @@ MonoBehaviour:
   - {fileID: 1290645485981680244}
   - {fileID: 1290645486727995985}
   - {fileID: 1290645487049846167}
-  stageNum: {fileID: 1290645486908348030}
   clearEffe: {fileID: 7864723750715375111, guid: 52031f95c3f14694ba88bf5832980f7d,
     type: 3}
   effePos: {fileID: 1290645485161632445}

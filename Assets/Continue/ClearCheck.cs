@@ -3,13 +3,8 @@ using UnityEngine.UI;
 
 public class ClearCheck : MonoBehaviour
 {
-    //[SerializeField] private Transform[] ans;
     [SerializeField] private Transform[] play;  //親オブジェクト
-    //[SerializeField] string answerStr;       //答えオブジェクトの名前を並べたもの
-    //[SerializeField] string playerStr;       //プレイヤーオブジェクトの名前を並べたもの
 
-    [SerializeField] private Text stageNum;
-    private int sNum = 1;
 
     [SerializeField] GameObject clearEffe;
     [SerializeField] Transform effePos;
@@ -34,26 +29,6 @@ public class ClearCheck : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        {
-            //それぞれの名前を繋げる処理 あとで関数にまとめまーす💛
-            //{
-            //    playerStr = "";
-
-            //    foreach (Transform o in play) {
-            //        if (o.childCount > 0)
-            //            playerStr = playerStr + o.GetChild(0).gameObject.name;
-            //    }
-            //}
-
-            //名前完全一致型クリアチェック
-            //if (answerStr == playerStr)
-            //{
-            //    //クリア
-            //    Shuffle();
-            //    Instantiate(clearEffe, effePos);
-            //    ass.PlayOneShot(se);
-            //}
-        }
 
         //線が被らなければクリア (グルっと一周)
         CheckRingLine();
@@ -65,9 +40,6 @@ public class ClearCheck : MonoBehaviour
 
 
         //全ての線が後ろの線に重なってればクリア(理想かも)
-
-        //if (Input.GetButtonDown("Fire3"))
-         //   Shuffle();
 
     }
 
@@ -102,17 +74,11 @@ public class ClearCheck : MonoBehaviour
             n--;
 
             int k = UnityEngine.Random.Range(0, n + 1);
-            //GameObject temp = ans[k].GetChild(0).gameObject;
-            //ans[k].GetChild(0).gameObject.transform.parent = ans[n];
-            //ans[n].GetChild(0).gameObject.transform.parent = ans[k];
 
             int te = soe[k];
             soe[k] = soe[n];
             soe[n] = te;
         }
-
-        //表か裏か決めるやつ
-        //SetRandomSide();
 
         //線を更新
         DrawLine();
@@ -123,13 +89,6 @@ public class ClearCheck : MonoBehaviour
         CheckStarLine();
         CheckStarLineR();
 
-        //答えオブジェクトをセットし直す
-        //SetAnswer();
-
-
-        //ステージ数を進める
-        //sNum++;
-        stageNum.text = sNum.ToString("00");
     }
 
     //線を引かせる
@@ -149,12 +108,16 @@ public class ClearCheck : MonoBehaviour
     void CheckRingLine() {
         for (int i = 0; i < play.Length; i++)
         {
-
-            int next = 0;
-            if (i < play.Length - 1) next = i + 1;
+            int maxNum = play.Length-1;
+            int next = i + 1;
+            int back = i - 1;
+            if (next > maxNum) next -= maxNum;
+            if (back < 0) back += play.Length;
             GameObject a = play[i].GetChild(0).gameObject.GetComponent<GoToParent>().GetLineEnd();
             GameObject b = play[next].GetChild(0).gameObject;
+            GameObject c = play[back].GetChild(0).gameObject;
             if (a != b) return;
+            
 
         }
 

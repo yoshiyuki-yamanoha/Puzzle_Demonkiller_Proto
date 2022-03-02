@@ -65,10 +65,8 @@ public class PointControl : MonoBehaviour
         float vert = Input.GetAxis("Vertical");
         Vector3 ppos = oriPos + new Vector3(hori * power, vert * power, 0);
 
-        //現在の位置を基準にする処理
-        
 
-        //tf.position = ppos;
+        Debug.DrawLine(tf.position, ppos);
         if(oldOverlapObject)
             tf.position = oldOverlapObject.transform.position;
 
@@ -92,12 +90,13 @@ public class PointControl : MonoBehaviour
                     {
                         currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                        if (Vector3.Distance(ppos, o.transform.position) < dist && oldOverlapObject != o)
+                        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
                         {
                             //最近選択していたオブジェクト
                             oldOverlapObject = o;
 
-                            oriPos = o.transform.position;
+                            //選択した親オブジェクトの位置にいく
+                            oriPos = o.transform.parent.position;
 
                             break;
                         }
@@ -112,15 +111,6 @@ public class PointControl : MonoBehaviour
                         //選択サークルを出させる
                         gp.ShowSelectCircle(selectCircle);
 
-                        //吸いつき
-                        //tf.position = o.transform.position;
-
-                        //Bボタンで反転処理
-                        //if (Input.GetButtonDown("Fire2")){
-                        //    sePlay.Play("SWITCH");  //SEを鳴らす（魔方陣が反転する音）
-                        //    gp.ChangeColor();
-                        //}
-
                         //Aボタン選択
                         SelectCircle(o);
 
@@ -129,8 +119,6 @@ public class PointControl : MonoBehaviour
                     else {  //入って無ければ
                         gp.FadeSelectCircle();
                     }
-
-                    
 
                 }
             }
