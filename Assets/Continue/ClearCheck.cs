@@ -23,6 +23,10 @@ public class ClearCheck : MonoBehaviour
     //クリア判定フラグ
     bool cleared;
 
+    //シャッフルカウント
+    float shuffleInterval = 30;
+    float shuffleCount;
+
     private void Start()
     {
         DrawLine();
@@ -45,6 +49,15 @@ public class ClearCheck : MonoBehaviour
 
 
             //全ての線が後ろの線に重なってればクリア(理想かも)
+        }
+
+        if (shuffleCount > 1) shuffleCount--;
+        if (shuffleCount == 1)
+        {
+            shuffleCount = 0;
+            Shuffle();
+
+            //線の色を戻す
         }
 
     }
@@ -117,6 +130,8 @@ public class ClearCheck : MonoBehaviour
             if (a != b) return false;
 
         }
+
+        shuffleCount = shuffleInterval;
 
         cleared = true;
         return true;

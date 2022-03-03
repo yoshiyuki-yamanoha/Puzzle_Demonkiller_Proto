@@ -110,7 +110,6 @@ public class PointControl : MonoBehaviour
             //ポインターと魔法陣の当たり判定
             foreach (GameObject o in circles)
             {
-                GoToParent gp = o.GetComponent<GoToParent>();
 
                 float per = 0.1f;
                 Vector3 currentPerPos;
@@ -134,32 +133,37 @@ public class PointControl : MonoBehaviour
                     per += 0.1f;
                 }
 
-                //魔法陣の中心からdist分の範囲内に入ったら
-                if (Vector3.Distance(tf.position, o.transform.position) < dist)
-                {
-
-                    //選択サークルを出させる
-                    gp.ShowSelectCircle(selectCircle);
-
-                    //Aボタン選択
-                    SelectCircle(o);
-
-
-                }
-                else
-                {  //入って無ければ
-                    gp.FadeSelectCircle();
-                }
-
             }
         }
 
-        //インターバルカウント
-        if (interCount != 0) {
+        //選択サークルや入れ替え選択など
+        foreach (GameObject o in circles)
+        {
+            GoToParent gp = o.GetComponent<GoToParent>();
+
+            //魔法陣の中心からdist分の範囲内に入ったら
+            if (Vector3.Distance(tf.position, o.transform.position) < dist)
+            {
+
+                //選択サークルを出させる
+                gp.ShowSelectCircle(selectCircle);
+
+                //Aボタン選択
+                SelectCircle(o);
+
+
+            }
+            else
+            {  //入って無ければ
+                gp.FadeSelectCircle();
+            }
+        }
+
+            //インターバルカウント
+            if (interCount != 0) {
             interCount--;
             if (interCount < 0) interCount = 0;
         }
-
     }
 
 

@@ -64,8 +64,11 @@ public class GoToParent : MonoBehaviour
         }
 
         //選択サークルの位置を魔法陣に合わせる
-        if(s_circle)
+        if (s_circle)
+        {
             s_circle.transform.position = transform.position;
+            s_circle.transform.parent = transform.parent;
+        }
 
         if(endLinePos){
             var positions = new Vector3[]{
