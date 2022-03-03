@@ -43,12 +43,19 @@ public class EnemyMove : MonoBehaviour
         //GotoNextPoint();
         ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
         flag = false;
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        enemyPosition = transform.position;
+        GameObject enemy = GameObject.FindWithTag("Enemy");
+        GameObject enemy1 = GameObject.FindWithTag("Enemy1");
+        GameObject enemy2 = GameObject.FindWithTag("Enemy2");
+
+        if (enemy != null) enemyPosition = enemy.transform.position;
+        if (enemy == null) enemyPosition = enemy1.transform.position;
+        if((enemy == null) && (enemy1 == null)) enemyPosition = enemy2.transform.position;
         time += Time.deltaTime;
         //if (RimitFlg == true) {
 

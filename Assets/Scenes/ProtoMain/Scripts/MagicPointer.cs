@@ -18,7 +18,7 @@ public class MagicPointer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         //meの位置
         Vector3 mePos = transform.position;
@@ -32,5 +32,10 @@ public class MagicPointer : MonoBehaviour
 
         //pointer.transform.position = point;
         pointer.transform.position = EnemyMove.instance.enemyPosition;
+
+        if(EnemyMove.instance.enemyPosition == null)
+        {
+            pointer.transform.position = EnemyMove.instance.enemyPosition;
+        }
     }
 }
