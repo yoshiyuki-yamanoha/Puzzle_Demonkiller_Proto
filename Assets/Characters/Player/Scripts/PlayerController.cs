@@ -34,12 +34,12 @@ public class PlayerController : MonoBehaviour
         lastMousePosition = Input.mousePosition;
         //if (cc.magicPoint > 0)
         //{
-            if (Input.GetButtonDown("Fire1"))
-            {
-                PlayerAttack();
-                cc.SubMP();
-            }
-        //}
+        //    if (Input.GetButtonDown("Fire1"))
+        //    {
+        //        PlayerAttack();
+        //        cc.SubMP();
+        //    }
+        ////}
     }
 
     public void PlayerAttack()

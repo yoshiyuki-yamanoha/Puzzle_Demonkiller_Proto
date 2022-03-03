@@ -30,6 +30,14 @@ public class ClearCheck : MonoBehaviour
     //プレイヤーコントローラー
     PlayerController pc;
 
+    [SerializeField] Slider sld;
+    [SerializeField] Text comboTex;
+
+    //コンボタイム用へ3ん数
+    float comboTime = 90;
+    float nowComboTime = 90;
+    int comboNum = 0;
+
     private void Start()
     {
         DrawLine();
@@ -64,6 +72,21 @@ public class ClearCheck : MonoBehaviour
 
             //線の色を戻す
         }
+
+        //コンボタイムを減らしていく
+        if (nowComboTime > 0) {
+            nowComboTime--;
+        }
+
+        //コンボタイムが0になったらコンボ数を0に
+        if (nowComboTime == 0) {
+            comboNum = 0;
+            nowComboTime = 0;
+        }
+
+        //ゲージに反映
+        sld.value = nowComboTime / comboTime;
+        comboTex.text = "コンボ：" + comboNum.ToString();
 
     }
 
@@ -135,6 +158,14 @@ public class ClearCheck : MonoBehaviour
             
             if (a != b) return false;
 
+        }
+
+        //今bのタイム更新
+        nowComboTime = comboTime;
+
+        //コンボタイムが残ってたらコンボを増やす
+        if (nowComboTime > 0) {
+            comboNum++;
         }
 
         shuffleCount = shuffleInterval;
