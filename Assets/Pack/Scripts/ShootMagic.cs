@@ -93,4 +93,9 @@ public class ShootMagic : MonoBehaviour
     {
         return PlayerStr;
     }
+
+    public List<GameObject> get_EneList()
+    {
+        return Enemy_List;
+    }
 }
