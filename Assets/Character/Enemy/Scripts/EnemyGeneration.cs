@@ -24,6 +24,14 @@ public class EnemyGeneration : MonoBehaviour
 
     [SerializeField] GameObject Ene_MagicCircle;//魔法陣 ゲームオブジェクト
 
+    float[] old_random_number = new float[2];
+
+    enum RandomStatus
+    {
+        Aria,
+        Prefab,
+    }
+
     enum EnemyKinds //敵種類
     {
         Demon,
@@ -39,6 +47,10 @@ public class EnemyGeneration : MonoBehaviour
         //Generation(2);
         max_enemy_kinds = System.Enum.GetNames(typeof(EnemyKinds)).Length;//敵種類の個数分取得
         spawn_max = generationPos.Length;//生成位置の個数取得
+        for (int i=0; i<old_random_number.Length; i++)
+        {
+            old_random_number[i] = 0;
+        }
     }
 
     // Update is called once per frame
@@ -63,9 +75,15 @@ public class EnemyGeneration : MonoBehaviour
                 }
                 else
                 {
-                    Generation(Random.Range(0, max_enemy_kinds -1), AriaSpawnNumber());//生成。
+                    Generation((int)EnemyKinds.Boss, 0);
+                    //Generation(Random.Range(0, max_enemy_kinds - 1), AriaSpawnNumber());//生成。
                 }
                 
+            }
+
+            if (enemymax / 2 <= enemy_count)
+            {
+                span_time -= 0.1f;//スパン時間減らす
             }
         }
     }
@@ -111,7 +129,9 @@ public class EnemyGeneration : MonoBehaviour
     //エリア番号生成
     int AriaSpawnNumber()
     {
-        spawn_number = Random.Range(0, spawn_max - 2); //2枠抜いた位置を生成 0 - 3  0 1 2が生成
+        spawn_number = Random.Range(0, spawn_max - 2);/*RandomRange(0, spawn_max - 2, RandomStatus.Aria);*/
+        //Debug.Log("重複なし!Random" + spawn_number);
+        //Random.Range(0, spawn_max - 2); //2枠抜いた位置を生成 0 - 3  0 1 2が生成
 
         if (enemy_count >= enemymax / 2) //敵が半分をスポーンしていたら
         {
@@ -124,7 +144,7 @@ public class EnemyGeneration : MonoBehaviour
     //Enemy生成
     void Generation(int num , int spawn_number)
     {
-        GameObject enemy = Instantiate(prefab[Random.Range(0,2)]);//生成
+        GameObject enemy = Instantiate(prefab[num]);//生成
         enemy.transform.position = generationPos[spawn_number].transform.position;
         //new Vector3(generationPos[num].position.x + Random.Range(-3.0f, 3.0f), generationPos[num].position.y, generationPos[num].position.z);//位置
         GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy);
@@ -138,5 +158,22 @@ public class EnemyGeneration : MonoBehaviour
 
         time = 0;//時間リセット
         enemy_count++;//敵カウント
+    }
+
+    int RandomRange(int Max_random, int Min_random, RandomStatus random)
+    {
+        int new_random_number = 0;
+        new_random_number = Random.Range(Min_random, Max_random); //ランダム生成
+        Debug.Log("ランダム生成 1回目" + new_random_number);
+
+        if(old_random_number[(int)random] == new_random_number) {
+            new_random_number = Random.Range(Min_random, Max_random);
+            Debug.Log("ランダム生成 2回目" + new_random_number);
+        }
+
+        old_random_number[(int)random] = new_random_number;//ランダム値を保存
+
+        Debug.Log("ランダム値" + new_random_number);
+        return new_random_number;
     }
 }

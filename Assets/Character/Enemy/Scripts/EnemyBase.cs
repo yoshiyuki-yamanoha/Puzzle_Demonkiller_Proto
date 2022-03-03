@@ -41,7 +41,7 @@ public class EnemyBase : MonoBehaviour
     public float Damage(float damege)
     {
         hp -= damege;
-        if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/ }
+        if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
 
         return hp;
     }

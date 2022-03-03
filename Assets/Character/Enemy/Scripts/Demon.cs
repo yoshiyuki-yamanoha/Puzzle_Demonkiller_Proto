@@ -8,12 +8,14 @@ public class Demon : EnemyBase
     [SerializeField] float distance = 0;
     float fremTime = 0;
     [SerializeField] float maxfremtime = 3;
-    [SerializeField] EnemyAnimationBase enemy_anim;
+    [SerializeField] EnemyAnimationBase enemy_anim = null;
     [SerializeField] GameObject target = null;
 
 
     void FixedUpdate()
     {
+        if (enemy_anim == null) return;
+      
         //hierarchyからターゲットを取得
         if (target == null) {
             target = GameObject.FindGameObjectWithTag("Player");
@@ -55,10 +57,10 @@ public class Demon : EnemyBase
     //入力受付
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Damage(10);//damage
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    Damage(10);//damage
+        //}
     }
 
     private void Move()
@@ -93,7 +95,7 @@ public class Demon : EnemyBase
         {
             Debug.Log(collision.gameObject);
             Debug.Log("hit_colli");
-
+            GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(collision.gameObject);
             this.GetComponent<Demon>().Damage(100.0f);
         }
     }
@@ -105,7 +107,7 @@ public class Demon : EnemyBase
         {
             Debug.Log(other.gameObject);
             Debug.Log("hit_triStay");
-
+            GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
             this.GetComponent<Demon>().Damage(100.0f);
         }
     }
