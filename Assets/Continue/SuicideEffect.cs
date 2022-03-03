@@ -6,7 +6,7 @@ public class SuicideEffect : MonoBehaviour
 {
     void Start()
     {
-        Destroy(this.gameObject,2.5f);
+        Destroy(this.gameObject,1.5f);
     }
 
 }
