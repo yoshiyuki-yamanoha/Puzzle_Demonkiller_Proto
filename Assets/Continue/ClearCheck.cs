@@ -20,6 +20,9 @@ public class ClearCheck : MonoBehaviour
     public float magicPoint;
     [SerializeField] Text mpText;
 
+    //クリア判定フラグ
+    bool cleared;
+
     private void Start()
     {
         DrawLine();
@@ -29,21 +32,25 @@ public class ClearCheck : MonoBehaviour
     void FixedUpdate()
     {
 
-        //線が被らなければクリア (グルっと一周)
-        CheckRingLine();
-        CheckRingLineR();
+        if (!cleared)
+        {
+            //線が被らなければクリア (グルっと一周)
+            if (CheckClear(1)) ClearReward(1);
+            else if (CheckClear(-1)) ClearReward(1);
 
-        //星の形になってればクリア(五芒星)
-        CheckStarLine();
-        CheckStarLineR();
+            //星の形になってればクリア(五芒星)
+            if (CheckClear(2)) ClearReward(99);
+            else if (CheckClear(-2)) ClearReward(2);
 
 
-        //全ての線が後ろの線に重なってればクリア(理想かも)
+
+            //全ての線が後ろの線に重なってればクリア(理想かも)
+        }
 
     }
 
 
-    void Shuffle() {
+    public void Shuffle() {
         int n = playObjs.Length;
 
         //Transform[] ansTemp = ans;
@@ -63,10 +70,10 @@ public class ClearCheck : MonoBehaviour
         DrawLine();
 
         //最初から揃ってたらやり直し
-        CheckRingLine();
-        CheckRingLineR();
-        CheckStarLine();
-        CheckStarLineR();
+        for (int i = -2; i < 3; i++)
+            if (i != 0) CheckClear(i);
+
+        cleared = false;
 
     }
 
@@ -83,81 +90,42 @@ public class ClearCheck : MonoBehaviour
         }
     }
 
-    //グルっと一周してるか判断
-    void CheckRingLine() {
+    bool CheckClear(int nextNum) {
         for (int i = 0; i < play.Length; i++)
         {
-            int maxNum = play.Length-1;
-            int next = i + 1;
-            int back = i - 1;
-            if (next > maxNum) next -= maxNum;
-            if (back < 0) back += play.Length;
-            GameObject a = play[i].GetChild(0).gameObject.GetComponent<GoToParent>().GetLineEnd();
-            GameObject b = play[next].GetChild(0).gameObject;
-            GameObject c = play[back].GetChild(0).gameObject;
-            if (a != b) return;
-            
-
-        }
-
-        //Debug.Log("とけい");
-        Shuffle();
-        AddMagicPoint(1);
-        ShowEffeLingSound();
-    }
-
-    void CheckRingLineR() {
-        for (int i = 4; i >= 0; i--)
-        {
-
-            int next = 4;
-            if (i > 0) next = i - 1;
-            GameObject a = play[i].GetChild(0).gameObject.GetComponent<GoToParent>().GetLineEnd();
-            GameObject b = play[next].GetChild(0).gameObject;
-            if (a != b) return;
-
-        }
-
-        //Debug.Log("はんとけい");
-        Shuffle();
-        AddMagicPoint(1);
-        ShowEffeLingSound();
-    }
-
-    void CheckStarLine() {
-        for (int i = 0; i < play.Length; i++)
-        {
-
-            int next = i + 2;
-            if (next >= play.Length) next -= play.Length;
-            GameObject a = play[i].GetChild(0).gameObject.GetComponent<GoToParent>().GetLineEnd();
-            GameObject b = play[next].GetChild(0).gameObject;
-            if (a != b) return;
-
-        }
-
-        //Debug.Log("ほし");
-        Shuffle();
-        AddMagicPoint(2);
-        ShowEffeLingSound();
-    }
-
-    void CheckStarLineR()
-    {
-        for (int i = 0; i < play.Length; i++)
-        {
-
-            int next = i - 2;
+            int maxNum = play.Length - 1;
+            int next = i + nextNum;
+            if (next > maxNum) next -= play.Length;
             if (next < 0) next += play.Length;
-            GameObject a = play[i].GetChild(0).gameObject.GetComponent<GoToParent>().GetLineEnd();
-            GameObject b = play[next].GetChild(0).gameObject;
-            if (a != b) return;
+
+            GameObject a = null, b = null;
+            for (int c = 0; c < play[i].childCount; c++)
+            {
+                a = play[i].GetChild(c).gameObject;
+                GoToParent gp = a.GetComponent<GoToParent>();
+                if (gp) {
+                    a = gp.GetLineEnd();
+                    break;
+                }
+            }
+            for (int c = 0; c < play[next].childCount; c++)
+            {
+                b = play[next].GetChild(c).gameObject;
+                if (b.tag == "My") break;
+            }
+            
+            if (a != b) return false;
 
         }
 
-        //Debug.Log("逆ほし");
-        Shuffle();
-        AddMagicPoint(2);
+        cleared = true;
+        return true;
+
+    }
+
+    void ClearReward(int point) {
+        //Shuffle();
+        AddMagicPoint(point);
         ShowEffeLingSound();
     }
 

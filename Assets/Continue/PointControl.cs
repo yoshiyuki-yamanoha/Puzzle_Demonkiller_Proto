@@ -37,10 +37,17 @@ public class PointControl : MonoBehaviour
 
     //ゲームオブジェクト用
     private GameObject[] circles;
-    private int num;
+
+    //誘導用透明オブジェクトたち
+    private GameObject[] porters;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
     GameObject oldOverlapObject;
+
+    //ポジション移動インターバル
+    [SerializeField, Range(0, 60)]
+    float interval;
+    float interCount;
 
     // Start is called before the first frame update
     void Start()
@@ -74,47 +81,83 @@ public class PointControl : MonoBehaviour
         ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
         if (ang < 0) ang = 360.0f + ang;
 
-        //ポインターと魔法陣の当たり判定
-        foreach (GameObject o in circles)
+
+        if (interCount == 0)
         {
-            GoToParent gp = o.GetComponent<GoToParent>();
-
-            float per = 0.1f;
-            Vector3 currentPerPos;
-            while (per < 1.0f)
+            //当たり判定を伸ばすやつ
+            foreach (GameObject o in porters)
             {
-                currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+                float per = 0.1f;
+                Vector3 currentPerPos;
 
-                if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                while (per < 1.0f)
                 {
-                    //最近選択していたオブジェクト
-                    oldOverlapObject = o;
+                    currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                    //選択した親オブジェクトの位置にいく
-                    oriPos = o.transform.parent.position;
+                    if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                    {
+                        oriPos = o.GetComponent<TransportToParent>().GetGoalPos();
 
-                    break;
+                        interCount = interval;
+
+                        break;
+                    }
+
+                    per += 0.1f;
+                }
+            }
+
+            //ポインターと魔法陣の当たり判定
+            foreach (GameObject o in circles)
+            {
+                GoToParent gp = o.GetComponent<GoToParent>();
+
+                float per = 0.1f;
+                Vector3 currentPerPos;
+                while (per < 1.0f)
+                {
+                    currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+
+                    if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                    {
+                        //最近選択していたオブジェクト
+                        oldOverlapObject = o;
+
+                        //選択した親オブジェクトの位置にいく
+                        oriPos = o.transform.parent.position;
+
+                        interCount = interval;
+
+                        break;
+                    }
+
+                    per += 0.1f;
                 }
 
-                per += 0.1f;
+                //魔法陣の中心からdist分の範囲内に入ったら
+                if (Vector3.Distance(tf.position, o.transform.position) < dist)
+                {
+
+                    //選択サークルを出させる
+                    gp.ShowSelectCircle(selectCircle);
+
+                    //Aボタン選択
+                    SelectCircle(o);
+
+
+                }
+                else
+                {  //入って無ければ
+                    gp.FadeSelectCircle();
+                }
+
             }
+        }
 
-            //魔法陣の中心からdist分の範囲内に入ったら
-            if (Vector3.Distance(tf.position, o.transform.position) < dist)
-            {
-
-                  //選択サークルを出させる
-                  gp.ShowSelectCircle(selectCircle);
-
-                  //Aボタン選択
-                  SelectCircle(o);
-
-                        
-            }
-            else {  //入って無ければ
-                 gp.FadeSelectCircle();
-            }
-
+        //インターバルカウント
+        if (interCount != 0) {
+            interCount--;
+            if (interCount < 0) interCount = 0;
         }
 
     }
@@ -122,7 +165,8 @@ public class PointControl : MonoBehaviour
 
     public void RegisterCircles() {
         circles = GameObject.FindGameObjectsWithTag("My");
-        num = circles.Length;
+
+        porters = GameObject.FindGameObjectsWithTag("Porter");
     }
 
     public void SelectCircle(GameObject obj) {
