@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
-    private void PlayerAttack()
+    public void PlayerAttack()
     {
         
         Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
