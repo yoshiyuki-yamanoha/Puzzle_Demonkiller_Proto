@@ -1884,12 +1884,12 @@ PrefabInstance:
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
       propertyPath: enemymax
-      value: 3
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
       propertyPath: span
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1a2602749ee68f40b55f3101bd53af1, type: 3}
