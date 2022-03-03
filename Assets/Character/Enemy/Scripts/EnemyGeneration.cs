@@ -75,8 +75,8 @@ public class EnemyGeneration : MonoBehaviour
                 }
                 else
                 {
-                    Generation((int)EnemyKinds.Boss, 0);
-                    //Generation(Random.Range(0, max_enemy_kinds - 1), AriaSpawnNumber());//生成。
+                    //Generation((int)EnemyKinds.Boss, 0);
+                    Generation(Random.Range(0, max_enemy_kinds - 1), AriaSpawnNumber());//生成。
                 }
                 
             }
