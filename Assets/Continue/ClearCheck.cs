@@ -143,6 +143,10 @@ public class ClearCheck : MonoBehaviour
     public void SubMP() {
 
         magicPoint -= 3;
+        if(magicPoint < 0)
+        {
+            magicPoint = 0;
+        }
         mpText.text = "魔力: " + magicPoint.ToString("0");
     }
 }
