@@ -76,7 +76,7 @@ public class GoToParent : MonoBehaviour
                     curAngleY = 0;
             }
 
-            transform.Rotate(new Vector3(curAngleY * power.x, curAngleY * power.y, curAngleY * power.z));
+            //transform.Rotate(new Vector3(curAngleY * power.x, curAngleY * power.y, curAngleY * power.z));
         }
 
         //選択サークルの位置を魔法陣に合わせる

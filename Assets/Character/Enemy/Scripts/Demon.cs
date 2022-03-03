@@ -75,14 +75,14 @@ public class Demon : EnemyBase
             Debug.Log("HIt");
             GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
 
+        }
 
-            // 魔法が当たるとダメージ
-            if (other.gameObject.tag == "Magic")
-            {
-                Debug.Log("hit_tri");
+        // 魔法が当たるとダメージ
+        if (other.gameObject.tag == "Magic")
+        {
+            Debug.Log("hit_tri");
 
-                this.GetComponent<Demon>().Damage(100.0f);
-            }
+            this.GetComponent<Demon>().Damage(100.0f);
         }
     }
 

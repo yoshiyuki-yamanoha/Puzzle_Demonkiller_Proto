@@ -25,11 +25,15 @@ public class FlyTowardsTheEnemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        NullCheck_targetEnemy();
         HomingMagic();
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        NullCheck_targetEnemy();
+
+
         if (collision.gameObject == targetEnemy)
         {
             HitMagic();
@@ -38,8 +42,11 @@ public class FlyTowardsTheEnemy : MonoBehaviour
 
     private void HomingMagic()
     {
-        this.transform.rotation.SetLookRotation(targetEnemy.transform.position, Vector3.up);
-        this.transform.position = Vector3.Lerp(this.transform.position, targetEnemy.transform.position, velocity);
+        if (targetEnemy)
+        {
+            this.transform.rotation.SetLookRotation(targetEnemy.transform.position, Vector3.up);
+            this.transform.position = Vector3.Lerp(this.transform.position, targetEnemy.transform.position, velocity);
+        }
     }
 
     private void StopAnimation()
@@ -61,4 +68,15 @@ public class FlyTowardsTheEnemy : MonoBehaviour
 
         StopAnimation();
     }
+
+    // ターゲットがnullかチェックする
+    // nullの場合、このスクリプトがアタッチされているオブジェクトを破壊する
+    private void NullCheck_targetEnemy()
+    {
+        if (targetEnemy)
+            return;
+        else
+            Destroy(this.gameObject);
+    }
+
 }
