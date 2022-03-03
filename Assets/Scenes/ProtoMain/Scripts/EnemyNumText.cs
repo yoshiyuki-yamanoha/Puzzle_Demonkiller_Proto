@@ -7,8 +7,8 @@ public class EnemyNumText : MonoBehaviour
 {
     [Header("敵の数")]
     public int Enemy_Count;
-    [Header("テキスト")]
-    public Text Enemy_num_text;
+    //[Header("テキスト")]
+    Text Enemy_num_text;
 
     // Start is called before the first frame update
     void Start()
