@@ -27,9 +27,13 @@ public class ClearCheck : MonoBehaviour
     float shuffleInterval = 30;
     float shuffleCount;
 
+    //プレイヤーコントローラー
+    PlayerController pc;
+
     private void Start()
     {
         DrawLine();
+        pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -54,6 +58,7 @@ public class ClearCheck : MonoBehaviour
         if (shuffleCount > 1) shuffleCount--;
         if (shuffleCount == 1)
         {
+
             shuffleCount = 0;
             Shuffle();
 
@@ -86,6 +91,7 @@ public class ClearCheck : MonoBehaviour
         for (int i = -2; i < 3; i++)
             if (i != 0) CheckClear(i);
 
+        //クリアフラグを倒す
         cleared = false;
 
     }
@@ -132,7 +138,7 @@ public class ClearCheck : MonoBehaviour
         }
 
         shuffleCount = shuffleInterval;
-
+        pc.PlayerAttack();
         cleared = true;
         return true;
 

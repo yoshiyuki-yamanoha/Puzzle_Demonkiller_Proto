@@ -34,6 +34,7 @@ public class PointControl : MonoBehaviour
 
     //吸いつき範囲
     [SerializeField, Range(0, 100)] private float dist = 1.5f;
+    private float portDist = 0.6f;
 
     //ゲームオブジェクト用
     private GameObject[] circles;
@@ -94,7 +95,7 @@ public class PointControl : MonoBehaviour
                 {
                     currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                    if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                    if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
                     {
                         oriPos = o.GetComponent<TransportToParent>().GetGoalPos();
 
