@@ -79,26 +79,26 @@ public class Demon : EnemyBase
 
         }
 
-        // 魔法が当たるとダメージ
-        if (other.gameObject.tag == "Magic")
-        {
-            Debug.Log("hit_tri");
+        //// 魔法が当たるとダメージ
+        //if (other.gameObject.tag == "Magic")
+        //{
+        //    Debug.Log("hit_tri");
 
-            this.GetComponent<Demon>().Damage(100.0f);
-        }
+        //    this.GetComponent<Demon>().Damage(100.0f);
+        //}
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // 魔法が当たるとダメージ
-        if (collision.gameObject.tag == "Magic")
-        {
-            Debug.Log(collision.gameObject);
-            Debug.Log("hit_colli");
-            GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(collision.gameObject);
-            this.GetComponent<Demon>().Damage(100.0f);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    // 魔法が当たるとダメージ
+    //    if (collision.gameObject.tag == "Magic")
+    //    {
+    //        Debug.Log(collision.gameObject);
+    //        Debug.Log("hit_colli");
+    //        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(collision.gameObject);
+    //        this.GetComponent<Demon>().Damage(100.0f);
+    //    }
+    //}
 
     private void OnTriggerStay(Collider other)
     {

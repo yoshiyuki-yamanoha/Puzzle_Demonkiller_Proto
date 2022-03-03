@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShootMagic : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class ShootMagic : MonoBehaviour
     [SerializeField] string PlayerStr;       //敵の魔法陣の正解
 
     private int magicShootCnt;               // 魔法を撃った数
+    private float magicComboTimer;            // 魔法のコンボ受付時間
+    private GameObject ComboTimerSlider_obj; // コンボ受付時間のスライダー：オブジェクト
+    private Slider ComboTimerSlider_com;     // コンボ受付時間のスライダー：スライダー
+    private Text ComboTimerText;
+    float timetext = 0;
 
     List<GameObject> Enemy_List = new List<GameObject>();
     // Start is called before the first frame update
@@ -20,6 +26,9 @@ public class ShootMagic : MonoBehaviour
         setPlayerMagicStr();
 
         magicShootCnt = 0;
+        Init_magicShootCnt();
+
+        Init_Slider();
     }
 
     // Update is called once per frame
@@ -27,6 +36,7 @@ public class ShootMagic : MonoBehaviour
     {
         setPlayerMagicStr();
         Ene_MC_Check();
+        Check_MagicTimer(ComboTimerSlider_com.value);
     }
 
     void Ene_MC_Check()
@@ -42,15 +52,25 @@ public class ShootMagic : MonoBehaviour
                 {
                     //魔法を撃つ
                     //魔法を５回撃つごとに落ちてくる魔法に変える
-                    if (magicShootCnt < 5)
+                    if (magicShootCnt < 3)
                     {
                         this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(ene);
                         magicShootCnt++;
+
+                        //if(magicComboTimer == 0)
+                        if (ComboTimerSlider_com.value == 0)
+                        {
+                            int magicComboTimeLimit = 1;
+                            //magicComboTimer = magicComboTimeLimit;
+                            ComboTimerSlider_com.value = magicComboTimeLimit;
+                        }
                     }
                     else
                     {
                         this.gameObject.GetComponent<FallingMagic>().M_FireFall(ene);
                         magicShootCnt = 0;
+                        //magicComboTimer = 0;
+                        ComboTimerSlider_com.value = 0;
                     }
 
                     //敵が倒れる処理
@@ -97,5 +117,48 @@ public class ShootMagic : MonoBehaviour
     public List<GameObject> get_EneList()
     {
         return Enemy_List;
+    }
+
+
+    private void Init_magicShootCnt()
+    {
+        magicShootCnt = 0;
+        magicComboTimer = 0;
+    }
+
+    // コンボ受付時間が残っているかチェック
+    private void Check_MagicTimer(float timeBuf)
+    {
+        //int decreaseTime = 6000;
+        float decreaseTime = Application.targetFrameRate * 30.0f;
+        float amountOfDecrease = 1 / (float)decreaseTime;
+
+        if (timeBuf > 0)
+        {
+            //magicComboTimer--;
+            ComboTimerSlider_com.value -= amountOfDecrease;
+            //ComboTimerText.text = (ComboTimerSlider_com.value - amountOfDecrease).ToString();
+            ComboTimerText.text = (timetext += Time.deltaTime).ToString();
+        }
+        else if (magicComboTimer > 0)
+        {
+            //magicComboTimer--;
+            ComboTimerSlider_com.value -= amountOfDecrease;
+            //ComboTimerText.text = (ComboTimerSlider_com.value - amountOfDecrease).ToString();
+            ComboTimerText.text = (timetext += Time.deltaTime).ToString();
+        }
+        else
+        {
+            Init_magicShootCnt();
+        }
+    }
+
+    private void Init_Slider()
+    {
+        ComboTimerSlider_obj = GameObject.Find("UIs/TimerUI/Slider").gameObject;
+        ComboTimerSlider_com = ComboTimerSlider_obj.GetComponent<Slider>();
+        ComboTimerSlider_com.value = 0;
+
+        ComboTimerText = GameObject.Find("UIs/TimerUI/timer").GetComponent<Text>();
     }
 }

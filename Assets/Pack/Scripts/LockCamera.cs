@@ -49,6 +49,7 @@ public class LockCamera : MonoBehaviour
 
             Vector3 Pl_Pos = GameObject.Find("Sphere").transform.position;
 
+            if (ene == null) return null;
 
             float Dis = Vector3.Distance(ene.transform.position, Pl_Pos);
             if(Ene_Dis > Dis)
@@ -69,6 +70,7 @@ public class LockCamera : MonoBehaviour
     {
         foreach (GameObject ene in Get_EneList())
         {
+            if (ene == null) return;
             if (target == ene)   //ターゲットの魔法陣を可視化
             {
                 ene.transform.GetChild(1).gameObject.SetActive(true);

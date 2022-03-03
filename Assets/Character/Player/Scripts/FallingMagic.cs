@@ -18,10 +18,10 @@ public class FallingMagic : MagicBas
     void FixedUpdate()
     {
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            M_FireFall(this.gameObject);
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    M_FireFall(this.gameObject);
+        //}
     }
 
     public void M_FireFall(GameObject ene)

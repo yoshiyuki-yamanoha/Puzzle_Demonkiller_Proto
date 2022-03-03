@@ -17,10 +17,10 @@ public class MagicFlyingToTheEnemy : MagicBas
     void FixedUpdate()
     {
         //if(Input.GetMouseButtonDown(0))
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            M_FireForward(this.gameObject);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    M_FireForward(this.gameObject);
+        //}
     }
 
     private void MaterializeMagic()
