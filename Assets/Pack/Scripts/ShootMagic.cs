@@ -11,11 +11,15 @@ public class ShootMagic : MonoBehaviour
 
     [SerializeField] string PlayerStr;       //敵の魔法陣の正解
 
+    private int magicShootCnt;               // 魔法を撃った数
+
     List<GameObject> Enemy_List = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         setPlayerMagicStr();
+
+        magicShootCnt = 0;
     }
 
     // Update is called once per frame
@@ -37,8 +41,17 @@ public class ShootMagic : MonoBehaviour
                 if (eneStr == PlayerStr)
                 {
                     //魔法を撃つ
-                    this.gameObject.GetComponent<FallingMagic>().M_FireFall(ene);
-                    //this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(del);
+                    //魔法を５回撃つごとに落ちてくる魔法に変える
+                    if (magicShootCnt < 5)
+                    {
+                        this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(ene);
+                        magicShootCnt++;
+                    }
+                    else
+                    {
+                        this.gameObject.GetComponent<FallingMagic>().M_FireFall(ene);
+                        magicShootCnt = 0;
+                    }
 
                     //敵が倒れる処理
                     Enemy_List.Remove(ene);
