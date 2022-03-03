@@ -10,8 +10,8 @@ public class Point_Con2 : MonoBehaviour
     float hori, vert;
     [SerializeField]private float ang;
     [SerializeField] private GameObject Select_Circle;
-    [SerializeField]private GameObject SELECTER_OBJ;
-    [SerializeField] private GameObject Selecter;
+    [SerializeField]private GameObject SELECTER_OBJ, SELECTER_OBJ_2;
+    [SerializeField] private GameObject Selecter,Change_Selecter;
 
 
     //SE
@@ -68,6 +68,17 @@ public class Point_Con2 : MonoBehaviour
             Selecter.SetActive(true);
             Selecter.transform.position = Select_Circle.transform.position;
         }
+
+        if(FirstSelect == null)
+        {
+            Change_Selecter.SetActive(false);
+        }
+        else
+        {
+            Change_Selecter.SetActive(true);
+            Change_Selecter.transform.position = FirstSelect.transform.position;
+        }
+
     }
 
     void PointerSelect()
@@ -77,24 +88,55 @@ public class Point_Con2 : MonoBehaviour
             return;
         }
 
-        if(ang == 180.0f)      //スティックが真下の時
-        {
-            //右上か左上が選択されていたらその下を選択するように
-            if(Select_Circle.name == "Four")
+        if(Select_Circle != null){
+            if (ang == 180.0f)      //スティックが真下の時
             {
-                Select_Circle = GameObject.Find("Six");
-                Debug.Log("補正");
+                //右上か左上が選択されていたらその下を選択するように
+                if (Select_Circle.name == "Four")
+                {
+                    Select_Circle = GameObject.Find("Six");
 
-                return;
+                    return;
+                }
+                else if (Select_Circle.name == "Six" || Select_Circle.name == "Seven")
+                {
+                    //下の魔法陣をカーソル中は真下の反応を消す
+                    return;
+                }
             }
-            else if(Select_Circle.name == "Six" || Select_Circle.name == "Seven")
+            else if (ang == 90.0f)
             {
-                //下の魔法陣をカーソル中は真下の反応を消す
-                return;
+                if (Select_Circle.name == "Six")
+                {
+                    Select_Circle = GameObject.Find("Seven");
+
+                    return;
+                }
+                else if (Select_Circle.name == "Seven")
+                {
+                    //真左の入力中、左下の魔法陣をカーソル中は左上の反応を消す
+                    return;
+                }
+            }
+            else if (ang == 270.0f)
+            {
+                if (Select_Circle.name == "Seven")
+                {
+                    Select_Circle = GameObject.Find("Six");
+
+                    return;
+                }
+                else if (Select_Circle.name == "Six")
+                {
+                    //真右の入力中、右下の魔法陣をカーソル中は右上の反応を消す
+                    return;
+                }
             }
         }
+        
 
-        if (ang >= 350.0f || ang <= 10)      //上の魔法陣を選択
+
+        if (ang >= 340.0f || ang <= 20)      //上の魔法陣を選択
         {
             Select_Circle = GameObject.Find("Two");
         }
@@ -154,5 +196,10 @@ public class Point_Con2 : MonoBehaviour
         Selecter.transform.parent = GameObject.Find("Puzzles").transform;
         Selecter.transform.localPosition = Vector3.zero;
         Selecter.SetActive(false);
+        
+        Change_Selecter = Instantiate(SELECTER_OBJ_2);
+        Change_Selecter.transform.parent = GameObject.Find("Puzzles").transform;
+        Change_Selecter.transform.localPosition = Vector3.zero;
+        Change_Selecter.SetActive(false);
     }
 }

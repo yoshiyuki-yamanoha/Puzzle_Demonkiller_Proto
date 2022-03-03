@@ -20,17 +20,33 @@ public class LockCamera : MonoBehaviour
             MagicCircle_Visible(target);
             this.transform.LookAt(target.transform);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            string name = "";
+            foreach(GameObject obj in Get_EneList())
+            {
+                name += obj.name + "**";
+            }
+            Debug.Log(Get_EneList().Count + "NAME" + name);
+        }
     }
 
     GameObject Lock_Enemy()
     {
         if (Get_EneList().Count == 0) return null;
+        int Ene_sum = Get_EneList().Count;
 
         float Ene_Dis = Mathf.Infinity;
         int Ene_Num = -1;
 
         foreach (GameObject ene in Get_EneList())
         {
+            if(Ene_sum != Get_EneList().Count)
+            {
+                return null;
+            }
+
             Vector3 Pl_Pos = GameObject.Find("Sphere").transform.position;
 
 
