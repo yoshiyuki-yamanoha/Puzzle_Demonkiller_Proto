@@ -36,8 +36,8 @@ public class ClearCheck : MonoBehaviour
     //コンボタイム用へ3ん数
     float comboTime = 90;
     float nowComboTime = 90;
-    int comboNum = 0;
-
+    public int comboNum = 0;
+    
     private void Start()
     {
         DrawLine();

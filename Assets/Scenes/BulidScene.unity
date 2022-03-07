@@ -33579,6 +33579,7 @@ MonoBehaviour:
   mpText: {fileID: 3820433668574415681}
   sld: {fileID: 18831304}
   comboTex: {fileID: 1101626325}
+  comboNum: 0
 --- !u!114 &1290645486648335523
 MonoBehaviour:
   m_ObjectHideFlags: 0
