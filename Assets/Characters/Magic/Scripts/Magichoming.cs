@@ -15,8 +15,6 @@ public class Magichoming : MonoBehaviour
 
     int combo;
 
-    float distance_two;
-
     float speed = 0.5f;
     // Start is called before the first frame update
     void Start()
@@ -25,13 +23,11 @@ public class Magichoming : MonoBehaviour
         TargetPos = TargetObject.transform.position;
         comboNow = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
         combo = comboNow.comboNum;
-        distance_two = Vector3.Distance(transform.position, TargetPos);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float present_Location = (Time.time * speed) / distance_two;
 
         //transform.position = Vector3.Lerp(transform.position, TargetPos, speed);
 
