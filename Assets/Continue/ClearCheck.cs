@@ -34,8 +34,8 @@ public class ClearCheck : MonoBehaviour
     [SerializeField] Text comboTex;
 
     //コンボタイム用へ3ん数
-    float comboTime = 90;
-    float nowComboTime = 90;
+    float comboTime = 150;
+    float nowComboTime = 150;
     int comboNum = 0;
 
     private void Start()
@@ -112,7 +112,9 @@ public class ClearCheck : MonoBehaviour
 
         //最初から揃ってたらやり直し
         for (int i = -2; i < 3; i++)
-            if (i != 0) CheckClear(i);
+            if (i != 0) {
+                if (CheckClear(i)) Shuffle();
+            }
 
         //クリアフラグを倒す
         cleared = false;
@@ -176,7 +178,6 @@ public class ClearCheck : MonoBehaviour
     }
 
     void ClearReward(int point) {
-        //Shuffle();
         AddMagicPoint(point);
         ShowEffeLingSound();
     }
