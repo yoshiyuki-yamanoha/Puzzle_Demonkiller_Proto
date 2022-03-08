@@ -144,7 +144,7 @@ public class EnemyMove : MonoBehaviour
                 Destroy(gameObject, 0.2f);
 
                 //敵がでてくるりょうを制限
-                if (ENT.Enemy_Count > 0)
+                if (ENT.Enemy_Count > 2)
                 {
                     // 生成をする
                     CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
