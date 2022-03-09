@@ -98,7 +98,7 @@ public class MagicPointer : MonoBehaviour
                 if (longPos < dis)//一番遠い敵
                 {
 
-                    longPos = dis;
+                    //longPos = dis;
                     mostNearEnemy3 = o;
                     if (flag3 == false)
                     {

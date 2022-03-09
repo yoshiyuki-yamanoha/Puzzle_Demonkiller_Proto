@@ -14,21 +14,42 @@ public class Magichoming : MonoBehaviour
 
     public ClearCheck ClCh;
     MagicPointer MagicP;
+    PlayerController pc;
 
     int combo;
-    int targetno;
+    public int targetno;
 
     float speed = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
+        pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
         //TargetPosTest = TargetObjTest.transform.position;
         TargetObject = GameObject.Find("MarkingPointer1");
         TargetPos = TargetObject.transform.position;
         ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
         combo = ClCh.MaxCombo;
-        //targetno = ClCh.enemyno;
+        //targetno = pc.attackNum;
         TargetPos = TargetObject.transform.position;
+
+        if (targetno == 0)
+        {
+            TargetObject = GameObject.Find("MarkingPointer1");
+            TargetObjTest = GameObject.Find("MarkingPointer1");
+            TargetPos = TargetObject.transform.position;
+        }
+        if (targetno == 1)
+        {
+            TargetObject = GameObject.Find("MarkingPointer2");
+            TargetObjTest = GameObject.Find("MarkingPointer2");
+            TargetPos = TargetObject.transform.position;
+        }
+        if (targetno == 2)
+        {
+            TargetObject = GameObject.Find("MarkingPointer3");
+            TargetObjTest = GameObject.Find("MarkingPointer3");
+            TargetPos = TargetObject.transform.position;
+        }
         MagicP = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
     }
 
