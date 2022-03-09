@@ -6,7 +6,7 @@ public class Magichoming : MonoBehaviour
 {
     [SerializeField] GameObject Exp;
     [SerializeField] GameObject ExpMini;
-    private GameObject TargetObject;
+    public GameObject TargetObject;
     private Vector3 TargetPos;
 
     public GameObject TargetObjTest;
@@ -19,37 +19,42 @@ public class Magichoming : MonoBehaviour
     int combo;
     public int targetno;
 
+    float disPer = 0;
+    Vector3 oriPos;
+
     float speed = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
         pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
         //TargetPosTest = TargetObjTest.transform.position;
-        TargetObject = GameObject.Find("MarkingPointer1");
-        TargetPos = TargetObject.transform.position;
+        //TargetObject = GameObject.Find("MarkingPointer1");
+        //TargetPos = TargetObject.transform.position;
         ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
         combo = ClCh.MaxCombo;
         //targetno = pc.attackNum;
-        TargetPos = TargetObject.transform.position;
+        //TargetPos = TargetObject.transform.position;
 
-        if (targetno == 0)
-        {
-            TargetObject = GameObject.Find("MarkingPointer1");
-            TargetObjTest = GameObject.Find("MarkingPointer1");
-            TargetPos = TargetObject.transform.position;
-        }
-        if (targetno == 1)
-        {
-            TargetObject = GameObject.Find("MarkingPointer2");
-            TargetObjTest = GameObject.Find("MarkingPointer2");
-            TargetPos = TargetObject.transform.position;
-        }
-        if (targetno == 2)
-        {
-            TargetObject = GameObject.Find("MarkingPointer3");
-            TargetObjTest = GameObject.Find("MarkingPointer3");
-            TargetPos = TargetObject.transform.position;
-        }
+        oriPos = transform.position;
+
+        //if (targetno == 0)
+        //{
+        //    TargetObject = GameObject.Find("MarkingPointer1");
+        //    TargetObjTest = GameObject.Find("MarkingPointer1");
+        //    TargetPos = TargetObject.transform.position;
+        //}
+        //if (targetno == 1)
+        //{
+        //    TargetObject = GameObject.Find("MarkingPointer2");
+        //    TargetObjTest = GameObject.Find("MarkingPointer2");
+        //    TargetPos = TargetObject.transform.position;
+        //}
+        //if (targetno == 2)
+        //{
+        //    TargetObject = GameObject.Find("MarkingPointer3");
+        //    TargetObjTest = GameObject.Find("MarkingPointer3");
+        //    TargetPos = TargetObject.transform.position;
+        //}
         MagicP = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
     }
 
@@ -76,10 +81,14 @@ public class Magichoming : MonoBehaviour
         }
 
         //Zに向かって移動
-        transform.position += transform.rotation * new Vector3(0, 0, 1.0f) * speed;
+        //transform.position += transform.rotation * new Vector3(0, 0, 1.0f) * speed;
+
+        //距離を縮める
+        disPer += 0.1f;
+        transform.position = Vector3.Lerp(oriPos, TargetObject.transform.position, disPer);
 
         //Debug.Log(Vector3.Distance(transform.position, TargetPos));
-        if (Vector3.Distance(transform.position, Target) < 0.5f)
+        if (disPer >= 1.0f)
         {
             if (combo > 10)
             {

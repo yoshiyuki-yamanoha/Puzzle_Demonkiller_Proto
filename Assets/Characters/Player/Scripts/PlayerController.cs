@@ -59,4 +59,9 @@ public class PlayerController : MonoBehaviour
         //}
 
     }
+
+    public void ShotMagic(GameObject tage) {
+        GameObject Magic = Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+        Magic.GetComponent<Magichoming>().TargetObject = tage;
+    }
 }

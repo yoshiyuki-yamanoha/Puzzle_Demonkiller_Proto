@@ -52,7 +52,7 @@ public class MagicPointer : MonoBehaviour
             Marks = Instantiate(pointer, mostNearEnemy.transform.position, Quaternion.identity);
             Marks.name = "MarkingPointer";
             Marks.transform.parent = mostNearEnemy.transform;
-            //mostNearEnemy.tag = "MarkedEnemy";
+            mostNearEnemy.tag = "MarkedEnemy";
         }
     }
 

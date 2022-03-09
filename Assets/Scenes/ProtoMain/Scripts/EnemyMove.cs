@@ -44,10 +44,6 @@ public class EnemyMove : MonoBehaviour
         ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
         flag = false;
 
-        //印を破壊
-        if(gameObject.transform.childCount > 0)
-            Destroy(gameObject.transform.GetChild(0));
-
     }
 
     // Update is called once per frame
@@ -129,8 +125,8 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Destroy(gameObject, 0.2f);
-            CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
-            CloneEnem.name = "CloneEnemy";
+            //CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+            //CloneEnem.name = "CloneEnemy";
         }
         //0.5f待つ(デストロイするまでの時間)
         if (interval < time)
@@ -145,8 +141,8 @@ public class EnemyMove : MonoBehaviour
                 if (ENT.Enemy_Count > 2)
                 {
                     // 生成をする
-                    CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
-                    CloneEnem.name = "CloneEnemy";
+                    //CloneEnem = Instantiate(PrefabEnemy, new Vector3(-0.71f, 0.69f, 26.02f), Quaternion.identity);
+                    //CloneEnem.name = "CloneEnemy";
                     //ナビのエリア取得
                     inArea = true;
                     EneChasing();
