@@ -115,9 +115,15 @@ public class PointControl : MonoBehaviour
                         //選択サークルを出させる
                         gp.ShowSelectCircle(selectCircle);
 
-                        //Aボタン選択
+                        //Lボタン選択
                         SelectCircle(o);
-
+                        if (Input.GetButtonDown("Fire5"))
+                        {
+                            o.GetComponent<CycleRotate>().RotateCycleL();    // 選択されている魔法陣を回す
+                        }else if(Input.GetButtonDown("Fire4"))
+                        {
+                            o.GetComponent<CycleRotate>().RotateCycleR();    // 選択されている魔法陣を回す
+                        }
 
                     }
                     else
@@ -163,7 +169,7 @@ public class PointControl : MonoBehaviour
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
-                selA.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+                //selA.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
                 selA = null;
                 selB = null;
                 selTf = null;

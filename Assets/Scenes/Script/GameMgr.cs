@@ -36,9 +36,13 @@ public class GameMgr : SingletonMonoBehaviour<GameMgr>
     public void GotoStage1()
     {
 
-        ChangeScene("Stage1");
+        ChangeScene("testPuzzle");
     }
+    public void GotoStage2()
+    {
 
+        ChangeScene("testPuzzle2");
+    }
     // ゲームを終了する
     public void GotoQuit()
     {
