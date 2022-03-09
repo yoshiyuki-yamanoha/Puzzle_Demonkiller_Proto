@@ -34,8 +34,8 @@ public class ClearCheck : MonoBehaviour
     [SerializeField] Text comboTex;
 
     //コンボタイム用へ3ん数
-    float comboTime = 90;
-    float nowComboTime = 90;
+    float comboTime = 150;
+    float nowComboTime = 150;
     public int comboNum = 0;
     
     private void Start()
@@ -53,9 +53,7 @@ public class ClearCheck : MonoBehaviour
             //線が被らなければクリア (グルっと一周)
             if (CheckClear(1)) ClearReward(1);
             else if (CheckClear(-1)) ClearReward(1);
-
-            //星の形になってればクリア(五芒星)
-            if (CheckClear(2)) ClearReward(99);
+            else if (CheckClear(2)) ClearReward(99);//星の形になってればクリア(五芒星)
             else if (CheckClear(-2)) ClearReward(2);
 
 
@@ -63,14 +61,18 @@ public class ClearCheck : MonoBehaviour
             //全ての線が後ろの線に重なってればクリア(理想かも)
         }
 
-        if (shuffleCount > 1) shuffleCount--;
-        if (shuffleCount == 1)
+        //シャッフル
+        if (cleared)
         {
+            if (shuffleCount > 1) shuffleCount--;
+            if (shuffleCount == 1)
+            {
 
-            shuffleCount = 0;
-            Shuffle();
+                shuffleCount = 0;
+                Shuffle();
 
-            //線の色を戻す
+                //線の色を戻す
+            }
         }
 
         //コンボタイムを減らしていく
@@ -92,27 +94,49 @@ public class ClearCheck : MonoBehaviour
 
 
     public void Shuffle() {
-        int n = playObjs.Length;
 
-        //Transform[] ansTemp = ans;
+        //チェック通過フラグ
+        bool isPass = true;
 
-        while (n > 1) {
+        do
+        {
 
-            n--;
+            //魔法陣の数
+            int n = playObjs.Length;
 
-            int k = UnityEngine.Random.Range(0, n + 1);
+            //フラグを倒す
+            isPass = true;
 
-            int te = soe[k];
-            soe[k] = soe[n];
-            soe[n] = te;
-        }
+            while (n > 1)
+            {
 
-        //線を更新
-        DrawLine();
+                n--;
 
-        //最初から揃ってたらやり直し
-        for (int i = -2; i < 3; i++)
-            if (i != 0) CheckClear(i);
+                int k = UnityEngine.Random.Range(0, n + 1);
+
+                int te = soe[k];
+                soe[k] = soe[n];
+                soe[n] = te;
+            }
+
+            //線を更新
+            DrawLine();
+
+            //最初から揃ってたらやり直し
+            for (int i = -2; i < 3; i++)
+            {
+                if (i != 0)
+                {
+                    if (CheckClear(i))
+                    {
+                        isPass = false;
+                        break;
+                    }
+                }
+            }
+
+
+        } while (!isPass);
 
         //クリアフラグを倒す
         cleared = false;
@@ -176,7 +200,6 @@ public class ClearCheck : MonoBehaviour
     }
 
     void ClearReward(int point) {
-        //Shuffle();
         AddMagicPoint(point);
         ShowEffeLingSound();
     }
