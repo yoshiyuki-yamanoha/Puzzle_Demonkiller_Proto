@@ -23,12 +23,20 @@ public class ClearCheck : MonoBehaviour
     //クリア判定フラグ
     bool cleared;
 
+    bool attack;
+    public int MaxCombo;
+    //public int enemyno;
+    //public GameObject MarkPoint1 = GameObject.Find("MarkingPointer1");
+    //public GameObject MarkPoint2 = GameObject.Find("MarkingPointer2");
+    //public GameObject MarkPoint3 = GameObject.Find("MarkingPointer3");
+    //public GameObject[] enemy;
     //シャッフルカウント
     float shuffleInterval = 30;
     float shuffleCount;
 
     //プレイヤーコントローラー
     PlayerController pc;
+    Magichoming Mh;
 
     [SerializeField] Slider sld;
     [SerializeField] Text comboTex;
@@ -40,6 +48,7 @@ public class ClearCheck : MonoBehaviour
     
     private void Start()
     {
+        attack = false;
         DrawLine();
         pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
     }
@@ -80,8 +89,39 @@ public class ClearCheck : MonoBehaviour
 
         //コンボタイムが0になったらコンボ数を0に
         if (nowComboTime == 0) {
+            MaxCombo = comboNum;
             comboNum = 0;
             nowComboTime = 0;
+        }
+
+        if (attack == true && nowComboTime == 0)
+        {
+            //int c= 0;
+            //{
+            //    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            //    foreach (GameObject o in enemies)
+            //    {
+            //        if (c == 0)
+            //        {
+            //            pc.PlayerAttack();
+            //            enemyno = 1;
+            //            c = 1;
+            //        }
+            //        else if (c == 1)
+            //        {
+            //            pc.PlayerAttack();
+            //            enemyno = 2;
+            //            c = 2;
+            //        }
+            //        else if (c == 2)
+            //        {
+            //            pc.PlayerAttack();
+            //            enemyno = 3;
+            //        }
+            //    }
+            //}
+            pc.PlayerAttack();
+            attack = false;
         }
 
         //ゲージに反映
@@ -132,7 +172,8 @@ public class ClearCheck : MonoBehaviour
         }
     }
 
-    bool CheckClear(int nextNum) {
+    bool CheckClear(int nextNum)
+    {
         for (int i = 0; i < play.Length; i++)
         {
             int maxNum = play.Length - 1;
@@ -145,7 +186,8 @@ public class ClearCheck : MonoBehaviour
             {
                 a = play[i].GetChild(c).gameObject;
                 GoToParent gp = a.GetComponent<GoToParent>();
-                if (gp) {
+                if (gp)
+                {
                     a = gp.GetLineEnd();
                     break;
                 }
@@ -155,7 +197,7 @@ public class ClearCheck : MonoBehaviour
                 b = play[next].GetChild(c).gameObject;
                 if (b.tag == "My") break;
             }
-            
+
             if (a != b) return false;
 
         }
@@ -164,13 +206,18 @@ public class ClearCheck : MonoBehaviour
         nowComboTime = comboTime;
 
         //コンボタイムが残ってたらコンボを増やす
-        if (nowComboTime > 0) {
+        if (nowComboTime > 0)
+        {
             comboNum++;
         }
 
         shuffleCount = shuffleInterval;
-        pc.PlayerAttack();
+
+
+        //pc.PlayerAttack();
+
         cleared = true;
+        attack = true;
         return true;
 
     }

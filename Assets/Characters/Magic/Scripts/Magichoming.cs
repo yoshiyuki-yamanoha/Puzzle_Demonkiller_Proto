@@ -9,20 +9,27 @@ public class Magichoming : MonoBehaviour
     private GameObject TargetObject;
     private Vector3 TargetPos;
 
+    public GameObject TargetObjTest;
+    private Vector3 TargetPosTest;
 
-
-    public ClearCheck comboNow;
+    public ClearCheck ClCh;
+    MagicPointer MagicP;
 
     int combo;
+    int targetno;
 
     float speed = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
-        TargetObject = GameObject.Find("Pointer");
+        //TargetPosTest = TargetObjTest.transform.position;
+        TargetObject = GameObject.Find("MarkingPointer1");
         TargetPos = TargetObject.transform.position;
-        comboNow = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
-        combo = comboNow.comboNum;
+        ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
+        combo = ClCh.MaxCombo;
+        //targetno = ClCh.enemyno;
+        TargetPos = TargetObject.transform.position;
+        MagicP = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
     }
 
     // Update is called once per frame
@@ -37,12 +44,14 @@ public class Magichoming : MonoBehaviour
             //動いている敵の座標を向く
             transform.LookAt(TargetObject.transform.position);
             Target = TargetObject.transform.position;
+            //Target = TargetObjTest.transform.position;
         }
         else
         {
             //呼び出されたときの敵の座標を向く
             transform.LookAt(TargetPos);
             Target = TargetPos;
+            //Target = TargetPosTest;
         }
 
         //Zに向かって移動

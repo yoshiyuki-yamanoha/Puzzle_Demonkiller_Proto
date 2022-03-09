@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     public ClearCheck cc;
 
+    public Magichoming Mh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerAttack()
     {
-        
         Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
 
     }
