@@ -834,6 +834,7 @@ MonoBehaviour:
   x_reverce: 0.1
   cc: {fileID: 1290645486648335522}
   Mh: {fileID: 1381830566}
+  attackNum: 0
 --- !u!4 &387063140
 Transform:
   m_ObjectHideFlags: 0
@@ -2077,6 +2078,11 @@ PrefabInstance:
     - target: {fileID: 5267486753033640778, guid: 521f1ee0d8b09124281942a1768f2297,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267486753033640779, guid: 521f1ee0d8b09124281942a1768f2297,
+        type: 3}
+      propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5267486753033640789, guid: 521f1ee0d8b09124281942a1768f2297,

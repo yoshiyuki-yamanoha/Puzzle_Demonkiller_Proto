@@ -98,32 +98,37 @@ public class ClearCheck : MonoBehaviour
 
         if (attack == true && nowComboTime == 0)
         {
-            //int c= 0;
-            //{
-            //    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            //    foreach (GameObject o in enemies)
-            //    {
-            //        if (c == 0)
-            //        {
-            //            pc.PlayerAttack();
-            //            enemyno = 1;
-            //            c = 1;
-            //        }
-            //        else if (c == 1)
-            //        {
-            //            pc.PlayerAttack();
-            //            enemyno = 2;
-            //            c = 2;
-            //        }
-            //        else if (c == 2)
-            //        {
-            //            pc.PlayerAttack();
-            //            enemyno = 3;
-            //        }
-            //    }
-            //}
-            pc.PlayerAttack();
+            int c = 0;
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject o in enemies)
+            {
+                if (c == 0)
+                {
+                    pc.PlayerAttack();
+                    Mh = GameObject.Find("FireMagic1").GetComponent<Magichoming>();
+                    Mh.targetno = 0;
+                    c = 1;
+                }
+                else if (c == 1)
+                {
+                    pc.PlayerAttack();
+                    Mh = GameObject.Find("FireMagic2").GetComponent<Magichoming>();
+                    Mh.targetno = 1;
+                    c = 2;
+                }
+                else if (c == 2)
+                {
+                    pc.PlayerAttack();
+                    Mh = GameObject.Find("FireMagic3").GetComponent<Magichoming>();
+                    Mh.targetno = 2;
+                    c = 3;
+                }
+            }
+
+            //pc.PlayerAttack();
             attack = false;
+            pc.attackNum = 0;
         }
 
         //ゲージに反映

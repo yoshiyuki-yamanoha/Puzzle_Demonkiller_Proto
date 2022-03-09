@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public ClearCheck cc;
 
     public Magichoming Mh;
+    public int attackNum = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,16 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerAttack()
     {
-        Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+        attackNum += 1;
+        GameObject Magic = Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+        Magic.name = "FireMagic"+attackNum;
+
+        //Mh = GameObject.Find("FireMagic").GetComponent<Magichoming>(); 
+        //Mh.targetno = attackNum;
+        //if (attackNum > 2)
+        //{
+        //    attackNum = 0;
+        //}
 
     }
 }
