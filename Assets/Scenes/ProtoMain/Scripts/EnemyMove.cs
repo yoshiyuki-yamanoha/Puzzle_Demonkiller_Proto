@@ -44,18 +44,15 @@ public class EnemyMove : MonoBehaviour
         ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
         flag = false;
 
+        //印を破壊
+        if(gameObject.transform.childCount > 0)
+            Destroy(gameObject.transform.GetChild(0));
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject enemy = GameObject.FindWithTag("Enemy");
-        GameObject enemy1 = GameObject.FindWithTag("Enemy1");
-        GameObject enemy2 = GameObject.FindWithTag("Enemy2");
-
-        if (enemy != null) enemyPosition = enemy.transform.position;
-        if (enemy == null) enemyPosition = enemy1.transform.position;
-        if((enemy == null) && (enemy1 == null)) enemyPosition = enemy2.transform.position;
         time += Time.deltaTime;
         //if (RimitFlg == true) {
 
@@ -140,6 +137,7 @@ public class EnemyMove : MonoBehaviour
         {
             if (other.gameObject.tag == "Magic" && flag == false)
             {
+
                 //自分を破壊
                 Destroy(gameObject, 0.2f);
 
