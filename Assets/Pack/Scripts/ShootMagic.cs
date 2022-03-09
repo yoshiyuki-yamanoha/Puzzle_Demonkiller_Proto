@@ -19,7 +19,7 @@ public class ShootMagic : MonoBehaviour
     private Text ComboTimerText;
     float timetext = 0;
 
-    List<GameObject> Enemy_List = new List<GameObject>();
+    [SerializeField]List<GameObject> Enemy_List = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
