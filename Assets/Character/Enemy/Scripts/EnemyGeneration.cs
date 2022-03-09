@@ -154,6 +154,7 @@ public class EnemyGeneration : MonoBehaviour
         MC.transform.parent = enemy.transform;//親子にしている
         MC.transform.localScale = new Vector3(1.3f, 1.3f,1.3f);//大きさ変更
         MC.transform.localPosition += new Vector3(0, 2.8f, 0f);//位置変更
+        MC.SetActive(false);
 
 
         time = 0;//時間リセット

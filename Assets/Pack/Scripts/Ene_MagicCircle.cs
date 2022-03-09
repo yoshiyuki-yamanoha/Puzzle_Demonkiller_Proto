@@ -13,36 +13,8 @@ public class Ene_MagicCircle : MonoBehaviour
 
     private void Start()
     {
-        Shuffle();
-        SetAnswer();
-        //string pstr = GameObject.Find("Sphere").GetComponent<ShootMagic>().Get_Str();
+        SetAnsIni();        //シャッフル
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        SetAnswer();
-        //それぞれの名前を繋げる処理 あとで関数にまとめまーす💛
-        //{
-        //    playerStr = "";
-
-        //    foreach (Transform o in play)
-        //    {
-        //        if (o.childCount > 0)
-        //            playerStr = playerStr + o.GetChild(0).gameObject.name;
-        //    }
-        //}
-
-        //名前完全一致型クリアチェック
-        //if (answerStr == playerStr)
-        //{
-        //    Instantiate(clearEffe, gameObject.transform.position,Quaternion.identity);
-
-        //    GameObject.Find("Sphere").GetComponent<ShootMagic>().CreateMagic();
-        //}
-
-    }
-
     void SetAnswer()
     {
         answerStr = "";
@@ -51,19 +23,6 @@ public class Ene_MagicCircle : MonoBehaviour
         {
             if (o.childCount > 0)
                 answerStr = answerStr + o.GetChild(0).gameObject.name;
-        }
-    }
-
-    void SetRandomSide()
-    {
-        foreach (Transform t in ans)
-        {
-
-            GameObject g = t.GetChild(0).gameObject;
-
-            int num = Random.Range(0, 2);
-            g.GetComponent<GoToParent>().ChangeMat(num);
-
         }
     }
 
@@ -86,5 +45,20 @@ public class Ene_MagicCircle : MonoBehaviour
     public string GetEneStr()
     {
         return answerStr;
+    }
+
+    private string GetPlStr()
+    {
+        return GameObject.Find("Sphere").GetComponent<ShootMagic>().Get_Str();
+    }
+
+    public void SetAnsIni()
+    {
+        do
+        {
+            Shuffle();
+            SetAnswer();
+        } 
+        while (answerStr == GetPlStr());
     }
 }
