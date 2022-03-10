@@ -68,7 +68,7 @@ public class EnemyGeneration : MonoBehaviour
         if (time > Span())//秒おきに生成
         {
             Same_Enemy();
-            for (int i = 0; i < same_enemy; i++) {
+            for (int i = 0; i < 1; i++) {
                 if (enemy_count >= enemymax -1)
                 {
                     Generation((int)EnemyKinds.Boss, 0);//ボス生成
@@ -81,10 +81,10 @@ public class EnemyGeneration : MonoBehaviour
                 
             }
 
-            if (enemymax / 2 <= enemy_count)
-            {
-                span_time -= 0.1f;//スパン時間減らす
-            }
+            //if (enemymax / 2 <= enemy_count) //最大値 15 -> の半分 7 だったらをエネミーカウントが超えたら
+            //{
+            //    span_time -= 0.1f;//スパン時間減らす
+            //}
         }
     }
 
@@ -129,15 +129,15 @@ public class EnemyGeneration : MonoBehaviour
     //エリア番号生成
     int AriaSpawnNumber()
     {
-        spawn_number = Random.Range(0, spawn_max - 2);/*RandomRange(0, spawn_max - 2, RandomStatus.Aria);*/
+        spawn_number = Random.Range(0, spawn_max);/*RandomRange(0, spawn_max - 2, RandomStatus.Aria);*/
         //Debug.Log("重複なし!Random" + spawn_number);
         //Random.Range(0, spawn_max - 2); //2枠抜いた位置を生成 0 - 3  0 1 2が生成
 
-        if (enemy_count >= enemymax / 2) //敵が半分をスポーンしていたら
-        {
+        //if (enemy_count >= enemymax / 2) //敵が半分をスポーンしていたら
+        //{
 
-            spawn_number = Random.Range(spawn_max - 2, spawn_max);//後半部分も解放 3 , 4  生成 4 int型は最大値を含まない 
-        }
+        //    spawn_number = Random.Range(spawn_max - 2, spawn_max);//後半部分も解放 3 , 4  生成 4 int型は最大値を含まない 
+        //}
         return spawn_number;
     }
 

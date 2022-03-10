@@ -79,5 +79,17 @@ public class Demon1 : EnemyBase
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        // 魔法が当たるとダメージ
+        if (other.gameObject.tag == "Magic")
+        {
+            Debug.Log(other.gameObject);
+            Debug.Log("hit_triStay");
+            GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
+            this.GetComponent<Demon1>().Damage(100.0f);
+        }
+    }
+
 }
 
