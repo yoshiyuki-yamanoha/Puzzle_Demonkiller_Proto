@@ -41,6 +41,7 @@ public class EnemyMove : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
         //GotoNextPoint();
+        agent.speed = Random.Range(1,5);  //ランダムでスピードを入れる
         ENT = GameObject.Find("EnemyNum").GetComponent<EnemyNumText>();
         flag = false;
 
@@ -170,6 +171,11 @@ public class EnemyMove : MonoBehaviour
     public void EneChasing()
     {
         transform.position += transform.forward * chasespeed;
+    }
+
+    public void SlowSpeedEnem()  //敵のスピードを3/1にする関数
+    {
+        agent.speed = agent.speed / 3;
     }
 
 }
