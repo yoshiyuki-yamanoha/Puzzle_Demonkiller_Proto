@@ -10,20 +10,49 @@ public class Demon : EnemyBase
     [SerializeField] float maxfremtime = 3;
     [SerializeField] EnemyAnimationBase enemy_anim = null;
     [SerializeField] GameObject target = null;
-
+    
+    //追加
+    [SerializeField] float Offset = 0;
+    bool init_anim = true;
+    int oldrand = 0;
 
     void FixedUpdate()
     {
         if (enemy_anim == null) return;
-      
-        //hierarchyからターゲットを取得
-        if (target == null) {
+
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Barricade");
+        }
+
+        if (target == null)
+        {
             target = GameObject.FindGameObjectWithTag("Player");
         }
+
+
 
         if (TargetDir(this.gameObject,target).magnitude > distance) {//ターゲットの距離によって移動。
             Move();
             status = Status.Walk;//歩き状態
+
+            if (TargetDir(this.gameObject,target).magnitude < distance + Offset)//フィリップキックの攻撃!! 一回のみ
+            {
+                if (init_anim)
+                {
+                    if (target.tag == "Barricade")
+                    {
+                        Debug.Log("攻撃");
+                        enemy_anim.TriggerAttack("FlipKick");
+                    }
+                    else
+                    {
+                        enemy_anim.TriggerAttack("SwordAttack");
+                    }
+
+                    init_anim = false;
+                }
+            }
         }
         else
         {
@@ -33,12 +62,18 @@ public class Demon : EnemyBase
             if (!enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
                 fremTime += Time.deltaTime; //3秒おきに攻撃
             }
-            else
-            {
-            }
 
             if (fremTime > maxfremtime) {//フレーム（秒）攻撃する
-                enemy_anim.TriggerAttack("Attack");//攻撃trigger
+
+                if (GetRandom(0, 1) == 0)
+                {
+                    enemy_anim.TriggerAttack("Attack");//攻撃trigger
+                }
+                else
+                {
+                    enemy_anim.TriggerAttack("AttackKick");//攻撃trigger
+                }
+
                 transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, target));//プレイヤーの方向を向く
                 //再生中ならリセット 
                 fremTime = 0;
@@ -54,13 +89,26 @@ public class Demon : EnemyBase
         enemy_anim.AnimStatus(status);//アニメーション更新
     }
 
+    int GetRandom(int begin, int end)
+    {
+        //int walk = 0;//作業用変数
+        int newrand = 0;
+
+        //生成した値が同じだったら生成して
+        do
+        {
+            newrand = Random.Range(begin, end + 1);
+        } while (newrand == oldrand);
+
+        oldrand = newrand;
+
+        return newrand;
+    }
+
     //入力受付
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    Damage(10);//damage
-        //}
+
     }
 
     private void Move()
@@ -79,6 +127,12 @@ public class Demon : EnemyBase
 
         }
 
+        if (other.gameObject.tag == "Barricade") //バリケードのやつ
+        {
+            Debug.Log("HIt");
+            other.GetComponent<Barricade>().Damage(Attack);
+            other.GetComponent<Barricade>().ColorChange();
+        }
         //// 魔法が当たるとダメージ
         //if (other.gameObject.tag == "Magic")
         //{
