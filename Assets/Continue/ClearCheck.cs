@@ -39,6 +39,9 @@ public class ClearCheck : MonoBehaviour
     PlayerController pc;
     Magichoming Mh;
 
+    //ポイントコントロール
+    PointControl ppp;
+
     //敵にマークつけるよう
     MagicPointer mp;
 
@@ -47,8 +50,8 @@ public class ClearCheck : MonoBehaviour
     [SerializeField] Text comboTex;
 
     //コンボタイム用へ3ん数
-    float comboTime = 300;
-    float nowComboTime = 300;
+    float comboTime = 600;
+    float nowComboTime = 0;
     public int comboNum = 0;
 
     //見えなくする用
@@ -65,6 +68,8 @@ public class ClearCheck : MonoBehaviour
         DrawLine();
         pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
         mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
+        ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
+        ppp.RandomColorSet();
     }
 
     // Update is called once per frame
@@ -163,6 +168,9 @@ public class ClearCheck : MonoBehaviour
                 pc.ShotMagic(o);
             }
 
+            //オーブリセット
+            ppp.ResetOrbs();
+
             //pc.PlayerAttack();
             attack = false;
             pc.attackNum = 0;
@@ -244,6 +252,9 @@ public class ClearCheck : MonoBehaviour
         foreach (GameObject o in playObjs)
             o.GetComponent<GoToParent>().LineColorWhite();
 
+        //魔方陣の色をシャッフル
+        ppp.RandomColorSet();
+
     }
 
     //線を引かせる
@@ -320,6 +331,12 @@ public class ClearCheck : MonoBehaviour
         //線の色を付ける
         foreach (GameObject o in playObjs)
             o.GetComponent<GoToParent>().LineSetColor();
+
+        //色統一ならオーブを光らせる
+        ppp.CheckOneColor();
+
+        //魔法陣の色を減らす
+        ppp.BreakColor();
 
     }
 

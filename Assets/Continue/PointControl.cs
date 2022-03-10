@@ -57,8 +57,15 @@ public class PointControl : MonoBehaviour
         public Material mat;
         public string name;
     }
-
     [SerializeField] private mats[] circleMats;
+
+    //使った魔法陣の色を使えないようにする用の配列
+    bool[] usedMatNum = new bool[5];
+
+    //オーブオブジェクトたち
+    [SerializeField] GameObject[] orbs;
+    int orbNum = 0;
+    [SerializeField] Material resetMat;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +79,8 @@ public class PointControl : MonoBehaviour
         RegisterCircles();
 
         oldOverlapObject = circles[0];
+
+        ResetMaterialBool();
     }
 
     GameObject circleA = null;
@@ -240,15 +249,101 @@ public class PointControl : MonoBehaviour
             int next = 0;
             for (int i = 0; i < circleMats.Length; i++) {
                 if (old.color == circleMats[i].mat.color) {
-                    next = i + 1;
-                    if (next > circleMats.Length - 1) next = 0;
+
+                    //使える色がくるまで
+                    for (int j = 1; j < 5; j++)
+                    {
+                        next = i + j;
+                        if (next > circleMats.Length - 1) next -= circleMats.Length;
+                        if (usedMatNum[next] == true) break;
+                    }
+
                     break;
                 }
             }
 
+           
+            
+
             buf.material = circleMats[next].mat;
             obj.name = circleMats[next].name;
 
+        }
+
+    }
+
+    public void RandomColorSet() {
+        GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
+
+        foreach (GameObject o in circles)
+        {
+            int ran = UnityEngine.Random.Range(0, 5);
+
+            for (int i = 1; i < 5; i++)
+            {
+                int num = ran + i;
+                if (num > 4) num -= 5;
+
+                if (usedMatNum[num])
+                {
+                    o.GetComponent<Renderer>().material = circleMats[num].mat;
+                    o.name = circleMats[num].name;
+                }
+            }
+        }
+    }
+
+    //使った色を使えなくする
+    public void BreakColor() {
+        //GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
+
+        //foreach (GameObject o in circles) {
+        //    for(int i = 0;i<circleMats.Length;i++) {
+        //        if (o.GetComponent<Renderer>().material.color == circleMats[i].mat.color) {
+        //            usedMatNum[i] = false;
+        //        }
+        //    }
+        //}
+    }
+
+    //マテリアルブールをリセット
+    public void ResetMaterialBool() {
+        for (int i = 0; i < 5; i++)
+            usedMatNum[i] = true;
+    }
+
+    //1色で統一してマッチさせた時に右のオーブに色をやどらせる
+    public void CheckOneColor() {
+        GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
+
+        Color firstColor = circles[0].GetComponent<Renderer>().material.color;
+
+        //全部同じ色か判定
+        foreach (GameObject o in circles) {
+            if (firstColor != o.GetComponent<Renderer>().material.color) return;
+        }
+
+        for (int i = 0; i < circleMats.Length; i++) {
+            if (firstColor == circleMats[i].mat.color)
+            {
+                orbs[orbNum].GetComponent<Renderer>().material = circleMats[i].mat;
+                orbNum++;
+                if (orbNum > orbs.Length - 1) orbNum = 0;
+                break;
+            }
+        }
+
+
+        
+    }
+
+    //オーブの色をリセット
+    public void ResetOrbs() {
+
+        orbNum = 0;
+
+        for (int i = 0; i < orbs.Length; i++) {
+            orbs[i].GetComponent<Renderer>().material = resetMat;
         }
 
     }
