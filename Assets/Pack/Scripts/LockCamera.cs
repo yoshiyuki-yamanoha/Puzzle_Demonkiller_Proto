@@ -7,10 +7,15 @@ public class LockCamera : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject target;
     [SerializeField] public bool canTargetChange;
+    [SerializeField,Range(1.0f,10.0f)] private float transTime = 2.0f;
+    private float rotTime = 0f;
+    private float oldYpos;
 
     void Start()
     {
         canTargetChange = true;
+        rotTime = 0f;
+        OldRotPosSet();
     }
 
     // Update is called once per frame
@@ -21,17 +26,24 @@ public class LockCamera : MonoBehaviour
             target = Lock_Enemy();
             MagicCircle_Visible(target);
             canTargetChange = false;
+            rotTime = 0f;
+            OldRotPosSet();
         }
 
 
         if(target != null)
         {
-            this.transform.LookAt(target.transform);
+            float RotY = (oldYpos * (1.0f - rotTime) + (mkCamRot() * rotTime)) / 2;
+
+            transform.eulerAngles =new Vector3((transform.rotation.eulerAngles.x),
+                                                    RotY,
+                                               (transform.rotation.eulerAngles.z));
         }
         else
         {
             canTargetChange = true;
         }
+        transitionRot();
     }
 
     GameObject Lock_Enemy()
@@ -80,5 +92,44 @@ public class LockCamera : MonoBehaviour
                 ene.transform.GetChild(1).gameObject.SetActive(false);
             }
         }
+    }
+
+    float mkCamRot()
+    {
+        Vector2 start2D = new Vector2(this.transform.position.x, this.transform.position.z);
+        Vector2 target2D = new Vector2(target.transform.position.x, target.transform.position.z);
+
+        Vector2 dt = target2D - start2D;
+        float rad = Mathf.Atan2(dt.y, dt.x);
+        float degree = rad * Mathf.Rad2Deg;
+        //if (degree < 0) degree = 360.0f + degree;
+        degree = (degree - 90.0f) * -1;
+
+        //float ang = Mathf.Atan2(this.transform.position.x, target.transform.position.z);
+        //Debug.Log("角度" + degree);
+
+        return degree;
+    }
+
+    void transitionRot()
+    {
+        if(rotTime < 1.0f)
+        {
+            rotTime += Time.deltaTime * transTime;
+        }else if(rotTime >= 1.0f)
+        {
+            rotTime = 1.0f;
+        }
+    }
+
+    void OldRotPosSet()
+    {
+
+        oldYpos = transform.rotation.eulerAngles.y;
+        if(oldYpos > 270)
+        {
+            oldYpos -= 360.0f;
+        }
+        Debug.Log("++" + oldYpos);
     }
 }
