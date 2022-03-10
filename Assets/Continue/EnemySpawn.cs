@@ -11,6 +11,8 @@ public class EnemySpawn : MonoBehaviour
 
     [SerializeField] private int maxSpawnedEnemyNum;
 
+    [SerializeField] EnemyNumText et;
+
     private void Start()
     {
         spawnTime = spawnInterval;
@@ -22,7 +24,7 @@ public class EnemySpawn : MonoBehaviour
         //敵上限までspawnIntervalの間隔で湧く
         {
             var enemies = GameObject.FindObjectsOfType<EnemyMove>();
-            if (enemies.Length < maxSpawnedEnemyNum) {
+            if (et.Enemy_Count > 0 && enemies.Length < maxSpawnedEnemyNum) {
 
                 spawnTime--;
 

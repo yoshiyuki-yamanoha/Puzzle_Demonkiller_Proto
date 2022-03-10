@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mainCamera.transform.position = cameraDefaultPosition;
+        //mainCamera.transform.position = cameraDefaultPosition;
         newAngle = this.transform.localEulerAngles;
         lastMousePosition = Input.mousePosition;
     }
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         //newAngle.y += (Input.mousePosition.x - lastMousePosition.x) * y_rotate * x_reverce;
         newAngle.x -= Input.GetAxis("Vertical") * x_rotate * y_reverce;
         //newAngle.x -= (Input.mousePosition.y - lastMousePosition.y) * x_rotate * y_reverce;
-        mainCamera.gameObject.transform.localEulerAngles = newAngle;
+        //mainCamera.gameObject.transform.localEulerAngles = newAngle;
         lastMousePosition = Input.mousePosition;
         //if (cc.magicPoint > 0)
         //{

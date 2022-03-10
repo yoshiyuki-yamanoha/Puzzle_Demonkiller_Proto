@@ -29,12 +29,10 @@ public class GoToParent : MonoBehaviour
     {
         mat = GetComponent<Renderer>().material;
         oriName = gameObject.name;
-        //lr = GetComponent<LineRenderer>();
 
         //線
-        //SetLine(GameObject.Find("Puzzles"));
-        lr.startWidth = 0.3f;                   // 開始点の太さを0.1にする
-        lr.endWidth = 0.1f;                     // 終了点の太さを0.1にする
+        lr.startWidth = 0.2f;                   // 開始点の太さを0.1にする
+        lr.endWidth = 0.2f;                     // 終了点の太さを0.1にする
     }
 
     GameObject endLinePos;
@@ -121,10 +119,29 @@ public class GoToParent : MonoBehaviour
 
     //線を結ぶ用の関数
     public void SetLine(GameObject obj) {
+
+        //線の先のオブジェクトを変える
         endLinePos = obj;
     }
 
+    //線の先のオブジェクトをゲット
     public GameObject GetLineEnd() {
         return endLinePos;
+    }
+
+    //着色
+    public void LineSetColor() {
+        //自分のマテリアルの色と先のマテリアルの色を獲る
+        Color a = GetComponent<Renderer>().material.color;
+        Color b = endLinePos.GetComponent<Renderer>().material.color;
+
+        //線の色をオブジェクトに合わせる
+        lr.startColor = a;
+        lr.endColor = b;
+    }
+
+    public void LineColorWhite() {
+        lr.startColor = Color.white;
+        lr.endColor = Color.white;
     }
 }

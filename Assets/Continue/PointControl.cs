@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PointControl : MonoBehaviour
 {
@@ -49,6 +50,15 @@ public class PointControl : MonoBehaviour
     [SerializeField, Range(0, 60)]
     float interval;
     float interCount;
+
+    //魔法陣の色変更用のマテリアル
+    [Serializable]
+    public struct mats {
+        public Material mat;
+        public string name;
+    }
+
+    [SerializeField] private mats[] circleMats;
 
     // Start is called before the first frame update
     void Start()
@@ -152,6 +162,9 @@ public class PointControl : MonoBehaviour
                 //Aボタン選択
                 SelectCircle(o);
 
+                //色替え
+                ChangeColorMat(o);
+
 
             }
             else
@@ -160,8 +173,8 @@ public class PointControl : MonoBehaviour
             }
         }
 
-            //インターバルカウント
-            if (interCount != 0) {
+        //インターバルカウント
+        if (interCount != 0) {
             interCount--;
             if (interCount < 0) interCount = 0;
         }
@@ -208,4 +221,35 @@ public class PointControl : MonoBehaviour
         }
     }
 
+    public Material old;
+
+    public int len;
+
+    void ChangeColorMat(GameObject obj) {
+
+        Renderer buf = obj.GetComponent<Renderer>();
+        
+        len = circleMats.Length;
+
+        //選択中のオブジェクトのマテリアルゲットォオ
+        old = buf.material;
+
+        //Bボタンで色入れ替え
+        if (Input.GetButtonDown("Fire2")) {
+            
+            int next = 0;
+            for (int i = 0; i < circleMats.Length; i++) {
+                if (old.color == circleMats[i].mat.color) {
+                    next = i + 1;
+                    if (next > circleMats.Length - 1) next = 0;
+                    break;
+                }
+            }
+
+            buf.material = circleMats[next].mat;
+            obj.name = circleMats[next].name;
+
+        }
+
+    }
 }

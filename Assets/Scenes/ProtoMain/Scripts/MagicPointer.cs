@@ -39,7 +39,7 @@ public class MagicPointer : MonoBehaviour
         SearchMostNearEnemy();
 
         //探索した一番近い敵を見つめる
-        transform.LookAt(pointer.transform.position);
+        //transform.LookAt(pointer.transform.position);
     }
 
     //一番近い敵にマークをつける

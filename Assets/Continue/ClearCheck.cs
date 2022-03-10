@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ClearCheck : MonoBehaviour
 {
@@ -41,13 +42,22 @@ public class ClearCheck : MonoBehaviour
     //敵にマークつけるよう
     MagicPointer mp;
 
+    //ゲージ
     [SerializeField] Slider sld;
     [SerializeField] Text comboTex;
 
     //コンボタイム用へ3ん数
-    float comboTime = 150;
-    float nowComboTime = 150;
+    float comboTime = 300;
+    float nowComboTime = 300;
     public int comboNum = 0;
+
+    //見えなくする用
+    [SerializeField] GameObject puzzle;
+    [SerializeField] GameObject gauge;
+    [SerializeField] GameObject bgCircle;
+    int fadeTime = 90;
+    [SerializeField] int fadeNowTime = 0;
+
     
     private void Start()
     {
@@ -89,16 +99,25 @@ public class ClearCheck : MonoBehaviour
         }
 
         //コンボタイムを減らしていく
-        if (nowComboTime > 0) {
+        if (nowComboTime != 0) {
             nowComboTime--;
+
+            //コンボタイムが0になったらコンボ数を0に
+            if (nowComboTime <= 0)
+            {
+                MaxCombo = comboNum;
+                comboNum = 0;
+                nowComboTime = 0;
+
+                //パズルを消す
+                puzzle.SetActive(false);
+                gauge.SetActive(false);
+                bgCircle.SetActive(false);
+                fadeNowTime = fadeTime;
+            }
         }
 
-        //コンボタイムが0になったらコンボ数を0に
-        if (nowComboTime == 0) {
-            MaxCombo = comboNum;
-            comboNum = 0;
-            nowComboTime = 0;
-        }
+        
 
         if (attack == true && nowComboTime == 0)
         {
@@ -150,9 +169,26 @@ public class ClearCheck : MonoBehaviour
         }
 
         //ゲージに反映
-        sld.value = nowComboTime / comboTime;
+        float per = nowComboTime / comboTime;
+        sld.value = per;
         comboTex.text = "コンボ：" + comboNum.ToString();
 
+        //魔法打ってる間魔法陣が消える処理
+        if (fadeNowTime != 0) {
+            fadeNowTime--;
+            if (fadeNowTime <= 0)
+            {
+                fadeNowTime = 0;
+                puzzle.SetActive(true);
+                gauge.SetActive(true);
+                bgCircle.SetActive(true);
+            }
+        }
+
+        //撃ちたいときに打つ　
+        if (Input.GetButtonDown("Fire3")) {
+            nowComboTime = 1;
+        }
     }
 
 
@@ -204,6 +240,10 @@ public class ClearCheck : MonoBehaviour
         //クリアフラグを倒す
         cleared = false;
 
+        //線の色を白にする
+        foreach (GameObject o in playObjs)
+            o.GetComponent<GoToParent>().LineColorWhite();
+
     }
 
     //線を引かせる
@@ -221,6 +261,7 @@ public class ClearCheck : MonoBehaviour
 
     bool CheckClear(int nextNum)
     {
+        
         for (int i = 0; i < play.Length; i++)
         {
             int maxNum = play.Length - 1;
@@ -249,6 +290,14 @@ public class ClearCheck : MonoBehaviour
 
         }
 
+        return true;
+
+    }
+
+    void ClearReward(int point) {
+        AddMagicPoint(point);
+        ShowEffeLingSound();
+
         //今bのタイム更新
         nowComboTime = comboTime;
 
@@ -267,13 +316,11 @@ public class ClearCheck : MonoBehaviour
 
         cleared = true;
         attack = true;
-        return true;
 
-    }
+        //線の色を付ける
+        foreach (GameObject o in playObjs)
+            o.GetComponent<GoToParent>().LineSetColor();
 
-    void ClearReward(int point) {
-        AddMagicPoint(point);
-        ShowEffeLingSound();
     }
 
     //魔力を増やす
