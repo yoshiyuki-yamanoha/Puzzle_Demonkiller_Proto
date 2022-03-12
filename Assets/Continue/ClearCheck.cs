@@ -320,7 +320,6 @@ public class ClearCheck : MonoBehaviour
 
         shuffleCount = shuffleInterval;
 
-
         //pc.PlayerAttack();
 
         mp.Marking();
@@ -337,6 +336,8 @@ public class ClearCheck : MonoBehaviour
 
         //魔法陣の色を減らす
         ppp.BreakColor();
+
+        ppp.MagicText();
 
     }
 
