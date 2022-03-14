@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public Magichoming Mh;
     public int attackNum = 0;
 
+    [SerializeField] private Magic m;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,5 +65,7 @@ public class PlayerController : MonoBehaviour
     public void ShotMagic(GameObject tage) {
         GameObject Magic = Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
         Magic.GetComponent<Magichoming>().TargetObject = tage;
+
+        m.SpeedDown(5);
     }
 }
