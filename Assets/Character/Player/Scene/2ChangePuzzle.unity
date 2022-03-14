@@ -962,7 +962,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503205784}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6874,6 +6874,8 @@ MonoBehaviour:
   - {fileID: 800204563}
   - {fileID: 1194277345}
   - {fileID: 1698286025}
+  PuzzleBaseStr: 
+  EnePuzzleStr: 
   cycle_Max: 0
   r: {fileID: 0}
   b: {fileID: 0}
