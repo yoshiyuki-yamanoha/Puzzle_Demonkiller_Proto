@@ -19,6 +19,7 @@ public class EnemyGeneration : MonoBehaviour
     int same_enemy = 1;//同時に生成する敵
 
     [SerializeField] float span = 3;//敵スパン
+    float init_span = 0;
     float span_time = 1;
     float span_valu = 0;
 
@@ -51,6 +52,8 @@ public class EnemyGeneration : MonoBehaviour
         {
             old_random_number[i] = 0;
         }
+
+        init_span = span;//初期化値を保存
     }
 
     // Update is called once per frame
@@ -67,7 +70,7 @@ public class EnemyGeneration : MonoBehaviour
 
         if (time > Span())//秒おきに生成
         {
-            Same_Enemy();
+            //Same_Enemy();
             for (int i = 0; i < 1; i++) {
                 if (enemy_count >= enemymax -1)
                 {
@@ -76,9 +79,8 @@ public class EnemyGeneration : MonoBehaviour
                 else
                 {
                     //Generation((int)EnemyKinds.Boss, 0);
-                    Generation(Random.Range(0, max_enemy_kinds - 1), AriaSpawnNumber());//生成。
+                    Generation(Random.Range(0, max_enemy_kinds - 1), 0);//生成。
                 }
-                
             }
 
             //if (enemymax / 2 <= enemy_count) //最大値 15 -> の半分 7 だったらをエネミーカウントが超えたら
@@ -114,16 +116,25 @@ public class EnemyGeneration : MonoBehaviour
     //間隔関数(秒)
     float Span()
     {
-        if (span_time <= 0.5f)
+        //if (span_time <= 0.5f)
+        //{
+        //    span_time = 0.5f;
+        //}
+        //else
+        //{
+        //    span_valu = span * span_time;
+        //}
+        //return span_valu;
+        if(enemy_count <= 0)
         {
-            span_time = 0.5f;
+            span /= 2;
         }
         else
         {
-            span_valu = span * span_time;
+            span = init_span;
         }
 
-        return span_valu;
+        return span;
     }
 
     //エリア番号生成

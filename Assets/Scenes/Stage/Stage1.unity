@@ -533,7 +533,7 @@ PrefabInstance:
     - target: {fileID: 8817263727849053486, guid: 70b4e4f1b7034bd478a222f1a0f85d7f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 8817263727849053486, guid: 70b4e4f1b7034bd478a222f1a0f85d7f,
         type: 3}
@@ -2093,7 +2093,7 @@ PrefabInstance:
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
       propertyPath: generationPos.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
@@ -2129,7 +2129,7 @@ PrefabInstance:
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
       propertyPath: span
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9055807357533542314, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
@@ -2431,15 +2431,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c8e3a6d2446a44cb9f629447482dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirstSelect: {fileID: 0}
+  power: 0
+  selectCircle: {fileID: 0}
+  selectCircle2: {fileID: 0}
+  c_Select: {fileID: 0}
+  selA: {fileID: 0}
+  selB: {fileID: 0}
+  selTf: {fileID: 0}
   ang: 0
-  Select_Circle: {fileID: 0}
-  SELECTER_OBJ: {fileID: 876905120787734957, guid: 63868f6cc2589e14bb8abac8cab76974,
-    type: 3}
-  SELECTER_OBJ_2: {fileID: 5840325049715654384, guid: 174862645efbd244c9cf110b1d617026,
-    type: 3}
-  Selecter: {fileID: 0}
-  Change_Selecter: {fileID: 0}
+  dist: 1.5
+  circles: []
 --- !u!4 &4835478343260142015
 Transform:
   m_ObjectHideFlags: 0

@@ -2866,7 +2866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   attack: 10
-  speed: 0.8
+  speed: 0.9
   deathflg: 0
   status: 0
   Distance: 3
