@@ -89,11 +89,11 @@ public class PointControl : MonoBehaviour
     string colorcom;
     int orbpower;
     //色の数
-    int red = 0;
-    int blue = 0;
-    int yellow = 0;
-    int light_blue = 0;
-    int green = 0;
+    public int red = 0;
+    public int blue = 0;
+    public int yellow = 0;
+    public int light_blue = 0;
+    public int green = 0;
     ClearCheck CC;
     // Start is called before the first frame update
     void Start()

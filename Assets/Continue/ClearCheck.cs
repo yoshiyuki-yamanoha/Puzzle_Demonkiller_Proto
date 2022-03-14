@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ClearCheck : MonoBehaviour
 {
@@ -39,6 +41,8 @@ public class ClearCheck : MonoBehaviour
     PlayerController pc;
     Magichoming Mh;
 
+    //ばりえーしょん
+    Attackvariation AttackV;
     //ポイントコントロール
     PointControl ppp;
 
@@ -52,6 +56,7 @@ public class ClearCheck : MonoBehaviour
     //コンボタイム用へ3ん数
     float comboTime = 600;
     float nowComboTime = 0;
+    float testVarTime = 0;
     public int comboNum = 0;
 
     //見えなくする用
@@ -69,13 +74,13 @@ public class ClearCheck : MonoBehaviour
         pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
         mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
+        AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
         ppp.RandomColorSet();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if (!cleared)
         {
             //線が被らなければクリア (グルっと一周)
@@ -110,15 +115,9 @@ public class ClearCheck : MonoBehaviour
             //コンボタイムが0になったらコンボ数を0に
             if (nowComboTime <= 0)
             {
-                MaxCombo = comboNum;
-                comboNum = 0;
-                nowComboTime = 0;
+                AttackV.attackvar();
+                StartCoroutine("ColTest");
 
-                //パズルを消す
-                puzzle.SetActive(false);
-                gauge.SetActive(false);
-                bgCircle.SetActive(false);
-                fadeNowTime = fadeTime;
             }
         }
 
@@ -168,9 +167,6 @@ public class ClearCheck : MonoBehaviour
                 pc.ShotMagic(o);
             }
 
-            //オーブリセット
-            ppp.ResetOrbs();
-
             //pc.PlayerAttack();
             attack = false;
             pc.attackNum = 0;
@@ -194,7 +190,8 @@ public class ClearCheck : MonoBehaviour
         }
 
         //撃ちたいときに打つ　
-        if (Input.GetButtonDown("Fire3")) {
+        if (Input.GetButtonDown("Fire3"))
+        {
             nowComboTime = 1;
         }
     }
@@ -360,5 +357,23 @@ public class ClearCheck : MonoBehaviour
             magicPoint = 0;
         }
         mpText.text = "魔力: " + magicPoint.ToString("0");
+    }
+    private IEnumerator ColTest()
+    {
+        yield return new WaitForSeconds(2.0f);
+        MaxCombo = comboNum;
+        comboNum = 0;
+        nowComboTime = 0;
+
+        //パズルを消す
+        puzzle.SetActive(false);
+        gauge.SetActive(false);
+        bgCircle.SetActive(false);
+        fadeNowTime = fadeTime;
+
+        //オーブリセット
+        ppp.ResetOrbs();
+
+        AttackV.attackvar_erase();
     }
 }
