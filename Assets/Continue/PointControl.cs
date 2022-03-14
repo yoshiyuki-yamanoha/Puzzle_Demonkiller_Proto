@@ -61,6 +61,9 @@ public class PointControl : MonoBehaviour
     }
     [SerializeField] private mats[] circleMats;
 
+    //色の数
+    private int changeCircleNum = 5;
+
     //使った魔法陣の色を使えないようにする用の配列
     bool[] usedMatNum = new bool[5];
 
@@ -212,6 +215,9 @@ public class PointControl : MonoBehaviour
             if (interCount < 0) interCount = 0;
         }
 
+        //L1Riで色の数を決めれる
+        ChangeColorNum();
+
     }
 
 
@@ -276,16 +282,16 @@ public class PointControl : MonoBehaviour
         {
 
             int next = 0;
-            for (int i = 0; i < circleMats.Length; i++)
+            for (int i = 0; i < changeCircleNum; i++)
             {
                 if (old.color == circleMats[i].mat.color)
                 {
 
                     //使える色がくるまで
-                    for (int j = 1; j < 5; j++)
+                    for (int j = 1; j < changeCircleNum; j++)
                     {
                         next = i + j;
-                        if (next > circleMats.Length - 1) next -= circleMats.Length;
+                        if (next > changeCircleNum - 1) next -= changeCircleNum;
                         if (usedMatNum[next] == true) break;
                     }
 
@@ -309,7 +315,7 @@ public class PointControl : MonoBehaviour
 
         foreach (GameObject o in circles)
         {
-            int ran = UnityEngine.Random.Range(0, 5);
+            int ran = UnityEngine.Random.Range(0, changeCircleNum);
 
             for (int i = 1; i < 5; i++)
             {
@@ -485,5 +491,24 @@ public class PointControl : MonoBehaviour
     public static int CountChar(string s, char c)
     {
         return s.Length - s.Replace(c.ToString(), "").Length;
+    }
+
+    //L1R1ボタンで色の数を変更する
+    void ChangeColorNum() {
+        if (Input.GetButtonDown("Cont_L1")) {
+
+            changeCircleNum--;
+            if (changeCircleNum < 2) changeCircleNum = 2;
+
+            RandomColorSet();
+        }
+
+        if (Input.GetButtonDown("Cont_R1")) {
+
+            changeCircleNum++;
+            if (changeCircleNum > 5) changeCircleNum = 5;
+
+            RandomColorSet();
+        }
     }
 }
