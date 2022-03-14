@@ -12,6 +12,9 @@ public class ShootMagic : MonoBehaviour
 
     [SerializeField] string PlayerStr;       //敵の魔法陣の正解
 
+    PuzzleMgr puMgr;
+
+
     private int magicShootCnt;               // 魔法を撃った数
     private float magicComboTimer;            // 魔法のコンボ受付時間
     private GameObject ComboTimerSlider_obj; // コンボ受付時間のスライダー：オブジェクト
@@ -23,6 +26,7 @@ public class ShootMagic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        puMgr = GameObject.Find("PuzzleMgr").GetComponent<PuzzleMgr>();
         setPlayerMagicStr();
 
         magicShootCnt = 0;
@@ -104,7 +108,7 @@ public class ShootMagic : MonoBehaviour
 
         foreach (Transform o in Player)
         {
-            if (o.childCount > 0)
+            if (o.childCount > 0 && o.gameObject.activeSelf)
                 PlayerStr = PlayerStr + o.GetChild(0).gameObject.name;
         }
     }

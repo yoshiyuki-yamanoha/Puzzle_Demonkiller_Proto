@@ -5,23 +5,26 @@ public class ClearCheck : MonoBehaviour
 {
     [SerializeField] private Transform[] ans;
     [SerializeField] private Transform[] play;
+    public GameObject puzzle;
     [SerializeField] string answerStr;       //答えオブジェクトの名前を並べたもの
     [SerializeField] string playerStr;       //プレイヤーオブジェクトの名前を並べたもの
 
     [SerializeField] private Text stageNum;
     private int sNum = 0;
-
+    
     [SerializeField] GameObject clearEffe;
     [SerializeField] Transform effePos;
 
     private void Start()
     {
         SetAnswer();
+        Debug.Log("a");
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("a");
         //それぞれの名前を繋げる処理 あとで関数にまとめまーす💛
         {
             playerStr = "";
