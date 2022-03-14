@@ -16,6 +16,9 @@ public class Magic : MonoBehaviour
 
     //魔法s
     [SerializeField] private GameObject speedDownMagic;
+    [SerializeField] private GameObject doubleComboMagic;
+
+    int magicNum = 0;
 
     private void Start()
     {
@@ -62,7 +65,11 @@ public class Magic : MonoBehaviour
             o.GetComponent<NavMeshAgent>().speed /= num;
         }
 
-        GameObject ma = Instantiate(speedDownMagic, magicPos, Quaternion.identity);
+        GameObject ma = null;
+        if(magicNum == 0)
+            ma = Instantiate(doubleComboMagic, magicPos, Quaternion.identity);
+        if (magicNum == 1)
+            ma = Instantiate(speedDownMagic, magicPos, Quaternion.identity);
         Destroy(ma, 2);
     }
 
@@ -85,5 +92,12 @@ public class Magic : MonoBehaviour
         Debug.Log(time);
 
     }
-    
+
+    //情報を渡す関数
+    public void SetJouhou(int num) {
+
+
+        magicNum = num;
+        //if (magicNum > 0) magicNum = 1;
+    }
 }

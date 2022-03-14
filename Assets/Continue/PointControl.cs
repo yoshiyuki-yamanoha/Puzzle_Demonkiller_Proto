@@ -102,7 +102,7 @@ public class PointControl : MonoBehaviour
         magiccolor = new string[] { "赤", "青", "黄", "水", "緑", "なし" };
         MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
         //魔法の効果
-        magiceffect = new string[] { "攻撃", "妨害", "攻撃", "攻撃", "回復", "なし" };
+        magiceffect = new string[] { "コンボn倍", "減速", "攻撃", "攻撃", "回復", "なし" };
         MagicEffect = GameObject.Find("MagicEffect").GetComponent<Text>();
         //魔法の威力
         magicpower = new string[] { "小", "中", "大", "特大", "極大", "なし" };//特大・極大はポコダンを参考
@@ -476,9 +476,9 @@ public class PointControl : MonoBehaviour
             green = CountChar(colorcom, '緑');
 
             int magiceffectnum = magiceffectnow.Length;
-            int acount = CountChar(magiceffectnow, '攻');
+            int acount = CountChar(magiceffectnow, 'コ');
             int hcount = CountChar(magiceffectnow, '回');
-            int dcount = CountChar(magiceffectnow, '妨');
+            int dcount = CountChar(magiceffectnow, '減');
             int flame_count = CountChar(magictypenow, '炎');
             int water_count = CountChar(magictypenow, '水');
             int thunder_count = CountChar(magictypenow, '雷');
@@ -489,8 +489,8 @@ public class PointControl : MonoBehaviour
 
             if (acount > 1 && magiceffectnum < 7)
             {
-                magiceffectnow = magiceffectnow.Replace("攻撃", "");
-                magiceffectnow += "攻撃";
+                magiceffectnow = magiceffectnow.Replace("コンボn倍", "");
+                magiceffectnow += "コンボn倍";
             }
             if (hcount > 1 && magiceffectnum < 7)
             {
@@ -499,8 +499,8 @@ public class PointControl : MonoBehaviour
             }
             if (dcount > 1 && magiceffectnum < 7)
             {
-                magiceffectnow = magiceffectnow.Replace("妨害", "");
-                magiceffectnow += "妨害";
+                magiceffectnow = magiceffectnow.Replace("減速", "");
+                magiceffectnow += "減速";
             }
             if ((acount > 1 || hcount > 1 || dcount > 1) && magiceffectnum > 6)
             {

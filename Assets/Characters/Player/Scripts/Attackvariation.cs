@@ -13,6 +13,9 @@ public class Attackvariation : MonoBehaviour
     private int countR, countB, countY, countG, countL, num_one;
     private float testTimeCount;
     public bool activeflg_orb;
+
+    [SerializeField] private Magic mag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,11 +63,11 @@ public class Attackvariation : MonoBehaviour
         if (num_one > 2)
         {
             if (num_one != countR) orbtext_R.enabled = false;
-            else orbtext_R.enabled = true;
-            if (num_one != countG) orbtext_G.enabled = false;
+            else { orbtext_R.enabled = true; mag.SetJouhou(0); mag.StartCoroutine(mag.DoubleCombo(num_one)); }
+            if (num_one != countG) { orbtext_G.enabled = false;  }
             else orbtext_G.enabled = true;
             if (num_one != countB) orbtext_B.enabled = false;
-            else orbtext_B.enabled = true;
+            else { orbtext_B.enabled = true; mag.SetJouhou(1); }
             if (num_one != countY) orbtext_Y.enabled = false;
             else orbtext_Y.enabled = true;
             if (num_one != countL) orbtext_L.enabled = false;

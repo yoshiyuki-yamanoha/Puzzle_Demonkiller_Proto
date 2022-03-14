@@ -58,15 +58,19 @@ public class ClearCheck : MonoBehaviour
     float nowComboTime = 0;
     float testVarTime = 0;
     public int comboNum = 0;
+    [NonSerialized] public int addComboNum = 1;
 
     //見えなくする用
     [SerializeField] GameObject puzzle;
     [SerializeField] GameObject gauge;
     [SerializeField] GameObject bgCircle;
-    int fadeTime = 90;
+    int fadeTime = 180;
     [SerializeField] int fadeNowTime = 0;
 
-    
+    //オーブぐるぐるアニメーション用
+    [SerializeField] private Animator orbAnimator;
+
+
     private void Start()
     {
         attack = false;
@@ -166,6 +170,14 @@ public class ClearCheck : MonoBehaviour
             {
                 pc.ShotMagic(o);
             }
+
+            //パズルを消す
+            puzzle.SetActive(false);
+            gauge.SetActive(false);
+            
+            fadeNowTime = fadeTime;
+
+            orbAnimator.SetTrigger("LetsAnim");
 
             //pc.PlayerAttack();
             attack = false;
@@ -312,7 +324,7 @@ public class ClearCheck : MonoBehaviour
         //コンボタイムが残ってたらコンボを増やす
         if (nowComboTime > 0)
         {
-            comboNum++;
+            comboNum+=addComboNum;
         }
 
         shuffleCount = shuffleInterval;
@@ -360,16 +372,18 @@ public class ClearCheck : MonoBehaviour
     }
     private IEnumerator ColTest()
     {
-        yield return new WaitForSeconds(2.0f);
+        
+
+        yield return new WaitForSeconds(1.0f);
+        bgCircle.SetActive(false);
+
+        yield return new WaitForSeconds(1.0f);
         MaxCombo = comboNum;
         comboNum = 0;
         nowComboTime = 0;
 
-        //パズルを消す
-        puzzle.SetActive(false);
-        gauge.SetActive(false);
-        bgCircle.SetActive(false);
-        fadeNowTime = fadeTime;
+        
+        
 
         //オーブリセット
         ppp.ResetOrbs();
