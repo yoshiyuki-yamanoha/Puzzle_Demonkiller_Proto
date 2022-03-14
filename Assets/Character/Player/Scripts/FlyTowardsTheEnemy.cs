@@ -19,7 +19,7 @@ public class FlyTowardsTheEnemy : MonoBehaviour
 
 
         diff = targetEnemy.transform.position - this.transform.position;
-        velocity = 0.05f;
+        velocity = 0.075f;
     }
 
     // Update is called once per frame

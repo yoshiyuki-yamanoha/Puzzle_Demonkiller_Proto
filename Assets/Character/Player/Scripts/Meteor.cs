@@ -9,7 +9,7 @@ public class Meteor : MonoBehaviour
     [SerializeField] private Transform child = null;
 
     Vector3 targetPos;
-    float velocity;
+    Rigidbody rb;
 
 
     void Start()
@@ -21,13 +21,15 @@ public class Meteor : MonoBehaviour
 
 
         targetPos = new Vector3(targetEnemy.transform.position.x, 0f, targetEnemy.transform.position.z);
-        velocity = 0.05f;
+        rb = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         FallMeteorMagic();
+        Vector3 force = new Vector3(0.0f, -1.0f, 0.0f);
+        rb.AddForce(force, ForceMode.Force);
         //MeteorCollision();
     }
 
