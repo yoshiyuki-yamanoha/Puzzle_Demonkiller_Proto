@@ -338,17 +338,20 @@ public class PointControl : MonoBehaviour
         {
             int ran = UnityEngine.Random.Range(0, changeCircleNum);
 
-            for (int i = 1; i < 5; i++)
-            {
-                int num = ran + i;
-                if (num > 4) num -= 5;
+            //for (int i = 1; i < 5; i++)
+            //{
+            //    int num = ran + i;
+            //    if (num > 4) num -= 5;
 
-                if (usedMatNum[num])
-                {
-                    o.GetComponent<Renderer>().material = circleMats[num].mat;
-                    o.name = circleMats[num].name;
-                }
-            }
+            //    if (usedMatNum[num])
+            //    {
+            //        o.GetComponent<Renderer>().material = circleMats[num].mat;
+            //        o.name = circleMats[num].name;
+            //    }
+            //}
+
+            o.GetComponent<Renderer>().material = circleMats[ran].mat;
+            o.name = circleMats[ran].name;
         }
     }
 
@@ -572,20 +575,21 @@ public class PointControl : MonoBehaviour
 
     //L1R1ボタンで色の数を変更する
     void ChangeColorNum() {
+        int oldNum = changeCircleNum;
+
         if (Input.GetButtonDown("Cont_L1")) {
 
             changeCircleNum--;
             if (changeCircleNum < 2) changeCircleNum = 2;
-
-            RandomColorSet();
         }
 
         if (Input.GetButtonDown("Cont_R1")) {
 
             changeCircleNum++;
             if (changeCircleNum > 5) changeCircleNum = 5;
-
-            RandomColorSet();
         }
+
+        if (oldNum != changeCircleNum)
+            RandomColorSet();
     }
 }
