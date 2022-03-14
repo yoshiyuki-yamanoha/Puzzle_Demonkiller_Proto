@@ -1402,8 +1402,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4288275749586515080}
   m_AABB:
-    m_Center: {x: 0.001932703, y: -0.020939112, z: -0.45374262}
-    m_Extent: {x: 0.10382446, y: 0.23106724, z: 0.52236235}
+    m_Center: {x: 0.4157266, y: 0.056781232, z: -0.009416103}
+    m_Extent: {x: 0.51863176, y: 0.22989056, z: 0.096304774}
   m_DirtyAABB: 0
 --- !u!183 &2677389410330967563
 Cloth:
@@ -2444,7 +2444,6 @@ GameObject:
   - component: {fileID: 6566465511046434288}
   - component: {fileID: 1606013312684734786}
   - component: {fileID: 2588460650540186290}
-  - component: {fileID: 6424542511248639737}
   m_Layer: 0
   m_Name: DemonGirlMesh
   m_TagString: Untagged
@@ -2507,19 +2506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wepon_boxcollider: {fileID: 7957054022504445502}
---- !u!114 &6424542511248639737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8332320703949766658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0bf6f53588fa44380cccb7931ce7d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetObj: {fileID: 8332320703949766658}
 --- !u!1 &8361880712511442263
 GameObject:
   m_ObjectHideFlags: 0

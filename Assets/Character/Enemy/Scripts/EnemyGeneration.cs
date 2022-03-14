@@ -125,7 +125,7 @@ public class EnemyGeneration : MonoBehaviour
         //    span_valu = span * span_time;
         //}
         //return span_valu;
-        if(enemy_count <= 0)
+        if (enemy_count <= 0)
         {
             span /= 2;
         }
@@ -158,7 +158,7 @@ public class EnemyGeneration : MonoBehaviour
         GameObject enemy = Instantiate(prefab[num]);//生成
         enemy.transform.position = generationPos[spawn_number].transform.position;
         //new Vector3(generationPos[num].position.x + Random.Range(-3.0f, 3.0f), generationPos[num].position.y, generationPos[num].position.z);//位置
-        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy);
+        //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy); //NUllレファレンスエラーが出たため、2022/3/14　コメントアウトしました 追記者 ZAHA
 
         Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);//位置生成
         GameObject MC = Instantiate(Ene_MagicCircle, MCPos, Ene_MagicCircle.transform.rotation);//プレファブ生成
