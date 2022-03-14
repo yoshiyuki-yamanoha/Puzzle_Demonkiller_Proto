@@ -22,6 +22,12 @@ public class PuzzleMgr : MonoBehaviour
     public string[] emptyPuzzleBaseChildName = new string[8];  // パズルの親オブジェクトの名前
     public bool[] ansPuzzle = new bool[8];
 
+    [SerializeField] GameObject[] Ene_Magic_Puzzle = new GameObject[8];     //敵側の魔法陣
+
+    [SerializeField] private string PuzzleBaseStr;
+    [SerializeField] private string EnePuzzleStr;
+
+
     [SerializeField] public int cycle_Max;    // 出現する魔法陣の数
 
     public GameObject r;
@@ -42,6 +48,7 @@ public class PuzzleMgr : MonoBehaviour
         Prepare_CyclesData[] cyclesData = new Prepare_CyclesData[8];
         SetCycleMax();
         RandmCycleSet();
+        Set_Ene_Puz();
     }
 
     // Update is called once per frame
@@ -49,6 +56,13 @@ public class PuzzleMgr : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K)) {
             CycleReset();
+        }
+        SetAnswer();
+        if (Check_Puz())
+        {
+            SetCycleMax();
+            RandmCycleSet();
+            Set_Ene_Puz();
         }
     }
 
@@ -68,7 +82,6 @@ public class PuzzleMgr : MonoBehaviour
     {
         int[] randNum = { 99, 99, 99, 99, 99, 99, 99, 99};
         List<int> numbers = new List<int>();
-        
         // 使用する数字を確保
         for(int i=0;i< CYCLE_MAX;i++)
         {
@@ -81,12 +94,13 @@ public class PuzzleMgr : MonoBehaviour
             
             randNum[i] = numbers[num];
 
-
-            Debug.Log(randNum[i]);
+            //Debug.Log(randNum[i]);
             numbers.RemoveAt(num);
         }
+        //Debug.Log("0 : " + randNum[0] + " | 1 : " + randNum[1] + " | 2 : " + randNum[2] + " | 3 : " + randNum[3] +
+        //            " | 4 : " + randNum[4] + " | 5 : " + randNum[5] + " | 6 : " + randNum[6] + " | 7 : " + randNum[7]);
         // 魔法陣を出現させる
-        for(int i=0;i<CYCLE_MAX;i++)
+        for (int i=0;i<CYCLE_MAX;i++)
         {
             if(randNum[i] != 99)
             {
@@ -128,7 +142,6 @@ public class PuzzleMgr : MonoBehaviour
     {
         for(int i=0; i< CYCLE_MAX; i++)
         {
-
             emptyPuzzleBase[i].SetActive(false);
         }
     }
@@ -170,5 +183,40 @@ public class PuzzleMgr : MonoBehaviour
         }
 
         return ans;
+    }
+
+    public void Set_Ene_Puz()
+    {
+        for (int i = 0; i < CYCLE_MAX; i++)
+        {
+            Ene_Magic_Puzzle[i].SetActive(emptyPuzzleBase[i].activeSelf);
+        }
+    }
+
+    string Set_Puz_Str(GameObject[] objects)
+    {
+        string answerStr = "";
+
+        foreach (GameObject o in objects)
+        {
+            if (o.transform.childCount > 0 && o.gameObject.activeInHierarchy)
+                answerStr = answerStr + o.transform.GetChild(0).gameObject.name;
+        }
+        return answerStr;
+    }
+
+    private void SetAnswer()
+    {
+        EnePuzzleStr = Set_Puz_Str(Ene_Magic_Puzzle);
+        PuzzleBaseStr = Set_Puz_Str(emptyPuzzleBase);
+    }
+
+    private bool Check_Puz()
+    {
+        if(PuzzleBaseStr == EnePuzzleStr)
+        {
+            return true;
+        }
+        return false;
     }
 }
