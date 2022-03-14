@@ -417,7 +417,12 @@ public class PointControl : MonoBehaviour
         //magiccolornow = null;
         magictypenow = null;
         magiceffectnow = null;
-        MagicColor.text = "魔法のいろ：\nなし";
+        red = 0;
+        blue = 0;
+        yellow = 0;
+        light_blue = 0;
+        green = 0;
+        MagicColor.text = "魔法のいろ：\n　赤：０\n　青：０\n　黄：０\n　水：０\n　緑：０";
         MagicEffect.text = "魔法の効果：\nなし";
         MagicType.text = "魔法の種類：\nなし";
         MagicPower.text = "魔法の威力：\nなし";
