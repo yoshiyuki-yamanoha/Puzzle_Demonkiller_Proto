@@ -962,7 +962,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503205784}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6865,6 +6865,17 @@ MonoBehaviour:
   - 
   - 
   ansPuzzle: 0000000000000000
+  Ene_Magic_Puzzle:
+  - {fileID: 1107550570}
+  - {fileID: 908799409}
+  - {fileID: 2057250881}
+  - {fileID: 1194677211}
+  - {fileID: 1742893051}
+  - {fileID: 800204563}
+  - {fileID: 1194277345}
+  - {fileID: 1698286025}
+  PuzzleBaseStr: 
+  EnePuzzleStr: 
   cycle_Max: 0
   r: {fileID: 0}
   b: {fileID: 0}
@@ -11767,6 +11778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   canTargetChange: 0
+  transTime: 2
 --- !u!81 &1491122696
 AudioListener:
   m_ObjectHideFlags: 0
