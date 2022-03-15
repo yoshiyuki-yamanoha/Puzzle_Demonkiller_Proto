@@ -94,6 +94,9 @@ public class PointControl : MonoBehaviour
     public int yellow = 0;
     public int light_blue = 0;
     public int green = 0;
+
+    bool speed_downflag = false;
+    int combo_plus = 0;
     ClearCheck CC;
     // Start is called before the first frame update
     void Start()
@@ -102,7 +105,7 @@ public class PointControl : MonoBehaviour
         magiccolor = new string[] { "赤", "青", "黄", "水", "緑", "なし" };
         MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
         //魔法の効果
-        magiceffect = new string[] { "コンボn倍", "減速", "攻撃", "攻撃", "回復", "なし" };
+        magiceffect = new string[] { "コンボｎ倍", "減速", "攻撃", "攻撃", "攻撃", "なし" };
         MagicEffect = GameObject.Find("MagicEffect").GetComponent<Text>();
         //魔法の威力
         magicpower = new string[] { "小", "中", "大", "特大", "極大", "なし" };//特大・極大はポコダンを参考
@@ -424,9 +427,12 @@ public class PointControl : MonoBehaviour
         blue = 0;
         yellow = 0;
         light_blue = 0;
-        green = 0;
+        green = 0; 
+        speed_downflag = false;
         MagicColor.text = "魔法のいろ：\n　赤：０\n　青：０\n　黄：０\n　水：０\n　緑：０";
-        MagicEffect.text = "魔法の効果：\nなし";
+        MagicEffect.text = "魔法の効果：\n"
+            + "　コンボ加算：オフ\n"
+            + "　減速：オフ";
         MagicType.text = "魔法の種類：\nなし";
         MagicPower.text = "魔法の威力：\nなし";
         for (int i = 0; i < orbs.Length; i++)
@@ -445,6 +451,7 @@ public class PointControl : MonoBehaviour
 
         //int mc = 0;
         bool colorflag = true;
+        speed_downflag = false;
         foreach (GameObject o in circles)
         {
             if (firstColor != o.GetComponent<Renderer>().material.color) colorflag = false;
@@ -476,7 +483,8 @@ public class PointControl : MonoBehaviour
             green = CountChar(colorcom, '緑');
 
             int magiceffectnum = magiceffectnow.Length;
-            int acount = CountChar(magiceffectnow, 'コ');
+            int acount = CountChar(magiceffectnow, '攻');
+            int ccount = CountChar(magiceffectnow, 'コ');
             int hcount = CountChar(magiceffectnow, '回');
             int dcount = CountChar(magiceffectnow, '減');
             int flame_count = CountChar(magictypenow, '炎');
@@ -487,10 +495,15 @@ public class PointControl : MonoBehaviour
             //int[] colorCount = null;
 
 
+            if (ccount > 1 /*&& magiceffectnum < 7*/)
+            {
+                magiceffectnow = magiceffectnow.Replace("コンボｎ倍", "");
+                magiceffectnow += "コンボｎ倍";
+            }
             if (acount > 1 && magiceffectnum < 7)
             {
-                magiceffectnow = magiceffectnow.Replace("コンボn倍", "");
-                magiceffectnow += "コンボn倍";
+                magiceffectnow = magiceffectnow.Replace("攻撃", "");
+                magiceffectnow += "攻撃";
             }
             if (hcount > 1 && magiceffectnum < 7)
             {
@@ -535,15 +548,15 @@ public class PointControl : MonoBehaviour
         }
         //オーブ溜まり具合かまたはコンボによって魔法の威力を上げる
 
-        if (orbpower > 4 && CC.comboNum > 19)
+        if (orbpower > 4 && CC.comboNum > 14)
         {
             magicpowernow = magicpower[4];
         }
-        else if (orbpower > 3 && CC.comboNum > 14)
+        else if (orbpower > 3 && CC.comboNum > 9)
         {
             magicpowernow = magicpower[3];
         }
-        else if (orbpower > 4 || CC.comboNum > 9)
+        else if (orbpower > 4 || CC.comboNum > 6)
         {
             magicpowernow = magicpower[2];
         }
@@ -555,6 +568,10 @@ public class PointControl : MonoBehaviour
         {
             magicpowernow = magicpower[0];
         }
+        if(blue > 0)
+        {
+            speed_downflag = true;
+        }
         //オーブが溜まった後
         MagicColor.text = "魔法のいろ：\n"
             + "　赤：" + red.ToString() + "\n"
@@ -562,7 +579,24 @@ public class PointControl : MonoBehaviour
             + "　黄：" + yellow.ToString() + "\n"
             + "　水：" + light_blue.ToString() + "\n"
             + "　緑：" + green.ToString();
-        MagicEffect.text = "魔法の効果：\n　" + magiceffectnow;
+        MagicEffect.text = "魔法の効果：\n"
+            + "　コンボ加算：";
+        if (red > 0)
+        {
+            MagicEffect.text += red.ToString() + "倍\n　減速：";
+        }
+        else
+        {
+            MagicEffect.text += "オフ\n　減速：";
+        }
+        if (speed_downflag == true)
+        {
+            MagicEffect.text += "オン" + "\n";
+        }
+        else
+        {
+            MagicEffect.text += "オフ" + "\n";
+        }
         MagicType.text = "魔法の種類：\n　" + magictypenow;
         MagicPower.text = "魔法の威力：\n　" + magicpowernow;
 
