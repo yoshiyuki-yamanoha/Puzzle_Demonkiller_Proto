@@ -29937,8 +29937,8 @@ MonoBehaviour:
   yellow: 0
   light_blue: 0
   green: 0
-  circlesRootObj: {fileID: 1453115635}
-  circlesOyas: []
+  rootPuzzlesObj: {fileID: 1453115635}
+  oyas: []
   old: {fileID: 0}
   len: 0
 --- !u!23 &1290645486538509420

@@ -98,6 +98,10 @@ public class PointControl : MonoBehaviour
     bool speed_downflag = false;
     int combo_plus = 0;
     ClearCheck CC;
+
+    [SerializeField] Transform rootPuzzlesObj;
+    [SerializeField] Transform[] oyas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -129,6 +133,11 @@ public class PointControl : MonoBehaviour
         oldOverlapObject = circles[0];
 
         ResetMaterialBool();
+
+        int num = rootPuzzlesObj.transform.childCount - 1;
+        oyas = new Transform[num];
+        for (int i = 0; i < num; i++)
+            oyas[i] = rootPuzzlesObj.GetChild(i);
     }
 
     GameObject circleA = null;
@@ -209,11 +218,17 @@ public class PointControl : MonoBehaviour
         {
             GoToParent gp = o.GetComponent<GoToParent>();
 
-            GameObject nodeA = gp.GetLineEnd();
+            GameObject nodeA = null;
             GameObject nodeB = null;
-            foreach (GameObject o2 in circles) {
-                if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
-                    nodeB = o2;
+            for (int i = 0; i < 5; i++) {
+                if (oyas[i].GetChild(0).gameObject == o) {
+                    int back = i - 1;
+                    int next = i + 1;
+                    if (back < 0) back += 5;
+                    if (next > 4) next -= 5;
+                    nodeA = oyas[back].GetChild(0).gameObject;
+                    nodeB = oyas[next].GetChild(0).gameObject;
+                }
             }
 
             //魔法陣の中心からdist分の範囲内に入ったら
