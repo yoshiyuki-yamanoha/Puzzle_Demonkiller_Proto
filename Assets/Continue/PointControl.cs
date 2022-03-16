@@ -209,6 +209,13 @@ public class PointControl : MonoBehaviour
         {
             GoToParent gp = o.GetComponent<GoToParent>();
 
+            GameObject nodeA = gp.GetLineEnd();
+            GameObject nodeB = null;
+            foreach (GameObject o2 in circles) {
+                if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
+                    nodeB = o2;
+            }
+
             //魔法陣の中心からdist分の範囲内に入ったら
             if (Vector3.Distance(tf.position, o.transform.position) < dist)
             {
@@ -219,9 +226,10 @@ public class PointControl : MonoBehaviour
                 //Aボタン選択
                 SelectCircle(o);
 
-                //色替え
+                //色替え (線が繋がってる二つを同時に)
                 ChangeColorMat(o);
-
+                ChangeColorMat(nodeA);
+                ChangeColorMat(nodeB);
 
             }
             else
