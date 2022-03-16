@@ -59,6 +59,7 @@ public class Point_Con2 : MonoBehaviour
     void Update()
     {
 
+        RegisterCircles();
         float hori = Input.GetAxis("Horizontal");
         float vert = Input.GetAxis("Vertical");
         Vector3 ppos = oriPos + new Vector3(hori * power, vert * power, 0);
@@ -174,14 +175,18 @@ public class Point_Con2 : MonoBehaviour
                     selA.transform.parent = selB.transform.parent;
                     selB.transform.parent = selTf;
                     //selA.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
-                    selA = null;
-                    selB = null;
-                    selTf = null;
-                    isSelect = false;
+                    SelClear();
                     Destroy(circleA);
                 }
             }
         }
+    }
+    public void SelClear()
+    {
+        selA = null;
+        selB = null;
+        selTf = null;
+        isSelect = false;
     }
 
 }

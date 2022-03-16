@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &787368968595299262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787368968595299260}
+  - component: {fileID: 787368968595299263}
+  m_Layer: 0
+  m_Name: PuzzleMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &787368968595299260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787368968595299262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4337994, y: 2.8809423, z: 15.847354}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787368968595299263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787368968595299262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c3b52764c6bc24d8f4032dbe8f9700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clear_combo: 0
+  emptyPuzzleBase:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  emptyPuzzleBaseChildName:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  ansPuzzle: 0000000000000000
+  Ene_Magic_Puzzle:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PuzzleBaseStr: 
+  EnePuzzleStr: 
+  cycle_Max: 0
+  Mag_Circle:
+  - {fileID: 1166799051226773728, guid: f535421107171294299352c1f6ab522c, type: 3}
+  - {fileID: 917853920493935784, guid: b3f3949c245bd7c46b4b374218465a94, type: 3}
+  - {fileID: 6160896257094624919, guid: 91c1c974d65b1614bb8b568e09daa728, type: 3}
+  - {fileID: 1166799051226773728, guid: 4c598b17842477242b1f9c0b60d7c59b, type: 3}
+  ans: {fileID: 2100000, guid: deec4c3ac4ec0394baa4cabcf602d1b1, type: 2}
+  ene: {fileID: 0}
+  IsComboReset: 0
+  Combo_GraceTime: 0
+  Combo_GraceMaxTime: 7.5
+  combo_Text: {fileID: 0}
+  Magic: {fileID: 0}
+  Max_Magic: {fileID: 0}
