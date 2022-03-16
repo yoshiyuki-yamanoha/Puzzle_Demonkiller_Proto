@@ -33,11 +33,6 @@ public class PuzzleMgr : MonoBehaviour
 
     [SerializeField] private GameObject[] Mag_Circle = new GameObject[4]; 
 
-    public GameObject r;
-    public GameObject b;
-    public GameObject g;
-    public GameObject s;
-
     [SerializeField] Material ans;
     [SerializeField] GameObject ene;
 
@@ -182,9 +177,11 @@ public class PuzzleMgr : MonoBehaviour
 
     public void CycleReset()
     {
+        GameObject.Find("Pointer").GetComponent<Point_Con2>().SelClear();
         for (int i = 0; i < CYCLE_MAX; i++)
         {
             //emptyPuzzleBase[i].SetActive(true);
+            emptyPuzzleBase[i].transform.GetChild(0).GetComponent<GoToParent>().FadeSelectCircle();
             Destroy(emptyPuzzleBase[i].transform.GetChild(0).gameObject);
 
             int num = i / 2;
