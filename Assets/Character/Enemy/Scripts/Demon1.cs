@@ -69,6 +69,7 @@ public class Demon1 : EnemyBase
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("HIt");
+            GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
         }
 
         if (other.gameObject.tag == "Barricade")

@@ -46,9 +46,12 @@ MonoBehaviour:
   prefab:
   - {fileID: 3856238070704820190, guid: 05d84a44d8c09344996431bcb52c74c1, type: 3}
   - {fileID: 3856238070704820190, guid: 789f9194f988eff498885a76205ad0a8, type: 3}
+  enemymax: 10
   generationPos:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  enemymax: 10
   span: 5
+  Ene_MagicCircle: {fileID: 0}
+  enemy_particle: {fileID: 9036944318214453387, guid: 523e697eb4452ca4ca8208a4e017c756,
+    type: 3}

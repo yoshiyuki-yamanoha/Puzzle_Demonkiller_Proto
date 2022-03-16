@@ -6,12 +6,12 @@ public class EnemyGeneration : MonoBehaviour
 {
 
     [SerializeField] GameObject[] prefab = null;//プレファブ格納変数
-    
+
     [SerializeField] int enemymax = 10;//敵最大値
     float enemy_count = 0;//エネミーカウント
     int max_enemy_kinds = 0;//敵種類
     float time = 0;//時間計測
-    
+
     //生成地点に関する情報
     [SerializeField] Transform[] generationPos = null;//生成位置オブジェクト格納
     int spawn_number = 0;//スポーン番号
@@ -24,6 +24,7 @@ public class EnemyGeneration : MonoBehaviour
     float span_valu = 0;
 
     [SerializeField] GameObject Ene_MagicCircle;//魔法陣 ゲームオブジェクト
+    [SerializeField] ParticleSystem[] enemy_particle = null;
 
     float[] old_random_number = new float[2];
 
@@ -36,7 +37,7 @@ public class EnemyGeneration : MonoBehaviour
     enum EnemyKinds //敵種類
     {
         Demon,
-        Wizard,
+        Demon1,
         Boss,
     }
 
@@ -48,7 +49,7 @@ public class EnemyGeneration : MonoBehaviour
         //Generation(2);
         max_enemy_kinds = System.Enum.GetNames(typeof(EnemyKinds)).Length;//敵種類の個数分取得
         spawn_max = generationPos.Length;//生成位置の個数取得
-        for (int i=0; i<old_random_number.Length; i++)
+        for (int i = 0; i < old_random_number.Length; i++)
         {
             old_random_number[i] = 0;
         }
@@ -57,8 +58,10 @@ public class EnemyGeneration : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
+
+
         if (enemy_count >= enemymax)//最大値超えていたら何もしない。
         {
             return;
@@ -71,8 +74,9 @@ public class EnemyGeneration : MonoBehaviour
         if (time > Span())//秒おきに生成
         {
             //Same_Enemy();
-            for (int i = 0; i < 1; i++) {
-                if (enemy_count >= enemymax -1)
+            for (int i = 0; i < 1; i++)
+            {
+                if (enemy_count >= enemymax - 1)
                 {
                     Generation((int)EnemyKinds.Boss, 0);//ボス生成
                 }
@@ -80,6 +84,8 @@ public class EnemyGeneration : MonoBehaviour
                 {
                     //Generation((int)EnemyKinds.Boss, 0);
                     Generation(Random.Range(0, max_enemy_kinds - 1), 0);//生成。
+                    /*Generation(0, 0);*/
+                    //Generation((int)EnemyKinds.Boss, 0);//ボス生成
                 }
             }
 
@@ -93,7 +99,7 @@ public class EnemyGeneration : MonoBehaviour
     //同時生成の値 関数
     void Same_Enemy()
     {
-        if(enemymax/2 <= enemy_count)
+        if (enemymax / 2 <= enemy_count)
         {
             same_enemy++;
         }
@@ -153,20 +159,23 @@ public class EnemyGeneration : MonoBehaviour
     }
 
     //Enemy生成
-    void Generation(int num , int spawn_number)
+    void Generation(int num, int spawn_number)
     {
-        GameObject enemy = Instantiate(prefab[num]);//生成
-        enemy.transform.position = generationPos[spawn_number].transform.position;
+        //パーティクル生成
+        ParticleSystem new_particle = Instantiate(enemy_particle[num]);
+        new_particle.Play();
+
+        GameObject enemy = Instantiate(prefab[num], generationPos[spawn_number].transform.position, new Quaternion(0, 180.0f, 0, 1));//生成
+        //enemy.transform.position = generationPos[spawn_number].transform.position;
         //new Vector3(generationPos[num].position.x + Random.Range(-3.0f, 3.0f), generationPos[num].position.y, generationPos[num].position.z);//位置
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy); //NUllレファレンスエラーが出たため、2022/3/14　コメントアウトしました 追記者 ZAHA
 
         Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);//位置生成
         GameObject MC = Instantiate(Ene_MagicCircle, MCPos, Ene_MagicCircle.transform.rotation);//プレファブ生成
         MC.transform.parent = enemy.transform;//親子にしている
-        MC.transform.localScale = new Vector3(1.3f, 1.3f,1.3f);//大きさ変更
+        MC.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);//大きさ変更
         MC.transform.localPosition += new Vector3(0, 2.8f, 0f);//位置変更
         MC.SetActive(false);
-
 
         time = 0;//時間リセット
         enemy_count++;//敵カウント
@@ -178,7 +187,8 @@ public class EnemyGeneration : MonoBehaviour
         new_random_number = Random.Range(Min_random, Max_random); //ランダム生成
         Debug.Log("ランダム生成 1回目" + new_random_number);
 
-        if(old_random_number[(int)random] == new_random_number) {
+        if (old_random_number[(int)random] == new_random_number)
+        {
             new_random_number = Random.Range(Min_random, Max_random);
             Debug.Log("ランダム生成 2回目" + new_random_number);
         }

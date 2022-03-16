@@ -5,10 +5,18 @@ using UnityEngine;
 public class AnimEvent : MonoBehaviour
 {
     [SerializeField] BoxCollider wepon_boxcollider = null;
+    [SerializeField] BoxCollider foot_boxcollider = null;
 
     private void Start()
     {
-        HideAttack();
+        if (wepon_boxcollider != null) {
+            WeponHideAttack();
+        }
+
+        if (foot_boxcollider != null)
+        {
+            FootHideAttack();
+        }
     }
 
     public void Destroy()
@@ -18,13 +26,23 @@ public class AnimEvent : MonoBehaviour
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
     }
 
-    public void ShowAttack()
+    public void WeponShowAttack()
     {
         wepon_boxcollider.enabled = true;
     }
 
-    public void HideAttack()
+    public void WeponHideAttack()
     {
         wepon_boxcollider.enabled = false;
+    }
+
+    public void FootShowAttack()
+    {
+        foot_boxcollider.enabled = true;
+    }
+
+    public void FootHideAttack()
+    {
+        foot_boxcollider.enabled = false;
     }
 }
