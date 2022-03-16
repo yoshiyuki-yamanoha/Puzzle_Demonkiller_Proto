@@ -59,6 +59,7 @@ public class Point_Con2 : MonoBehaviour
     void Update()
     {
 
+        RegisterCircles();
         float hori = Input.GetAxis("Horizontal");
         float vert = Input.GetAxis("Vertical");
         Vector3 ppos = oriPos + new Vector3(hori * power, vert * power, 0);

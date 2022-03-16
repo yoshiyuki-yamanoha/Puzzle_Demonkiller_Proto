@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /***************************************
  * 出題されるパズルをあらかじめこっちで設定する。
@@ -30,9 +31,25 @@ public class PuzzleMgr : MonoBehaviour
 
     [SerializeField] public int cycle_Max;    // 出現する魔法陣の数
 
+    [SerializeField] private GameObject[] Mag_Circle = new GameObject[4]; 
+
     public GameObject r;
     public GameObject b;
     public GameObject g;
+    public GameObject s;
+
+    [SerializeField] Material ans;
+    [SerializeField] GameObject ene;
+
+    private bool canPuzReset;
+    private bool IsEstablished;
+    [SerializeField] private bool IsComboReset;
+    [SerializeField] private float Combo_GraceTime;
+    [SerializeField,Range(0.5f,10.0f)]private float Combo_GraceMaxTime = 5.0f;
+
+    [SerializeField] private Text combo_Text;
+    [SerializeField] private GameObject Magic;
+    [SerializeField] private GameObject Max_Magic;
 
 
     // Start is called before the first frame update
@@ -45,10 +62,10 @@ public class PuzzleMgr : MonoBehaviour
         }
         // 初期化
         clear_combo = 0;
-        Prepare_CyclesData[] cyclesData = new Prepare_CyclesData[8];
-        SetCycleMax();
-        RandmCycleSet();
-        Set_Ene_Puz();
+        //Prepare_CyclesData[] cyclesData = new Prepare_CyclesData[8];
+        PuzReset();
+        IsEstablished = false;
+        IsComboReset = false;
     }
 
     // Update is called once per frame
@@ -58,24 +75,41 @@ public class PuzzleMgr : MonoBehaviour
             CycleReset();
         }
         SetAnswer();
-        if (Check_Puz())
+        if (Check_Puz() && canPuzReset)
         {
-            SetCycleMax();
-            RandmCycleSet();
-            Set_Ene_Puz();
+            Invoke("PuzReset", 0.4f);
+            IsEstablished = true;
+            canPuzReset = false;
         }
+        Combo();
+    }
+
+    private void PuzReset()
+    {
+        SetCycleMax();
+        RandmCycleSet();
+        Set_Ene_Puz();
+        canPuzReset = true;
     }
 
     public void SetCycleMax()
     {
+        int comboCycle = clear_combo;     //コンボ分の魔法陣の量
+
         CycleActiveFalse();
-        // コンボが最大数を超えていたら関数から出す
+        // コンボが最大数を超えていたら
         if (clear_combo >= COMBO_MAX)
         {
-            clear_combo = 0;
-            return;
+            //clear_combo = 0;
+            //return;
+            comboCycle = COMBO_MAX - 1;
         }
-        cycle_Max = DEFAULT_CTCLE + clear_combo; // デフォルトの魔法陣の数とクリア回数を足して魔法陣の数を増やす
+        if (IsComboReset)
+        {
+            comboCycle = 0;          //コンボ終了時に魔法陣を元の数に戻す
+        }
+        //cycle_Max = DEFAULT_CTCLE + clear_combo; // デフォルトの魔法陣の数とクリア回数を足して魔法陣の数を増やす
+        cycle_Max = DEFAULT_CTCLE + comboCycle; // デフォルトの魔法陣の数とクリア回数を足して魔法陣の数を増やす
     }
 
     public void RandmCycleSet()
@@ -97,8 +131,6 @@ public class PuzzleMgr : MonoBehaviour
             //Debug.Log(randNum[i]);
             numbers.RemoveAt(num);
         }
-        //Debug.Log("0 : " + randNum[0] + " | 1 : " + randNum[1] + " | 2 : " + randNum[2] + " | 3 : " + randNum[3] +
-        //            " | 4 : " + randNum[4] + " | 5 : " + randNum[5] + " | 6 : " + randNum[6] + " | 7 : " + randNum[7]);
         // 魔法陣を出現させる
         for (int i=0;i<CYCLE_MAX;i++)
         {
@@ -124,6 +156,7 @@ public class PuzzleMgr : MonoBehaviour
 
         int n = cycle_Max;
 
+
         while (n > 1)
         {
 
@@ -143,6 +176,7 @@ public class PuzzleMgr : MonoBehaviour
         for(int i=0; i< CYCLE_MAX; i++)
         {
             emptyPuzzleBase[i].SetActive(false);
+            ansPuzzle[i] = false;
         }
     }
 
@@ -150,26 +184,41 @@ public class PuzzleMgr : MonoBehaviour
     {
         for (int i = 0; i < CYCLE_MAX; i++)
         {
+            //emptyPuzzleBase[i].SetActive(true);
             Destroy(emptyPuzzleBase[i].transform.GetChild(0).gameObject);
-            if(emptyPuzzleBaseChildName[i] == "R")
-            {
-                Instantiate(r, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-                emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-                emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            }
-            if (emptyPuzzleBaseChildName[i] == "B")
-            {
-                Instantiate(b, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-                emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-                emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            }
-            if (emptyPuzzleBaseChildName[i] == "G")
-            {
-                Instantiate(g, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-                emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-                emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            }
+
+            int num = i / 2;
+
+            Instantiate(Mag_Circle[num], Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
+            emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
+            emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+
+            //if(emptyPuzzleBaseChildName[i][0] == 'R')
+            //{
+            //    Instantiate(r, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            //}
+            //if (emptyPuzzleBaseChildName[i][0] == 'B')
+            //{
+            //    Instantiate(b, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            //}
+            //if (emptyPuzzleBaseChildName[i][0] == 'G')
+            //{
+            //    Instantiate(g, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            //}
+            //if (emptyPuzzleBaseChildName[i][0] == 'S')
+            //{
+            //    Instantiate(s, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
+            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            //}
         }
+
     }
 
     // 正解のパズルが獲得できます。
@@ -181,7 +230,6 @@ public class PuzzleMgr : MonoBehaviour
         {
             ans.Add(ansPuzzle[i]);
         }
-
         return ans;
     }
 
@@ -189,8 +237,13 @@ public class PuzzleMgr : MonoBehaviour
     {
         for (int i = 0; i < CYCLE_MAX; i++)
         {
-            Ene_Magic_Puzzle[i].SetActive(emptyPuzzleBase[i].activeSelf);
+            Ene_Magic_Puzzle[i].SetActive(ansPuzzle[i]);
         }
+
+        ene.GetComponent<Renderer>().material = ans;
+
+        //Debug.Log("0 : " + ansPuzzle[0] + " | 1 : " + ansPuzzle[1] + " | 2 : " + ansPuzzle[2] + " | 3 : " + ansPuzzle[3] +
+        //            " | 4 : " + ansPuzzle[4] + " | 5 : " + ansPuzzle[5] + " | 6 : " + ansPuzzle[6] + " | 7 : " + ansPuzzle[7]);
     }
 
     string Set_Puz_Str(GameObject[] objects)
@@ -200,7 +253,7 @@ public class PuzzleMgr : MonoBehaviour
         foreach (GameObject o in objects)
         {
             if (o.transform.childCount > 0 && o.gameObject.activeInHierarchy)
-                answerStr = answerStr + o.transform.GetChild(0).gameObject.name;
+                answerStr = answerStr + o.transform.GetChild(0).gameObject.name[0];
         }
         return answerStr;
     }
@@ -218,5 +271,69 @@ public class PuzzleMgr : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void Combo()
+    {
+        if (IsEstablished)      //パズルが成立したら
+        {
+            if(clear_combo == 0)        //コンボが０なら
+            {
+                clear_combo++;
+                Combo_GraceTime = Combo_GraceMaxTime;
+                
+                //コンボが成立しても時間を過ぎていたら０に戻す
+                if (IsComboReset)
+                {
+                    clear_combo = 0;
+                    IsComboReset = false;
+                }
+            }
+            else
+            {
+                if(Combo_GraceTime >= 0f)
+                {
+                    clear_combo++;
+                    Combo_GraceTime = Combo_GraceMaxTime;
+                }
+            }
+            IsEstablished = false;
+
+        }
+
+        if(Combo_GraceTime >= 0f)
+        {
+            Combo_GraceTime -= Time.deltaTime;
+        }
+        else
+        {
+            if (clear_combo != 0)       //コンボ終了
+            {
+                int j = 0;
+                shootMagic();
+
+                clear_combo = 0;
+
+                //パズルをリセット
+                CycleReset();
+
+                //PuzReset();
+
+                IsComboReset = true;
+            }
+        }
+        combo_Text.text = "COMBO : " + clear_combo;
+    }
+
+    void shootMagic()
+    {
+        if (clear_combo >= COMBO_MAX)
+        {
+            Max_Magic.SetActive(true);
+        }
+        else
+        {
+            Magic.SetActive(true);
+        }
     }
 }
