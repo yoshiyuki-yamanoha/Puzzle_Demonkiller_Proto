@@ -21,6 +21,7 @@ public class Stage1Mgr : MonoBehaviour
     void FixedUpdate()
     {
         Clear_UI.SetActive(!canClear);
+        
 
         if (dieEnemy_Max <= dieEnemyCount && canClear)   // ゲームクリア判定の確認
         {

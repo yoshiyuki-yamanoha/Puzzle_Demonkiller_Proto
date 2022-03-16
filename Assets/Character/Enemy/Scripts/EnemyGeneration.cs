@@ -168,12 +168,12 @@ public class EnemyGeneration : MonoBehaviour
         GameObject enemy = Instantiate(prefab[num], generationPos[spawn_number].transform.position, new Quaternion(0, 180.0f, 0, 1));//生成
         //enemy.transform.position = generationPos[spawn_number].transform.position;
         //new Vector3(generationPos[num].position.x + Random.Range(-3.0f, 3.0f), generationPos[num].position.y, generationPos[num].position.z);//位置
-        //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy); //NUllレファレンスエラーが出たため、2022/3/14　コメントアウトしました 追記者 ZAHA
+        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Add(enemy); //NUllレファレンスエラーが出たため、2022/3/14　コメントアウトしました 追記者 ZAHA
 
         Vector3 MCPos = new Vector3(enemy.transform.position.x, 2.0f, enemy.transform.position.z);//位置生成
         GameObject MC = Instantiate(Ene_MagicCircle, MCPos, Ene_MagicCircle.transform.rotation);//プレファブ生成
         MC.transform.parent = enemy.transform;//親子にしている
-        MC.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);//大きさ変更
+        MC.transform.localScale = new Vector3(10f, 10f, 10f);//大きさ変更
         MC.transform.localPosition += new Vector3(0, 2.8f, 0f);//位置変更
         MC.SetActive(false);
 

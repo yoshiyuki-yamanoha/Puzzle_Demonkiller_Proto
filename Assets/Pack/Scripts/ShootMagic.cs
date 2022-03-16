@@ -39,8 +39,8 @@ public class ShootMagic : MonoBehaviour
     void Update()
     {
         setPlayerMagicStr();
-        Ene_MC_Check();
-        Check_MagicTimer(ComboTimerSlider_com.value);
+        //Ene_MC_Check();
+        //Check_MagicTimer(ComboTimerSlider_com.value);
     }
 
     void Ene_MC_Check()
@@ -159,10 +159,10 @@ public class ShootMagic : MonoBehaviour
 
     private void Init_Slider()
     {
-        ComboTimerSlider_obj = GameObject.Find("UIs/TimerUI/Slider").gameObject;
-        ComboTimerSlider_com = ComboTimerSlider_obj.GetComponent<Slider>();
-        ComboTimerSlider_com.value = 0;
+        //ComboTimerSlider_obj = GameObject.Find("UIs/TimerUI/Slider").gameObject;
+        //ComboTimerSlider_com = ComboTimerSlider_obj.GetComponent<Slider>();
+        //ComboTimerSlider_com.value = 0;
 
-        ComboTimerText = GameObject.Find("UIs/TimerUI/timer").GetComponent<Text>();
+        //ComboTimerText = GameObject.Find("UIs/TimerUI/timer").GetComponent<Text>();
     }
 }
