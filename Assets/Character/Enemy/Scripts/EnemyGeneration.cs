@@ -162,7 +162,7 @@ public class EnemyGeneration : MonoBehaviour
     void Generation(int num, int spawn_number)
     {
         //パーティクル生成
-        ParticleSystem new_particle = Instantiate(enemy_particle[num]);
+        ParticleSystem new_particle = Instantiate(enemy_particle[num] , generationPos[spawn_number]);
         new_particle.Play();
 
         GameObject enemy = Instantiate(prefab[num], generationPos[spawn_number].transform.position, new Quaternion(0, 180.0f, 0, 1));//生成
