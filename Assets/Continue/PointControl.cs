@@ -81,7 +81,7 @@ public class PointControl : MonoBehaviour
     string[] magiceffect;
     string[] magictype;
     string[] magicpower;
-    //int[] magiccolornow;
+    string magiccolornow;
     string magiceffectnow;//今の色の効果
     string magictypenow;//今の魔法の種類
     string magicpowernow;//今の魔法の威力
@@ -488,22 +488,27 @@ public class PointControl : MonoBehaviour
                 if (firstColor == circleMats[i].mat.color)
                 {
                     colorcom += magiccolor[i];
-                    //magiccolornow += magiccolor[i];
+                    magiccolornow += magiccolor[i];
                     magictypenow += magictype[i];
                     magiceffectnow += magiceffect[i];
                 }
 
             }
-            //int colorcomnum = magiccolornow.Length;
-            //if (colorcomnum > 5)
-            //{
-            //    magiccolornow = magiccolornow.Remove(0, 1);
-            //}
-            red = CountChar(colorcom, '赤');
-            blue = CountChar(colorcom, '青');
-            yellow = CountChar(colorcom, '黄');
-            light_blue = CountChar(colorcom, '水');
-            green = CountChar(colorcom, '緑');
+            int colorcomnum = magiccolornow.Length;
+            if (colorcomnum > 5)
+            {
+                magiccolornow = magiccolornow.Remove(0, 1);
+            }
+            red = CountChar(magiccolornow, '赤');
+            blue = CountChar(magiccolornow, '青');
+            yellow = CountChar(magiccolornow, '黄');
+            light_blue = CountChar(magiccolornow, '水');
+            green = CountChar(magiccolornow, '緑');
+            //red = CountChar(colorcom, '赤');
+            //blue = CountChar(colorcom, '青');
+            //yellow = CountChar(colorcom, '黄');
+            //light_blue = CountChar(colorcom, '水');
+            //green = CountChar(colorcom, '緑');
 
             int magiceffectnum = magiceffectnow.Length;
             int acount = CountChar(magiceffectnow, '攻');
