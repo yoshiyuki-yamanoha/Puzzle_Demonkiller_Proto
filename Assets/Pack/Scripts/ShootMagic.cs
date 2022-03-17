@@ -24,7 +24,7 @@ public class ShootMagic : MonoBehaviour
 
     [SerializeField]List<GameObject> Enemy_List = new List<GameObject>();
 
-    [SerializeField] public Canvas meteorPoint = null;
+    /*[SerializeField]*/ public Canvas meteorPoint = null;
     /*[SerializeField] */private Image[] mPImage = new Image[3];
 
     public AudioClip SE_meteorPointCharge;
@@ -52,7 +52,7 @@ public class ShootMagic : MonoBehaviour
     {
         setPlayerMagicStr();
         //Ene_MC_Check();
-        Check_MagicTimer(ComboTimerSlider_com.value);
+        //Check_MagicTimer(ComboTimerSlider_com.value);
 
     }
 

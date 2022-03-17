@@ -41,10 +41,15 @@ public class PuzzleMgr : MonoBehaviour
     [SerializeField] private bool IsComboReset;
     [SerializeField] private float Combo_GraceTime;
     [SerializeField,Range(0.5f,10.0f)]private float Combo_GraceMaxTime = 5.0f;
+    private Slider comboTimerSlider = null;     // コンボ受付時間のスライダー：スライダー
+
 
     [SerializeField] private Text combo_Text;
     [SerializeField] private GameObject Magic;
     [SerializeField] private GameObject Max_Magic;
+
+    public Canvas meteorPoint = null;
+    private Image[] mPImage = new Image[3];
 
 
     // Start is called before the first frame update
@@ -61,6 +66,7 @@ public class PuzzleMgr : MonoBehaviour
         PuzReset();
         IsEstablished = false;
         IsComboReset = false;
+        Init_Slider();
     }
 
     // Update is called once per frame
@@ -77,6 +83,7 @@ public class PuzzleMgr : MonoBehaviour
             canPuzReset = false;
         }
         Combo();
+        Set_SliderValue(Combo_GraceTime);
     }
 
     private void PuzReset()
@@ -98,10 +105,6 @@ public class PuzzleMgr : MonoBehaviour
             //clear_combo = 0;
             //return;
             comboCycle = COMBO_MAX - 1;
-        }
-        if (IsComboReset)
-        {
-            comboCycle = 0;          //コンボ終了時に魔法陣を元の数に戻す
         }
         //cycle_Max = DEFAULT_CTCLE + clear_combo; // デフォルトの魔法陣の数とクリア回数を足して魔法陣の数を増やす
         cycle_Max = DEFAULT_CTCLE + comboCycle; // デフォルトの魔法陣の数とクリア回数を足して魔法陣の数を増やす
@@ -126,6 +129,10 @@ public class PuzzleMgr : MonoBehaviour
             //Debug.Log(randNum[i]);
             numbers.RemoveAt(num);
         }
+
+        Debug.Log("0 : " + randNum[0] + " | 1 : " + randNum[1] + " | 2 : " + randNum[2] + " | 3 : " + randNum[3] +
+                    " | 4 : " + randNum[4] + " | 5 : " + randNum[5] + " | 6 : " + randNum[6] + " | 7 : " + randNum[7]);
+
         // 魔法陣を出現させる
         for (int i=0;i<CYCLE_MAX;i++)
         {
@@ -139,7 +146,7 @@ public class PuzzleMgr : MonoBehaviour
         }
 
         GameObject[] activePuzzle = new GameObject[CYCLE_MAX];
-        // 答えのデータを元にプレイヤー側のパズルをシャッフル
+        // 答えのデータを元にプレイヤー側のパズルをシャッフル答えのデータを元にプレイヤー側のパズルをシャッフル
         for(int i = 0, j=0; i < CYCLE_MAX; i++)
         {
             if(ansPuzzle[i])
@@ -150,11 +157,10 @@ public class PuzzleMgr : MonoBehaviour
         }
 
         int n = cycle_Max;
-
+        if (Input.GetKey(KeyCode.Escape))return ;
 
         while (n > 1)
         {
-
             n--;
 
             int k = UnityEngine.Random.Range(0, n);
@@ -278,7 +284,7 @@ public class PuzzleMgr : MonoBehaviour
             {
                 clear_combo++;
                 Combo_GraceTime = Combo_GraceMaxTime;
-                
+
                 //コンボが成立しても時間を過ぎていたら０に戻す
                 if (IsComboReset)
                 {
@@ -306,7 +312,6 @@ public class PuzzleMgr : MonoBehaviour
         {
             if (clear_combo != 0)       //コンボ終了
             {
-                int j = 0;
                 shootMagic();
 
                 clear_combo = 0;
@@ -314,9 +319,8 @@ public class PuzzleMgr : MonoBehaviour
                 //パズルをリセット
                 CycleReset();
 
-                //PuzReset();
+                PuzReset();
 
-                IsComboReset = true;
             }
         }
         combo_Text.text = "COMBO : " + clear_combo;
@@ -332,5 +336,19 @@ public class PuzzleMgr : MonoBehaviour
         {
             Magic.SetActive(true);
         }
+    }
+
+    private void Init_Slider()
+    {
+        GameObject slider = GameObject.Find("Canvas/Slider").gameObject;
+        comboTimerSlider = slider.GetComponent<Slider>();
+        //comboTimerSlider.value = 0;
+    }
+
+    private void Set_SliderValue(float combo_remainingTime)
+    {
+        float time = combo_remainingTime / Combo_GraceMaxTime;
+
+        comboTimerSlider.value = time;
     }
 }
