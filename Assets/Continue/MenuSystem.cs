@@ -77,7 +77,7 @@ public class MenuSystem : MonoBehaviour
     //メニューを開くときに初期化
     void MenuReset() {
         menuNum = 0;
-        arrows[menuNum].color = Color.yellow;
+        ChangeArrowColor();
     }
 
     //メニューのカーソル移動
@@ -105,15 +105,21 @@ public class MenuSystem : MonoBehaviour
             intervalV = 10;
 
             //矢印の色替え
-            for(int i = 0; i < arrows.Length; i++) {
-                arrows[i].color = Color.white;
-                if (i == menuNum)
-                    arrows[i].color = Color.yellow;
-            }
+            ChangeArrowColor();
                 
         }
 
     }
+
+    //矢印の色替え
+    void ChangeArrowColor() {
+        for (int i = 0; i < arrows.Length; i++)
+        {
+            arrows[i].color = Color.white;
+            if (i == menuNum)
+                arrows[i].color = Color.yellow;
+        }
+    } 
 
     //メニューの設定変更
     void MenuOptionChange() {
