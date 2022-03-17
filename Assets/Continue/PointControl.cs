@@ -103,6 +103,7 @@ public class PointControl : MonoBehaviour
     [SerializeField] Transform[] oyas;
 
     public int ccMode;
+    public bool isMenu = false;
 
     // Start is called before the first frame update
     void Start()
@@ -153,137 +154,141 @@ public class PointControl : MonoBehaviour
         float vert = Input.GetAxis("Vertical");
         Vector3 ppos = oriPos + new Vector3(hori * power, vert * power, 0);
 
-
-        Debug.DrawLine(tf.position, ppos);
-        if (oldOverlapObject)
-            tf.position = oldOverlapObject.transform.position;
-
-        //スティックの角度を求める(今の所は角度は使ってない)
-        ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
-        if (ang < 0) ang = 360.0f + ang;
-
-
-        if (interCount == 0)
+        if (!isMenu)
         {
-            //当たり判定を伸ばすやつ
-            foreach (GameObject o in porters)
+
+            Debug.DrawLine(tf.position, ppos);
+            if (oldOverlapObject)
+                tf.position = oldOverlapObject.transform.position;
+
+            //スティックの角度を求める(今の所は角度は使ってない)
+            ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
+            if (ang < 0) ang = 360.0f + ang;
+
+
+
+            if (interCount == 0)
             {
-                float per = 0.1f;
-                Vector3 currentPerPos;
-
-                while (per < 1.0f)
+                //当たり判定を伸ばすやつ
+                foreach (GameObject o in porters)
                 {
-                    currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+                    float per = 0.1f;
+                    Vector3 currentPerPos;
 
-                    if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
+                    while (per < 1.0f)
                     {
-                        oriPos = o.GetComponent<TransportToParent>().GetGoalPos();
+                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                        interCount = interval;
+                        if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
+                        {
+                            oriPos = o.GetComponent<TransportToParent>().GetGoalPos();
 
-                        break;
+                            interCount = interval;
+
+                            break;
+                        }
+
+                        per += 0.1f;
+                    }
+                }
+
+                //ポインターと魔法陣の当たり判定
+                foreach (GameObject o in circles)
+                {
+
+                    float per = 0.1f;
+                    Vector3 currentPerPos;
+                    while (per < 1.0f)
+                    {
+                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+
+                        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                        {
+                            //最近選択していたオブジェクト
+                            oldOverlapObject = o;
+
+                            //選択した親オブジェクトの位置にいく
+                            oriPos = o.transform.parent.position;
+
+                            interCount = interval;
+
+                            break;
+                        }
+
+                        per += 0.1f;
                     }
 
-                    per += 0.1f;
                 }
             }
 
-            //ポインターと魔法陣の当たり判定
+            //選択サークルや入れ替え選択など
             foreach (GameObject o in circles)
             {
+                GoToParent gp = o.GetComponent<GoToParent>();
 
-                float per = 0.1f;
-                Vector3 currentPerPos;
-                while (per < 1.0f)
+                GameObject nodeA = null;
+                GameObject nodeB = null;
+
+                if (ccMode == 1)
                 {
-                    currentPerPos = Vector3.Lerp(oriPos, ppos, per);
-
-                    if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                    nodeA = gp.GetLineEnd();
+                    foreach (GameObject o2 in circles)
                     {
-                        //最近選択していたオブジェクト
-                        oldOverlapObject = o;
-
-                        //選択した親オブジェクトの位置にいく
-                        oriPos = o.transform.parent.position;
-
-                        interCount = interval;
-
-                        break;
-                    }
-
-                    per += 0.1f;
-                }
-
-            }
-        }
-
-        //選択サークルや入れ替え選択など
-        foreach (GameObject o in circles)
-        {
-            GoToParent gp = o.GetComponent<GoToParent>();
-
-            GameObject nodeA = null;
-            GameObject nodeB = null;
-
-            if (ccMode == 1) {
-                nodeA = gp.GetLineEnd();
-                foreach (GameObject o2 in circles)
-                {
-                    if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
-                        nodeB = o2;
-                }
-            }
-
-            if (ccMode == 2)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    if (oyas[i].GetChild(0).gameObject == o)
-                    {
-                        int back = i - 1;
-                        int next = i + 1;
-                        if (back < 0) back += 5;
-                        if (next > 4) next -= 5;
-                        nodeA = oyas[back].GetChild(0).gameObject;
-                        nodeB = oyas[next].GetChild(0).gameObject;
+                        if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
+                            nodeB = o2;
                     }
                 }
+
+                if (ccMode == 2)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (oyas[i].GetChild(0).gameObject == o)
+                        {
+                            int back = i - 1;
+                            int next = i + 1;
+                            if (back < 0) back += 5;
+                            if (next > 4) next -= 5;
+                            nodeA = oyas[back].GetChild(0).gameObject;
+                            nodeB = oyas[next].GetChild(0).gameObject;
+                        }
+                    }
+                }
+
+                //魔法陣の中心からdist分の範囲内に入ったら
+                if (Vector3.Distance(tf.position, o.transform.position) < dist)
+                {
+
+                    //選択サークルを出させる
+                    gp.ShowSelectCircle(selectCircle);
+
+                    //Aボタン選択
+                    SelectCircle(o);
+
+                    //色替え (線が繋がってる二つを同時に)
+                    ChangeColorMat(o);
+                    if (nodeA) ChangeColorMat(nodeA);
+                    if (nodeB) ChangeColorMat(nodeB);
+
+                }
+                else
+                {  //入って無ければ
+                    gp.FadeSelectCircle();
+                }
             }
 
-            //魔法陣の中心からdist分の範囲内に入ったら
-            if (Vector3.Distance(tf.position, o.transform.position) < dist)
+            //インターバルカウント
+            if (interCount != 0)
             {
-
-                //選択サークルを出させる
-                gp.ShowSelectCircle(selectCircle);
-
-                //Aボタン選択
-                SelectCircle(o);
-
-                //色替え (線が繋がってる二つを同時に)
-                ChangeColorMat(o);
-                if(nodeA)ChangeColorMat(nodeA);
-                if(nodeB)ChangeColorMat(nodeB);
-
+                interCount--;
+                if (interCount < 0) interCount = 0;
             }
-            else
-            {  //入って無ければ
-                gp.FadeSelectCircle();
-            }
+
+            MagicColorNum.text = "魔方陣の色：" + changeCircleNum + "種類";
+            //L1Riで色の数を決めれる
+            ChangeColorNum();
+
         }
-
-        //インターバルカウント
-        if (interCount != 0)
-        {
-            interCount--;
-            if (interCount < 0) interCount = 0;
-        }
-
-        MagicColorNum.text = "魔方陣の色：" + changeCircleNum + "種類";
-        //L1Riで色の数を決めれる
-        ChangeColorNum();
-
-
     }
 
 

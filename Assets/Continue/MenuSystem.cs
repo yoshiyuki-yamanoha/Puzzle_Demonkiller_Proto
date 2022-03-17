@@ -47,11 +47,12 @@ public class MenuSystem : MonoBehaviour
         if (Input.GetButtonDown("Start"))
         {
             menu.SetActive(!menu.activeInHierarchy);
-            Debug.Log("めぬー : " + menu.activeInHierarchy);
 
             if (menu.activeInHierarchy) {
                 MenuReset();
             }
+
+            pc.isMenu = menu.activeInHierarchy;
         }
 
         //メニュー表示時の動作
@@ -61,7 +62,7 @@ public class MenuSystem : MonoBehaviour
             MenuMoveCursor();
 
             //メニューの設定変更 (横)
-
+            MenuOptionChange();
         }
 
 
@@ -120,7 +121,7 @@ public class MenuSystem : MonoBehaviour
                     if (currentCCMode != buff3) {
                         pc.SetChangeColorMode(buff3);
                         colorChangeMode.text = modeStr[buff3];
-                        intervalH = 5;
+                        intervalH = 12;
                         
                     }
                     
@@ -138,7 +139,7 @@ public class MenuSystem : MonoBehaviour
                     {
                         es.SetMaxEnemyLimit(buff);
                         enemyNum.text = buff.ToString("0") + "体";
-                        intervalH = 5;
+                        intervalH = 12;
                     }
 
                     break;
@@ -155,7 +156,7 @@ public class MenuSystem : MonoBehaviour
                     {
                         es.SetInterval(buff2);
                         enemySpawnInterval.text = buff2.ToString("0.0") + "秒";
-                        intervalH = 5;
+                        intervalH = 12;
                     }
                     break;
             }
