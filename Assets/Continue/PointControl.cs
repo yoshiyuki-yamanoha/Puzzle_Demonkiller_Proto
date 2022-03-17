@@ -102,6 +102,8 @@ public class PointControl : MonoBehaviour
     [SerializeField] Transform rootPuzzlesObj;
     [SerializeField] Transform[] oyas;
 
+    public int ccMode;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -138,6 +140,8 @@ public class PointControl : MonoBehaviour
         oyas = new Transform[num];
         for (int i = 0; i < num; i++)
             oyas[i] = rootPuzzlesObj.GetChild(i);
+
+        ccMode = 0;
     }
 
     GameObject circleA = null;
@@ -220,14 +224,29 @@ public class PointControl : MonoBehaviour
 
             GameObject nodeA = null;
             GameObject nodeB = null;
-            for (int i = 0; i < 5; i++) {
-                if (oyas[i].GetChild(0).gameObject == o) {
-                    int back = i - 1;
-                    int next = i + 1;
-                    if (back < 0) back += 5;
-                    if (next > 4) next -= 5;
-                    nodeA = oyas[back].GetChild(0).gameObject;
-                    nodeB = oyas[next].GetChild(0).gameObject;
+
+            if (ccMode == 1) {
+                nodeA = gp.GetLineEnd();
+                foreach (GameObject o2 in circles)
+                {
+                    if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
+                        nodeB = o2;
+                }
+            }
+
+            if (ccMode == 2)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    if (oyas[i].GetChild(0).gameObject == o)
+                    {
+                        int back = i - 1;
+                        int next = i + 1;
+                        if (back < 0) back += 5;
+                        if (next > 4) next -= 5;
+                        nodeA = oyas[back].GetChild(0).gameObject;
+                        nodeB = oyas[next].GetChild(0).gameObject;
+                    }
                 }
             }
 
@@ -243,8 +262,8 @@ public class PointControl : MonoBehaviour
 
                 //色替え (線が繋がってる二つを同時に)
                 ChangeColorMat(o);
-                ChangeColorMat(nodeA);
-                ChangeColorMat(nodeB);
+                if(nodeA)ChangeColorMat(nodeA);
+                if(nodeB)ChangeColorMat(nodeB);
 
             }
             else
@@ -653,5 +672,14 @@ public class PointControl : MonoBehaviour
 
         if (oldNum != changeCircleNum)
             RandomColorSet();
+    }
+
+    public int GetChangeColorMode() {
+        return ccMode;
+    }
+
+    public void SetChangeColorMode(int num)
+    {
+        ccMode = num;
     }
 }

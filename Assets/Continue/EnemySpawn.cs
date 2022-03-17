@@ -54,4 +54,22 @@ public class EnemySpawn : MonoBehaviour
         //敵生成
         Instantiate(enemyPrefab, pos, Quaternion.identity);
     }
+
+    public float GetInterval() {
+        return spawnInterval;
+    }
+
+
+    public void SetInterval(float value) {
+        spawnInterval = value;
+    }
+
+    public int GetMaxEnemyLimit() {
+        return maxSpawnedEnemyNum;
+    }
+
+    public void SetMaxEnemyLimit(int num) {
+
+        maxSpawnedEnemyNum = num;
+    }
 }
