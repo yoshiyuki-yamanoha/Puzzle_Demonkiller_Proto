@@ -70,7 +70,7 @@ public class Magic : MonoBehaviour
             ma = Instantiate(doubleComboMagic, magicPos, Quaternion.identity);
         if (magicNum == 1)
             ma = Instantiate(speedDownMagic, magicPos, Quaternion.identity);
-        Destroy(ma, 2);
+        Destroy(ma, 0.5f);
     }
 
     //一定時間コンボ2倍
@@ -83,7 +83,6 @@ public class Magic : MonoBehaviour
         while (time > 0)
         {
             time--;
-            Debug.Log(time);
             yield return null;
         }
 
