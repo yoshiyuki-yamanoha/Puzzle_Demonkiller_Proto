@@ -38,6 +38,9 @@ public class MenuSystem : MonoBehaviour
         posABC = new Vector3[menuLinePos.childCount];
         for (int i = 0; i < menuLinePos.childCount; i++)
             posABC[i] = menuLinePos.GetChild(i).position;
+
+        enemyNum.text = es.GetMaxEnemyLimit().ToString("0") + "体";
+        enemySpawnInterval.text = es.GetInterval().ToString("0.0") + "フレーム";
     }
 
     
@@ -155,8 +158,8 @@ public class MenuSystem : MonoBehaviour
                     if (currentInterval != buff2)
                     {
                         es.SetInterval(buff2);
-                        enemySpawnInterval.text = buff2.ToString("0.0") + "秒";
-                        intervalH = 12;
+                        enemySpawnInterval.text = buff2.ToString("0") + "フレーム";
+                        intervalH = 8;
                     }
                     break;
             }
