@@ -21,9 +21,12 @@ public class MenuSystem : MonoBehaviour
 
     //メニュー番号
     int menuNum;
-    [SerializeField] Transform menuLineTf;
-    [SerializeField] Transform menuLinePos;
+    //[SerializeField] Transform menuLineTf;
+    //[SerializeField] Transform menuLinePos;
     Vector3[] posABC;
+
+    //アロー
+    [SerializeField] Image[] arrows;
 
     //メニュー移動インターバル
     int intervalV;
@@ -35,9 +38,9 @@ public class MenuSystem : MonoBehaviour
     {
         menu.SetActive(false);
         menuNum = 0;
-        posABC = new Vector3[menuLinePos.childCount];
-        for (int i = 0; i < menuLinePos.childCount; i++)
-            posABC[i] = menuLinePos.GetChild(i).position;
+        ///posABC = new Vector3[menuLinePos.childCount];
+        //for (int i = 0; i < menuLinePos.childCount; i++)
+        //    posABC[i] = menuLinePos.GetChild(i).position;
 
         enemyNum.text = es.GetMaxEnemyLimit().ToString("0") + "体";
         enemySpawnInterval.text = es.GetInterval().ToString("0.0") + "フレーム";
@@ -74,6 +77,7 @@ public class MenuSystem : MonoBehaviour
     //メニューを開くときに初期化
     void MenuReset() {
         menuNum = 0;
+        arrows[menuNum].color = Color.yellow;
     }
 
     //メニューのカーソル移動
@@ -97,8 +101,16 @@ public class MenuSystem : MonoBehaviour
         //カーソルが移動されたら位置を変える
         if (menuNum != oldMenuNum)
         {
-            menuLineTf.position = posABC[menuNum];
+            //menuLineTf.position = posABC[menuNum];
             intervalV = 10;
+
+            //矢印の色替え
+            for(int i = 0; i < arrows.Length; i++) {
+                arrows[i].color = Color.white;
+                if (i == menuNum)
+                    arrows[i].color = Color.yellow;
+            }
+                
         }
 
     }
@@ -153,7 +165,7 @@ public class MenuSystem : MonoBehaviour
                     if (hori > 0) buff2 += 1.0f;
                     if (hori < 0) buff2 -= 1.0f;
                     if (buff2 < 1) buff2 = 1;
-                    if (buff2 > 10) buff2 = 10;
+                    if (buff2 > 180) buff2 = 180;
 
                     if (currentInterval != buff2)
                     {
