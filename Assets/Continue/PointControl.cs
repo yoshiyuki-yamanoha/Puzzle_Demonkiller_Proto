@@ -467,7 +467,7 @@ public class PointControl : MonoBehaviour
         colorcom = null;
 
         magicpowernow = null;
-        //magiccolornow = null;
+        magiccolornow = null;
         magictypenow = null;
         magiceffectnow = null;
         red = 0;
