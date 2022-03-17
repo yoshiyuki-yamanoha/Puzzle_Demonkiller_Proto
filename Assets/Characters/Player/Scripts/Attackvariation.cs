@@ -72,6 +72,8 @@ public class Attackvariation : MonoBehaviour
             else orbtext_Y.enabled = true;
             if (num_one != countL) orbtext_L.enabled = false;
             else orbtext_L.enabled = true;
+
+            activeflg_orb = true;
         }
         
     }
@@ -83,6 +85,8 @@ public class Attackvariation : MonoBehaviour
         orbtext_B.enabled = false;
         orbtext_Y.enabled = false;
         orbtext_L.enabled = false;
+
+        activeflg_orb = false;
     }
 
 }

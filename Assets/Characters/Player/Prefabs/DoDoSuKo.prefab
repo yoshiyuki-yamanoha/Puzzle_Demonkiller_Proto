@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6865370969109920712}
   - component: {fileID: 6865370969109920715}
   - component: {fileID: 6865370969109920714}
+  - component: {fileID: 978952507168844238}
   m_Layer: 5
   m_Name: AttackGreen
   m_TagString: Untagged
@@ -34,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 1.4999924, y: 0}
+  m_SizeDelta: {x: -3.0000153, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6865370969109920715
 CanvasRenderer:
@@ -77,6 +78,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u7DD1"
+--- !u!111 &978952507168844238
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370969109920711}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6865370969656871578
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +105,7 @@ GameObject:
   - component: {fileID: 6865370969656871579}
   - component: {fileID: 6865370969656871582}
   - component: {fileID: 6865370969656871581}
+  - component: {fileID: 8681811477148772044}
   m_Layer: 5
   m_Name: AttacklightBule
   m_TagString: Untagged
@@ -111,8 +129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 1.4999924, y: 0}
+  m_SizeDelta: {x: -3.0000153, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6865370969656871582
 CanvasRenderer:
@@ -154,6 +172,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u6C34"
+--- !u!111 &8681811477148772044
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370969656871578}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6865370969751709847
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +200,7 @@ GameObject:
   - component: {fileID: 6865370969751709850}
   - component: {fileID: 6865370969751709849}
   - component: {fileID: 6865370969751709848}
+  - component: {fileID: 1448051964453141805}
   m_Layer: 5
   m_Name: DoDoSuKo
   m_TagString: Untagged
@@ -257,6 +292,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!95 &1448051964453141805
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370969751709847}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 25a002dca52250b43ae6d57a68c69b89, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6865370969826265650
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +322,7 @@ GameObject:
   - component: {fileID: 6865370969826265651}
   - component: {fileID: 6865370969826265653}
   - component: {fileID: 6865370969826265652}
+  - component: {fileID: 9075830288795704977}
   m_Layer: 5
   m_Name: AttackRed
   m_TagString: Untagged
@@ -334,6 +389,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u8D64"
+--- !u!111 &9075830288795704977
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370969826265650}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6865370969987530028
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +416,7 @@ GameObject:
   - component: {fileID: 6865370969987530029}
   - component: {fileID: 6865370969987530032}
   - component: {fileID: 6865370969987530031}
+  - component: {fileID: 4200212287459243420}
   m_Layer: 5
   m_Name: AttackBule
   m_TagString: Untagged
@@ -368,8 +440,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 1.4999924, y: 0}
+  m_SizeDelta: {x: -3.0000153, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6865370969987530032
 CanvasRenderer:
@@ -411,6 +483,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9752"
+--- !u!111 &4200212287459243420
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370969987530028}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &6865370970399454954
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +510,7 @@ GameObject:
   - component: {fileID: 6865370970399454955}
   - component: {fileID: 6865370970399454958}
   - component: {fileID: 6865370970399454957}
+  - component: {fileID: 9010061717634037139}
   m_Layer: 5
   m_Name: AttackYellow
   m_TagString: Untagged
@@ -445,8 +534,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 1.4999924, y: 0}
+  m_SizeDelta: {x: -3.0000153, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6865370970399454958
 CanvasRenderer:
@@ -488,3 +577,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9EC4"
+--- !u!111 &9010061717634037139
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865370970399454954}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4d6e9d5476df71246be2d6b3b2684ade, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
