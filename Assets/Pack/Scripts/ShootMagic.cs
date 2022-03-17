@@ -23,6 +23,13 @@ public class ShootMagic : MonoBehaviour
     float timetext = 0;
 
     [SerializeField]List<GameObject> Enemy_List = new List<GameObject>();
+
+    [SerializeField] public Canvas meteorPoint = null;
+    /*[SerializeField] */private Image[] mPImage = new Image[3];
+
+    public AudioClip SE_meteorPointCharge;
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +40,11 @@ public class ShootMagic : MonoBehaviour
         Init_magicShootCnt();
 
         Init_Slider();
+
+        Init_MagicShootCnt_Image();
+
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.clip = SE_meteorPointCharge;
     }
 
     // Update is called once per frame
@@ -40,7 +52,8 @@ public class ShootMagic : MonoBehaviour
     {
         setPlayerMagicStr();
         //Ene_MC_Check();
-        //Check_MagicTimer(ComboTimerSlider_com.value);
+        Check_MagicTimer(ComboTimerSlider_com.value);
+
     }
 
     void Ene_MC_Check()
@@ -59,6 +72,9 @@ public class ShootMagic : MonoBehaviour
                     if (magicShootCnt < 3)
                     {
                         this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(ene);
+
+                        ChargeMeteorPoint();
+                        audioSource.PlayOneShot(SE_meteorPointCharge);
                         magicShootCnt++;
 
                         //if(magicComboTimer == 0)
@@ -75,6 +91,9 @@ public class ShootMagic : MonoBehaviour
                         magicShootCnt = 0;
                         //magicComboTimer = 0;
                         ComboTimerSlider_com.value = 0;
+                        audioSource.PlayOneShot(SE_meteorPointCharge);
+
+                        Init_SetColor();
                     }
 
                     //敵が倒れる処理
@@ -134,8 +153,11 @@ public class ShootMagic : MonoBehaviour
     private void Check_MagicTimer(float timeBuf)
     {
         //int decreaseTime = 6000;
-        float decreaseTime = Application.targetFrameRate * 30.0f;
+        float decreaseTime = Application.targetFrameRate * 50.0f;
         float amountOfDecrease = 1 / (float)decreaseTime;
+
+        if (ComboTimerSlider_com)
+            Debug.Log(ComboTimerSlider_com);
 
         if (timeBuf > 0)
         {
@@ -159,10 +181,46 @@ public class ShootMagic : MonoBehaviour
 
     private void Init_Slider()
     {
-        //ComboTimerSlider_obj = GameObject.Find("UIs/TimerUI/Slider").gameObject;
-        //ComboTimerSlider_com = ComboTimerSlider_obj.GetComponent<Slider>();
-        //ComboTimerSlider_com.value = 0;
+        ComboTimerSlider_obj = GameObject.Find("Canvas/Slider").gameObject;
+        ComboTimerSlider_com = ComboTimerSlider_obj.GetComponent<Slider>();
+        ComboTimerSlider_com.value = 0;
 
         //ComboTimerText = GameObject.Find("UIs/TimerUI/timer").GetComponent<Text>();
+    }
+
+    private void Init_MagicShootCnt_Image()
+    {
+        int cc = meteorPoint.transform.childCount;
+
+        for (int i = 0; i < cc; i++)
+        {
+            mPImage[i] = meteorPoint.transform.GetChild(i).gameObject.transform.GetComponent<Image>();
+
+        }
+
+        Init_SetColor();
+    }
+
+    private void Init_SetColor()
+    {
+        Color white = new Color(255, 255, 255, 255);
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (mPImage[i] == null)
+                return;
+            else
+                mPImage[i].color = white;
+        }
+    }
+
+
+    private void ChargeMeteorPoint()
+    {
+        if (mPImage[magicShootCnt] == null) return;
+
+        Color red = new Color(255, 0, 0, 255);
+
+        mPImage[magicShootCnt].color = red;
     }
 }
