@@ -9,7 +9,9 @@ public class Meteor : MonoBehaviour
     [SerializeField] private Transform child = null;
 
     Vector3 targetPos;
-    float velocity;
+    Vector3 diff;
+    Vector3 force;
+    Rigidbody rb;
 
 
     void Start()
@@ -20,15 +22,17 @@ public class Meteor : MonoBehaviour
         //Debug.Log(Time.time);
 
 
-        targetPos = new Vector3(targetEnemy.transform.position.x, 0f, targetEnemy.transform.position.z);
-        velocity = 0.05f;
+        rb = transform.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         FallMeteorMagic();
-        //MeteorCollision();
+
+        diff = targetEnemy.transform.position - this.transform.position;
+        force = Vector3.forward;
+        rb.AddForce(force, ForceMode.Force);
     }
 
     //private void OnTriggerEnter(Collider other)

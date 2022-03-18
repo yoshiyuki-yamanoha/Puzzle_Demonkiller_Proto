@@ -4,56 +4,70 @@ using UnityEngine;
 
 public class FlyTowardsTheEnemy : MonoBehaviour
 {
-    [SerializeField] public GameObject fx_explosion = null;
-    [SerializeField] public GameObject targetEnemy = null;
-    [SerializeField] private Transform child = null;
+     public GameObject fx_explosion = null;
+     public GameObject targetEnemy = null;
+     private Transform child = null;
+
 
     Vector3 diff;
-    float velocity; 
+    Vector3 force;
+    Rigidbody rb;
+    float power;
 
 
     void Start()
     {
         child = this.transform.GetChild(0).gameObject.transform;
         //StopAnimation();
+        Destroy(this.gameObject, 3.0f);
+        power = 50.0f;
 
-
-        diff = targetEnemy.transform.position - this.transform.position;
-        velocity = 0.05f;
+        rb = transform.GetComponent<Rigidbody>();
+        //rb.AddForce(force, ForceMode.Impulse);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        diff = targetEnemy.transform.position - this.transform.position;
+        force = Vector3.forward * power;
+        rb.AddForce(force, ForceMode.Impulse);
+
         NullCheck_targetEnemy();
         HomingMagic();
+
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         NullCheck_targetEnemy();
 
 
-        if (collision.gameObject == targetEnemy)
+        if (other.tag == "Enemy")
         {
-            HitMagic();
+            Debug.Log("hit_tri");
+                Destroy(other.gameObject);
+            Destroy(this.gameObject);
+                HitMagic();
+            //if (other.gameObject == targetEnemy)
+            {
+            }
         }
     }
 
     private void HomingMagic()
     {
-        if (targetEnemy)
-        {
+        //if (targetEnemy)
+        //{
             this.transform.rotation.SetLookRotation(targetEnemy.transform.position, Vector3.up);
-            this.transform.position = Vector3.Lerp(this.transform.position, targetEnemy.transform.position, velocity);
-        }
+        //    this.transform.position = Vector3.Lerp(this.transform.position, targetEnemy.transform.position, force);
+        //}
     }
 
     private void StopAnimation()
     {
         foreach (Transform effect in child)
         {
-            //Debug.Log(effect);
 
             var tmp = effect.transform.GetComponent<ParticleSystem>().main;
             tmp.loop = false;
@@ -67,6 +81,7 @@ public class FlyTowardsTheEnemy : MonoBehaviour
         //Instantiate(fx_explosion, this.transform.position, Quaternion.identity);
 
         StopAnimation();
+
     }
 
     // ターゲットがnullかチェックする

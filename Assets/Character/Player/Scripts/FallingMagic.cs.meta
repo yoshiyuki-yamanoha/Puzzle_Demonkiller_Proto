@@ -3,7 +3,10 @@ guid: 3fb3aae88c5547a4ba4b4a7a0c5fb8b7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fx_fallingMagic: {fileID: 1301581063026653108, guid: c90bb15d4991a854585747c499ab9ee7,
+      type: 3}
+  - enemy: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

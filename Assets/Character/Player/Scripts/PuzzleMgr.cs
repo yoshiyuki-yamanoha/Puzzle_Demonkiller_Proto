@@ -51,6 +51,9 @@ public class PuzzleMgr : MonoBehaviour
     public Canvas meteorPoint = null;
     private Image[] mPImage = new Image[3];
 
+    public AudioClip SE_meteorPointCharge;
+    AudioSource audioSource;
+
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +70,8 @@ public class PuzzleMgr : MonoBehaviour
         IsEstablished = false;
         IsComboReset = false;
         Init_Slider();
+        Init_MagicShootCnt_Image();
+        Init_audio();
     }
 
     // Update is called once per frame
@@ -91,6 +96,7 @@ public class PuzzleMgr : MonoBehaviour
         SetCycleMax();
         RandmCycleSet();
         Set_Ene_Puz();
+        ChargeMeteorPoint();
         canPuzReset = true;
     }
 
@@ -130,8 +136,8 @@ public class PuzzleMgr : MonoBehaviour
             numbers.RemoveAt(num);
         }
 
-        Debug.Log("0 : " + randNum[0] + " | 1 : " + randNum[1] + " | 2 : " + randNum[2] + " | 3 : " + randNum[3] +
-                    " | 4 : " + randNum[4] + " | 5 : " + randNum[5] + " | 6 : " + randNum[6] + " | 7 : " + randNum[7]);
+        //Debug.Log("0 : " + randNum[0] + " | 1 : " + randNum[1] + " | 2 : " + randNum[2] + " | 3 : " + randNum[3] +
+        //            " | 4 : " + randNum[4] + " | 5 : " + randNum[5] + " | 6 : " + randNum[6] + " | 7 : " + randNum[7]);
 
         // 魔法陣を出現させる
         for (int i=0;i<CYCLE_MAX;i++)
@@ -186,40 +192,41 @@ public class PuzzleMgr : MonoBehaviour
         GameObject.Find("Pointer").GetComponent<Point_Con2>().SelClear();
         for (int i = 0; i < CYCLE_MAX; i++)
         {
-            //emptyPuzzleBase[i].SetActive(true);
             emptyPuzzleBase[i].transform.GetChild(0).GetComponent<GoToParent>().FadeSelectCircle();
-            Destroy(emptyPuzzleBase[i].transform.GetChild(0).gameObject);
+            //emptyPuzzleBase[i].SetActive(true);
+            //Ene_Magic_Puzzle[i].transform.GetChild(0).GetComponent<GoToParent>().FadeSelectCircle();
+            Destroy(Ene_Magic_Puzzle[i].transform.GetChild(0).gameObject);
 
-            int num = i / 2;
+            //int num = i / 2;
 
-            Instantiate(Mag_Circle[num], Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-            emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-            emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            //Instantiate(Mag_Circle[num], Vector3.zero, Quaternion.identity, Ene_Magic_Puzzle[i].transform);
+            //Ene_Magic_Puzzle[i].transform.GetChild(0).transform.position = Vector3.zero;
+            //Ene_Magic_Puzzle[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
 
-            //if(emptyPuzzleBaseChildName[i][0] == 'R')
-            //{
-            //    Instantiate(r, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            //}
-            //if (emptyPuzzleBaseChildName[i][0] == 'B')
-            //{
-            //    Instantiate(b, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            //}
-            //if (emptyPuzzleBaseChildName[i][0] == 'G')
-            //{
-            //    Instantiate(g, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            //}
-            //if (emptyPuzzleBaseChildName[i][0] == 'S')
-            //{
-            //    Instantiate(s, Vector3.zero, Quaternion.identity, emptyPuzzleBase[i].transform);
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.position = Vector3.zero;
-            //    emptyPuzzleBase[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
-            //}
+            if (emptyPuzzleBase[i].transform.GetChild(0).transform.name[0] == 'R')
+            {
+                Instantiate(Mag_Circle[0], Vector3.zero, Quaternion.identity, Ene_Magic_Puzzle[i].transform);
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.position = Vector3.zero;
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            }
+            if (emptyPuzzleBase[i].transform.GetChild(0).transform.name[0] == 'B')
+            {
+                Instantiate(Mag_Circle[1], Vector3.zero, Quaternion.identity, Ene_Magic_Puzzle[i].transform);
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.position = Vector3.zero;
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            }
+            if (emptyPuzzleBase[i].transform.GetChild(0).transform.name[0] == 'G')
+            {
+                Instantiate(Mag_Circle[2], Vector3.zero, Quaternion.identity, Ene_Magic_Puzzle[i].transform);
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.position = Vector3.zero;
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            }
+            if (emptyPuzzleBase[i].transform.GetChild(0).transform.name[0] == 'S')
+            {
+                Instantiate(Mag_Circle[3], Vector3.zero, Quaternion.identity, Ene_Magic_Puzzle[i].transform);
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.position = Vector3.zero;
+                Ene_Magic_Puzzle[i].transform.GetChild(0).transform.rotation = Quaternion.identity;
+            }
         }
 
     }
@@ -321,6 +328,8 @@ public class PuzzleMgr : MonoBehaviour
 
                 PuzReset();
 
+                Init_SetColor();
+
             }
         }
         combo_Text.text = "COMBO : " + clear_combo;
@@ -331,10 +340,19 @@ public class PuzzleMgr : MonoBehaviour
         if (clear_combo >= COMBO_MAX)
         {
             Max_Magic.SetActive(true);
+            // メテオ
+            this.gameObject.GetComponent<FallingMagic>().M_FireFall(ene);
+
+            audioSource.PlayOneShot(SE_meteorPointCharge);
         }
         else
         {
             Magic.SetActive(true);
+            // フライ
+            this.gameObject.GetComponent<MagicFlyingToTheEnemy>().M_FireForward(ene);
+
+            ChargeMeteorPoint();
+            audioSource.PlayOneShot(SE_meteorPointCharge);
         }
     }
 
@@ -350,5 +368,52 @@ public class PuzzleMgr : MonoBehaviour
         float time = combo_remainingTime / Combo_GraceMaxTime;
 
         comboTimerSlider.value = time;
+    }
+
+    private void Init_MagicShootCnt_Image()
+    {
+        int cc = meteorPoint.transform.childCount;
+
+        for (int i = 0; i < cc; i++)
+        {
+            mPImage[i] = meteorPoint.transform.GetChild(i).gameObject.transform.GetComponent<Image>();
+
+        }
+
+        Init_SetColor();
+    }
+
+    private void Init_SetColor()
+    {
+        Color white = new Color(255, 255, 255, 255);
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (mPImage[i] == null)
+                return;
+            else
+                mPImage[i].color = white;
+        }
+    }
+
+    private void ChargeMeteorPoint()
+    {
+        if (clear_combo == 0) return;
+        int image_num;
+        if (clear_combo < COMBO_MAX)
+            image_num = clear_combo - 1;
+        else
+            image_num = COMBO_MAX - 1;
+        if (mPImage[image_num] == null) return;
+
+        Color red = new Color(255, 0, 0, 255);
+
+        mPImage[image_num].color = red;
+    }
+
+    private void Init_audio()
+    {
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.clip = SE_meteorPointCharge;
     }
 }

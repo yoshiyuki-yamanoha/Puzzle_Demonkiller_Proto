@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7075306111881856736
 Transform:
   m_ObjectHideFlags: 0
@@ -121,8 +121,8 @@ GameObject:
   - component: {fileID: 6406510760957520315}
   - component: {fileID: 6406510760957520316}
   - component: {fileID: 6406510760957520317}
-  - component: {fileID: 6406510760957520318}
   - component: {fileID: 6406510760957520314}
+  - component: {fileID: 8261940119930623899}
   - component: {fileID: 6406510760957520313}
   m_Layer: 0
   m_Name: flyMag
@@ -194,19 +194,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6406510760957520318
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6406510760957520319}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6406510760957520314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +209,19 @@ MonoBehaviour:
   fx_explosion: {fileID: 100006, guid: 450dff828997cdd4c864f611df7d62d5, type: 3}
   targetEnemy: {fileID: 6985069552240234191, guid: d2328f239e5565c48a7e0dda55d64d75,
     type: 3}
-  child: {fileID: 0}
+--- !u!65 &8261940119930623899
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406510760957520319}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9, y: 9, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6406510760957520313
 Rigidbody:
   m_ObjectHideFlags: 0

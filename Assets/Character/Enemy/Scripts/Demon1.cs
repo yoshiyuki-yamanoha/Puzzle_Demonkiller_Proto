@@ -83,7 +83,7 @@ public class Demon1 : EnemyBase
     private void OnTriggerStay(Collider other)
     {
         // 魔法が当たるとダメージ
-        if (other.gameObject.tag == "Magic")
+        if (other.gameObject.tag == "Meteor")
         {
             Debug.Log(other.gameObject);
             Debug.Log("hit_triStay");

@@ -5,7 +5,9 @@ using UnityEngine;
 public class MagicFlyingToTheEnemy : MagicBas
 {
 
-    [SerializeField] public GameObject fx_flyingMagic = null;
+    public GameObject fx_flyingMagic = null;
+    public GameObject spherePos = null;
+
 
     // 後々消したいなぁ(そういう書き方しろ)
     void Start()
@@ -31,9 +33,9 @@ public class MagicFlyingToTheEnemy : MagicBas
     public void M_FireForward(GameObject enemy)
     {
         Vector3 heightToDropMagic = new Vector3(2.0f, 5.0f, 0.0f);
-        Vector3 overTheplayer = this.transform.position + heightToDropMagic;
+        Vector3 overTheplayer = spherePos.transform.position + heightToDropMagic;
 
-        GameObject Obj = Instantiate(fx_flyingMagic, overTheplayer, this.transform.rotation);
+        GameObject Obj = Instantiate(fx_flyingMagic, overTheplayer, Quaternion.identity);
         Obj.GetComponent<FlyTowardsTheEnemy>().targetEnemy = enemy;
     }
 }

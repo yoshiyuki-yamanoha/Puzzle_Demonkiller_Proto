@@ -202,6 +202,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyGeneration
       objectReference: {fileID: 0}
+    - target: {fileID: 9055807357533542312, guid: b1a2602749ee68f40b55f3101bd53af1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9055807357533542313, guid: b1a2602749ee68f40b55f3101bd53af1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1344,6 +1349,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1339355824022797771, guid: 1e2b2ef6b04f3c344afb7f83e4151721,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 1339355825359824248, guid: 1e2b2ef6b04f3c344afb7f83e4151721,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1433,7 +1443,7 @@ PrefabInstance:
     - target: {fileID: 4438277704411954446, guid: 1a306fa54a6f56544a2558978224b525,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4438277704411954450, guid: 1a306fa54a6f56544a2558978224b525,
         type: 3}
@@ -2401,6 +2411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fx_flyingMagic: {fileID: 6406510760957520319, guid: d2c86b9df524f66489af20e2a11b0f5e,
     type: 3}
+  spherePos: {fileID: 1750157007}
 --- !u!1001 &1678057819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13076,7 +13087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c8e3a6d2446a44cb9f629447482dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 5
+  power: 4
   selectCircle: {fileID: 876905120787734957, guid: 63868f6cc2589e14bb8abac8cab76974,
     type: 3}
   selectCircle2: {fileID: 5840325049715654384, guid: 174862645efbd244c9cf110b1d617026,
