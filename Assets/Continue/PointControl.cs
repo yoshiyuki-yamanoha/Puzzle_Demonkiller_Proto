@@ -687,4 +687,14 @@ public class PointControl : MonoBehaviour
     {
         ccMode = num;
     }
+
+    public float Get_Interval()
+    {
+        return interval;
+    }
+
+    public void Set_Interval(float num)
+    {
+        interval = num;
+    }
 }

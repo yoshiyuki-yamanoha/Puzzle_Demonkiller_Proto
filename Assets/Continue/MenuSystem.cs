@@ -18,6 +18,7 @@ public class MenuSystem : MonoBehaviour
     [SerializeField] EnemySpawn es;
     [SerializeField] Text enemyNum;
     [SerializeField] Text enemySpawnInterval;
+    [SerializeField] Text PointMovableInterval;
 
     //メニュー番号
     int menuNum;
@@ -44,6 +45,7 @@ public class MenuSystem : MonoBehaviour
 
         enemyNum.text = es.GetMaxEnemyLimit().ToString("0") + "体";
         enemySpawnInterval.text = es.GetInterval().ToString("0.0") + "フレーム";
+        PointMovableInterval.text = pc.Get_Interval().ToString("0.0") + "フレーム";
     }
 
     
@@ -90,8 +92,8 @@ public class MenuSystem : MonoBehaviour
             float ver = Input.GetAxis("Vertical");
             if (ver > 0) menuNum--;
             if (ver < 0) menuNum++;
-            if (menuNum < 0) menuNum = 2;
-            if (menuNum > 2) menuNum = 0;
+            if (menuNum < 0) menuNum = 3;
+            if (menuNum > 3) menuNum = 0;
         }
         else {
             intervalV--;
@@ -178,6 +180,23 @@ public class MenuSystem : MonoBehaviour
                         es.SetInterval(buff2);
                         enemySpawnInterval.text = buff2.ToString("0") + "フレーム";
                         intervalH = 8;
+                    }
+                    break;
+                case 3: //敵の間隔
+                    float intervalNum = pc.Get_Interval();
+                    float IntervalBuff = intervalNum;
+
+                    if (hori > 0) IntervalBuff++;
+                    if (hori < 0) IntervalBuff--;
+                    if (IntervalBuff < 0) IntervalBuff = 0;
+                    if (IntervalBuff > 15) IntervalBuff = 15;
+
+                    if (intervalNum != IntervalBuff)
+                    {
+                        pc.Set_Interval(IntervalBuff);
+                        PointMovableInterval.text = pc.Get_Interval().ToString("0.0") + "フレーム";
+                        intervalH = 12;
+
                     }
                     break;
             }
