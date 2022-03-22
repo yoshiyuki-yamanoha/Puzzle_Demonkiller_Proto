@@ -10,4 +10,9 @@ public class TransportToParent : MonoBehaviour
 
         return goalObjTf.position;
     }
+
+    public GameObject GetGoalObject() {
+
+        return goalObjTf.gameObject;
+    }
 }
