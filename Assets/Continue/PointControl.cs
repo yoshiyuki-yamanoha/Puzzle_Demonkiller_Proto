@@ -175,13 +175,18 @@ public class PointControl : MonoBehaviour
                     float per = 0.1f;
                     Vector3 currentPerPos;
 
+                    TransportToParent ttp = o.GetComponent<TransportToParent>();
+
                     while (per < 1.0f)
                     {
                         currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
                         if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
                         {
-                            oriPos = o.GetComponent<TransportToParent>().GetGoalPos();
+                            //最近選択していたオブジェクト
+                            oldOverlapObject = ttp.GetGoalObject();
+
+                            oriPos = ttp.GetGoalPos();
 
                             interCount = interval;
 
@@ -193,32 +198,32 @@ public class PointControl : MonoBehaviour
                 }
 
                 //ポインターと魔法陣の当たり判定
-                foreach (GameObject o in circles)
-                {
+                //foreach (GameObject o in circles)
+                //{
 
-                    float per = 0.1f;
-                    Vector3 currentPerPos;
-                    while (per < 1.0f)
-                    {
-                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+                //    float per = 0.1f;
+                //    Vector3 currentPerPos;
+                //    while (per < 1.0f)
+                //    {
+                //        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
-                        {
-                            //最近選択していたオブジェクト
-                            oldOverlapObject = o;
+                //        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
+                //        {
+                //            //最近選択していたオブジェクト
+                //            oldOverlapObject = o;
 
-                            //選択した親オブジェクトの位置にいく
-                            oriPos = o.transform.parent.position;
+                //            //選択した親オブジェクトの位置にいく
+                //            oriPos = o.transform.parent.position;
 
-                            interCount = interval;
+                //            interCount = interval;
 
-                            break;
-                        }
+                //            break;
+                //        }
 
-                        per += 0.1f;
-                    }
+                //        per += 0.1f;
+                //    }
 
-                }
+                //}
             }
 
             //選択サークルや入れ替え選択など
