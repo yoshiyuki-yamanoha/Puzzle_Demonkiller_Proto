@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5298066893699814272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5298066893699814274}
+  - component: {fileID: 5298066893699814273}
+  m_Layer: 0
+  m_Name: Sponer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5298066893699814274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298066893699814272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.44561297, y: 3.6399727, z: 26.938276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5298066893699814273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298066893699814272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281cf3c61fdbbdc4fad4375a9314a259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab:
+  - {fileID: 3856238070704820190, guid: 05d84a44d8c09344996431bcb52c74c1, type: 3}
+  - {fileID: 3856238070704820190, guid: 789f9194f988eff498885a76205ad0a8, type: 3}
+  enemymax: 5
+  span: 5
+  enemy_particle:
+  - {fileID: 7635510662798096942, guid: 6e96566a11db66346928d05195429c2c, type: 3}
+  - {fileID: 7634172833325932968, guid: 54d10b0bb8bddd74286bd595064dcabe, type: 3}
+  rootpos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  max_next: 0
+  turnflg: 0
+  initflg: 1
