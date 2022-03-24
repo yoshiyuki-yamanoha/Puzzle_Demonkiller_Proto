@@ -60,18 +60,18 @@ public class Attackvariation : MonoBehaviour
     public void attackvar()
     {
 
-        if (num_one > 2)
+        if (num_one > 0)
         {
             if (num_one != countR) orbtext_R.enabled = false;
             else { orbtext_R.enabled = true; mag.SetJouhou(0); mag.StartCoroutine(mag.DoubleCombo(num_one)); }
-            if (num_one != countG) { orbtext_G.enabled = false;  }
-            else orbtext_G.enabled = true;
-            if (num_one != countB) orbtext_B.enabled = false;
+            if (num_one != countG) { orbtext_G.enabled = false; }
+            else { orbtext_G.enabled = true; mag.SetJouhou(4); }
+                if (num_one != countB) orbtext_B.enabled = false;
             else { orbtext_B.enabled = true; mag.SetJouhou(1); }
             if (num_one != countY) orbtext_Y.enabled = false;
-            else orbtext_Y.enabled = true;
+            else { orbtext_Y.enabled = true; mag.SetJouhou(2); }
             if (num_one != countL) orbtext_L.enabled = false;
-            else orbtext_L.enabled = true;
+            else { orbtext_L.enabled = true; mag.SetJouhou(3); }
 
             activeflg_orb = true;
         }
