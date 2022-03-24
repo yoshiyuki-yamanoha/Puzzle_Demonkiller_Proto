@@ -9,7 +9,11 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] float attack = 0; //攻撃
     [SerializeField] float speed = 0; //速度
     [SerializeField] bool deathflg = false; //死亡フラグ
-    bool init_animflg = true; //アニメーションを一回だけ実行させたい時フラグ 
+    bool init_animflg = true; //アニメーションを一回だけ実行させたい時フラグ
+
+    [SerializeField] GeneralEnemy generalenemy = null;
+
+    [SerializeField] int now_next = 0;
     public enum Status
     {
         Idle,
@@ -26,6 +30,8 @@ public class EnemyBase : MonoBehaviour
     public float Speed { get => speed; }
     public bool Deathflg { get => deathflg; }
     public bool Init_animflg { get => init_animflg; set => init_animflg = value; }
+    public GeneralEnemy Generalenemy { get => generalenemy; set => generalenemy = value; }
+    public int Now_next { get => now_next; set => now_next = value; }
 
     //ターゲットの方向に向き処理(移動に使用予定)
     public Vector3 TargetDir(GameObject Enemy , GameObject Target) 
@@ -37,6 +43,11 @@ public class EnemyBase : MonoBehaviour
         return def;
     }
 
+    public void NextTarget()
+    {
+        now_next++;
+        if (now_next > Generalenemy.max_next - 1) { now_next = Generalenemy.max_next - 1; }//範囲超えないよう制御
+    }
     //damage処理
     public float Damage(float damege)
     {
@@ -44,5 +55,11 @@ public class EnemyBase : MonoBehaviour
         if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
 
         return hp;
+    }
+
+    public void Move()
+    {
+        transform.position += TargetDir(this.gameObject, Generalenemy.rootpos[(int)Generalenemy.startpos].transform.GetChild(Now_next).gameObject).normalized * Speed * Time.deltaTime;//移動
+        //transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, Generalenemy.rootpos[(int)Generalenemy.startpos].transform.GetChild(Now_next).gameObject));//ターゲットの方向を向く
     }
 }

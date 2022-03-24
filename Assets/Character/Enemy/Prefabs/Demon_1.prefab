@@ -2776,6 +2776,8 @@ MonoBehaviour:
   attack: 10
   speed: 0.9
   deathflg: 0
+  generalenemy: {fileID: 0}
+  now_next: 0
   status: 0
   Distance: 3
   Maxfremtime: 3

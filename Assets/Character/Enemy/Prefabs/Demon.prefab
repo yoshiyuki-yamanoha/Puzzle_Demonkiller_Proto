@@ -1086,6 +1086,8 @@ MonoBehaviour:
   attack: 10
   speed: 0.9
   deathflg: 0
+  generalenemy: {fileID: 0}
+  now_next: 0
   status: 0
   distance: 2
   maxfremtime: 3
@@ -1496,8 +1498,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 4288275749586515080}
   m_AABB:
-    m_Center: {x: 0.001932703, y: -0.020939112, z: -0.45374262}
-    m_Extent: {x: 0.10382446, y: 0.23106724, z: 0.52236235}
+    m_Center: {x: 0.003221184, y: -0.03489852, z: -0.7562376}
+    m_Extent: {x: 0.17304075, y: 0.38511205, z: 0.8706039}
   m_DirtyAABB: 0
 --- !u!183 &2677389410330967563
 Cloth:

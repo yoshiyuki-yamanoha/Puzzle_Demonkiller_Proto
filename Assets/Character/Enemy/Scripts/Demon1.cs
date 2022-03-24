@@ -13,10 +13,22 @@ public class Demon1 : EnemyBase
     [SerializeField] EnemyAnimationBase Enemy_anim = null;
     void FixedUpdate()
     {
-        //hierarchyからターゲットを取得
-        if (Target == null)
+        if (Generalenemy == null)
         {
-            Target = GameObject.FindGameObjectWithTag("Barricade");
+            Generalenemy = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
+        }
+
+        //hierarchyからターゲットを取得
+        //if (Target == null)
+        //{
+        //    Target = GameObject.FindGameObjectWithTag("Barricade");
+        //}
+        if (Generalenemy.turnflg)
+        {
+            if (Generalenemy.initflg)
+            {
+                NextTarget();
+            }
         }
 
         if (Target == null)
@@ -24,9 +36,9 @@ public class Demon1 : EnemyBase
             Target = GameObject.FindGameObjectWithTag("Player");
         }
 
-
-        dis = TargetDir(this.gameObject, Target).magnitude;
-        if (TargetDir(this.gameObject,Target).magnitude > Distance) {//ターゲットの距離によって移動。
+        //dis = TargetDir(this.gameObject, Target).magnitude;
+        if (TargetDir(this.gameObject, Generalenemy.rootpos[(int)Generalenemy.startpos].transform.GetChild(Now_next).gameObject).magnitude > 0.01f) {//ターゲットの距離によって移動。
+            Debug.Log("歩き状態");
             Move();
             status = Status.Walk;//歩き状態
         }
@@ -34,17 +46,17 @@ public class Demon1 : EnemyBase
         {
             status = Status.Idle;//止まる。//ターゲットに到達
             Debug.Log("止まる");
-            //この辺、深夜脳死でかいたので、後で修正予定。
-            if (!Enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
-                FremTime += Time.deltaTime; //3秒おきに攻撃
-            }
+            ////この辺、深夜脳死でかいたので、後で修正予定。
+            //if (!Enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
+            //    FremTime += Time.deltaTime; //3秒おきに攻撃
+            //}
 
-            if (FremTime > Maxfremtime){ //フレーム（秒）攻撃する
-                Enemy_anim.TriggerAttack("Attack");//攻撃trigger
-                transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, Target));//プレイヤーの方向を向く
-                //再生中ならリセット 
-                FremTime = 0;
-            }
+            //if (FremTime > Maxfremtime){ //フレーム（秒）攻撃する
+            //    Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+            //    transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, Target));//プレイヤーの方向を向く
+            //    //再生中ならリセット 
+            //    FremTime = 0;
+            //}
         }
 
         //死亡フラグが立った時
@@ -55,12 +67,6 @@ public class Demon1 : EnemyBase
 
         Enemy_anim.AnimStatus(status);//アニメーション更新
 
-    }
-
-    private void Move()
-    {
-        transform.position += TargetDir(this.gameObject, Target).normalized * Speed * Time.deltaTime;//移動
-        transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, Target));//ターゲットの方向を向く
     }
 
     private void OnTriggerEnter(Collider other)
