@@ -29,7 +29,7 @@ public class MagicPointer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
         //視線と床の交点座標を求める (見ている地点にポインターを出す用)
@@ -69,7 +69,7 @@ public class MagicPointer : MonoBehaviour
 
         foreach (GameObject o in enemies)
         {
-            if (o.transform.childCount > 0)
+            if (o.tag == "MarkedEnemy")
                 continue;
 
             //敵とカメラとの距離
@@ -81,6 +81,8 @@ public class MagicPointer : MonoBehaviour
                 shotPos = dis;//一番近い敵との距離
                 mostNearEnemy = o;
             }
+
+            Debug.Log("するんじゃない？");
 
         }
     }

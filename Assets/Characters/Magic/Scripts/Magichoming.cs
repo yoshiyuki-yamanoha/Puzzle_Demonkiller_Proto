@@ -108,7 +108,7 @@ public class Magichoming : MonoBehaviour
     //void OnTriggerEnter(Collider other)
     //{
     //    //Enemyタグに当たったらコンボに応じて爆発のEffectを表示
-    //    if (other.gameObject.tag == "Enemy")
+    //    if (other.gameObject.tag == "MarkedEnemy")
     //    {
     //        if (combo > 5)
     //        {
