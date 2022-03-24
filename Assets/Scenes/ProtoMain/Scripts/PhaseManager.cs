@@ -123,7 +123,7 @@ public class PhaseManager : MonoBehaviour
     void GameInit() {
         currentWaveNum = 0;     //ウェーブ数の初期化
         phase = Phase.Defence;  //最初のフェーズをパズルに
-        puzzles.SetActive(false);
+        //puzzles.SetActive(false);
     }
 
     //ウェーブ初期化関数
