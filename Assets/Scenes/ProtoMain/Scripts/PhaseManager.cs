@@ -38,7 +38,12 @@ public class PhaseManager : MonoBehaviour
     bool isGame = false;        //ウェーブ開始フラグ
     bool isPause = false;       //一時停止フラグ
 
+    //操作出来ないようにするためのやつ
     [SerializeField] PlayerController pc;
+
+    //時間が立ったら自動で切り替わるかのフラグ
+    [SerializeField, Tooltip("時間が立ったら自動でフェイズが切り替わるか")]
+    private bool changePhaseAuto = true;
 
     void Start()
     {
@@ -48,64 +53,67 @@ public class PhaseManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+        if (changePhaseAuto) {
 
-        switch (phase) {
-            case Phase.Puzzle:
+            switch (phase)
+            {
+                case Phase.Puzzle:
 
-                //時間を減らす
-                nowTime -= Time.deltaTime;
+                    //時間を減らす
+                    nowTime -= Time.deltaTime;
 
-                //現ウェーブの時間が0になったら
-                if (nowTime < 0)
-                {
-                    startFunctions.Invoke();
-                    nowTime = 0;                //0で初期化
-                    phase = Phase.Defence;       //パズルフェイズに移行
-                }
-
-                //テキストUIに表示させる
-                timeText.text = "残り" + nowTime.ToString("00") + "秒";
-
-                break;
-
-            case Phase.Defence:
-                //スタートボタンでウェーブ開始
-                if (!isGame && Input.GetButtonDown("Start")) isGame = true;
-
-                //ウェーブを開始しているかつポーズ中でない
-                if (isGame && !isPause)
-                {
-                    int currentEnemyNum = maxEnemyNum - killedEnemyNum;
-
-                    //現ウェーブの敵を全員倒したら
-                    if (currentEnemyNum <= 0)
+                    //現ウェーブの時間が0になったら
+                    if (nowTime < 0)
                     {
-                        finichFunctions.Invoke();   //イベントを呼び出す
-                        WaveInit();                 //ウェーブ初期化
-                        //phase = Phase.Puzzle;       //パズルフェイズに移行
+                        startFunctions.Invoke();
+                        nowTime = 0;                //0で初期化
+                        ChangePhase(1);             //パズルフェイズに移行
                     }
 
                     //テキストUIに表示させる
-                    enemyText.text = killedEnemyNum.ToString() + "/" + maxEnemyNum.ToString();
-                }
-                break;
+                    timeText.text = "残り" + nowTime.ToString("00") + "秒";
+
+                    break;
+
+                case Phase.Defence:
+                    //スタートボタンでウェーブ開始
+                    if (!isGame && Input.GetButtonDown("Start")) isGame = true;
+
+                    //ウェーブを開始しているかつポーズ中でない
+                    if (isGame && !isPause)
+                    {
+                        int currentEnemyNum = maxEnemyNum - killedEnemyNum;
+
+                        //現ウェーブの敵を全員倒したら
+                        if (currentEnemyNum <= 0)
+                        {
+                            finichFunctions.Invoke();   //イベントを呼び出す
+                                                        //WaveInit();                 //ウェーブ初期化
+                            ChangePhase(0);             //パズルフェイズに移行
+                        }
+
+                        //テキストUIに表示させる
+                        enemyText.text = killedEnemyNum.ToString() + "/" + maxEnemyNum.ToString();
+                    }
+                    break;
+
+            }
         }
 
-        //Bボタンでフェーズ切替え
-        if (Input.GetButtonDown("Fire2")) {
-            phase = 1 - phase;
-            if (phase == Phase.Puzzle)
-            {
-                puzzles.SetActive(true);
-                pc.enabled = false;
-            }
-            else
-            {
-                puzzles.SetActive(false);
-                pc.enabled = true;
-            }
-        }
+        ////Bボタンでフェーズ切替え
+        //if (Input.GetButtonDown("Fire2")) {
+        //    phase = 1 - phase;
+        //    if (phase == Phase.Puzzle)
+        //    {
+        //        puzzles.SetActive(true);
+        //        pc.enabled = false;
+        //    }
+        //    else
+        //    {
+        //        puzzles.SetActive(false);
+        //        pc.enabled = true;
+        //    }
+        //}
 
         //現在のフェーズを出す
         phaseNameText.text = phase.ToString();
@@ -126,9 +134,17 @@ public class PhaseManager : MonoBehaviour
         waveNumText.text = "Wave:" + currentWaveNum.ToString() + "/" + maxWaveNum.ToString();
     }
 
+    //現在のフェイズを取得
     public int GetCurrentPhase() {
 
         return (int)phase;
+    }
+
+    //フェイズを変更できる関数 (0：パズルふぇいず 1:魔法フェイズ other：自動切換え)
+    public void ChangePhase(int num = 99) {
+        if (num == 0) phase = Phase.Puzzle;
+        else if (num == 1) phase = Phase.Defence;
+        else phase = 1 - phase;
     }
 
     //ウェーブ開始時に呼び出す関数用イベント
