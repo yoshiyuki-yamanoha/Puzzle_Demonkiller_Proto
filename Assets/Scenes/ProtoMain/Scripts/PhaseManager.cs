@@ -7,9 +7,9 @@ public class PhaseManager : MonoBehaviour
 {
     /*イベントトリガー*/
     [SerializeField,Tooltip("ウェーブ開始時に呼ばれる関数たち")]
-    private StageGame StartFunctions = new StageGame();
+    private StageGame startFunctions = new StageGame();
     [SerializeField,Tooltip("ウェーブ終了時に呼ばれる関数たち")]
-    private EndGame FinichFunctions = new EndGame();
+    private EndGame finichFunctions = new EndGame();
 
     /*ウェーブ数関連*/
     int currentWaveNum = 0;     //現在のステージの現在のウェーブ
@@ -18,7 +18,7 @@ public class PhaseManager : MonoBehaviour
 
     /*タイムリミット関連 (パズル用)*/
     float nowTime = 0;          //現在のパズルの経過時間
-    float maxTime = 60;         //現在のパズルの時間制限
+    [SerializeField] float maxTime = 60;         //現在のパズルの時間制限
     [SerializeField] Text timeText;              //時間を表示するUI
 
     /*敵の数関連 (ディフェンス用)*/
@@ -53,15 +53,16 @@ public class PhaseManager : MonoBehaviour
         switch (phase) {
             case Phase.Puzzle:
 
-                ////時間を減らす
-                //nowTime -= Time.deltaTime;
+                //時間を減らす
+                nowTime -= Time.deltaTime;
 
-                ////現ウェーブの時間が0になったら
-                //if (nowTime < 0)
-                //{
-                //    nowTime = 0;                //0で初期化
-                //    phase = Phase.Defence;       //パズルフェイズに移行
-                //}
+                //現ウェーブの時間が0になったら
+                if (nowTime < 0)
+                {
+                    startFunctions.Invoke();
+                    nowTime = 0;                //0で初期化
+                    phase = Phase.Defence;       //パズルフェイズに移行
+                }
 
                 //テキストUIに表示させる
                 timeText.text = "残り" + nowTime.ToString("00") + "秒";
@@ -80,7 +81,7 @@ public class PhaseManager : MonoBehaviour
                     //現ウェーブの敵を全員倒したら
                     if (currentEnemyNum <= 0)
                     {
-                        FinichFunctions.Invoke();   //イベントを呼び出す
+                        finichFunctions.Invoke();   //イベントを呼び出す
                         WaveInit();                 //ウェーブ初期化
                         //phase = Phase.Puzzle;       //パズルフェイズに移行
                     }
@@ -123,6 +124,11 @@ public class PhaseManager : MonoBehaviour
         currentWaveNum++;   //ウェーブ数を1進める
         isGame = false;     //ウェーブ開始フラグ
         waveNumText.text = "Wave:" + currentWaveNum.ToString() + "/" + maxWaveNum.ToString();
+    }
+
+    public int GetCurrentPhase() {
+
+        return (int)phase;
     }
 
     //ウェーブ開始時に呼び出す関数用イベント
