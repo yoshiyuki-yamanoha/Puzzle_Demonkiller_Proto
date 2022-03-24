@@ -4606,6 +4606,12 @@ MonoBehaviour:
   magicPosObj: {fileID: 1414120610}
   speedDownMagic: {fileID: 100012, guid: ff9136f85be2a5143a8a5580c87aae8f, type: 3}
   doubleComboMagic: {fileID: 100012, guid: 9be0f4b799a589f49bcfd5bac74c809c, type: 3}
+  yellowMagic: {fileID: 6893391695622399824, guid: 2adb81cd42178f0418f8589836dcd2b9,
+    type: 3}
+  lightBlueMagic: {fileID: 561088079031179032, guid: 83ecf557d29919d469681b1936795e15,
+    type: 3}
+  greenMagic: {fileID: 6662294227491900157, guid: 19dc9e9f1a3acfb42ba6f21472d2af1e,
+    type: 3}
 --- !u!1 &1776924793
 GameObject:
   m_ObjectHideFlags: 0

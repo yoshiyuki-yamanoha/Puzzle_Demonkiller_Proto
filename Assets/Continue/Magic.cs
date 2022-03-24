@@ -17,6 +17,10 @@ public class Magic : MonoBehaviour
     //魔法s
     [SerializeField] private GameObject speedDownMagic;
     [SerializeField] private GameObject doubleComboMagic;
+    //魔法の名前が未定↓
+    [SerializeField] private GameObject yellowMagic;
+    [SerializeField] private GameObject lightBlueMagic;
+    [SerializeField] private GameObject greenMagic;
 
     int magicNum = 0;
 
@@ -70,6 +74,13 @@ public class Magic : MonoBehaviour
             ma = Instantiate(doubleComboMagic, magicPos, Quaternion.identity);
         if (magicNum == 1)
             ma = Instantiate(speedDownMagic, magicPos, Quaternion.identity);
+        //仮置き
+        if (magicNum == 2)
+            ma = Instantiate(yellowMagic, magicPos, Quaternion.identity);
+        if (magicNum == 3)
+            ma = Instantiate(lightBlueMagic, magicPos, Quaternion.identity);
+        if (magicNum == 4)
+            ma = Instantiate(greenMagic, magicPos, Quaternion.identity);
         Destroy(ma, 0.5f);
     }
 
