@@ -70,6 +70,8 @@ public class ClearCheck : MonoBehaviour
     //オーブぐるぐるアニメーション用
     [SerializeField] private Animator orbAnimator;
 
+    
+
 
     private void Start()
     {
@@ -87,11 +89,24 @@ public class ClearCheck : MonoBehaviour
     {
         if (!cleared)
         {
-            //線が被らなければクリア (グルっと一周)
-            if (CheckClear(1)) ClearReward(1);
-            else if (CheckClear(-1)) ClearReward(1);
-            else if (CheckClear(2)) ClearReward(99);//星の形になってればクリア(五芒星)
-            else if (CheckClear(-2)) ClearReward(2);
+            //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
+            if (CheckClear(1))
+            {
+                ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
+            }
+            else if (CheckClear(-1))
+            {
+                ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
+            }
+            //星の形になってればクリア(五芒星)↓２つのif文でチェック
+            else if (CheckClear(2))
+            {
+                ClearReward((int)PointControl.MAGIC_MODE.STAR);
+            }
+            else if (CheckClear(-2))
+            {
+                ClearReward((int)PointControl.MAGIC_MODE.STAR);
+            }
 
 
 
@@ -314,8 +329,8 @@ public class ClearCheck : MonoBehaviour
 
     }
 
-    void ClearReward(int point) {
-        AddMagicPoint(point);
+    void ClearReward(int type) {
+        //AddMagicPoint(point);
         ShowEffeLingSound();
 
         //今bのタイム更新
@@ -341,7 +356,7 @@ public class ClearCheck : MonoBehaviour
             o.GetComponent<GoToParent>().LineSetColor();
 
         //色統一ならオーブを光らせる
-        ppp.CheckOneColor();
+        ppp.CheckOneColor(type);
 
         //魔法陣の色を減らす
         ppp.BreakColor();
@@ -390,4 +405,5 @@ public class ClearCheck : MonoBehaviour
 
         AttackV.attackvar_erase();
     }
+
 }
