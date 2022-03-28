@@ -105,6 +105,13 @@ public class PointControl : MonoBehaviour
     public int ccMode;
     public bool isMenu = false;
 
+    //魔法の五角形五芒星
+    public enum MAGIC_MODE
+    {
+        STAR = 0,
+        PENTAGON = 1,
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -143,6 +150,7 @@ public class PointControl : MonoBehaviour
             oyas[i] = rootPuzzlesObj.GetChild(i);
 
         ccMode = 0;
+        ResetOrbs();
     }
 
     GameObject circleA = null;
@@ -432,7 +440,7 @@ public class PointControl : MonoBehaviour
     }
 
     //1色で統一してマッチさせた時に右のオーブに色をやどらせる
-    public void CheckOneColor()
+    public void CheckOneColor(int type)
     {
         GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
 
@@ -450,6 +458,8 @@ public class PointControl : MonoBehaviour
             if (firstColor == circleMats[i].mat.color)
             {
                 orbs[orbNum].GetComponent<Renderer>().material = circleMats[i].mat;
+
+                orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
 
                 orbNum++;
                 if (orbpower < 5) orbpower++;
@@ -490,6 +500,8 @@ public class PointControl : MonoBehaviour
         for (int i = 0; i < orbs.Length; i++)
         {
             orbs[i].GetComponent<Renderer>().material = resetMat;
+            orbs[i].transform.GetChild(0).gameObject.SetActive(false);
+            orbs[i].transform.GetChild(1).gameObject.SetActive(false);
         }
 
     }
@@ -666,6 +678,7 @@ public class PointControl : MonoBehaviour
 
     //L1R1ボタンで色の数を変更する
     void ChangeColorNum() {
+
         int oldNum = changeCircleNum;
 
         if (Input.GetButtonDown("Cont_L1")) {

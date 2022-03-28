@@ -85,7 +85,8 @@ public class Magichoming : MonoBehaviour
 
         //距離を縮める
         disPer += 0.1f;
-        transform.position = Vector3.Lerp(oriPos, TargetObject.transform.position, disPer);
+        if(TargetObject)
+            transform.position = Vector3.Lerp(oriPos, TargetObject.transform.position, disPer);
 
         //Debug.Log(Vector3.Distance(transform.position, TargetPos));
         if (disPer >= 1.0f)
