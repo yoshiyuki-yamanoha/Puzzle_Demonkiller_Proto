@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class Demon : EnemyBase
 {
-    
-    [SerializeField] float distance = 0;
+
     float fremTime = 0;
-    [SerializeField] float maxfremtime = 3;
+
+    [SerializeField] float distance = 0;//距離入れる変数
+    [SerializeField] float maxfremtime = 3;//最大秒
     [SerializeField] EnemyAnimationBase enemy_anim = null;
-    [SerializeField] GameObject target = null;
 
     //追加
     [SerializeField] float Offset = 0;
-    bool init_anim = true;
-    int oldrand = 0;
-    
-    bool enemy_start = false;
     [SerializeField] GameObject hiteffect = null;
     void FixedUpdate()
     {
@@ -36,17 +32,6 @@ public class Demon : EnemyBase
             }
         }
 
-        //if (Lastflg)
-        //{
-        //    enemy_anim.TriggerAttack("Attack");
-        //}
-
-        if (target == null)
-        {
-            target = GameObject.FindGameObjectWithTag("Player");
-        }
-
-
         if (TargetDir(this.gameObject, Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject).magnitude > 0.01f)
         {//ターゲットの距離によって移動。
             Debug.Log("マス"+Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject);
@@ -57,27 +42,6 @@ public class Demon : EnemyBase
         else
         {
             status = Status.Idle;//止まる。//ターゲットに到達
-
-            //この辺、深夜脳死でかいたので、後で修正予定。
-            //if (!enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
-            //    fremTime += Time.deltaTime; //3秒おきに攻撃
-            //}
-
-            //if (fremTime > maxfremtime) {//フレーム（秒）攻撃する
-
-            //    if (GetRandom(0, 1) == 0)
-            //    {
-            //        enemy_anim.TriggerAttack("Attack");//攻撃trigger
-            //    }
-            //    else
-            //    {
-            //        enemy_anim.TriggerAttack("AttackKick");//攻撃trigger
-            //    }
-
-            //    transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, target));//プレイヤーの方向を向く
-            //                                                                                     //再生中ならリセット 
-            //    fremTime = 0;
-            //}
         }
 
         //死亡フラグが立った時。
@@ -87,28 +51,6 @@ public class Demon : EnemyBase
         }
 
         enemy_anim.AnimStatus(status);//アニメーション更新
-    }
-
-    int GetRandom(int begin, int end)
-    {
-        //int walk = 0;//作業用変数
-        int newrand = 0;
-
-        //生成した値が同じだったら生成して
-        do
-        {
-            newrand = Random.Range(begin, end + 1);
-        } while (newrand == oldrand);
-
-        oldrand = newrand;
-
-        return newrand;
-    }
-
-    //入力受付
-    private void Update()
-    {
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -139,32 +81,6 @@ public class Demon : EnemyBase
         //}
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == ("Barricade") || collision.gameObject.tag == ("Player"))
-    //    {
-    //        for (int i= 0; i< 2; i++) {
-    //            ParticleSystem newhiteffect = Instantiate(hiteffect.transform.GetChild(i).GetComponent<ParticleSystem>(), collision.contacts[0].point, Quaternion.identity);
-    //            newhiteffect.Play();
-    //        }
-    //    }
-    //    //Debug.Log(collision.contacts[0].point);
-    //    //Debug.DrawLine(transform.position, collision.contacts[0].point ,Color.red);
-
-    //}
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    // 魔法が当たるとダメージ
-    //    if (collision.gameObject.tag == "Magic")
-    //    {
-    //        Debug.Log(collision.gameObject);
-    //        Debug.Log("hit_colli");
-    //        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(collision.gameObject);
-    //        this.GetComponent<Demon>().Damage(100.0f);
-    //    }
-    //}
-
     private void OnTriggerStay(Collider other)
     {
         // 魔法が当たるとダメージ
@@ -177,3 +93,52 @@ public class Demon : EnemyBase
         }
     }
 }
+
+//コメント化処理
+
+//この辺、深夜脳死でかいたので、後で修正予定。
+//if (!enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
+//    fremTime += Time.deltaTime; //3秒おきに攻撃
+//}
+
+//if (fremTime > maxfremtime) {//フレーム（秒）攻撃する
+
+//    if (GetRandom(0, 1) == 0)
+//    {
+//        enemy_anim.TriggerAttack("Attack");//攻撃trigger
+//    }
+//    else
+//    {
+//        enemy_anim.TriggerAttack("AttackKick");//攻撃trigger
+//    }
+
+//    transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, target));//プレイヤーの方向を向く
+//                                                                                     //再生中ならリセット 
+//    fremTime = 0;
+//}
+
+//private void OnCollisionEnter(Collision collision)
+//{
+//    if (collision.gameObject.tag == ("Barricade") || collision.gameObject.tag == ("Player"))
+//    {
+//        for (int i= 0; i< 2; i++) {
+//            ParticleSystem newhiteffect = Instantiate(hiteffect.transform.GetChild(i).GetComponent<ParticleSystem>(), collision.contacts[0].point, Quaternion.identity);
+//            newhiteffect.Play();
+//        }
+//    }
+//    //Debug.Log(collision.contacts[0].point);
+//    //Debug.DrawLine(transform.position, collision.contacts[0].point ,Color.red);
+
+//}
+
+//private void OnCollisionEnter(Collision collision)
+//{
+//    // 魔法が当たるとダメージ
+//    if (collision.gameObject.tag == "Magic")
+//    {
+//        Debug.Log(collision.gameObject);
+//        Debug.Log("hit_colli");
+//        GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(collision.gameObject);
+//        this.GetComponent<Demon>().Damage(100.0f);
+//    }
+//}

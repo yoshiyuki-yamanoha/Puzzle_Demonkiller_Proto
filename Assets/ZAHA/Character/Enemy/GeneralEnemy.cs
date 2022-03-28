@@ -52,6 +52,21 @@ public class GeneralEnemy : MonoBehaviour
 
         Vector3 offset = new Vector3(0, prefab[num].transform.localScale.y ,0);//キャラの高さ分
         GameObject enemy = Instantiate(prefab[num], rootpos[startpos].transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
+        //スタートポジションを教えてあげる。生成したプレファブに
+        switch (num)
+        {
+            case (int)EnemyKinds.Demon: 
+                enemy.gameObject.GetComponent<Demon>().Startpos = startpos;
+                break;
+            case (int)EnemyKinds.Demon1: 
+                enemy.gameObject.GetComponent<Demon1>().Startpos = startpos;
+                break;
+            case (int)EnemyKinds.Boss:
+                enemy.gameObject.GetComponent<Wizard>().Startpos = startpos;
+                break;
+
+        }
+
         time = 0;//時間リセット
         enemy_count++;//敵カウント
     }
@@ -89,7 +104,7 @@ public class GeneralEnemy : MonoBehaviour
             {
                 Debug.Log("処理―");
                 //enemybase.Startpos = Random.Range(0, maxstartpos);
-                Generation(Random.Range(0, max_enemy_kinds - 1), 0);//生成。
+                Generation(Random.Range(0, max_enemy_kinds - 1), Random.Range(0, maxstartpos));//生成。
                 initflg = false;
             }
         }

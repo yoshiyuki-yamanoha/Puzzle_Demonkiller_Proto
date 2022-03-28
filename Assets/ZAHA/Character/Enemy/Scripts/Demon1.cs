@@ -5,11 +5,10 @@ using UnityEngine;
 public class Demon1 : EnemyBase
 {
     float dis = 0;
+    float FremTime = 0;
 
     [SerializeField] float Distance = 0;
-    float FremTime = 0;
     [SerializeField] float Maxfremtime = 3;
-    [SerializeField] GameObject Target = null;
     [SerializeField] EnemyAnimationBase Enemy_anim = null;
     void FixedUpdate()
     {
@@ -18,11 +17,7 @@ public class Demon1 : EnemyBase
             Generalenemy = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
         }
 
-        //hierarchyからターゲットを取得
-        if (Target == null)
-        {
-            Target = GameObject.FindGameObjectWithTag("Barricade");
-        }
+        //ターンフラグ
         if (Generalenemy.turnflg)
         {
             if (Generalenemy.initflg)
@@ -31,17 +26,6 @@ public class Demon1 : EnemyBase
             }
         }
 
-        //if (Lastflg)
-        //{
-        //    Enemy_anim.TriggerAttack("Attack");
-        //}
-
-        if (Target == null)
-        {
-            Target = GameObject.FindGameObjectWithTag("Player");
-        }
-
-        //dis = TargetDir(this.gameObject, Target).magnitude;
         if (TargetDir(this.gameObject, Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject).magnitude > 0.01f) {//ターゲットの距離によって移動。
             Debug.Log("歩き状態");
             Move();
@@ -82,13 +66,6 @@ public class Demon1 : EnemyBase
             Debug.Log("HIt");
             //GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
         }
-
-        //if (other.gameObject.tag == "Barricade")
-        //{
-        //    Debug.Log("HIt");
-        //    other.GetComponent<Barricade>().Damage(Attack);
-        //    other.GetComponent<Barricade>().ColorChange();
-        //}
     }
 
     private void OnTriggerStay(Collider other)

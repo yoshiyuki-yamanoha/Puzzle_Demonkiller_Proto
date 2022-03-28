@@ -51,7 +51,7 @@ public class EnemyBase : MonoBehaviour
     public void NextTarget()
     {
         now_next++;
-        //if (now_next > Generalenemy.max_next - 1) { now_next = Generalenemy.max_next - 1;}//範囲超えないよう制御
+        if (now_next > Generalenemy.max_next - 1) { now_next = Generalenemy.max_next - 1;}//範囲超えないよう制御
     }
     //damage処理
     public float Damage(float damege)
