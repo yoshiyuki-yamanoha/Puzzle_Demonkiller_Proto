@@ -36,10 +36,8 @@ public class EnemyBase : MonoBehaviour
     public GeneralEnemy Generalenemy { get => generalenemy; set => generalenemy = value; }
     public int Now_next { get => now_next; set => now_next = value; }
     public int Startpos { get => startpos; set => startpos = value; }
-    public bool Lastflg { get => lastflg; set => lastflg = value; }
 
-    //ターゲットの方向に向き処理(移動に使用予定)
-    public Vector3 TargetDir(GameObject Enemy , GameObject Target) 
+    public Vector3 TargetDir(GameObject Enemy , GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
         Vector3 enemyPos = Enemy.transform.position;
         Vector3 targetPos = Target.transform.position;
@@ -48,13 +46,13 @@ public class EnemyBase : MonoBehaviour
         return def;
     }
 
-    public void NextTarget()
+    public void NextTarget()//次の地点に移動
     {
         now_next++;
         if (now_next > Generalenemy.max_next - 1) { now_next = Generalenemy.max_next - 1;}//範囲超えないよう制御
     }
-    //damage処理
-    public float Damage(float damege)
+
+    public float Damage(float damege)//damage処理
     {
         hp -= damege;
         if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
@@ -62,7 +60,7 @@ public class EnemyBase : MonoBehaviour
         return hp;
     }
 
-    public void Move()
+    public void Move()//Move処理
     {
         transform.position += TargetDir(this.gameObject, Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject).normalized * Speed * Time.deltaTime;//移動
         //transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, Generalenemy.rootpos[(int)Generalenemy.startpos].transform.GetChild(Now_next).gameObject));//ターゲットの方向を向く
