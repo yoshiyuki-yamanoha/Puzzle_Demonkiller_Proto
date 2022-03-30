@@ -24,9 +24,9 @@ TagManager:
   - 
   - 
   - Enemy
-  - 
-  - 
-  - 
+  - MapEnemy
+  - MapPlayer
+  - MiniMap
   - 
   - 
   - 

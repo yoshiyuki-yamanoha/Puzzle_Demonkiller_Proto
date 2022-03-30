@@ -105,6 +105,10 @@ public class PointControl : MonoBehaviour
     public int ccMode;
     public bool isMenu = false;
 
+
+    //オーブの処理
+    OrbCon oc;
+
     //魔法の五角形五芒星
     public enum MAGIC_MODE
     {
@@ -133,6 +137,8 @@ public class PointControl : MonoBehaviour
         CC = GameObject.Find("GameMana").GetComponent<ClearCheck>();
 
         sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+
+        oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
 
         tf = transform;
 
@@ -457,13 +463,14 @@ public class PointControl : MonoBehaviour
 
             if (firstColor == circleMats[i].mat.color)
             {
-                orbs[orbNum].GetComponent<Renderer>().material = circleMats[i].mat;
+                //orbs[orbNum].GetComponent<Renderer>().material = circleMats[i].mat;
 
-                orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
+                //orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
+                oc.CreateOrb(circleMats[i].mat, type);
 
                 orbNum++;
                 if (orbpower < 5) orbpower++;
-                if (orbNum > orbs.Length - 1) orbNum = 0;
+                //if (orbNum > orbs.Length - 1) orbNum = 0;
                 break;
             }
         }
@@ -497,12 +504,13 @@ public class PointControl : MonoBehaviour
             + "　減速：オフ";
         MagicType.text = "魔法の種類：\nなし";
         MagicPower.text = "魔法の威力：\nなし";
-        for (int i = 0; i < orbs.Length; i++)
-        {
-            orbs[i].GetComponent<Renderer>().material = resetMat;
-            orbs[i].transform.GetChild(0).gameObject.SetActive(false);
-            orbs[i].transform.GetChild(1).gameObject.SetActive(false);
-        }
+        //for (int i = 0; i < orbs.Length; i++)
+        //{
+        //    orbs[i].GetComponent<Renderer>().material = resetMat;
+        //    orbs[i].transform.GetChild(0).gameObject.SetActive(false);
+        //    orbs[i].transform.GetChild(1).gameObject.SetActive(false);
+        //}
+        oc.Orb_Clear();
 
     }
 
