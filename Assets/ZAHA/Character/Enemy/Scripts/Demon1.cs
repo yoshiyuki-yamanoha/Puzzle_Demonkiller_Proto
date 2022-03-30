@@ -16,7 +16,7 @@ public class Demon1 : EnemyBase
 
         if (Generalenemy == null)
         {
-            Debug.Log("スポナー");
+            //Debug.Log("スポナー");
             Generalenemy = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
         }
 

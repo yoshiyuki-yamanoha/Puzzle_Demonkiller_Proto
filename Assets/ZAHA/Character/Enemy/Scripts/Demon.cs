@@ -61,7 +61,7 @@ public class Demon : EnemyBase
             ////この辺、深夜脳死でかいたので、後で修正予定。
             if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
             {//再生
-                Debug.Log("タイム計測");
+                //Debug.Log("タイム計測");
                 Attacktime += Time.deltaTime; //3秒おきに攻撃
             }
 

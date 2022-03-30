@@ -985,6 +985,7 @@ GameObject:
   - component: {fileID: 7401063828066879805}
   - component: {fileID: 1594787159574986790}
   - component: {fileID: 3191871338222945284}
+  - component: {fileID: 9049445628987227739}
   m_Layer: 8
   m_Name: Demon
   m_TagString: Enemy
@@ -1104,6 +1105,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_animator: {fileID: 1606013312684734786}
+--- !u!65 &9049445628987227739
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856238070704820190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6654429, y: 1.9320183, z: 0.35577852}
+  m_Center: {x: 0.0122398855, y: 0.93725395, z: 0.0037896156}
 --- !u!1 &3896980788920520742
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,7 +2550,6 @@ GameObject:
   - component: {fileID: 6566465511046434288}
   - component: {fileID: 1606013312684734786}
   - component: {fileID: 2588460650540186290}
-  - component: {fileID: 622146990239216724}
   m_Layer: 8
   m_Name: DemonGirlMesh
   m_TagString: Untagged
@@ -2600,19 +2613,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wepon_boxcollider: {fileID: 6119009147877416529}
   foot_boxcollider: {fileID: 2929708980452681985}
---- !u!65 &622146990239216724
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8332320703949766658}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5885405, y: 1.9181497, z: 0.3590722}
-  m_Center: {x: 0.015825432, y: 0.9339792, z: 0.003956209}
 --- !u!1 &8361880712511442263
 GameObject:
   m_ObjectHideFlags: 0
