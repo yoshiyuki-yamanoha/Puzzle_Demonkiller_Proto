@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
+    public enum Mode
+    {
+        Y,
+        X,
+    }
+
     //変数
     [SerializeField] float hp = 0; //hp
     [SerializeField] float attack = 0; //攻撃
@@ -11,12 +17,13 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] bool deathflg = false; //死亡フラグ
     bool init_animflg = true; //アニメーションを一回だけ実行させたい時フラグ
 
-    [SerializeField] GeneralEnemy generalenemy = null;//生成スクリプト
+    [SerializeField] GenerationEnemy generation_enemy = null;//生成スクリプト
     [SerializeField] EnemyAnimationBase enemy_anim = null;
 
-    [SerializeField] int nextpos = 0;//次の位置の要素数
-    [SerializeField] int startpos = 0;//スタート位置の要素数
-    
+    [SerializeField] int y = 0;//次の位置の要素数
+    [SerializeField] int x = 0;//スタート位置の要素数
+
+    [SerializeField] TrunManager trun_manager = null;
     Transform core = null;
 
     bool targetchangeflg = false;//次の目的値を切り替えるフラグ
@@ -26,6 +33,18 @@ public class EnemyBase : MonoBehaviour
     bool rangechek = true;
     bool attackflg = false;
     float attacktime = 0;
+    [SerializeField] public EnemyKinds enemy_kinds;
+
+    bool istrun = false;//ターン中か
+    bool is_action = false;
+    bool ismove = true;
+    public enum EnemyKinds //敵種類
+    {
+        Demon,
+        Demon1,
+        Boss,
+    }
+
     public enum Status
     {
         Idle,
@@ -42,19 +61,23 @@ public class EnemyBase : MonoBehaviour
     public float Speed { get => speed; }
     public bool Deathflg { get => deathflg; }
     public bool Init_animflg { get => init_animflg; set => init_animflg = value; }
-    public GeneralEnemy Generalenemy { get => generalenemy; set => generalenemy = value; }
-    public int Nextpos { get => nextpos; set => nextpos = value; }
-    public int Startpos { get => startpos; set => startpos = value; }
+    public GenerationEnemy Generation_enemy { get => generation_enemy; set => generation_enemy = value; }
+    public int X { get => x; set => x = value; }
+    public int Y { get => y; set => y = value; }
     public bool Targetchangeflg { get => targetchangeflg; set => targetchangeflg = value; }
     public EnemyAnimationBase Enemy_anim { get => enemy_anim; set => enemy_anim = value; }
-    public float Targetdistance { get => targetdistance;}
+    public float Targetdistance { get => targetdistance; }
     public float Targetchangetime { get => targetchangetime; set => targetchangetime = value; }
     public Transform Core { get => core; set => core = value; }
     public bool Rangechek { get => rangechek; set => rangechek = value; }
     public float Attacktime { get => attacktime; set => attacktime = value; }
     public bool Attackflg { get => attackflg; set => attackflg = value; }
+    public TrunManager Trun_manager { get => trun_manager; set => trun_manager = value; }
+    public bool Istrun { get => istrun; set => istrun = value; }
+    public bool Is_action { get => is_action; set => is_action = value; }
+    public bool Ismove { get => ismove; set => ismove = value; }
 
-    public Vector3 TargetDir(GameObject Enemy , GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
+    public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
         Vector3 enemyPos = Enemy.transform.position;
         Vector3 targetPos = Target.transform.position;
@@ -79,11 +102,11 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void Move(int startpos , int nextpos)//Move処理 //親(初期位置) //目的値
+    public void Move(int startpos, int nextpos)//Move処理 //親(初期位置) //目的値
     {
-        Vector3 target = TargetDir(this.gameObject, Generalenemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
+        Vector3 target = TargetDir(this.gameObject, Generation_enemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
         transform.position += target * Speed * Time.deltaTime;//移動
-        
+
         Debug.DrawRay(this.transform.position, target * 2, Color.red);
     }
 
@@ -96,7 +119,7 @@ public class EnemyBase : MonoBehaviour
         }
         else
         {
-            target = TargetDir(this.gameObject, Generalenemy.rootpos[startpos].transform.GetChild(nextpos).gameObject);
+            target = TargetDir(this.gameObject, Generation_enemy.rootpos[x].transform.GetChild(y).gameObject);
         }
 
         transform.rotation = Quaternion.LookRotation(target);
@@ -104,15 +127,18 @@ public class EnemyBase : MonoBehaviour
 
     public bool IndexCheck(int index, int mode)
     {
-        rangechek = true;
-        if (mode == 0) {
-            if (index < 0) { nextpos = 0; rangechek = false; }
-            if (index >= generalenemy.max_next - 2) { nextpos = generalenemy.max_next - 2; rangechek = false; }
-            
+        rangechek = false;
+
+        if (mode == (int)Mode.X)
+        {
+            if (index < 0) { x = 0; rangechek = true; }
+            if (index >= Generation_enemy.max_x) { x = Generation_enemy.max_x; rangechek = true; }
         }
-        else if(mode == 1){
-            if (index < 0) { startpos = 0; rangechek = false; }
-            if (index >= generalenemy.max_startpos - 2) {startpos = generalenemy.max_startpos - 2; rangechek = false; }
+        if (mode == (int)Mode.Y)
+        {
+            if (index < 0) { y = 0; rangechek = true; }
+            if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y; rangechek = true; Debug.Log("チェック中" + index); }
+
         }
         return rangechek;
     }
