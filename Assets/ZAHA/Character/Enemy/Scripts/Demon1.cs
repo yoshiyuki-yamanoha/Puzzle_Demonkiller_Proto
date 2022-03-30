@@ -38,7 +38,7 @@ public class Demon1 : EnemyBase
         }
         else 
         {
-            Debug.Log("ターゲット距離" + target.magnitude);
+            //Debug.Log("ターゲット距離" + target.magnitude);
             if (target.magnitude > Targetdistance) {//ターゲットの距離まで移動。
                 Move(Startpos, Nextpos);
                 status = Status.Walk;//歩き状態
