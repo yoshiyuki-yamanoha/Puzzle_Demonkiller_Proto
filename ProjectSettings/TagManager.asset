@@ -12,6 +12,8 @@ TagManager:
   - Enemy1
   - Enemy2
   - MarkedEnemy
+  - FxTemporaire
+  - Barricade
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Enemy
   - 
   - 
   - 

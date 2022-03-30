@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6898286802580817334}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2449223142820601030}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8602635745627216521}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRibcage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5364079345616342074}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8543645556267483319}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1358825751477563474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4634108736510307363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlSpine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581030523392213319}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 23454519170760580}
   - component: {fileID: 4870277142825710801}
   - component: {fileID: 6119009147877416529}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: weapon1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5667405242204580409}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 895912203788418103}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843664967527500853}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlNeck1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7533937801521997946}
   - component: {fileID: 5373517359058923028}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6366524549184729806}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6014432306485695790}
   - component: {fileID: 7886035146868723904}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DG_SKIN_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3142453600438930704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,7 +688,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8858585555097651546}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Char_DemonGirl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,7 +719,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5900013679683309167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2570167909959555179}
   - component: {fileID: 2929708980452681985}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRLegCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -795,7 +795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1398542321060566603}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -826,7 +826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8399499023441857679}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit43
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,7 +856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 35380889824423973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlNeck2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -887,7 +887,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8516338493720709019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6851974406671498770}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -949,7 +949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1604065857714921843}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +985,7 @@ GameObject:
   - component: {fileID: 7401063828066879805}
   - component: {fileID: 1594787159574986790}
   - component: {fileID: 3191871338222945284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Demon
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1084,17 +1084,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   attack: 10
-  speed: 0.9
+  speed: 4
   deathflg: 0
   generalenemy: {fileID: 0}
-  now_next: 0
-  status: 0
-  distance: 2
-  maxfremtime: 3
   enemy_anim: {fileID: 3191871338222945284}
-  target: {fileID: 0}
-  Offset: 0
-  hiteffect: {fileID: 1570927096764274, guid: 643639841fb531e4ba8097fed4eb9ac7, type: 3}
+  nextpos: 0
+  startpos: 0
+  status: 0
 --- !u!114 &3191871338222945284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,7 +1113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9021594814032601376}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1086145131371045523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1178,7 +1174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8282220182920319000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1208,7 +1204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198582105823728656}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlSpine4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1239,7 +1235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 134691122962164222}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1270,7 +1266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5587472090646592179}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRLegPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1301,7 +1297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7411246474831901520}
   - component: {fileID: 6338631502003377782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DG_SKIN_pelvisarmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1389,7 +1385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1938668762191388899}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1418,7 @@ GameObject:
   - component: {fileID: 7125836850697274448}
   - component: {fileID: 7581184966478237607}
   - component: {fileID: 2677389410330967563}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Extract5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1934,7 +1930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8029455682844408544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRLegFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1964,7 +1960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8276020197647584989}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1995,7 +1991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6028274094361579479}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2027,7 +2023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8366545731921035203}
   - component: {fileID: 3507290506076678057}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRLegThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2072,7 +2068,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 545291007288318605}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLForearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2103,7 +2099,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3554182426677442690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2133,7 +2129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1487799324495078354}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2163,7 +2159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7757128636938498864}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit41
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2194,7 +2190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5440564594686183843}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2228,7 +2224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6743009617634428445}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit43
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2258,7 +2254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8513511493394299846}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2289,7 +2285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9067614482229728629}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlTail3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2320,7 +2316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1500347122326543362}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlSpine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2351,7 +2347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6412240032382142657}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit41
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2382,7 +2378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1658832102530283758}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmForearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2414,7 +2410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1025055458939070101}
   - component: {fileID: 3560567460254828877}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DG_SKIN_chestarmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2507,7 +2503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5880507483771312356}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2541,7 +2537,7 @@ GameObject:
   - component: {fileID: 1606013312684734786}
   - component: {fileID: 2588460650540186290}
   - component: {fileID: 622146990239216724}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2626,7 +2622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1978806527050322153}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2657,7 +2653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7224863613315635395}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2692,7 +2688,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2776399827942326833}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2723,7 +2719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4288275749586515080}
   - component: {fileID: 2537131855741670492}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlPelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2771,7 +2767,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3231952377424788856}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2802,7 +2798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5599285676068976405}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2832,7 +2828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8299550177783167358}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2863,7 +2859,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2826042711340710838}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlSpine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2894,7 +2890,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4902842956849704243}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmDigit42
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2925,7 +2921,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8335619738292881868}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2956,7 +2952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7251894598092251655}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlLDigit13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2987,7 +2983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4535830747160406267}
   - component: {fileID: 902919305402447468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3073,7 +3069,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7892957408708870460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DemonGirlRArmCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GeneralEnemy : MonoBehaviour
 {
     [SerializeField] GameObject[] prefab = null;//プレファブ格納変数
-    [SerializeField] int enemymax = 10;//敵最大値
+    [SerializeField] int maxenemy = 10;//敵最大値
     float enemy_count = 0;//エネミーカウント
     int max_enemy_kinds = 0;//敵種類
     
@@ -16,14 +16,9 @@ public class GeneralEnemy : MonoBehaviour
     
     public bool turnflg = true;//ターンフラグ
     public bool initflg = true;
-    int max_startpos;
+    public int max_startpos;
 
-    public enum StartPos
-    {
-        LEFT,
-        CENTER,
-        RIGHT,
-    }
+    float time = 0;//
 
     enum EnemyKinds //敵種類
     {
@@ -35,7 +30,7 @@ public class GeneralEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        max_startpos = System.Enum.GetNames(typeof(StartPos)).Length;//スタートポジションの数分取得
+        max_startpos = rootpos.Length;/*System.Enum.GetNames(typeof(StartPos)).Length;//スタートポジションの数分取得*/
         max_enemy_kinds = System.Enum.GetNames(typeof(EnemyKinds)).Length;//敵種類の個数分取得
         max_next = rootpos[0].transform.childCount;//子供の数取得
     }
@@ -43,8 +38,8 @@ public class GeneralEnemy : MonoBehaviour
     void Generation(int num , int startpos)
     {
         //パーティクル生成
-        //ParticleSystem new_particle = Instantiate(enemy_particle[num], rootpos[startpos].transform);
-        //new_particle.Play();
+        ParticleSystem new_particle = Instantiate(enemy_particle[num], rootpos[startpos].transform);
+        new_particle.Play();
 
         Vector3 offset = new Vector3(0, prefab[num].transform.localScale.y ,0);//キャラの高さ分
         GameObject enemy = Instantiate(prefab[num], rootpos[startpos].transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
@@ -67,42 +62,40 @@ public class GeneralEnemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (enemy_count >= enemymax)//最大値超えていたら何もしない。
+        if (enemy_count >= maxenemy)//最大値超えていたら何もしない。
         {
             return;
         }
-
-        //if (time > span)//秒おきに生成
-        //{
-        //    for (int i = 0; i < 1; i++) //同時生成
-        //    {
-        //        Generation(Random.Range(0, max_enemy_kinds - 1));//生成。
-        //        //if (enemy_count >= enemymax - 1)
-        //        //{
-        //        //    Generation((int)EnemyKinds.Boss);//ボス生成
-        //        //}
-        //        //else
-        //        //{
-        //        //    Generation(Random.Range(0, max_enemy_kinds - 1));//生成。
-        //        //}
-        //    }
-        //}
-
-        if (turnflg)
-        {
-            if (initflg)
-            {
-                Debug.Log("処理―");
-                //enemybase.Startpos = Random.Range(0, maxstartpos);
-                Generation(Random.Range(0, max_enemy_kinds - 1), Random.Range(0, max_startpos));//生成。
-                initflg = false;
-            }
-        }
         else
         {
-            initflg = true;
+            time += Time.deltaTime;
         }
+
+        if (time > span)//秒おきに生成
+        {
+            for (int i = 0; i < 1; i++) //同時生成
+            {
+                Generation(Random.Range(0, max_enemy_kinds - 1), Random.Range(0, max_startpos));//引数(エネミーの種類 , スタートPos)生成。
+            }
+            time = 0;
+        }
+
+
+        //if (turnflg)//ターンフラグ
+        //{
+        //    if (initflg)//一回のみ通るフラグ
+        //    {
+        //        for (int i = 0; i< maxenemy; i++) {
+        //            Generation(Random.Range(0, max_enemy_kinds - 1), Random.Range(0, max_startpos));//生成。
+        //            initflg = false;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    initflg = true;
+        //}
     }
 }

@@ -4,118 +4,117 @@ using UnityEngine;
 
 public class Demon : EnemyBase
 {
-
-    float fremTime = 0;
-
-    [SerializeField] float distance = 0;//距離入れる変数
-    [SerializeField] float maxfremtime = 3;//最大秒
-    [SerializeField] EnemyAnimationBase enemy_anim = null;
-
-    //追加
-    [SerializeField] float Offset = 0;
-    [SerializeField] GameObject hiteffect = null;
+    private void Start()
+    {
+        Nextpos = 13;
+    }
     void FixedUpdate()
     {
-        if (enemy_anim == null) return;
+
+        if (Enemy_anim == null) return;
+        
+        //CoreCheck();
 
         if (Generalenemy == null)
         {
-            Debug.Log("スポナー");
             Generalenemy = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
         }
 
-        if (Generalenemy.turnflg)
+        Vector3 target = TargetDir(this.gameObject, Generalenemy.rootpos[Startpos].transform.GetChild(Nextpos).gameObject);
+        //Vector3 coredis = TargetDir(this.gameObject, Core.gameObject);
+        if (Targetchangeflg)
         {
-            if (Generalenemy.initflg)
-            {
-                NextTarget();
-            }
-        }
-
-        if (TargetDir(this.gameObject, Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject).magnitude > 0.01f)
-        {//ターゲットの距離によって移動。
-            Debug.Log("マス"+Generalenemy.rootpos[Startpos].transform.GetChild(Now_next).gameObject);
-            Move();
-            status = Status.Walk;//歩き状態
-            Debug.Log("歩き状態");
+                if (IndexCheck(Nextpos, 0))
+                {
+                    Nextpos++;
+                    Attackflg = false;
+                }
+                else
+                {
+                    Attackflg = true;
+                }
+            Targetchangeflg = false;
         }
         else
         {
-            status = Status.Idle;//止まる。//ターゲットに到達
+            if (target.magnitude > Targetdistance)
+            {//ターゲットの距離によって移動。
+                status = Status.Walk;//歩き状態
+                Move(Startpos, Nextpos);
+                //LookTarget(false);
+            }
+            else
+            {
+                status = Status.Idle;//止まる。//ターゲットに到達
+                //LookTarget(true);
+                Targetchangetime += Time.deltaTime;//時間計測
+                if (Targetchangetime > 5)
+                {
+                    Targetchangeflg = true;//目的値を変更
+                    Targetchangetime = 0;
+                }
+            }
+        }
+
+        if (Attackflg)
+        {
+            ////この辺、深夜脳死でかいたので、後で修正予定。
+            if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
+            {//再生
+                Debug.Log("タイム計測");
+                Attacktime += Time.deltaTime; //3秒おきに攻撃
+            }
+
+            if (Attacktime > 3)
+            { //フレーム（秒）攻撃する
+                Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+                                                   //再生中ならリセット 
+                Attacktime = 0;
+            }
         }
 
         //死亡フラグが立った時。
         if (Deathflg)
         {
-            if (Init_animflg) { enemy_anim.TriggerDeath("Death"); Init_animflg = false;}; //一回のみ死亡アニメーション再生
+            if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false;}; //一回のみ死亡アニメーション再生
         }
 
-        enemy_anim.AnimStatus(status);//アニメーション更新
+        Enemy_anim.AnimStatus(status);//アニメーション更新
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //ここにコアのdamage処理を追加する。
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log("PlayerHIt");
-            //GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    //ここにコアのdamage処理を追加する。
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        Debug.Log("PlayerHIt");
+    //        //GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
 
-        }
+    //    }
 
-        if (other.gameObject.tag == ("Barricade") || other.gameObject.tag == ("Player"))
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                ParticleSystem newhiteffect = Instantiate(hiteffect.transform.GetChild(i).GetComponent<ParticleSystem>(), other.gameObject.transform.position, Quaternion.identity);
-                newhiteffect.Play();
-            }
-        }
+    //    //// 魔法が当たるとダメージ
+    //    //if (other.gameObject.tag == "Magic")
+    //    //{
+    //    //    Debug.Log("hit_tri");
 
-        //// 魔法が当たるとダメージ
-        //if (other.gameObject.tag == "Magic")
-        //{
-        //    Debug.Log("hit_tri");
+    //    //    this.GetComponent<Demon>().Damage(100.0f);
+    //    //}
+    //}
 
-        //    this.GetComponent<Demon>().Damage(100.0f);
-        //}
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        // 魔法が当たるとダメージ
-        if (other.gameObject.tag == "Magic")
-        {
-            //Debug.Log(other.gameObject);
-            Debug.Log("hit_triStay");
-            //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
-            this.GetComponent<Demon>().Damage(100.0f);
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    // 魔法が当たるとダメージ
+    //    if (other.gameObject.tag == "Magic")
+    //    {
+    //        //Debug.Log(other.gameObject);
+    //        Debug.Log("hit_triStay");
+    //        //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
+    //        this.GetComponent<Demon>().Damage(100.0f);
+    //    }
+    //}
 }
 
 //コメント化処理
-
-//この辺、深夜脳死でかいたので、後で修正予定。
-//if (!enemy_anim.AnimPlayBack("EnemyAttack")) {//再生
-//    fremTime += Time.deltaTime; //3秒おきに攻撃
-//}
-
-//if (fremTime > maxfremtime) {//フレーム（秒）攻撃する
-
-//    if (GetRandom(0, 1) == 0)
-//    {
-//        enemy_anim.TriggerAttack("Attack");//攻撃trigger
-//    }
-//    else
-//    {
-//        enemy_anim.TriggerAttack("AttackKick");//攻撃trigger
-//    }
-
-//    transform.rotation = Quaternion.LookRotation(TargetDir(this.gameObject, target));//プレイヤーの方向を向く
-//                                                                                     //再生中ならリセット 
-//    fremTime = 0;
-//}
 
 //private void OnCollisionEnter(Collision collision)
 //{
