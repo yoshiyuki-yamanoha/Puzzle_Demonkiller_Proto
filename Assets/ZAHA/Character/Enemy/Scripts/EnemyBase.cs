@@ -20,7 +20,7 @@ public class EnemyBase : MonoBehaviour
     Transform core = null;
 
     bool targetchangeflg = false;//次の目的値を切り替えるフラグ
-    float targetdistance = 0.01f;
+    float targetdistance = 0.1f;
     float targetchangetime = 0;//ターゲット切り替え時間
 
     bool rangechek = true;

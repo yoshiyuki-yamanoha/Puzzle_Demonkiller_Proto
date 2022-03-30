@@ -6,7 +6,7 @@ public class Demon : EnemyBase
 {
     private void Start()
     {
-        Nextpos = 13;
+        Nextpos = 4;
     }
     void FixedUpdate()
     {
@@ -37,6 +37,7 @@ public class Demon : EnemyBase
         }
         else
         {
+            Debug.Log("ターゲット距離"+target.magnitude);
             if (target.magnitude > Targetdistance)
             {//ターゲットの距離によって移動。
                 status = Status.Walk;//歩き状態
