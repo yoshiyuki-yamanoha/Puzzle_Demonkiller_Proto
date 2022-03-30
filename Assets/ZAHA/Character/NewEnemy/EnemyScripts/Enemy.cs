@@ -33,14 +33,13 @@ public class Enemy : EnemyBase
         if (Istrun && !Is_action)
         {//自分のターンかつ行動していない時
             int nextpos = Y + 1;//目的値設定
-            Debug.Log("次の地点" + nextpos);
             if (Y == 13)
             {
                 Ismove = false;
                 Attackflg = true;//攻撃オンにする
             }
 
-            if (IndexCheck(nextpos, (int)Mode.Y)) { Debug.Log("Return"); return; }
+            if (IndexCheck(nextpos, (int)Mode.Y)) { return; }
             GameObject target_obj = Generation_enemy.rootpos[X].transform.GetChild(nextpos).gameObject;
 
             Vector3 target = TargetDir(this.gameObject, target_obj);//ターゲット設定
@@ -48,21 +47,17 @@ public class Enemy : EnemyBase
             //目的値についているか?
             if (target.magnitude < Targetdistance)
             {
-                //5秒たったら
-                Targetchangetime += Time.deltaTime;//計測開始
-                if (Targetchangetime > 2)
+                status = Status.Idle;//アイドル状態
+                Targetchangeflg = true;
+                if (!Attackflg)
                 {
-                    Targetchangeflg = true;
-                    Targetchangetime = 0;
-                    if (!Attackflg)
-                    {
-                        Is_action = true;//行動した
-                    }
+                    Is_action = true;//行動した
                 }
             }
             else
             {
-                if(Ismove)Move(X, nextpos);//移動
+                if (Ismove) { Move(X, nextpos); status = Status.Walk; }
+
             }
 
             if (Targetchangeflg)
@@ -70,26 +65,26 @@ public class Enemy : EnemyBase
                 Y++;
                 Targetchangeflg = false;
             }
-        }
 
-        if (Attackflg)
-        {
-            ////この辺、深夜脳死でかいたので、後で修正予定。
-            if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
-            {//再生
-             //Debug.Log("タイム計測");
-                Attacktime += Time.deltaTime; //3秒おきに攻撃
+
+            if (Attackflg)
+            {
+                ////この辺、深夜脳死でかいたので、後で修正予定。
+                if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
+                {//再生
+                 //Debug.Log("タイム計測");
+                    Attacktime += Time.deltaTime; //3秒おきに攻撃
+                }
+
+                if (Attacktime > 3)
+                { //フレーム（秒）攻撃する
+                    Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+                    Attacktime = 0;
+                    Attackflg = false;
+                    Is_action = true;
+                }
             }
-
-            if (Attacktime > 3)
-            { //フレーム（秒）攻撃する
-                Enemy_anim.TriggerAttack("Attack");//攻撃trigger
-                Attacktime = 0;
-                Attackflg = false;
-                Is_action = true;
-            }
         }
-
 
         //死亡フラグが立った時。
         if (Deathflg)
@@ -98,38 +93,38 @@ public class Enemy : EnemyBase
         }
 
         Enemy_anim.AnimStatus(status);//アニメーション更新
+
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    //ここにコアのdamage処理を追加する。
+        //    if (other.gameObject.tag == "Player")
+        //    {
+        //        Debug.Log("PlayerHIt");
+        //        //GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
+
+        //    }
+
+        //    //// 魔法が当たるとダメージ
+        //    //if (other.gameObject.tag == "Magic")
+        //    //{
+        //    //    Debug.Log("hit_tri");
+
+        //    //    this.GetComponent<Demon>().Damage(100.0f);
+        //    //}
+        //}
+
+        //private void OnTriggerStay(Collider other)
+        //{
+        //    // 魔法が当たるとダメージ
+        //    if (other.gameObject.tag == "Magic")
+        //    {
+        //        //Debug.Log(other.gameObject);
+        //        Debug.Log("hit_triStay");
+        //        //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
+        //        this.GetComponent<Demon>().Damage(100.0f);
+        //    }
+        //}
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    //ここにコアのdamage処理を追加する。
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        Debug.Log("PlayerHIt");
-    //        //GameObject.Find("Sphere").GetComponent<CoreLife>().CoreDamege();
-
-    //    }
-
-    //    //// 魔法が当たるとダメージ
-    //    //if (other.gameObject.tag == "Magic")
-    //    //{
-    //    //    Debug.Log("hit_tri");
-
-    //    //    this.GetComponent<Demon>().Damage(100.0f);
-    //    //}
-    //}
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    // 魔法が当たるとダメージ
-    //    if (other.gameObject.tag == "Magic")
-    //    {
-    //        //Debug.Log(other.gameObject);
-    //        Debug.Log("hit_triStay");
-    //        //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(other.gameObject);
-    //        this.GetComponent<Demon>().Damage(100.0f);
-    //    }
-    //}
 }
 //コメント化処理
 
