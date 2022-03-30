@@ -49,6 +49,7 @@ public class ClearCheck : MonoBehaviour
     //敵にマークつけるよう
     MagicPointer mp;
 
+
     //ゲージ
     [SerializeField] Slider sld;
     [SerializeField] Text comboTex;
