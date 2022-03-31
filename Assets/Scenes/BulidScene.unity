@@ -1275,8 +1275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 963194225}
-  particleObject: {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193,
-    type: 3}
+  particleObject:
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
   y_rotate: 4
   x_rotate: 4
   y_reverce: 0.1
@@ -2963,6 +2963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5f55844440dbf4aa5633ee5d26e02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  s_PlayerController: {fileID: 387063139}
 --- !u!1 &988259406
 GameObject:
   m_ObjectHideFlags: 0
