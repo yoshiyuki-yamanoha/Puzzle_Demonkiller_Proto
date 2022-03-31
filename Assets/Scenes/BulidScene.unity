@@ -1277,6 +1277,8 @@ MonoBehaviour:
   mainCamera: {fileID: 963194225}
   particleObject:
   - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
   y_rotate: 4
   x_rotate: 4
   y_reverce: 0.1
@@ -16116,7 +16118,7 @@ GameObject:
   - component: {fileID: 1290645485209605240}
   - component: {fileID: 1290645485209605189}
   m_Layer: 0
-  m_Name: S
+  m_Name: R
   m_TagString: My
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16157,7 +16159,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ed0c36110371a0447a142c065b883c2f, type: 2}
+  - {fileID: 2100000, guid: 988af2220065ebc44a0f8a15b285b142, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16262,7 +16264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ec0ba30bd63651a4bad8e0b6bd7c84ca, type: 2}
+  - {fileID: 2100000, guid: 988af2220065ebc44a0f8a15b285b142, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16297,7 +16299,7 @@ GameObject:
   - component: {fileID: 1290645485599802345}
   - component: {fileID: 1290645485599802362}
   m_Layer: 0
-  m_Name: Y
+  m_Name: R
   m_TagString: My
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16638,7 +16640,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 27e6316b1ffd7f1498ba137eb61199fa, type: 2}
+  - {fileID: 2100000, guid: 988af2220065ebc44a0f8a15b285b142, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16673,7 +16675,7 @@ GameObject:
   - component: {fileID: 1290645485861094207}
   - component: {fileID: 1290645485861094200}
   m_Layer: 0
-  m_Name: G
+  m_Name: R
   m_TagString: My
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21951,7 +21953,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c9a146f61b378e5429a7948033af3f32, type: 2}
+  - {fileID: 2100000, guid: 988af2220065ebc44a0f8a15b285b142, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21986,7 +21988,7 @@ GameObject:
   - component: {fileID: 1290645486320343401}
   - component: {fileID: 1290645486320343418}
   m_Layer: 0
-  m_Name: B
+  m_Name: R
   m_TagString: My
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
