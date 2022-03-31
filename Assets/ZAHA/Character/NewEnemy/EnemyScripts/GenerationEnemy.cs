@@ -23,11 +23,15 @@ public class GenerationEnemy : MonoBehaviour
     public bool initflg = true;
     float time = 0;//
 
-    const int turnmaxnum = 7;
-    bool turn_flg = false;
-    int count=0;
+    const int turnmaxnum = 7;//1ターンで生成する最大値
+    int trun_enemycount = 0;
+    bool turn_flg = true;//ターンが始まっているのか
 
     bool countinit = true;
+
+    int all_enemycount;//全体のカウント
+
+    [SerializeField] TrunManager trunmanager = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +39,7 @@ public class GenerationEnemy : MonoBehaviour
         max_y = rootpos[0].transform.childCount;//子供の数取得
         //max_enemy_kinds = System.Enum.GetNames(typeof(EnemyKinds)).Length;//敵種類の個数分取得
         max_enemy_kinds = prefab.Length;
+        trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
     void Generation(int num, int x, int y)
@@ -63,10 +68,15 @@ public class GenerationEnemy : MonoBehaviour
         }
 
         ++enemy_count;//敵カウント
+        ++trun_enemycount;//1ターン分の敵をカウント
 
-        if(enemy_count >= turnmaxnum)
+        //maxenemy - enemycount <= turnmaxnum
+
+        if (enemy_count >= turnmaxnum)
         {
             last_enemy = enemy;
+            turn_flg = false;
+            enemy_count = 0;
         }
     }
 
@@ -74,29 +84,38 @@ public class GenerationEnemy : MonoBehaviour
     void FixedUpdate()
     {
         ////生成する数をしぼる。
-        if (enemy_count >= turnmaxnum)//1ターンに生成出来る数をしぼるん。//ここが最後に出た敵ってわけだ。ここの敵のIsActivがTrueになったら
+        //if (enemy_count >= turnmaxnum)
+        //{
+        //    turn_flg = true;
+        //}
+
+
+        if (last_enemy != null)
+        {
+            if (last_enemy.GetComponent<Enemy>().Is_action)//最後に生成した敵を見る。
+            {
+                TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+            }
+        }
+
+        if (trun_enemycount >= maxenemy)//最大値超えていたら何もしない。
+        {
+            return;
+        }
+        else
+        {
+            time += Time.deltaTime;
+        }
+
+        //自分のターンが来たらターン開始
+        if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy)
         {
             turn_flg = true;
         }
-        if (last_enemy != null) {
-            if (last_enemy.GetComponent<Enemy>().Is_action)
-            {
-                //ここでフェーズを切り替えればーーーーーーーー―――――――――――――――――――――――――――――――――――――――――ーーーーーーーー
-                TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
-                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//パズルに遷移
-            }
-        }
 
-        if (!turn_flg) { //たーんふらぐがfalseの間生成
-            if (enemy_count >= maxenemy)//最大値超えていたら何もしない。
-            {
-                return;
-            }
-            else
-            {
-                time += Time.deltaTime;
-            }
 
+        if (turn_flg) {//ターンが来たらON
             if (time > span)//秒おきに生成
             {
                 for (int i = 0; i < 1; i++) //同時生成
@@ -106,5 +125,6 @@ public class GenerationEnemy : MonoBehaviour
                 time = 0;
             }
         }
+
     }
 }
