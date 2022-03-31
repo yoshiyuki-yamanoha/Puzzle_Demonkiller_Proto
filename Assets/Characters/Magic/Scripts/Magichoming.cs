@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class Magichoming : MonoBehaviour
 {
+    //爆破エフェクト
     [SerializeField] GameObject Exp;
     [SerializeField] GameObject ExpMini;
+
+    //炎上エフェクト
+    [SerializeField] GameObject fireEffe;
+
+    //凍結エフェクト
+    [SerializeField] GameObject iceEffe;
+
+    //雷エフェクト
+    [SerializeField] GameObject thunEffe;
+
     public GameObject TargetObject;
     private Vector3 TargetPos;
 
@@ -23,6 +34,11 @@ public class Magichoming : MonoBehaviour
     Vector3 oriPos;
 
     float speed = 0.5f;
+
+    //魔法のレベルと種類
+    public int magicLevel = 1;
+    public int magicType = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,7 +104,7 @@ public class Magichoming : MonoBehaviour
         if(TargetObject)
             transform.position = Vector3.Lerp(oriPos, TargetObject.transform.position, disPer);
 
-        //Debug.Log(Vector3.Distance(transform.position, TargetPos));
+        //魔法が目標地点に到達した瞬間
         if (disPer >= 1.0f)
         {
             if (combo > 10)
@@ -99,30 +115,40 @@ public class Magichoming : MonoBehaviour
             }
             else
             {
-                GameObject Explo = Instantiate(ExpMini, transform.position, Quaternion.identity);
+
+                //発生する追加効果の種類別の処理
+                {
+                    //炎上 レベルにより範囲が変わる
+                    if (magicType == 0) {
+                        //範囲により変わる爆発
+                        GenerationMagic(ExpMini, transform.position, 1.0f);
+                        //炎上するやつ
+                        GenerationMagic(fireEffe, transform.position, 999.0f);
+                    }
+
+                    //低下|凍結 レベルにより、速度低下率が変わる
+                    if (magicType == 1) {
+                        //え＾～氷みたいなエフェクト
+                        GenerationMagic(iceEffe, transform.position, 1.0f);
+                    }
+
+                    //ジャンプ&スタン レベルにより、ジャンプ回数が変わる (3～7)
+                    if (magicType == 2) {
+                        //雷エフェクト
+                        GenerationMagic(thunEffe, transform.position, 1.0f);
+                    }
+                }
+
+                
                 Destroy(gameObject);
-                Destroy(Explo, 1.0f);
             }
 
         }
     }
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    //Enemyタグに当たったらコンボに応じて爆発のEffectを表示
-    //    if (other.gameObject.tag == "MarkedEnemy")
-    //    {
-    //        if (combo > 5)
-    //        {
-    //            GameObject Explo = Instantiate(Exp, transform.position, Quaternion.identity);
-    //            Destroy(gameObject);
-    //            Destroy(Explo, 1.0f);
-    //        }
-    //        else
-    //        {
-    //            GameObject Explo = Instantiate(ExpMini, transform.position, Quaternion.identity);
-    //            Destroy(gameObject);
-    //            Destroy(Explo, 1.0f);
-    //        }
-    //    }
-    //}
+
+    //魔法を生成する関数
+    void GenerationMagic(GameObject mag, Vector3 pos,float breakTime = 99) {
+        GameObject magicIns = Instantiate(mag, pos, Quaternion.identity);
+        Destroy(magicIns, breakTime);
+    }
 }

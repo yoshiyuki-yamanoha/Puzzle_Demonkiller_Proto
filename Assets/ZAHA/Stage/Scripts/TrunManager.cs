@@ -20,7 +20,7 @@ public class TrunManager : MonoBehaviour
     //int truncount = 0;//turnカウント
     //現在のターンを管理する変数
 
-    public TrunPhase trunphase = TrunPhase.Player;
+    public TrunPhase trunphase = TrunPhase.Puzzle;
 
     //GETする関数
     //時間関係
