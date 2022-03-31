@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public int attackNum = 0;
 
     //おーぶしゅとく
-    OrbCon s_OrbCon;
+    [SerializeField] OrbCon s_OrbCon;
 
     // Start is called before the first frame update
     void Start()
