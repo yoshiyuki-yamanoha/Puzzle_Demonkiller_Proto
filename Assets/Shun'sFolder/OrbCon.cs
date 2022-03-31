@@ -52,10 +52,11 @@ public class OrbCon : MonoBehaviour
 
     public GameObject CreateOrb(Material _mat, int type)
     {
-        if (type == 0) {      //星型なら　
+        if (type == (int)PointControl.MAGIC_MODE.STAR) {      //星型なら　
             for (int i = 0; i < transform.childCount; i++)
             {
-                if (_mat.name == _Colors[i].name)
+                if (_mat.name == transform.GetChild(i).name 
+                    && Get_OrbTypeInfo(transform.GetChild(i).gameObject) == (int)PointControl.MAGIC_MODE.STAR)
                 {
                     transform.GetChild(i).GetComponent<RotateOrb>().rotateSpeedMultiply++;
 
