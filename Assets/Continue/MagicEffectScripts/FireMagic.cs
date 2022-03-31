@@ -14,10 +14,12 @@ public class FireMagic : TrunManager
     bool damageFlag = true;
 
     //魔法の範囲
-    const float magicRange = 10.0f;
+    float magicRange = 10.0f;
 
     //魔法のライフ
     int magicLife = 3;
+
+
     
 
     private void Start()
@@ -38,7 +40,7 @@ public class FireMagic : TrunManager
             GameObject[] enes = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (var e in enes) {
                 if (Vector3.Distance(transform.position, e.transform.position) <= magicRange)
-                    e.GetComponent<EnemyBase>().Damage(1);
+                    e.GetComponent<EnemyBase>().Damage(30);
             }
 
             damageFlag = false; //魔法を発動したフラグを立てる
@@ -53,6 +55,11 @@ public class FireMagic : TrunManager
         //エネミーふぇいず以外でフラグを倒す
         if (currentPhase != TrunPhase.Enemy)
             damageFlag = true;
+    }
+
+    public void SetMagicRange(int level) {
+        magicRange *= (float)level;
+        transform.localScale *= level;
     }
 }
 
