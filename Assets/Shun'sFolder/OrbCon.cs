@@ -114,6 +114,23 @@ public class OrbCon : MonoBehaviour
 
         return colNum;
     }
+    
+    public int Get_OCInfo(int num)
+    {
+        GameObject orb = transform.GetChild(num).gameObject;
+        int colNum = -1;
+
+        for(int i = 0; i<_Colors.Length; i++)
+        {
+            if (orb.name == _Colors[i].name)
+            {
+                colNum = i;
+                return colNum;
+            }
+        }
+
+        return colNum;
+    }
 
     /// <summary>
     /// 0:STAR 1:PENTAGON
@@ -134,5 +151,10 @@ public class OrbCon : MonoBehaviour
         }
 
         return TypeNum;
+    }
+
+    public void del_FirstOrb()
+    {
+        Destroy(transform.GetChild(0).gameObject);
     }
 }
