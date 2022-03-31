@@ -5,8 +5,16 @@ using UnityEngine;
 public class SelectSquares : MonoBehaviour
 {
     /*[SerializeField]*/ GameObject selector = null;
-    float selMovAmtH;
-    float selMovAmtV;
+    int selMovAmtH;
+    int selMovAmtV;
+
+    GameObject Pmass = null;
+    List<GameObject> massList = new List<GameObject>();
+    int cCount;
+    int gcCount;
+    int nowMassH;
+    int nowMassV;
+
     /*[SerializeField]*/ int coolTimeMax = 10;
     private int waitTime;
     private bool canSelect;
@@ -37,11 +45,11 @@ public class SelectSquares : MonoBehaviour
     }
 
 
-    // 移動量の作成、返し
-    private (float, float) ReturnSelectorMoveAmount(float hStick, float vStick)
+    // スティックをイント化し返す
+    private (int, int) ReturnSticAsInt(float hStick, float vStick)
     {
-        float hMoveAmount = (float)Mathf.CeilToInt(hStick) * 5.0f;
-        float vMoveAmount = (float)Mathf.CeilToInt(vStick) * 5.0f;
+        int hMoveAmount = Mathf.CeilToInt(hStick);
+        int vMoveAmount = Mathf.CeilToInt(vStick);
 
         return (hMoveAmount, vMoveAmount);
     }
@@ -49,10 +57,20 @@ public class SelectSquares : MonoBehaviour
     // セレクターの移動
     private void ChangePositionSelector()
     {
+        float vMoveAmount = (float)nowMassV * 5.0f;
+
         if (CheckIfSelectorCanMove() == true)
         {
             waitTime = coolTimeMax;
-            selector.transform.position += new Vector3(selMovAmtH, 0f, selMovAmtV);
+            //selector.transform.position += new Vector3(selMovAmtH, 0f, selMovAmtV);
+
+            selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
+                                                      massList[nowMassH].transform.position.y,
+                                                      massList[nowMassH].transform.position.z + vMoveAmount);
+
+            selMovAmtH = 0;
+            selMovAmtV = 0;
+            Debug.Log("nowMassV" + nowMassV);
         }
     }
 
@@ -73,7 +91,7 @@ public class SelectSquares : MonoBehaviour
     /// <summary>
     /// 各状態のチェック
     /// </summary>
-    /// <returns>すべての条件に引っかからなければ真を返す</returns>
+    /// <returns>すべての条件で真になれば真を返し、どれか一つでも偽であれば偽を返す</returns>
     private bool CheckIfSelectorCanMove()
     {
         // クールタイムが残っているか
@@ -84,26 +102,25 @@ public class SelectSquares : MonoBehaviour
         if (selMovAmtH == 0 && selMovAmtV == 0)
             return false;
 
-        if (selector.transform.position.x + selMovAmtH < -5.0f)
+        // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
+        if (nowMassH + selMovAmtH >= cCount)
+            return false;
+        if (nowMassH + selMovAmtH < 0)
+            return false;
+
+        // nowMassVが子要素と親の数を超えていなければヨシ！
+        if (nowMassV + selMovAmtV >= 0)
         {
-            Debug.Log("11");
             return false;
         }
-        if (selector.transform.position.x + selMovAmtH > 5.0f)
+        if (nowMassV + selMovAmtV < -gcCount)
         {
-            Debug.Log("12");
             return false;
         }
-        if (selector.transform.position.z + selMovAmtV < -5.0f)
-        {
-            Debug.Log("13");
-            return false;
-        }
-        if (selector.transform.position.z + selMovAmtV > 25.0f)
-        {
-            Debug.Log("14");
-            return false;
-        }
+
+        nowMassH += selMovAmtH;
+        nowMassV += selMovAmtV;
+
 
         // 動かしてヨシ！
         return true;
@@ -118,11 +135,13 @@ public class SelectSquares : MonoBehaviour
     public void SelectorInit()
     {
         selector = GameObject.Find("Selector").gameObject;
-        Debug.Log(selector);
         selector.transform.position = Vector3.zero;
 
-        selMovAmtH = 0f;
-        selMovAmtV = 0f;
+        Pmass = GameObject.Find("MassStage").gameObject;
+        GetMassList();
+
+        selMovAmtH = 0;
+        selMovAmtV = 0;
         waitTime = 0;
     }
 
@@ -133,7 +152,7 @@ public class SelectSquares : MonoBehaviour
         (float hStick, float vStick) = GetStick();
 
         // 移動量の取得
-        var (h, v) = ReturnSelectorMoveAmount(hStick, vStick);
+        var (h, v) = ReturnSticAsInt(hStick, vStick);
         selMovAmtH = h;
         selMovAmtV = v;
 
@@ -147,5 +166,38 @@ public class SelectSquares : MonoBehaviour
         //Aボタンで魔法を放つ
         if (Input.GetButtonDown("Fire1"))
             s_PlayerController.ShotMagic(selector);
+    }
+
+    private void GetMassList()
+    {
+        const int P = 1;
+        cCount = 0;
+        gcCount = 0;
+
+        for (int i = 0; i < Pmass.transform.childCount; i++)
+        {
+            if (Pmass.transform.GetChild(i).gameObject.activeSelf)
+            {
+                massList.Add(Pmass.transform.GetChild(i).gameObject);
+                cCount++;
+            }
+        }
+
+        for (int i = 0; i < massList[0].transform.childCount; i++)
+        {
+            if (massList[0].transform.GetChild(i).gameObject.activeSelf)
+            {
+                gcCount++;
+            }
+        }
+
+        //nowMassH = Pmass.transform.childCount / 2;
+        //nowMassV = (gcCount + P) / 2;
+        nowMassH = 0;
+        nowMassV = 0;
+
+        selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
+                                                      massList[nowMassH].transform.position.y,
+                                                      massList[nowMassH].transform.position.z );
     }
 }
