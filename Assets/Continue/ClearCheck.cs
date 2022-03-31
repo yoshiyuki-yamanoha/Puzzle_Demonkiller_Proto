@@ -89,9 +89,7 @@ public class ClearCheck : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.K) ){
-            trunMgr.SetTrunPhase(TrunPhase.Puzzle);
-        }
+        
         if (!cleared)
         {
             //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
