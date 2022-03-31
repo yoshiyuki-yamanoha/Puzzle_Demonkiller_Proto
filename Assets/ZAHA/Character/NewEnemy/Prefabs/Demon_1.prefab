@@ -2660,8 +2660,8 @@ GameObject:
   - component: {fileID: 3856238070704820193}
   - component: {fileID: 3856238070704820192}
   - component: {fileID: 7401063828066879805}
-  - component: {fileID: 4220398358526661247}
   - component: {fileID: 3191871338222945284}
+  - component: {fileID: 4003829806422715497}
   m_Layer: 8
   m_Name: Demon_1
   m_TagString: Enemy
@@ -2761,27 +2761,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &4220398358526661247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856238070704820190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce8fbcfb1b8b7d4cb17f279a8911a77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 50
-  attack: 10
-  speed: 4
-  deathflg: 0
-  generalenemy: {fileID: 0}
-  enemy_anim: {fileID: 3191871338222945284}
-  nextpos: 0
-  startpos: 0
-  status: 0
 --- !u!114 &3191871338222945284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2795,6 +2774,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_animator: {fileID: 1610636618734056403}
+--- !u!114 &4003829806422715497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856238070704820190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695c09d15f2f750439427d4acc5b487c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
+  attack: 10
+  speed: 1
+  deathflg: 0
+  generation_enemy: {fileID: 0}
+  enemy_anim: {fileID: 3191871338222945284}
+  nextpos: 0
+  startpos: 0
+  trun_manager: {fileID: 0}
+  enemy_kinds: 1
+  status: 0
 --- !u!1 &7163434024589901516
 GameObject:
   m_ObjectHideFlags: 0

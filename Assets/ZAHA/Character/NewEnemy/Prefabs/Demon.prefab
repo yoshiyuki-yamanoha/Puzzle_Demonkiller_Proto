@@ -1062,9 +1062,9 @@ GameObject:
   - component: {fileID: 3856238070704820194}
   - component: {fileID: 3856238070704820193}
   - component: {fileID: 7401063828066879805}
-  - component: {fileID: 1594787159574986790}
-  - component: {fileID: 3191871338222945284}
   - component: {fileID: 9049445628987227739}
+  - component: {fileID: 3191871338222945284}
+  - component: {fileID: 7726608530296408604}
   m_Layer: 8
   m_Name: Demon
   m_TagString: Enemy
@@ -1151,40 +1151,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &1594787159574986790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856238070704820190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea463c5ba6b71240a134a2dc9857a70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 100
-  attack: 10
-  speed: 4
-  deathflg: 0
-  generalenemy: {fileID: 0}
-  enemy_anim: {fileID: 3191871338222945284}
-  nextpos: 0
-  startpos: 0
-  status: 0
---- !u!114 &3191871338222945284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3856238070704820190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0a2d17a79b7a044b597c71456c4f6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy_animator: {fileID: 1606013312684734786}
 --- !u!65 &9049445628987227739
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1198,6 +1164,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6654429, y: 1.9320183, z: 0.35577852}
   m_Center: {x: 0.0122398855, y: 0.93725395, z: 0.0037896156}
+--- !u!114 &3191871338222945284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856238070704820190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0a2d17a79b7a044b597c71456c4f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy_animator: {fileID: 1606013312684734786}
+--- !u!114 &7726608530296408604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856238070704820190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695c09d15f2f750439427d4acc5b487c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
+  attack: 10
+  speed: 1
+  deathflg: 0
+  generation_enemy: {fileID: 0}
+  enemy_anim: {fileID: 3191871338222945284}
+  nextpos: 0
+  startpos: 0
+  trun_manager: {fileID: 0}
+  enemy_kinds: 0
+  status: 0
 --- !u!1 &3896980788920520742
 GameObject:
   m_ObjectHideFlags: 0

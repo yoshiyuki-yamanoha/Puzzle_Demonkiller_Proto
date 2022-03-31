@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyDestroied : MonoBehaviour
 {
-    GeneralEnemy ge;
+    GenerationEnemy ge;
     UltManager ultmanager;
 
     private void Start()
     {
         ultmanager = GameObject.Find("GameObject").GetComponent<UltManager>();
-        ge = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
+        ge = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -20,7 +20,7 @@ public class EnemyDestroied : MonoBehaviour
         {
             ultmanager = GameObject.Find("GameObject").GetComponent<UltManager>();
             ultmanager.ultChage();
-            ge = GameObject.Find("Sponer").GetComponent<GeneralEnemy>();
+            ge = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
             Destroy(other.gameObject);
             ge.initflg = true;
         }
