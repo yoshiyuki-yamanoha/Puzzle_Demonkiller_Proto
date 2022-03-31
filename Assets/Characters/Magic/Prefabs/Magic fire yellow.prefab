@@ -19049,7 +19049,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Exp: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
   ExpMini: {fileID: 3039696356620164826, guid: 5bf74bfcfbf5d9f4aa0ce6d98fedba1f, type: 3}
-  comboNow: {fileID: 0}
+  fireEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893,
+    type: 3}
+  iceEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893, type: 3}
+  thunEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893,
+    type: 3}
+  TargetObject: {fileID: 0}
+  TargetObjTest: {fileID: 0}
+  ClCh: {fileID: 0}
+  targetno: 0
+  magicLevel: 1
+  magicType: 0
 --- !u!1 &3029662380787672985
 GameObject:
   m_ObjectHideFlags: 0
