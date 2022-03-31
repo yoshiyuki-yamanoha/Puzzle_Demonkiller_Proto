@@ -123,7 +123,7 @@ public class Magichoming : MonoBehaviour
                         //範囲により変わる爆発
                         GenerationMagic(ExpMini, transform.position, 1.0f);
                         //炎上するやつ
-                        GenerationMagic(fireEffe, transform.position, 99.0f);
+                        GenerationMagic(fireEffe, transform.position, 999.0f);
                     }
 
                     //低下|凍結 レベルにより、速度低下率が変わる
@@ -147,7 +147,7 @@ public class Magichoming : MonoBehaviour
     }
 
     //魔法を生成する関数
-    void GenerationMagic(GameObject mag, Vector3 pos,float breakTime) {
+    void GenerationMagic(GameObject mag, Vector3 pos,float breakTime = 99) {
         GameObject magicIns = Instantiate(mag, pos, Quaternion.identity);
         Destroy(magicIns, breakTime);
     }
