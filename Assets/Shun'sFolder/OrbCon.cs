@@ -55,7 +55,7 @@ public class OrbCon : MonoBehaviour
         if (type == 0) {      //星型なら　
             for (int i = 0; i < transform.childCount; i++)
             {
-                if (_mat.name == _Colors[i].name)
+                if (_mat.name == transform.GetChild(i).name)
                 {
                     transform.GetChild(i).GetComponent<RotateOrb>().rotateSpeedMultiply++;
 
