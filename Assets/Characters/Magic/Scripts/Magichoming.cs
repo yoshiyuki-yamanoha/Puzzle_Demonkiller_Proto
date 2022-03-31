@@ -121,7 +121,7 @@ public class Magichoming : MonoBehaviour
                     //炎上 レベルにより範囲が変わる
                     if (magicType == 0) {
                         //範囲により変わる爆発
-                        GenerationMagic(ExpMini, transform.position, 1.0f);
+                        GenerationMagic(ExpMini, transform.position);
                         //炎上するやつ
                         GenerationMagic(fireEffe, transform.position, 999.0f);
                     }
@@ -149,6 +149,8 @@ public class Magichoming : MonoBehaviour
     //魔法を生成する関数
     void GenerationMagic(GameObject mag, Vector3 pos,float breakTime = 99) {
         GameObject magicIns = Instantiate(mag, pos, Quaternion.identity);
-        Destroy(magicIns, breakTime);
+
+        if(breakTime != 99.0f)
+            Destroy(magicIns, breakTime);
     }
 }
