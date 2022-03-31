@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GenerationEnemy : MonoBehaviour
 {
+    //ここで
+
+    GameObject last_enemy = null;
     [SerializeField] GameObject[] prefab = null;//プレファブ格納変数
     [SerializeField] int maxenemy = 10;//敵最大値
     float enemy_count = 0;//エネミーカウント
@@ -16,12 +19,15 @@ public class GenerationEnemy : MonoBehaviour
     [SerializeField] int y;
     [HideInInspector] public int max_x = 0;
     public int max_y = 0;
-    public bool turnflg = true;//ターンフラグ
+    //public bool turnflg = true;//ターンフラグ
     public bool initflg = true;
-
-
     float time = 0;//
 
+    const int turnmaxnum = 7;
+    bool turn_flg = false;
+    int count=0;
+
+    bool countinit = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,44 +62,49 @@ public class GenerationEnemy : MonoBehaviour
                 break;
         }
 
-        enemy_count++;//敵カウント
+        ++enemy_count;//敵カウント
+
+        if(enemy_count >= turnmaxnum)
+        {
+            last_enemy = enemy;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (enemy_count >= maxenemy)//最大値超えていたら何もしない。
+        ////生成する数をしぼる。
+        if (enemy_count >= turnmaxnum)//1ターンに生成出来る数をしぼるん。//ここが最後に出た敵ってわけだ。ここの敵のIsActivがTrueになったら
         {
-            return;
+            turn_flg = true;
         }
-        else
-        {
-            time += Time.deltaTime;
-        }
-
-        if (time > span)//秒おきに生成
-        {
-            for (int i = 0; i < 1; i++) //同時生成
+        if (last_enemy != null) {
+            if (last_enemy.GetComponent<Enemy>().Is_action)
             {
-                Generation(Random.Range(0, max_enemy_kinds), Random.Range(0, max_x), y);//引数(エネミーの種類 , スタートPos)生成。
+                //ここでフェーズを切り替えればーーーーーーーー―――――――――――――――――――――――――――――――――――――――――ーーーーーーーー
+                TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//パズルに遷移
             }
-            time = 0;
         }
 
+        if (!turn_flg) { //たーんふらぐがfalseの間生成
+            if (enemy_count >= maxenemy)//最大値超えていたら何もしない。
+            {
+                return;
+            }
+            else
+            {
+                time += Time.deltaTime;
+            }
 
-        //if (turnflg)//ターンフラグ
-        //{
-        //    if (initflg)//一回のみ通るフラグ
-        //    {
-        //        for (int i = 0; i< maxenemy; i++) {
-        //            Generation(Random.Range(0, max_enemy_kinds - 1), Random.Range(0, max_startpos));//生成。
-        //            initflg = false;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    initflg = true;
-        //}
+            if (time > span)//秒おきに生成
+            {
+                for (int i = 0; i < 1; i++) //同時生成
+                {
+                    Generation(Random.Range(0, max_enemy_kinds), Random.Range(0, max_x), y);//引数(エネミーの種類 , スタートPos)生成。
+                }
+                time = 0;
+            }
+        }
     }
 }
