@@ -137,7 +137,7 @@ public class ClearCheck : MonoBehaviour
             {
                 AttackV.attackvar();
                 StartCoroutine("ColTest");
-
+                nowComboTime = 0;
             }
         }
 
@@ -335,7 +335,8 @@ public class ClearCheck : MonoBehaviour
         ShowEffeLingSound();
 
         //今bのタイム更新
-        nowComboTime = comboTime;
+        if(nowComboTime == 0)
+            nowComboTime = comboTime;
 
         //コンボタイムが残ってたらコンボを増やす
         if (nowComboTime > 0)
