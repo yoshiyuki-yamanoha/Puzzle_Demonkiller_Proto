@@ -23,8 +23,6 @@ public class TrunManager : MonoBehaviour
     public TrunPhase trunphase = TrunPhase.Player;
 
     //GETする関数
-
-
     //時間関係
     //bool initflg = true;//一回のみ実行Flg
     //[SerializeField] bool timer_start_flg = false;//時間計測

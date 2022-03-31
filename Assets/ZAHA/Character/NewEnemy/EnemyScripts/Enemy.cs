@@ -125,7 +125,17 @@ public class Enemy : EnemyBase
         //    }
         //}
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("魔法が当たりました");
+        if(other.CompareTag("Magic"))//当たった相手が魔法だったら
+        {
+            Damage(50);//ダメージ処理
+        }
+    }
 }
+
 //コメント化処理
 
 //private void OnCollisionEnter(Collision collision)
