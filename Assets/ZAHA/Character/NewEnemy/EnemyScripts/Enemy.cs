@@ -46,16 +46,16 @@ public class Enemy : EnemyBase
             {
                 if (hit.collider.gameObject.CompareTag("Barrier"))
                 {
-                    Debug.Log("氷がある");
-                    Isbarrier = false;
-
                     Ismove = false;
                     Attackflg = true;//攻撃オンにする
+                    status = Status.Idle;//アイドル状態
                 }
                 else
                 {
-                    Debug.Log("氷がある");
-                    Isbarrier = true;
+                    if (!Isbarrier) {
+                        Y++;
+                        status = Status.Walk;
+                    }
                 }
             }
 
