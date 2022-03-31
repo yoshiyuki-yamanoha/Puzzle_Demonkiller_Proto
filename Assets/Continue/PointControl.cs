@@ -62,7 +62,7 @@ public class PointControl : MonoBehaviour
     [SerializeField] private mats[] circleMats;
 
     //色の数
-    private int changeCircleNum = 5;
+    private int changeCircleNum = 3;
 
     //使った魔法陣の色を使えないようにする用の配列
     bool[] usedMatNum = new bool[5];
@@ -701,8 +701,8 @@ public class PointControl : MonoBehaviour
             if (changeCircleNum > 5) changeCircleNum = 5;
         }
 
-        if (oldNum != changeCircleNum)
-            RandomColorSet();
+        //if (oldNum != changeCircleNum)
+        //    RandomColorSet();
     }
 
     public int GetChangeColorMode() {

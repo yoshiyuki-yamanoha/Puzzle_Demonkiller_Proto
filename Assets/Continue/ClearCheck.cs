@@ -82,7 +82,7 @@ public class ClearCheck : MonoBehaviour
         mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
         AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
-        ppp.RandomColorSet();
+        //ppp.RandomColorSet();
     }
 
     // Update is called once per frame
@@ -278,7 +278,7 @@ public class ClearCheck : MonoBehaviour
             o.GetComponent<GoToParent>().LineColorWhite();
 
         //魔方陣の色をシャッフル
-        ppp.RandomColorSet();
+        //ppp.RandomColorSet();
 
     }
 
