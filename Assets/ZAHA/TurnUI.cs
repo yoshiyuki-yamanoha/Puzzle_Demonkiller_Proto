@@ -26,9 +26,6 @@ public class TurnUI : MonoBehaviour
     {
         switch (trunphase)
         {
-            case TrunManager.TrunPhase.Player:
-                now_str = trun_str[(int)TrunManager.TrunPhase.Player];
-                break;
             case TrunManager.TrunPhase.Puzzle:
                 now_str = trun_str[(int)TrunManager.TrunPhase.Puzzle];
                 break;

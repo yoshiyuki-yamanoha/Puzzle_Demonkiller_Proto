@@ -40,111 +40,7 @@ public class SelectSquares : TrunManager
             FlowToMoveTheSelector();
 
             ActivateMagic();    //魔法を撃つ処理
-
-            //Debug.Log(nowMassV);
         }
-    }
-
-    // 各スティックの値を取得
-    private (float, float) GetStick()
-    {
-        float hStick = Input.GetAxis("Horizontal");
-        float vStick = Input.GetAxis("Vertical");
-        return (hStick, vStick);
-    }
-
-
-    // スティックをイント化し返す
-    private (int, int) ReturnSticAsInt(float hStick, float vStick)
-    {
-        int hMoveAmount = Mathf.CeilToInt(hStick);
-        int vMoveAmount = Mathf.CeilToInt(vStick);
-
-        return (hMoveAmount, vMoveAmount);
-    }
-
-    // セレクターの移動
-    private void ChangePositionSelector()
-    {
-        float vMoveAmount = (float)nowMassV * 5.0f;
-
-        if (CheckIfSelectorCanMove() == true)
-        {
-            waitTime = coolTimeMax;
-
-            selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
-                                                      massList[nowMassH].transform.position.y,
-                                                      massList[nowMassH].transform.position.z + vMoveAmount);
-
-            //selMovAmtH = 0;
-            //selMovAmtV = 0;
-        }
-    }
-
-    // 移動のクールタイムの経過
-    private bool ElapsedOfCoolingTimeOfMovement()
-    {
-        // クールタイム経過
-        if (waitTime > 0)
-        {
-            waitTime--;
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// 各状態のチェック
-    /// </summary>
-    /// <returns>すべての条件で真になれば真を返し、どれか一つでも偽であれば偽を返す</returns>
-    private bool CheckIfSelectorCanMove()
-    {
-        // クールタイムが残っているか
-        bool check = ElapsedOfCoolingTimeOfMovement();
-        if (check == false)
-            return false;
-
-        if (selMovAmtH == 0 && selMovAmtV == 0)
-            return false;
-
-        // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
-        if (nowMassH + selMovAmtH >= cCount)
-        {
-            //Debug.Log("11");
-            return false;
-        }
-        if (nowMassH + selMovAmtH < 0)
-        {
-            //Debug.Log("12");
-            return false;
-        }
-
-        // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + selMovAmtV > 0)
-        {
-            //Debug.Log("13");
-            return false;
-        }
-        if (nowMassV + selMovAmtV < -gcCount)
-        {
-            //Debug.Log("14");
-            return false;
-        }
-
-        nowMassH += selMovAmtH;
-        nowMassV += selMovAmtV;
-
-
-        // 動かしてヨシ！
-        return true;
-    }
-
-    // セレクターのポジションを返す
-    public Vector3 GetSelectorPos()
-    {
-        return selector.transform.position;
     }
 
     public void SelectorInit()
@@ -165,6 +61,9 @@ public class SelectSquares : TrunManager
     // セレクターを動かす流れ
     public void FlowToMoveTheSelector()
     {
+        selMovAmtH = 0;
+        selMovAmtV = 0;
+
         // 各スティックの値を取得
         (float hStick, float vStick) = GetStick();
 
@@ -175,6 +74,92 @@ public class SelectSquares : TrunManager
 
         // セレクターの移動
         ChangePositionSelector();
+    }
+
+    // 各スティックの値を取得
+    private (float, float) GetStick()
+    {
+        float hStick = Input.GetAxis("Horizontal");
+        float vStick = Input.GetAxis("Vertical");
+
+        return (hStick, vStick);
+    }
+
+
+    // スティックをint型で返す
+    private (int, int) ReturnSticAsInt(float hStick, float vStick)
+    {
+        int hMoveAmount = Mathf.CeilToInt(hStick);
+        int vMoveAmount = Mathf.CeilToInt(vStick);
+
+        return (hMoveAmount, vMoveAmount);
+    }
+
+    // セレクターの移動
+    private void ChangePositionSelector()
+    {
+        if (CheckIfSelectorCanMove() == true)
+        {
+            waitTime = coolTimeMax;
+
+            float vMoveAmount = (float)nowMassV * 5.0f;
+            selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
+                                                      massList[nowMassH].transform.position.y,
+                                                      massList[nowMassH].transform.position.z + vMoveAmount);
+        }
+    }
+
+    /// <summary>
+    /// 各状態のチェック
+    /// </summary>
+    /// <returns>すべての条件で真になれば真を返し、どれか一つでも偽であれば偽を返す</returns>
+    private bool CheckIfSelectorCanMove()
+    {
+        // クールタイムが残っているか
+        bool check = ElapsedOfCoolingTimeOfMovement();
+        if (check == false)
+            return false;
+
+        if (selMovAmtH == 0 && selMovAmtV == 0)
+            return false;
+
+        // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
+        if (nowMassH + selMovAmtH >= cCount)
+            return false;
+        if (nowMassH + selMovAmtH < 0)
+            return false;
+
+        // nowMassVが子要素と親の数を超えていなければヨシ！
+        if (nowMassV + selMovAmtV > 0)
+            return false;
+        if (nowMassV + selMovAmtV < -gcCount)
+            return false;
+
+        nowMassH += selMovAmtH;
+        nowMassV += selMovAmtV;
+
+        // 動かしてヨシ！
+        return true;
+    }
+
+    // 移動のクールタイムの経過
+    private bool ElapsedOfCoolingTimeOfMovement()
+    {
+        // クールタイム経過
+        if (waitTime > 0)
+        {
+            waitTime--;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    // セレクターのポジションを返す
+    public Vector3 GetSelectorPos()
+    {
+        return selector.transform.position;
     }
 
     //魔法を撃つ処理
@@ -210,8 +195,6 @@ public class SelectSquares : TrunManager
 
         nowMassH = Pmass.transform.childCount / 2;
         nowMassV = -(gcCount + P) / 2;
-        //nowMassH = 0;
-        //nowMassV = 0;
 
 
         float vMoveAmount = (float)nowMassV * 5.0f;

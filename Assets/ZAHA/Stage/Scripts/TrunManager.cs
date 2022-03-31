@@ -6,7 +6,7 @@ public class TrunManager : MonoBehaviour
 {
     public enum TrunPhase
     {
-        Player,//プレイヤー
+        //Player,//プレイヤー
         Puzzle,//パズル
         Enemy,//敵
         MagicAttack,//魔法
