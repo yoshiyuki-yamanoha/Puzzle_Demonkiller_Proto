@@ -7,7 +7,7 @@ public class OrbCon : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject Orb;
     [SerializeField] private Material[] _Colors = new Material[5];
-    private Vector3 ORI_POS = new Vector3(11.0f,-3.69f,0f);
+    private Vector3 ORI_POS = new Vector3(11.0f, -3.69f, 0f);
     private float Orb_dis = 1.2f;
     private int TotalNum;
 
@@ -40,22 +40,22 @@ public class OrbCon : MonoBehaviour
 
     public void MoveChild()
     {
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             Vector3 pos = new Vector3(ORI_POS.x + (i / 11) * -1.5f, ORI_POS.y + ((i % 11) * Orb_dis), ORI_POS.z);
-            if(pos != transform.GetChild(i).localPosition)
+            if (pos != transform.GetChild(i).localPosition)
             {
                 transform.GetChild(i).localPosition = Vector3.Lerp(transform.GetChild(i).localPosition, pos, 0.5f);
             }
         }
     }
 
-    public GameObject CreateOrb (Material _mat,int type)
+    public GameObject CreateOrb(Material _mat, int type)
     {
-        if(type == 0){      //星型なら　
-            for(int i = 0; i < transform.childCount; i++)
+        if (type == 0) {      //星型なら　
+            for (int i = 0; i < transform.childCount; i++)
             {
-                if(_mat.name == _Colors[i].name)
+                if (_mat.name == _Colors[i].name)
                 {
                     transform.GetChild(i).GetComponent<RotateOrb>().rotateSpeedMultiply++;
 
@@ -94,7 +94,7 @@ public class OrbCon : MonoBehaviour
     public List<int> Get_OrbColorInfos()
     {
         List<int> OrbColorInfo = new List<int>();
-        for (int i=0; i<this.transform.childCount; i++)
+        for (int i = 0; i < this.transform.childCount; i++)
         {
             OrbColorInfo.Add(Get_OrbColorInfo(transform.GetChild(i).gameObject));
         }
@@ -102,10 +102,28 @@ public class OrbCon : MonoBehaviour
         return OrbColorInfo;
     }
 
+    public List<int> Get_OrbLevelInfos()
+    {
+        List<int> Get_OrbLevelInfo = new List<int>();
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.GetComponent<RotateOrb>() != null)
+            {
+                Get_OrbLevelInfo.Add((int)transform.GetChild(i).gameObject.GetComponent<RotateOrb>().rotateSpeedMultiply);
+            }
+            else
+            {
+                Get_OrbLevelInfo.Add(0);
+            }
+        }
+
+        return Get_OrbLevelInfo;
+    }
+
     public List<int> Get_OrbTypeInfos()
     {
         List<int> OrbTypeInfo = new List<int>();
-        for (int i=0; i<this.transform.childCount; i++)
+        for (int i = 0; i < this.transform.childCount; i++)
         {
             OrbTypeInfo.Add(Get_OrbTypeInfo(transform.GetChild(i).gameObject));
         }
@@ -121,10 +139,10 @@ public class OrbCon : MonoBehaviour
     /// <returns></returns>
     public int Get_OrbColorInfo(GameObject orb)
     {
-        
+
         int colNum = -1;
 
-        for(int i = 0; i<_Colors.Length; i++)
+        for (int i = 0; i < _Colors.Length; i++)
         {
             if (orb.name == _Colors[i].name)
             {
@@ -135,13 +153,13 @@ public class OrbCon : MonoBehaviour
 
         return colNum;
     }
-    
+
     public int Get_OCInfo(int num)
     {
         GameObject orb = transform.GetChild(num).gameObject;
         int colNum = -1;
 
-        for(int i = 0; i<_Colors.Length; i++)
+        for (int i = 0; i < _Colors.Length; i++)
         {
             if (orb.name == _Colors[i].name)
             {
@@ -162,7 +180,7 @@ public class OrbCon : MonoBehaviour
     {
         int TypeNum = -1;
 
-        if(orb.transform.GetChild(0).gameObject.activeSelf)
+        if (orb.transform.GetChild(0).gameObject.activeSelf)
         {
             TypeNum = (int)PointControl.MAGIC_MODE.STAR;
         }
@@ -178,4 +196,55 @@ public class OrbCon : MonoBehaviour
     {
         Destroy(transform.GetChild(0).gameObject);
     }
+
+    public int Get_FOC_info()
+    {
+        GameObject orb = transform.GetChild(0).gameObject;
+        int colNum = -1;
+
+        for (int i = 0; i < _Colors.Length; i++)
+        {
+            if (orb.name == _Colors[i].name)
+            {
+                colNum = i;
+                return colNum;
+            }
+        }
+        return colNum;
+    }
+
+    public int Get_FOT_Info()
+    {
+        int TypeNum = -1;
+        GameObject orb = transform.GetChild(0).gameObject;
+
+        if (orb.transform.GetChild(0).gameObject.activeSelf)
+        {
+            TypeNum = (int)PointControl.MAGIC_MODE.STAR;
+        }
+        else
+        {
+            TypeNum = (int)PointControl.MAGIC_MODE.PENTAGON;
+        }
+
+        return TypeNum;
+    }
+
+    public int Get_FOL_Info()
+    {
+        int LevlNum = -1;
+        GameObject orb = transform.GetChild(0).gameObject;
+
+        if (transform.GetChild(0).gameObject.GetComponent<RotateOrb>() != null)
+        {
+            LevlNum = ((int)transform.GetChild(0).gameObject.GetComponent<RotateOrb>().rotateSpeedMultiply);
+        }
+        else
+        {
+            LevlNum = 0;
+        }
+
+        return 0;
+    }
+
 }
