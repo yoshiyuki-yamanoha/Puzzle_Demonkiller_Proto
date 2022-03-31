@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
         Y,
         X,
     }
-
+    
     //変数
     [SerializeField] float hp = 0; //hp
     [SerializeField] float max_hp = 0; //hp
