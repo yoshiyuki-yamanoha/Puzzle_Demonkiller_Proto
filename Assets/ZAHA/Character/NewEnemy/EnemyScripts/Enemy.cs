@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
-
+    private void Start()
+    {
+        Init_speed = Speed;//初期のスピード保存
+    }
     void FixedUpdate()
     {
         if (Enemy_anim == null) return;
@@ -33,11 +36,34 @@ public class Enemy : EnemyBase
         if (Istrun && !Is_action)
         {//自分のターンかつ行動していない時
             int nextpos = Y + 1;//目的値設定
-            if (Y == 13)
+
+            Vector3 mypos = transform.position;
+            mypos.y = mypos.y + 2;
+            Ray ray = new Ray(mypos, transform.forward);
+            Debug.DrawRay(ray.origin, ray.direction * 3, Color.green, 1, false);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 3))
             {
-                Ismove = false;
-                Attackflg = true;//攻撃オンにする
+                if (hit.collider.gameObject.CompareTag("Barrier"))
+                {
+                    Ismove = false;
+                    Attackflg = true;//攻撃オンにする
+                    status = Status.Idle;//アイドル状態
+                }
+                else
+                {
+                    if (!Isbarrier) {
+                        Y++;
+                        status = Status.Walk;
+                    }
+                }
             }
+
+            //if (Y == 13)
+            //{
+            //    Ismove = false;
+            //    Attackflg = true;//攻撃オンにする
+            //}
 
             if (IndexCheck(nextpos, (int)Mode.Y)) { return; }
             GameObject target_obj = Generation_enemy.rootpos[X].transform.GetChild(nextpos).gameObject;

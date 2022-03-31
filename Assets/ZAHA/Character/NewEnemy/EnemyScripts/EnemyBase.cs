@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] float hp = 0; //hp
     [SerializeField] float attack = 0; //攻撃
     [SerializeField] float speed = 0; //速度
+    float init_speed = 0;
     [SerializeField] bool deathflg = false; //死亡フラグ
     bool init_animflg = true; //アニメーションを一回だけ実行させたい時フラグ
 
@@ -38,6 +39,10 @@ public class EnemyBase : MonoBehaviour
     bool istrun = false;//ターン中か
     bool is_action = false;
     bool ismove = true;
+
+    //氷があるのか
+    bool isbarrier = true;
+
     public enum EnemyKinds //敵種類
     {
         Demon,
@@ -58,7 +63,7 @@ public class EnemyBase : MonoBehaviour
     //参照用
     public float Hp { get => hp; }
     public float Attack { get => attack; }
-    public float Speed { get => speed; }
+    public float Speed { get => speed; set => speed = value; }
     public bool Deathflg { get => deathflg; }
     public bool Init_animflg { get => init_animflg; set => init_animflg = value; }
     public GenerationEnemy Generation_enemy { get => generation_enemy; set => generation_enemy = value; }
@@ -76,6 +81,8 @@ public class EnemyBase : MonoBehaviour
     public bool Istrun { get => istrun; set => istrun = value; }
     public bool Is_action { get => is_action; set => is_action = value; }
     public bool Ismove { get => ismove; set => ismove = value; }
+    public bool Isbarrier { get => isbarrier; set => isbarrier = value; }
+    public float Init_speed { get => init_speed; set => init_speed = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -107,7 +114,7 @@ public class EnemyBase : MonoBehaviour
         Vector3 target = TargetDir(this.gameObject, Generation_enemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
         transform.position += target * Speed * Time.deltaTime;//移動
 
-        Debug.DrawRay(this.transform.position, target * 2, Color.red);
+        //Debug.DrawRay(this.transform.position, target * 2, Color.red);
     }
 
     public void LookTarget(bool ismove)
@@ -141,5 +148,20 @@ public class EnemyBase : MonoBehaviour
 
         }
         return rangechek;
+    }
+
+    public void SpeedDown()
+    {
+        Speed /= 2;
+    }
+
+    public void SpeedStop()
+    {
+        Speed = 0;
+    }
+
+    public void SpeedReset()
+    {
+        Speed = Init_speed;
     }
 }
