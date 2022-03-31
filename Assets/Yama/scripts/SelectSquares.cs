@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectSquares : MonoBehaviour
+public class SelectSquares : TrunManager
 {
     /*[SerializeField]*/ GameObject selector = null;
     int selMovAmtH;
@@ -22,6 +22,8 @@ public class SelectSquares : MonoBehaviour
     //魔法を撃つ処理用のスクリプト
     [SerializeField] PlayerController s_PlayerController;
 
+    TrunManager turnMGR;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +33,14 @@ public class SelectSquares : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        FlowToMoveTheSelector();
+        TrunPhase currentPhase = turnMGR.GetTrunPhase();
 
-        ActivateMagic();    //魔法を撃つ処理
+        if (currentPhase == TrunPhase.MagicAttack)
+        {
+            FlowToMoveTheSelector();
+
+            ActivateMagic();    //魔法を撃つ処理
+        }
     }
 
     // 各スティックの値を取得
@@ -70,7 +77,6 @@ public class SelectSquares : MonoBehaviour
 
             selMovAmtH = 0;
             selMovAmtV = 0;
-            Debug.Log("nowMassV" + nowMassV);
         }
     }
 
@@ -140,6 +146,8 @@ public class SelectSquares : MonoBehaviour
         Pmass = GameObject.Find("MassStage").gameObject;
         GetMassList();
 
+        turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+
         selMovAmtH = 0;
         selMovAmtV = 0;
         waitTime = 0;
@@ -191,10 +199,10 @@ public class SelectSquares : MonoBehaviour
             }
         }
 
-        //nowMassH = Pmass.transform.childCount / 2;
-        //nowMassV = (gcCount + P) / 2;
-        nowMassH = 0;
-        nowMassV = 0;
+        nowMassH = Pmass.transform.childCount / 2;
+        nowMassV = (gcCount + P) / 2;
+        //nowMassH = 0;
+        //nowMassV = 0;
 
         selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
