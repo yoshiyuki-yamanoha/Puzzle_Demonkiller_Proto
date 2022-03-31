@@ -195,6 +195,12 @@ public class OrbCon : MonoBehaviour
     public void del_FirstOrb()
     {
         Destroy(transform.GetChild(0).gameObject);
+
+        TrunManager TM = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        if(transform.childCount == 0)
+        {
+            TM.SetTrunPhase(TrunManager.TrunPhase.Enemy);
+        }
     }
 
     public int Get_FOC_info()

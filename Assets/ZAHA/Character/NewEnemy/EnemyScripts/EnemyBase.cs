@@ -164,4 +164,27 @@ public class EnemyBase : MonoBehaviour
     {
         Speed = Init_speed;
     }
+
+    //自分に一番近いかつ、自分より後ろに居る敵を返してくれる優しい関数
+    public (GameObject,int) GetNextEnemy(int currentJumpNum) {
+
+        GameObject nearestEnemy = null;
+
+        //一番近いかつ自分より後ろに居る敵を検索
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float dist = 999.0f;
+        foreach (var e in enemies) {
+            float distt = Vector3.Distance(transform.position, e.transform.position);
+            
+            //暫定一番近いやつより近い奴が居たら
+            if (distt < dist) {
+
+                dist = distt;
+                nearestEnemy = e;
+            }
+        }
+
+
+        return (nearestEnemy, currentJumpNum);
+    }
 }
