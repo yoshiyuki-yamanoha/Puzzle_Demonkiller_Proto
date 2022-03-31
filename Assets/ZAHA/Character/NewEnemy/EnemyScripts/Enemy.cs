@@ -162,7 +162,8 @@ public class Enemy : EnemyBase
         Debug.Log("魔法が当たりました");
         if(other.CompareTag("Magic"))//当たった相手が魔法だったら
         {
-            Damage(50);//ダメージ処理
+            Damage(1);//ダメージ処理
+            Destroy(other.gameObject);
         }
     }
 }
