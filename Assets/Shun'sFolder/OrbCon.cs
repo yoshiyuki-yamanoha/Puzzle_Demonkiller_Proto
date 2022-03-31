@@ -22,7 +22,7 @@ public class OrbCon : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            CreateOrb(_Colors[Random.Range(0, 5)], 1);
+            CreateOrb(_Colors[Random.Range(0, 5)], 0);
         }
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -52,6 +52,18 @@ public class OrbCon : MonoBehaviour
 
     public GameObject CreateOrb (Material _mat,int type)
     {
+        if(type == 0){      //星型なら　
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                if(_mat.name == _Colors[i].name)
+                {
+                    transform.GetChild(i).GetComponent<RotateOrb>().rotateSpeedMultiply++;
+
+                    return null;
+                }
+            }
+        }
+
         GameObject obj = Instantiate(Orb);
 
         obj.GetComponent<Renderer>().material = _mat;
