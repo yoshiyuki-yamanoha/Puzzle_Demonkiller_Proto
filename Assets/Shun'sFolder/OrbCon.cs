@@ -20,14 +20,14 @@ public class OrbCon : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    CreateOrb(_Colors[Random.Range(0, 5)], 1);
-        //}
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    Orb_Clear();
-        //}
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            CreateOrb(_Colors[Random.Range(0, 5)], 1);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            del_FirstOrb();
+        }
         //if (Input.GetKeyDown(KeyCode.I))
         //{
         //    for(int i = 0; i < TotalNum; i++)
@@ -35,6 +35,19 @@ public class OrbCon : MonoBehaviour
         //        Debug.Log("番号 : "+ i+ " |色 : " + Get_OrbColorInfos()[i] + "|型 : " + Get_OrbTypeInfos()[i]);
         //    }
         //}
+        MoveChild();
+    }
+
+    public void MoveChild()
+    {
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Vector3 pos = new Vector3(ORI_POS.x + (i / 11) * -1.5f, ORI_POS.y + ((i % 11) * Orb_dis), ORI_POS.z);
+            if(pos != transform.GetChild(i).localPosition)
+            {
+                transform.GetChild(i).localPosition = Vector3.Lerp(transform.GetChild(i).localPosition, pos, 0.5f);
+            }
+        }
     }
 
     public GameObject CreateOrb (Material _mat,int type)
@@ -53,19 +66,15 @@ public class OrbCon : MonoBehaviour
     Vector3 Cre_pos()
     {
         Vector3 pos = Vector3.zero;
+        int num = transform.childCount - 1;
 
-        pos = new Vector3(ORI_POS.x + (TotalNum / 11) * -1.5f, ORI_POS.y + ((TotalNum % 11) * Orb_dis), ORI_POS.z);
+        pos = new Vector3(ORI_POS.x + (num / 11) * -1.5f, ORI_POS.y + ((num % 11) * Orb_dis), ORI_POS.z);
 
         return pos;
     }
 
     public void Orb_Clear()
     {
-        for(int i = 0; i < TotalNum; i++)
-        {
-            Destroy(this.transform.GetChild(i).gameObject);
-        }
-
         TotalNum = 0;
     }
 
