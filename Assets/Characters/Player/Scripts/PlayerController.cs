@@ -70,6 +70,9 @@ public class PlayerController : MonoBehaviour
 
         if (unko.Count == 0) return;
 
+        //使ったオーブを消し去る
+        s_OrbCon.del_FirstOrb();
+
         //先頭のオーブ
         GameObject Magic = Instantiate(particleObject[unko[0]], mainCamera.transform.position, transform.rotation);
 
