@@ -70,7 +70,7 @@ public class OrbCon : MonoBehaviour
     }
 
     //List<int> OrbColorInfo = new List<int>();
-    List<int> Get_OrbColorInfos()
+    public List<int> Get_OrbColorInfos()
     {
         List<int> OrbColorInfo = new List<int>();
         for (int i=0; i<this.transform.childCount; i++)
@@ -80,8 +80,8 @@ public class OrbCon : MonoBehaviour
 
         return OrbColorInfo;
     }
-    
-    List<int> Get_OrbTypeInfos()
+
+    public List<int> Get_OrbTypeInfos()
     {
         List<int> OrbTypeInfo = new List<int>();
         for (int i=0; i<this.transform.childCount; i++)
