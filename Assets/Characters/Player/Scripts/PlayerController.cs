@@ -61,10 +61,12 @@ public class PlayerController : MonoBehaviour
     }
 
     //魔法を生成、番号指定で撃つ魔法を変える。
-    public void ShotMagic(GameObject tage,int magNum = 0) {
-        GameObject Magic = Instantiate(particleObject[magNum], mainCamera.transform.position, transform.rotation);
+    public void ShotMagic(GameObject tage) {
+        //一番先頭のオーブを取得
+
+        GameObject Magic = Instantiate(particleObject[0], mainCamera.transform.position, transform.rotation);
         
-        //属性によって魔法の色を変える
+        
 
 
         //魔法とんでいくターゲットを変える。
