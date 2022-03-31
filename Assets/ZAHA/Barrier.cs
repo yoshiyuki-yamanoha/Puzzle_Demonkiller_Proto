@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour
 {
-    float hp;
+    [SerializeField] float hp;
+    [SerializeField] float maxhp;
 
+    public float Maxhp { get => maxhp; }
     public float Hp { get => hp; set => hp = value; }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Hp = Maxhp;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        Debug.Log("fixed");
+        if (HPCheck(Hp))
+        {
+            Debug.Log("消えろー");
+            Destroy(this.gameObject);
+        }
     }
 
     bool HPCheck(float hp)
     {
-        if(Hp < 0)
+        if(Hp <= 0)
         {
             Hp = 0;
             return true;
@@ -30,6 +37,15 @@ public class Barrier : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Wepon"))
+        {
+            Debug.Log("敵の攻撃あたったー");
+            hp -= 10;
         }
     }
 }

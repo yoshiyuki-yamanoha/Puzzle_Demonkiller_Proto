@@ -2792,8 +2792,8 @@ MonoBehaviour:
   deathflg: 0
   generation_enemy: {fileID: 0}
   enemy_anim: {fileID: 3191871338222945284}
-  nextpos: 0
-  startpos: 0
+  y: 0
+  x: 0
   trun_manager: {fileID: 0}
   enemy_kinds: 1
   status: 0
@@ -2887,7 +2887,7 @@ GameObject:
   - component: {fileID: 7943020636694836147}
   m_Layer: 8
   m_Name: Axe00_prefab
-  m_TagString: Untagged
+  m_TagString: Wepon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
