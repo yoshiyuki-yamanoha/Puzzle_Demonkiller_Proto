@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject mainCamera;
-    public GameObject particleObject;
+    public GameObject[] particleObject;
 
     private Vector3 cameraDefaultPosition = new Vector3(0,15,-12);
     private Vector3 lastMousePosition;
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerAttack()
     {
         attackNum += 1;
-        GameObject Magic = Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+        GameObject Magic = Instantiate(particleObject[0], mainCamera.transform.position, transform.rotation);
         Magic.name = "FireMagic"+attackNum;
 
         //Mh = GameObject.Find("FireMagic").GetComponent<Magichoming>(); 
@@ -60,8 +60,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //魔法を生成、番号指定で撃つ魔法を変える。
     public void ShotMagic(GameObject tage) {
-        GameObject Magic = Instantiate(particleObject, mainCamera.transform.position, transform.rotation);
+        //一番先頭のオーブを取得
+
+        GameObject Magic = Instantiate(particleObject[0], mainCamera.transform.position, transform.rotation);
+        
+        
+
+
+        //魔法とんでいくターゲットを変える。
         Magic.GetComponent<Magichoming>().TargetObject = tage;
 
     }

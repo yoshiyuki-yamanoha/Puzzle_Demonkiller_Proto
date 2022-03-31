@@ -9,32 +9,23 @@ public class SelectSquares : MonoBehaviour
     float selMovAmtV;
     /*[SerializeField]*/ int coolTimeMax = 10;
     private int waitTime;
+    private bool canSelect;
+
+    //魔法を撃つ処理用のスクリプト
+    [SerializeField] PlayerController s_PlayerController;
 
     // Start is called before the first frame update
     void Start()
     {
-        selector = GameObject.Find("Selector").gameObject;
-        Debug.Log(selector);
-        selector.transform.position = Vector3.zero;
-
-        selMovAmtH = 0f;
-        selMovAmtV = 0f;
-        waitTime = 0;
+        SelectorInit();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        // 各スティックの値を取得
-        (float hStick, float vStick) = GetStick();
+        FlowToMoveTheSelector();
 
-        // 移動量の取得
-        var(h, v) = ReturnSelectorMoveAmount(hStick, vStick);
-        selMovAmtH = h;
-        selMovAmtV = v;
-
-        // セレクターの移動
-        ChangePositionSelector();
+        ActivateMagic();    //魔法を撃つ処理
     }
 
     // 各スティックの値を取得
@@ -122,5 +113,39 @@ public class SelectSquares : MonoBehaviour
     public Vector3 GetSelectorPos()
     {
         return selector.transform.position;
+    }
+
+    public void SelectorInit()
+    {
+        selector = GameObject.Find("Selector").gameObject;
+        Debug.Log(selector);
+        selector.transform.position = Vector3.zero;
+
+        selMovAmtH = 0f;
+        selMovAmtV = 0f;
+        waitTime = 0;
+    }
+
+    // セレクターを動かす流れ
+    public void FlowToMoveTheSelector()
+    {
+        // 各スティックの値を取得
+        (float hStick, float vStick) = GetStick();
+
+        // 移動量の取得
+        var (h, v) = ReturnSelectorMoveAmount(hStick, vStick);
+        selMovAmtH = h;
+        selMovAmtV = v;
+
+        // セレクターの移動
+        ChangePositionSelector();
+    }
+
+    //魔法を撃つ処理
+    void ActivateMagic() {
+
+        //Aボタンで魔法を放つ
+        if (Input.GetButtonDown("Fire1"))
+            s_PlayerController.ShotMagic(selector);
     }
 }

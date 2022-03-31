@@ -82,7 +82,7 @@ public class MagicPointer : MonoBehaviour
                 mostNearEnemy = o;
             }
 
-            Debug.Log("するんじゃない？");
+            //Debug.Log("するんじゃない？");
 
         }
     }
