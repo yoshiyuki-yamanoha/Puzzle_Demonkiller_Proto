@@ -19,7 +19,7 @@ public class Barrier : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log("fixed");
+
         if (HPCheck(Hp))
         {
             Debug.Log("消えろー");
