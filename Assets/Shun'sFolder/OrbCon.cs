@@ -199,6 +199,9 @@ public class OrbCon : MonoBehaviour
 
     public int Get_FOC_info()
     {
+
+        if(transform.childCount == 0) return -1;
+
         GameObject orb = transform.GetChild(0).gameObject;
         int colNum = -1;
 
@@ -216,6 +219,7 @@ public class OrbCon : MonoBehaviour
     public int Get_FOT_Info()
     {
         int TypeNum = -1;
+        if (transform.childCount == 0) return -1;
         GameObject orb = transform.GetChild(0).gameObject;
 
         if (orb.transform.GetChild(0).gameObject.activeSelf)
@@ -233,6 +237,7 @@ public class OrbCon : MonoBehaviour
     public int Get_FOL_Info()
     {
         int LevlNum = -1;
+        if (transform.childCount == 0) return -1;
         GameObject orb = transform.GetChild(0).gameObject;
 
         if (transform.GetChild(0).gameObject.GetComponent<RotateOrb>() != null)
@@ -244,7 +249,7 @@ public class OrbCon : MonoBehaviour
             LevlNum = 0;
         }
 
-        return 0;
+        return LevlNum;
     }
 
 }
