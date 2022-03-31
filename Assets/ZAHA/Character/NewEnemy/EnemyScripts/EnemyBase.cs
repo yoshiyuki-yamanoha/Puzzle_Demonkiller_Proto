@@ -152,7 +152,7 @@ public class EnemyBase : MonoBehaviour
 
     public void SpeedDown()
     {
-        Speed /= 2;
+        Speed = Init_speed / 2;
     }
 
     public void SpeedStop()
