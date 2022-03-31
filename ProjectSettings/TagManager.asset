@@ -14,6 +14,8 @@ TagManager:
   - MarkedEnemy
   - FxTemporaire
   - Barricade
+  - Barrier
+  - Wepon
   layers:
   - Default
   - TransparentFX
