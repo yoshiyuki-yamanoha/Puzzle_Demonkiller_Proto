@@ -2960,6 +2960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
+  max_hp: 100
   attack: 10
   speed: 1
   deathflg: 0
@@ -2969,6 +2970,7 @@ MonoBehaviour:
   x: 0
   trun_manager: {fileID: 0}
   enemy_kinds: 1
+  hpber: {fileID: 7186273011420981217}
   status: 0
 --- !u!1 &5763954837322420639
 GameObject:

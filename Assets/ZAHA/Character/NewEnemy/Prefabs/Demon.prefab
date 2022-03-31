@@ -1300,6 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
+  max_hp: 100
   attack: 10
   speed: 1
   deathflg: 0
@@ -1309,6 +1310,7 @@ MonoBehaviour:
   x: 0
   trun_manager: {fileID: 0}
   enemy_kinds: 0
+  hpber: {fileID: 6671397955405715046}
   status: 0
 --- !u!1 &3896980788920520742
 GameObject:
@@ -1587,9 +1589,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
