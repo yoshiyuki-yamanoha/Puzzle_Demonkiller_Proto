@@ -11,6 +11,9 @@ public class SelectSquares : MonoBehaviour
     private int waitTime;
     private bool canSelect;
 
+    //魔法を撃つ処理用のスクリプト
+    [SerializeField] PlayerController s_PlayerController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,9 @@ public class SelectSquares : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        FlowToMoveTheSelector()
+        FlowToMoveTheSelector();
+
+        ActivateMagic();    //魔法を撃つ処理
     }
 
     // 各スティックの値を取得
@@ -134,5 +139,13 @@ public class SelectSquares : MonoBehaviour
 
         // セレクターの移動
         ChangePositionSelector();
+    }
+
+    //魔法を撃つ処理
+    void ActivateMagic() {
+
+        //Aボタンで魔法を放つ
+        if (Input.GetButtonDown("Fire1"))
+            s_PlayerController.ShotMagic(selector);
     }
 }
