@@ -40,6 +40,8 @@ public class SelectSquares : TrunManager
             FlowToMoveTheSelector();
 
             ActivateMagic();    //魔法を撃つ処理
+
+            //Debug.Log(nowMassV);
         }
     }
 
@@ -69,14 +71,13 @@ public class SelectSquares : TrunManager
         if (CheckIfSelectorCanMove() == true)
         {
             waitTime = coolTimeMax;
-            //selector.transform.position += new Vector3(selMovAmtH, 0f, selMovAmtV);
 
             selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
                                                       massList[nowMassH].transform.position.z + vMoveAmount);
 
-            selMovAmtH = 0;
-            selMovAmtV = 0;
+            //selMovAmtH = 0;
+            //selMovAmtV = 0;
         }
     }
 
@@ -110,17 +111,25 @@ public class SelectSquares : TrunManager
 
         // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
         if (nowMassH + selMovAmtH >= cCount)
+        {
+            //Debug.Log("11");
             return false;
+        }
         if (nowMassH + selMovAmtH < 0)
+        {
+            //Debug.Log("12");
             return false;
+        }
 
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + selMovAmtV >= 0)
+        if (nowMassV + selMovAmtV > 0)
         {
+            //Debug.Log("13");
             return false;
         }
         if (nowMassV + selMovAmtV < -gcCount)
         {
+            //Debug.Log("14");
             return false;
         }
 
@@ -200,12 +209,14 @@ public class SelectSquares : TrunManager
         }
 
         nowMassH = Pmass.transform.childCount / 2;
-        nowMassV = (gcCount + P) / 2;
+        nowMassV = -(gcCount + P) / 2;
         //nowMassH = 0;
         //nowMassV = 0;
 
+
+        float vMoveAmount = (float)nowMassV * 5.0f;
         selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
-                                                      massList[nowMassH].transform.position.z );
+                                                      massList[nowMassH].transform.position.z + vMoveAmount);
     }
 }
