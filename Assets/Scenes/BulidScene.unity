@@ -1286,6 +1286,7 @@ MonoBehaviour:
   cc: {fileID: 1290645486648335522}
   Mh: {fileID: 0}
   attackNum: 0
+  s_OrbCon: {fileID: 894188523}
 --- !u!4 &387063140
 Transform:
   m_ObjectHideFlags: 0
