@@ -43,16 +43,50 @@ public class SelectSquares : TrunManager
         }
     }
 
+    public void SelectorInit()
+    {
+        selector = GameObject.Find("Selector").gameObject;
+        selector.transform.position = Vector3.zero;
+
+        Pmass = GameObject.Find("MassStage").gameObject;
+        GetMassList();
+
+        turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+
+        selMovAmtH = 0;
+        selMovAmtV = 0;
+        waitTime = 0;
+    }
+
+    // セレクターを動かす流れ
+    public void FlowToMoveTheSelector()
+    {
+        selMovAmtH = 0;
+        selMovAmtV = 0;
+
+        // 各スティックの値を取得
+        (float hStick, float vStick) = GetStick();
+
+        // 移動量の取得
+        var (h, v) = ReturnSticAsInt(hStick, vStick);
+        selMovAmtH = h;
+        selMovAmtV = v;
+
+        // セレクターの移動
+        ChangePositionSelector();
+    }
+
     // 各スティックの値を取得
     private (float, float) GetStick()
     {
         float hStick = Input.GetAxis("Horizontal");
         float vStick = Input.GetAxis("Vertical");
+
         return (hStick, vStick);
     }
 
 
-    // スティックをイント化し返す
+    // スティックをint型で返す
     private (int, int) ReturnSticAsInt(float hStick, float vStick)
     {
         int hMoveAmount = Mathf.CeilToInt(hStick);
@@ -64,34 +98,15 @@ public class SelectSquares : TrunManager
     // セレクターの移動
     private void ChangePositionSelector()
     {
-        float vMoveAmount = (float)nowMassV * 5.0f;
-
         if (CheckIfSelectorCanMove() == true)
         {
             waitTime = coolTimeMax;
-            //selector.transform.position += new Vector3(selMovAmtH, 0f, selMovAmtV);
 
+            float vMoveAmount = (float)nowMassV * 5.0f;
             selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
                                                       massList[nowMassH].transform.position.z + vMoveAmount);
-
-            selMovAmtH = 0;
-            selMovAmtV = 0;
         }
-    }
-
-    // 移動のクールタイムの経過
-    private bool ElapsedOfCoolingTimeOfMovement()
-    {
-        // クールタイム経過
-        if (waitTime > 0)
-        {
-            waitTime--;
-
-            return false;
-        }
-
-        return true;
     }
 
     /// <summary>
@@ -115,20 +130,29 @@ public class SelectSquares : TrunManager
             return false;
 
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + selMovAmtV >= 0)
-        {
+        if (nowMassV + selMovAmtV > 0)
             return false;
-        }
         if (nowMassV + selMovAmtV < -gcCount)
-        {
             return false;
-        }
 
         nowMassH += selMovAmtH;
         nowMassV += selMovAmtV;
 
-
         // 動かしてヨシ！
+        return true;
+    }
+
+    // 移動のクールタイムの経過
+    private bool ElapsedOfCoolingTimeOfMovement()
+    {
+        // クールタイム経過
+        if (waitTime > 0)
+        {
+            waitTime--;
+
+            return false;
+        }
+
         return true;
     }
 
@@ -136,36 +160,6 @@ public class SelectSquares : TrunManager
     public Vector3 GetSelectorPos()
     {
         return selector.transform.position;
-    }
-
-    public void SelectorInit()
-    {
-        selector = GameObject.Find("Selector").gameObject;
-        selector.transform.position = Vector3.zero;
-
-        Pmass = GameObject.Find("MassStage").gameObject;
-        GetMassList();
-
-        turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
-
-        selMovAmtH = 0;
-        selMovAmtV = 0;
-        waitTime = 0;
-    }
-
-    // セレクターを動かす流れ
-    public void FlowToMoveTheSelector()
-    {
-        // 各スティックの値を取得
-        (float hStick, float vStick) = GetStick();
-
-        // 移動量の取得
-        var (h, v) = ReturnSticAsInt(hStick, vStick);
-        selMovAmtH = h;
-        selMovAmtV = v;
-
-        // セレクターの移動
-        ChangePositionSelector();
     }
 
     //魔法を撃つ処理
@@ -200,12 +194,12 @@ public class SelectSquares : TrunManager
         }
 
         nowMassH = Pmass.transform.childCount / 2;
-        nowMassV = (gcCount + P) / 2;
-        //nowMassH = 0;
-        //nowMassV = 0;
+        nowMassV = -(gcCount + P) / 2;
 
+
+        float vMoveAmount = (float)nowMassV * 5.0f;
         selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
-                                                      massList[nowMassH].transform.position.z );
+                                                      massList[nowMassH].transform.position.z + vMoveAmount);
     }
 }
