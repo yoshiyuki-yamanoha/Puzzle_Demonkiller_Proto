@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
         //一番先頭のオーブを取得 0:r 1:b 2:y
         List<int> unko = s_OrbCon.Get_OrbColorInfos();
 
+        if (unko.Count == 0) return;
+
         //先頭のオーブ
         GameObject Magic = Instantiate(particleObject[unko[0]], mainCamera.transform.position, transform.rotation);
 
