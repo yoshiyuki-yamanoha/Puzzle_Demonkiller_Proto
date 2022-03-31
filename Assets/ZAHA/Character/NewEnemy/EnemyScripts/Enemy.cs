@@ -7,7 +7,10 @@ public class Enemy : EnemyBase
     private void Start()
     {
         Init_speed = Speed;//初期のスピード保存
+        Hp = Max_hp;
+        //Hpber.maxValue = Max_hp;
     }
+
     void FixedUpdate()
     {
         if (Enemy_anim == null) return;
@@ -32,6 +35,8 @@ public class Enemy : EnemyBase
             Is_action = false;
         }
 
+        HPber();//ゲージ減らしてみるぁ＞？
+        
         //攻撃地点
         if (Istrun && !Is_action)
         {//自分のターンかつ行動していない時

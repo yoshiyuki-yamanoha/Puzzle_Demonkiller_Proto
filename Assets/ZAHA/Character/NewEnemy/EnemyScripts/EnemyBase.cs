@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyBase : MonoBehaviour
 
     //変数
     [SerializeField] float hp = 0; //hp
+    [SerializeField] float max_hp = 0; //hp
     [SerializeField] float attack = 0; //攻撃
     [SerializeField] float speed = 0; //速度
     float init_speed = 0;
@@ -43,6 +45,8 @@ public class EnemyBase : MonoBehaviour
     //氷があるのか
     bool isbarrier = true;
 
+    [SerializeField] Slider hpber = null;
+
     public enum EnemyKinds //敵種類
     {
         Demon,
@@ -61,7 +65,7 @@ public class EnemyBase : MonoBehaviour
     public Status status;
 
     //参照用
-    public float Hp { get => hp; }
+    public float Hp { get => hp; set => hp = value; }
     public float Attack { get => attack; }
     public float Speed { get => speed; set => speed = value; }
     public bool Deathflg { get => deathflg; }
@@ -83,6 +87,8 @@ public class EnemyBase : MonoBehaviour
     public bool Ismove { get => ismove; set => ismove = value; }
     public bool Isbarrier { get => isbarrier; set => isbarrier = value; }
     public float Init_speed { get => init_speed; set => init_speed = value; }
+    public float Max_hp { get => max_hp; set => max_hp = value; }
+    public Slider Hpber { get => hpber; set => hpber = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -91,6 +97,11 @@ public class EnemyBase : MonoBehaviour
         Vector3 def = targetPos - enemyPos;//向き生成。
         def.y = 0;//Y軸方向は見ない。
         return def;
+    }
+
+    public void HPber()
+    {
+        Hpber.value = hp;
     }
 
     public float Damage(float damege)//damage処理
