@@ -31656,14 +31656,10 @@ MonoBehaviour:
   circleMats:
   - mat: {fileID: 2100000, guid: 988af2220065ebc44a0f8a15b285b142, type: 2}
     name: R
-  - mat: {fileID: 2100000, guid: c9a146f61b378e5429a7948033af3f32, type: 2}
-    name: B
-  - mat: {fileID: 2100000, guid: ec0ba30bd63651a4bad8e0b6bd7c84ca, type: 2}
-    name: Y
   - mat: {fileID: 2100000, guid: ed0c36110371a0447a142c065b883c2f, type: 2}
     name: S
-  - mat: {fileID: 2100000, guid: 27e6316b1ffd7f1498ba137eb61199fa, type: 2}
-    name: G
+  - mat: {fileID: 2100000, guid: ec0ba30bd63651a4bad8e0b6bd7c84ca, type: 2}
+    name: Y
   orbs:
   - {fileID: 0}
   - {fileID: 0}
