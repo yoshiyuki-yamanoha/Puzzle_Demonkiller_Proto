@@ -198,7 +198,7 @@ public class OrbCon : MonoBehaviour
         Destroy(transform.GetChild(0).gameObject);
 
         TrunManager TM = GameObject.Find("TrunManager").GetComponent<TrunManager>();
-        if(transform.childCount == 0)
+        if(transform.childCount - 1 == 0)
         {
             TM.SetTrunPhase(TrunManager.TrunPhase.Enemy);
         }
