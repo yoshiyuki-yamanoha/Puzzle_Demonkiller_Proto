@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     public Magichoming Mh;
     public int attackNum = 0;
 
+    //おーぶしゅとく
+    [SerializeField] OrbCon s_OrbCon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,12 +65,16 @@ public class PlayerController : MonoBehaviour
 
     //魔法を生成、番号指定で撃つ魔法を変える。
     public void ShotMagic(GameObject tage) {
-        //一番先頭のオーブを取得
+        //一番先頭のオーブを取得 0:r 1:b 2:y
+        List<int> unko = s_OrbCon.Get_OrbColorInfos();
 
-        GameObject Magic = Instantiate(particleObject[0], mainCamera.transform.position, transform.rotation);
-        
-        
+        if (unko.Count == 0) return;
 
+        //使ったオーブを消し去る
+        s_OrbCon.del_FirstOrb();
+
+        //先頭のオーブ
+        GameObject Magic = Instantiate(particleObject[unko[0]], mainCamera.transform.position, transform.rotation);
 
         //魔法とんでいくターゲットを変える。
         Magic.GetComponent<Magichoming>().TargetObject = tage;

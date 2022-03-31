@@ -62,10 +62,10 @@ public class PointControl : MonoBehaviour
     [SerializeField] private mats[] circleMats;
 
     //色の数
-    private int changeCircleNum = 5;
+    private int changeCircleNum = 3;
 
     //使った魔法陣の色を使えないようにする用の配列
-    bool[] usedMatNum = new bool[5];
+    bool[] usedMatNum = new bool[3];
 
     //オーブオブジェクトたち
     [SerializeField] GameObject[] orbs;
@@ -284,10 +284,10 @@ public class PointControl : MonoBehaviour
                     //Aボタン選択
                     SelectCircle(o);
 
-                    //色替え (線が繋がってる二つを同時に)
-                    ChangeColorMat(o);
-                    if (nodeA) ChangeColorMat(nodeA);
-                    if (nodeB) ChangeColorMat(nodeB);
+                    ////色替え (線が繋がってる二つを同時に)
+                    //ChangeColorMat(o);
+                    //if (nodeA) ChangeColorMat(nodeA);
+                    //if (nodeB) ChangeColorMat(nodeB);
 
                 }
                 else
@@ -308,6 +308,9 @@ public class PointControl : MonoBehaviour
             ChangeColorNum();
 
         }
+
+        // 色を変える
+        ColorChange();
     }
 
 
@@ -398,7 +401,76 @@ public class PointControl : MonoBehaviour
         }
 
     }
+    public void ColorChange()
+    {
+        Renderer buf = circles[0].GetComponent<Renderer>();
 
+        len = circleMats.Length;
+
+        //選択中のオブジェクトのマテリアルゲットォオ
+        old = buf.material;
+
+        //Bボタンで色入れ替え
+        if (Input.GetButtonDown("Cont_L1"))
+        {
+
+            int next = 0;
+            for (int i = 0; i < changeCircleNum; i++)
+            {
+                if (old.color == circleMats[i].mat.color)
+                {
+
+                    //使える色がくるまで
+                    for (int j = 1; j < changeCircleNum; j++)
+                    {
+                        next = i + j;
+                        if (next > changeCircleNum) next -= changeCircleNum;
+                        if (next >= 3) next = 0;
+                        if (usedMatNum[next] == true) break;
+                    }
+
+                    break;
+                }
+            }
+
+
+
+            foreach(GameObject o in circles)
+            {
+                o.GetComponent<Renderer>().material = circleMats[next].mat;
+                o.name = circleMats[next].name;
+            }
+
+        }else if(Input.GetButtonDown("Cont_R1"))
+        {
+            int next = 0;
+            for (int i = 0; i < changeCircleNum; i++)
+            {
+                if (old.color == circleMats[i].mat.color)
+                {
+
+                    //使える色がくるまで
+                    for (int j = 1; j < changeCircleNum; j++)
+                    {
+                        next = i - j;
+                        if (next > changeCircleNum) next -= changeCircleNum;
+                        if (next <= -1) next = 2;
+                        if (usedMatNum[next] == true) break;
+                    }
+
+                    break;
+                }
+            }
+
+
+
+            foreach (GameObject o in circles)
+            {
+                o.GetComponent<Renderer>().material = circleMats[next].mat;
+                o.name = circleMats[next].name;
+            }
+        }
+    }
     public void RandomColorSet()
     {
         GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
@@ -441,7 +513,7 @@ public class PointControl : MonoBehaviour
     //マテリアルブールをリセット
     public void ResetMaterialBool()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
             usedMatNum[i] = true;
     }
 
@@ -701,8 +773,8 @@ public class PointControl : MonoBehaviour
             if (changeCircleNum > 5) changeCircleNum = 5;
         }
 
-        if (oldNum != changeCircleNum)
-            RandomColorSet();
+        //if (oldNum != changeCircleNum)
+        //    RandomColorSet();
     }
 
     public int GetChangeColorMode() {
