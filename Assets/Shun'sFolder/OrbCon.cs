@@ -11,21 +11,6 @@ public class OrbCon : MonoBehaviour
     private float Orb_dis = 1.2f;
     private int TotalNum;
 
-    struct OrbInfo
-    {
-        public int type;
-        public int colorNum;
-
-        public void Set_type(int num)
-        {
-            type = num;
-        }
-        public void Set_ColNum(int num)
-        {
-            colorNum = num;
-        }
-    }
-    List<OrbInfo> orbSum = new List<OrbInfo>();
     //[SerializeField] private float orbDis = 10.0f;
     void Start()
     {
@@ -35,18 +20,21 @@ public class OrbCon : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            CreateOrb(_Colors[Random.Range(0, 5)], Random.Range(0, 1));
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            Orb_Clear();
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Get_OrbInfos();
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    CreateOrb(_Colors[Random.Range(0, 5)], 1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    Orb_Clear();
+        //}
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    for(int i = 0; i < TotalNum; i++)
+        //    {
+        //        Debug.Log("番号 : "+ i+ " |色 : " + Get_OrbColorInfos()[i] + "|型 : " + Get_OrbTypeInfos()[i]);
+        //    }
+        //}
     }
 
     public GameObject CreateOrb (Material _mat,int type)
@@ -57,6 +45,7 @@ public class OrbCon : MonoBehaviour
         obj.transform.parent = this.transform;
         obj.transform.localPosition = Cre_pos();
         obj.transform.GetChild(type).gameObject.SetActive(true);
+        obj.name = _mat.name;
         TotalNum++;
         return obj;
     }
@@ -80,22 +69,27 @@ public class OrbCon : MonoBehaviour
         TotalNum = 0;
     }
 
-    List<OrbInfo> Get_OrbInfos()
+    //List<int> OrbColorInfo = new List<int>();
+    List<int> Get_OrbColorInfos()
     {
-        orbSum.Clear();
+        List<int> OrbColorInfo = new List<int>();
         for (int i=0; i<this.transform.childCount; i++)
         {
-            orbSum.Add(new OrbInfo());
-            orbSum[i].Set_type(Get_OrbTypeInfo(transform.GetChild(i).gameObject));
-            orbSum[i].Set_ColNum(Get_OrbColorInfo(transform.GetChild(i).gameObject));
+            OrbColorInfo.Add(Get_OrbColorInfo(transform.GetChild(i).gameObject));
         }
 
-        //foreach(OrbInfo info in orbSum)
-        //{
-        //    Debug.Log("番号 : " + orbSum.IndexOf(info) + " 型 : " + info.type + " 色 + " + info.colorNum);
-        //}
+        return OrbColorInfo;
+    }
+    
+    List<int> Get_OrbTypeInfos()
+    {
+        List<int> OrbTypeInfo = new List<int>();
+        for (int i=0; i<this.transform.childCount; i++)
+        {
+            OrbTypeInfo.Add(Get_OrbTypeInfo(transform.GetChild(i).gameObject));
+        }
 
-        return orbSum;
+        return OrbTypeInfo;
     }
 
 
@@ -108,11 +102,10 @@ public class OrbCon : MonoBehaviour
     {
         
         int colNum = -1;
-        Renderer _orbMat = orb.GetComponent<Renderer>();
 
         for(int i = 0; i<_Colors.Length; i++)
         {
-            if (_orbMat.material.name == _Colors[i].name)
+            if (orb.name == _Colors[i].name)
             {
                 colNum = i;
                 return colNum;
