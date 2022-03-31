@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ClearCheck : MonoBehaviour
+public class ClearCheck : TrunManager
 {
     [SerializeField] private Transform[] play;  //親オブジェクト
 
@@ -71,7 +71,7 @@ public class ClearCheck : MonoBehaviour
     //オーブぐるぐるアニメーション用
     [SerializeField] private Animator orbAnimator;
 
-    
+    TrunManager trunMgr;
 
 
     private void Start()
@@ -82,12 +82,16 @@ public class ClearCheck : MonoBehaviour
         mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
         AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
+        trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         //ppp.RandomColorSet();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(Input.GetKeyDown(KeyCode.K) ){
+            trunMgr.SetTrunPhase(TrunPhase.Puzzle);
+        }
         if (!cleared)
         {
             //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
@@ -181,25 +185,24 @@ public class ClearCheck : MonoBehaviour
         if (attack == true && nowComboTime == 0)
         {
 
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("MarkedEnemy");
-            foreach (GameObject o in enemies)
-            {
-                pc.ShotMagic(o);
-            }
-
             //パズルを消す
             puzzle.SetActive(false);
             gauge.SetActive(false);
-            
-            fadeNowTime = fadeTime;
-
-            orbAnimator.SetTrigger("LetsAnim");
+            bgCircle.SetActive(false);
 
             //pc.PlayerAttack();
             attack = false;
             pc.attackNum = 0;
+
+            trunMgr.SetTrunPhase(TrunPhase.MagicAttack);
         }
 
+        if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle)
+        {
+            puzzle.SetActive(true);
+            gauge.SetActive(true);
+            bgCircle.SetActive(true);
+        }
         //ゲージに反映
         float per = nowComboTime / comboTime;
         sld.value = per;
@@ -341,14 +344,14 @@ public class ClearCheck : MonoBehaviour
         //コンボタイムが残ってたらコンボを増やす
         if (nowComboTime > 0)
         {
-            comboNum+=addComboNum;
+            //comboNum+=addComboNum;
         }
 
         shuffleCount = shuffleInterval;
 
         //pc.PlayerAttack();
 
-        mp.Marking();
+        //mp.Marking();
 
         cleared = true;
         attack = true;
