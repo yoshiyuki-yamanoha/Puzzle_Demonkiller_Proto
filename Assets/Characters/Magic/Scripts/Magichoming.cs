@@ -39,6 +39,8 @@ public class Magichoming : MonoBehaviour
     public int magicLevel = 1;
     public int magicType = 0;
 
+    Transform acmg;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +74,8 @@ public class Magichoming : MonoBehaviour
         //    TargetPos = TargetObject.transform.position;
         //}
         MagicP = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
+
+        acmg = GameObject.Find("ActivateMagics").transform;
     }
 
     // Update is called once per frame
@@ -123,7 +127,8 @@ public class Magichoming : MonoBehaviour
                         //範囲により変わる爆発
                         GenerationMagic(ExpMini, transform.position);
                         //炎上するやつ
-                        GenerationMagic(fireEffe, transform.position, 999.0f);
+                        GameObject fire = GenerationMagic(fireEffe, transform.position);
+                        fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);
                     }
 
                     //低下|凍結 レベルにより、速度低下率が変わる
@@ -147,10 +152,13 @@ public class Magichoming : MonoBehaviour
     }
 
     //魔法を生成する関数
-    void GenerationMagic(GameObject mag, Vector3 pos,float breakTime = 99) {
+    GameObject GenerationMagic(GameObject mag, Vector3 pos,float breakTime = 99) {
         GameObject magicIns = Instantiate(mag, pos, Quaternion.identity);
+        magicIns.transform.parent = acmg;
 
         if(breakTime != 99.0f)
             Destroy(magicIns, breakTime);
+
+        return magicIns;
     }
 }
