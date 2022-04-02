@@ -73,6 +73,7 @@ public class ClearCheck : TrunManager
 
     TrunManager trunMgr;
 
+    //OrbGage oGage;//オーブのゲージ
 
     private void Start()
     {
@@ -83,6 +84,7 @@ public class ClearCheck : TrunManager
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
         AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        //oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
         //ppp.RandomColorSet();
     }
 

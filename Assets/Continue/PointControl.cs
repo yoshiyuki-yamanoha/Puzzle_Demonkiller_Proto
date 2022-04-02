@@ -97,6 +97,9 @@ public class PointControl : MonoBehaviour
 
     bool speed_downflag = false;
     int combo_plus = 0;
+
+    OrbGage oGage;//オーブのゲージ
+
     ClearCheck CC;
 
     [SerializeField] Transform rootPuzzlesObj;
@@ -120,7 +123,7 @@ public class PointControl : MonoBehaviour
     void Start()
     {
         //魔方陣の色
-        magiccolor = new string[] { "赤", "青", "黄", "水", "緑", "なし" };
+        magiccolor = new string[] { "赤", "水", "黄", "青", "緑", "なし" };
         MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
         //魔法の効果
         magiceffect = new string[] { "コンボｎ倍", "減速", "攻撃", "攻撃", "攻撃", "なし" };
@@ -139,6 +142,8 @@ public class PointControl : MonoBehaviour
         sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
         oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
+
+        oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
 
         tf = transform;
 
@@ -161,7 +166,7 @@ public class PointControl : MonoBehaviour
 
     GameObject circleA = null;
 
-    void Update()
+    void FixedUpdate()
     {
         //カーソルの基準点がずっと中央
         float hori = Input.GetAxis("Horizontal");
@@ -538,7 +543,8 @@ public class PointControl : MonoBehaviour
                 //orbs[orbNum].GetComponent<Renderer>().material = circleMats[i].mat;
 
                 //orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
-                oc.CreateOrb(circleMats[i].mat, type);
+                //oc.CreateOrb(circleMats[i].mat, type);//OrbConのcreateオーブ
+                oGage.ChargeOrb(type);
 
                 orbNum++;
                 if (orbpower < 5) orbpower++;
@@ -592,7 +598,7 @@ public class PointControl : MonoBehaviour
         GameObject[] circles = GameObject.FindGameObjectsWithTag("My");
 
         Color firstColor = circles[0].GetComponent<Renderer>().material.color;
-
+        string clearColor = null;
         //int mc = 0;
         bool colorflag = true;
         speed_downflag = false;
@@ -612,8 +618,21 @@ public class PointControl : MonoBehaviour
                     magiccolornow += magiccolor[i];
                     magictypenow += magictype[i];
                     magiceffectnow += magiceffect[i];
+                    clearColor = magiccolor[i];
                 }
 
+            }
+            if (clearColor == "赤")
+            {
+                oGage.colorflag = 1;
+            }
+            if(clearColor == "水")
+            {
+                oGage.colorflag = 2;
+            }
+            if(clearColor == "黄")
+            {
+                oGage.colorflag = 3;
             }
             int colorcomnum = magiccolornow.Length;
             if (colorcomnum > 5)
@@ -621,6 +640,7 @@ public class PointControl : MonoBehaviour
                 magiccolornow = magiccolornow.Remove(0, 1);
             }
             red = CountChar(magiccolornow, '赤');
+
             blue = CountChar(magiccolornow, '青');
             yellow = CountChar(magiccolornow, '黄');
             light_blue = CountChar(magiccolornow, '水');
