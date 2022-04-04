@@ -10,7 +10,19 @@ public class EnemyBase : MonoBehaviour
         Y,
         X,
     }
-    
+
+    public enum EnemyAction{//エネミーアクション
+        Generation,
+        Movement,
+        Attack,
+    }
+
+    EnemyAction enemy_action;
+
+    //前回の位置
+    int oldx = 0;
+    int oldy = 0;
+
     //変数
     [SerializeField] float hp = 0; //hp
     [SerializeField] float max_hp = 0; //hp
@@ -36,14 +48,11 @@ public class EnemyBase : MonoBehaviour
     bool rangechek = true;
     bool attackflg = false;
     float attacktime = 0;
-    [SerializeField] public EnemyKinds enemy_kinds;
+    public EnemyKinds enemy_kinds;
 
     bool istrun = false;//ターン中か
     bool is_action = false;
-    bool ismove = true;
-
-    //氷があるのか
-    bool isbarrier = true;
+    bool ismove = false;
 
     [SerializeField] Slider hpber = null;
 
@@ -85,10 +94,12 @@ public class EnemyBase : MonoBehaviour
     public bool Istrun { get => istrun; set => istrun = value; }
     public bool Is_action { get => is_action; set => is_action = value; }
     public bool Ismove { get => ismove; set => ismove = value; }
-    public bool Isbarrier { get => isbarrier; set => isbarrier = value; }
     public float Init_speed { get => init_speed; set => init_speed = value; }
     public float Max_hp { get => max_hp; set => max_hp = value; }
     public Slider Hpber { get => hpber; set => hpber = value; }
+    public EnemyAction Enemy_action { get => enemy_action; set => enemy_action = value; }
+    public int Oldx { get => oldx; set => oldx = value; }
+    public int Oldy { get => oldy; set => oldy = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -155,8 +166,7 @@ public class EnemyBase : MonoBehaviour
         if (mode == (int)Mode.Y)
         {
             if (index < 0) { y = 0; rangechek = true; }
-            if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y; rangechek = true; Debug.Log("チェック中" + index); }
-
+            if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y; rangechek = true;}
         }
         return rangechek;
     }
@@ -177,18 +187,21 @@ public class EnemyBase : MonoBehaviour
     }
 
     //自分に一番近いかつ、自分より後ろに居る敵を返してくれる優しい関数
-    public (GameObject,int) GetNextEnemy(int currentJumpNum) {
+    public (GameObject, int) GetNextEnemy(int currentJumpNum)
+    {
 
         GameObject nearestEnemy = null;
 
         //一番近いかつ自分より後ろに居る敵を検索
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         float dist = 999.0f;
-        foreach (var e in enemies) {
+        foreach (var e in enemies)
+        {
             float distt = Vector3.Distance(transform.position, e.transform.position);
-            
+
             //暫定一番近いやつより近い奴が居たら
-            if (distt < dist) {
+            if (distt < dist)
+            {
 
                 dist = distt;
                 nearestEnemy = e;
