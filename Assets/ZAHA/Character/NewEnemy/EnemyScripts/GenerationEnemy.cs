@@ -4,127 +4,192 @@ using UnityEngine;
 
 public class GenerationEnemy : MonoBehaviour
 {
-    //ここで
+    [SerializeField] bool is_generation = false;
 
-    GameObject last_enemy = null;
-    [SerializeField] GameObject[] prefab = null;//プレファブ格納変数
-    [SerializeField] int maxenemy = 10;//敵最大値
+    [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
+    [SerializeField] int enemy_max = 10;//敵最大値
     float enemy_count = 0;//エネミーカウント
-    int max_enemy_kinds = 0;//敵種類
-
-    [SerializeField] float span = 5;//敵スパン
+    int enemy_kinds_max = 0;//敵種類
+    int enemy_oneturn_count = 0;
+    int enemy_oneturn_max = 7;
+    [SerializeField] float interval_s = 5;//生成感覚
     [SerializeField] ParticleSystem[] enemy_particle = null;
     public GameObject[] rootpos = null;//親オブジェクト
-
-    [SerializeField] int y;
-    [HideInInspector] public int max_x = 0;
-    public int max_y = 0;
-    //public bool turnflg = true;//ターンフラグ
+    [SerializeField] int y;//縦方向
+    [HideInInspector] public int max_x = 0;//横最大
+    public int max_y = 0;//縦最大
     public bool initflg = true;
-    float time = 0;//
+    float time = 0;
 
-    const int turnmaxnum = 7;//1ターンで生成する最大値
-    int trun_enemycount = 0;
-    bool turn_flg = true;//ターンが始まっているのか
+    TrunManager trunmanager = null;
+    GameObject[] StageSarchEnemy = null;
 
-    bool countinit = true;
+    int is_action_count = 0;
 
-    int all_enemycount;//全体のカウント
+    bool enemy_max_flg = false;
 
-    [SerializeField] TrunManager trunmanager = null;
+    bool turnflg = false;
     // Start is called before the first frame update
     void Start()
     {
-        max_x = rootpos.Length;/*System.Enum.GetNames(typeof(StartPos)).Length;//スタートポジションの数分取得*/
+        max_x = rootpos.Length;//スタートポジションの数分取得
         max_y = rootpos[0].transform.childCount;//子供の数取得
-        //max_enemy_kinds = System.Enum.GetNames(typeof(EnemyKinds)).Length;//敵種類の個数分取得
-        max_enemy_kinds = prefab.Length;
+        enemy_kinds_max = enemy_prefab.Length;
         trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
     void Generation(int num, int x, int y)
     {
-        GameObject enemyobj = rootpos[x].transform.GetChild(y).gameObject;
-        //パーティクル生成
-        ParticleSystem new_particle = Instantiate(enemy_particle[num], enemyobj.transform);
+        rootpos[x].transform.GetChild(y).GetComponent<PseudoArray>().Whoisflg = true;
+
+        GameObject enemy_obj = rootpos[x].transform.GetChild(y).gameObject;
+
+        //出現する魔法陣を生成
+        ParticleSystem new_particle = Instantiate(enemy_particle[num], enemy_obj.transform);
         new_particle.Play();
 
-        Vector3 offset = new Vector3(0, prefab[num].transform.localScale.y, 0);//キャラの高さ分
-        GameObject enemy = Instantiate(prefab[num], enemyobj.transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
-        //スタートポジションを教えてあげる。生成したプレファブに
-        Enemy enemys = enemy.GetComponent<Enemy>();
+        Vector3 offset = new Vector3(0, enemy_prefab[num].transform.localScale.y, 0);//キャラの高さ分調整用
 
-        switch (enemys.enemy_kinds)
+        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemy_obj.transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
+
+        //スタートポジションを教えてあげる。生成したプレファブに
+        Enemy enemy = enemy_instantiate.GetComponent<Enemy>();
+
+        switch (enemy.enemy_kinds)
         {
             case EnemyBase.EnemyKinds.Demon:
-                enemys.X = x; enemys.Y = y;
+                enemy.X = x; enemy.Y = y; enemy.Enemy_action = EnemyBase.EnemyAction.Generation; enemy.Is_action = true;
                 break;
             case EnemyBase.EnemyKinds.Demon1:
-                enemys.X = x; enemys.Y = y;
+                enemy.X = x; enemy.Y = y; enemy.Enemy_action = EnemyBase.EnemyAction.Generation; enemy.Is_action = true;
                 break;
             case EnemyBase.EnemyKinds.Boss:
-                enemys.X = x; enemys.Y = y;
+                enemy.X = x; enemy.Y = y; enemy.Enemy_action = EnemyBase.EnemyAction.Generation; enemy.Is_action = true;
                 break;
         }
 
-        ++enemy_count;//敵カウント
-        ++trun_enemycount;//1ターン分の敵をカウント
+        enemy_count++;//敵をカウント
+        enemy_oneturn_count++;//1ターンでのカウント
 
-        //maxenemy - enemycount <= turnmaxnum
-
-        if (enemy_count >= turnmaxnum)
+        if (enemy_oneturn_count >= enemy_oneturn_max)
         {
-            last_enemy = enemy;
-            turn_flg = false;
-            enemy_count = 0;
+            is_generation = false;//終了
+            trunmanager.trunphase = TrunManager.TrunPhase.Puzzle;//ターン移動
+            enemy_oneturn_count = 0;
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        ////生成する数をしぼる。
-        //if (enemy_count >= turnmaxnum)
-        //{
-        //    turn_flg = true;
-        //}
-
-
-        if (last_enemy != null)
-        {
-            if (last_enemy.GetComponent<Enemy>().Is_action)//最後に生成した敵を見る。
-            {
-                TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
-                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
-            }
-        }
-
-        if (trun_enemycount >= maxenemy)//最大値超えていたら何もしない。
-        {
-            return;
-        }
-        else
-        {
-            time += Time.deltaTime;
-        }
-
         //自分のターンが来たらターン開始
         if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy)
         {
-            turn_flg = true;
-        }
 
-
-        if (turn_flg) {//ターンが来たらON
-            if (time > span)//秒おきに生成
+            //生成する状態なら
+            if (is_generation)
             {
-                for (int i = 0; i < 1; i++) //同時生成
+                if (enemy_count >= enemy_max)//最大値超えていたら何もしない。
                 {
-                    Generation(Random.Range(0, max_enemy_kinds), Random.Range(0, max_x), y);//引数(エネミーの種類 , スタートPos)生成。
+                    Debug.Log("Puzulle移行");
+                    enemy_max_flg = true;
+                    is_generation = false;
+                    trunmanager.trunphase = TrunManager.TrunPhase.Puzzle;//パズルターンに移行
                 }
-                time = 0;
+                else
+                {
+                    time += Time.deltaTime;
+                }
+
+                if (time > interval_s)//秒おきに生成
+                {
+
+                    for (int i = 0; i < 1; i++) //同時生成処理
+                    {
+                        //設定したエネミーMaxが
+                        if (enemy_max < enemy_oneturn_max)
+                        {
+                            enemy_oneturn_max = enemy_max;
+                        }
+
+                        int Enemy_kinds_max = Random.Range(0, enemy_kinds_max);
+                        int randomX = Random.Range(0, max_x);
+                        int randomY = Random.Range(0, max_y);
+
+                        //生成する位置が誰もいない時
+                        if (!rootpos[randomX].transform.GetChild(y).GetComponent<PseudoArray>().Whoisflg)
+                        {
+                            Debug.Log("flg" + rootpos[randomX].transform.GetChild(randomY).GetComponent<PseudoArray>().Whoisflg);
+                            Generation(Enemy_kinds_max, randomX, y);//引数(エネミーの種類 , スタートPos)生成。
+                        }
+
+                    }
+                    time = 0;
+                }
+
+            }
+            else
+            {
+                IsMoveSearch();//ステージ内の敵検索
+                
+                if (turnflg)
+                {
+                    time += Time.deltaTime;
+                    if (time > 0.5)
+                    {
+                        trunmanager.trunphase = TrunManager.TrunPhase.Puzzle;
+                        turnflg = false;
+                        time = 0;
+                    }
+                }
             }
         }
+        else
+        {
+            is_action_count = 0;
+        }
+    }
 
+    void IsMoveSearch()
+    {
+        Debug.Log("検索しまーす");
+        GameObject[] search_obj = GameObject.FindGameObjectsWithTag("Enemy");//タグを取得
+        foreach (var hit_search_obj in search_obj)
+        {
+            Debug.Log("search大きさ" + search_obj.Length);
+            //移動が終わるまで
+            if (hit_search_obj.GetComponent<Enemy>().Is_action && hit_search_obj.GetComponent<Enemy>().Enemy_action == EnemyBase.EnemyAction.Movement)
+            {
+                Debug.Log(is_action_count < search_obj.Length);
+
+                if (is_action_count < search_obj.Length)
+                { //動いている数分
+                    is_action_count++;
+                    if (is_action_count == search_obj.Length)
+                    {
+                        if (!enemy_max_flg)
+                        {
+                            is_generation = true;
+                        }
+                        else
+                        {
+                            //ターン終了
+                            turnflg = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
+
+
+//if (enemy_last_obj != null)
+//{
+//    if (enemy_last_obj.GetComponent<Enemy>().Is_action)//最後に生成した敵を見る。
+//    {
+//        TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+//        trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+//    }
+//}
