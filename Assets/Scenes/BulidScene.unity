@@ -1672,6 +1672,13 @@ MonoBehaviour:
   pentagonRed: {fileID: 1888196739}
   pentagonLightBlue: {fileID: 1101499098}
   pentagonYellow: {fileID: 218535280}
+  orb_Gage:
+  - {fileID: 767907743}
+  - {fileID: 1681452908}
+  - {fileID: 1548628466}
+  - {fileID: 1888196739}
+  - {fileID: 1101499098}
+  - {fileID: 218535280}
   starflag: 0
   pentflag: 0
   colorflag: 0
