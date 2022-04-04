@@ -65,11 +65,11 @@ public class PlayerController : MonoBehaviour
     //魔法を生成、番号指定で撃つ魔法を変える。
     public void ShotMagic(GameObject tage) {
         //一番先頭のオーブを取得 0:r 1:b 2:y
-        int colorNum = s_OrbCon.Get_FOC_info();
+        int colorNum = 0;
         int level = s_OrbCon.Get_FOL_Info();
 
         //使ったオーブを消し去る
-        s_OrbCon.del_FirstOrb();
+        //s_OrbCon.del_FirstOrb();
 
         //先頭のオーブ
         GameObject Magic = Instantiate(particleObject[colorNum], mainCamera.transform.position, transform.rotation);
@@ -83,6 +83,8 @@ public class PlayerController : MonoBehaviour
         //魔法のレベルと種類を反映する
         mh.magicLevel = level;
         mh.magicType = colorNum;
+
+        GameObject.Find("TrunManager").GetComponent<TrunManager>().SetTrunPhase(TrunManager.TrunPhase.Enemy);
 
     }
 }
