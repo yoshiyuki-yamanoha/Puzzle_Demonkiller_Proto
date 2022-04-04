@@ -13,12 +13,19 @@ public class OrbGage : MonoBehaviour
     public Slider pentagonLightBlue;
     public Slider pentagonYellow;
 
+    [SerializeField] Slider[] orb_Gage = new Slider[6];
+
     //魔方陣の線の形
     public bool starflag;
     public bool pentflag;
 
     //魔方陣の色
     public int colorflag;//0なし1赤2水色3黄色
+
+    //各オーブのレベル0~3  0:赤星 1:青星 2:黄星 3:赤角 4:青角 5:黄角 
+    private int[] Orb_Level = new int[6];
+
+    private const int ORB_MAX_LEVEL = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +37,6 @@ public class OrbGage : MonoBehaviour
         pentagonRed.value = 0;
         pentagonLightBlue.value = 0;
         pentagonYellow.value = 0;
-
-
     }
 
     // Update is called once per frame
@@ -77,30 +82,50 @@ public class OrbGage : MonoBehaviour
             }
         }
         colorflag = 0;
+        Gage_Draw();
     }
     public void starRedChage()
     {
-        starRed.value += 1;
+        //starRed.value += 1;
+        if(Orb_Level[0]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[0] = ORB_MAX_LEVEL;
+        }
     }
     public void starLightBlueChage()
     {
-        starLightBlue.value += 1;
+        if (Orb_Level[1]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[1] = ORB_MAX_LEVEL;
+        }
     }
     public void starYellowChage()
     {
-        starYellow.value += 1;
+        if (Orb_Level[2]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[2] = ORB_MAX_LEVEL;
+        }
     }
     public void pentagonRedChage()
     {
-        pentagonRed.value += 1;
+        if (Orb_Level[3]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[3] = ORB_MAX_LEVEL;
+        }
     }
     public void pentagonLightBlueChage()
     {
-        pentagonLightBlue.value += 1;
+        if (Orb_Level[4]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[4] = ORB_MAX_LEVEL;
+        }
     }
     public void pentagonYellowChage()
     {
-        pentagonYellow.value += 1;
+        if (Orb_Level[5]++ > ORB_MAX_LEVEL)
+        {
+            Orb_Level[5] = ORB_MAX_LEVEL;
+        }
     }
     public int ChargeOrb(int type)//魔方陣の形
     {
@@ -122,5 +147,18 @@ public class OrbGage : MonoBehaviour
         pentagonRed.value = 0;
         pentagonLightBlue.value = 0;
         pentagonYellow.value = 0;
+    }
+
+    private void Gage_Draw()
+    {
+        for (int i = 0; i < orb_Gage.Length; i++)
+        {
+            orb_Gage[i].value = Orb_Level[i];
+        }
+    }
+
+    public int[] Get_Orb_Level()
+    {
+        return Orb_Level;
     }
 }
