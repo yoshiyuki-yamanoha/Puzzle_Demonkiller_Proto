@@ -33167,7 +33167,7 @@ MonoBehaviour:
   puzzle: {fileID: 1453115634}
   gauge: {fileID: 18831302}
   bgCircle: {fileID: 1290645487000550376}
-  pointer: {fileID: 0}
+  pointer: {fileID: 1290645486538509422}
   fadeNowTime: 180
   s_PointControl: {fileID: 0}
   orbAnimator: {fileID: 1572807815}
