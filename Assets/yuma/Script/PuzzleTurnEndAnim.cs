@@ -12,7 +12,10 @@ public class PuzzleTurnEndAnim : TrunManager
     float inAlpha;    // 小さい魔法陣の透明度
     float outAlpha;    // 大きい魔法陣の透明度
 
+
     TrunManager turnMgr;
+
+    private SEManager sePlay;
 
     // アニメーションで使用するGameObject
     [SerializeField] GameObject inCircle;
@@ -39,6 +42,7 @@ public class PuzzleTurnEndAnim : TrunManager
     void Start()
     {
         trunEndFlg = false;
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
         turnMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         buf_inCircleRotate = inCircle.transform.rotation;
         buf_outCircleRotate = outCircle.transform.rotation;
@@ -50,9 +54,11 @@ public class PuzzleTurnEndAnim : TrunManager
     {
         if(turnMgr.GetTrunPhase() == TrunPhase.Puzzle)
         {
+            
             inCircle.SetActive(true);
             outCircle.SetActive(true);
             
+
         }
         if (GetPuzzleTurnEndFlg())
         {
@@ -80,6 +86,7 @@ public class PuzzleTurnEndAnim : TrunManager
                 {
                     inAlpha = 0.0f;
                     turnMgr.SetTrunPhase(TrunPhase.MagicAttack);
+                    sePlay.Play("TurnChange"); //ターンチェンジの音を鳴らす
                     SetPuzzleTurnEndFlg(false);
                     Init();
                     inCircle.SetActive(false);
