@@ -28,7 +28,12 @@ public class PlayerCameraTest : TrunManager
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
+    {
+        MagicCameraOn();
+    }
+
+    public void MagicCameraOn()//魔法を撃つときにカメラを魔法を撃つときのカメラを起動
     {
         subCamera.transform.localPosition = new Vector3(0f, 25f, -60f);
         if (/*(Input.GetButtonDown("Fire3") && MSCameraflag == false)||*/ trunMgr.GetTrunPhase() == TrunPhase.MagicAttack)
@@ -43,11 +48,6 @@ public class PlayerCameraTest : TrunManager
             subCamera.SetActive(false);
             //MSCameraflag = false;
         }
-        //if (/*Input.GetButtonDown("Horizontal2") ||*/ Input.GetButtonDown("Fire1"))
-        //{
-        //    subCamera.transform.localPosition += new Vector3(1,0,0);
-        //}
-        //subCamera.transform.localPosition += new Vector3(0,0,1);
-
     }
+
 }
