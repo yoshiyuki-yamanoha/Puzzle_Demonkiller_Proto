@@ -238,24 +238,27 @@ public class EnemyBase : MonoBehaviour
     //火の魔法状態。
     public void Fire_Abnormal_Condition()
     {
-        Debug.Log("魔法でダメージ入るよーん");
+
+        //Debug.Log("魔法でダメージ入るよーん");
         Fire_abnormality_turncount++;
 
         if (Fire_abnormality_turncount <= 3)
         {
             //2ダメージ減らす。
             Damage(2);
+            enemy_anim.TriggerAttack("HitDamage");
         }
         else
         {
             Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
+            Fire_abnormality_turncount = 0;//ターンリセット
         }
     }
 
     //凍結処理
-    void Ice_Abnormal_Condition()
+    public void Ice_Abnormal_Condition()
     {
-        Debug.Log("凍結魔法だわよん");
+        //Debug.Log("凍結魔法だわよん");
         Ice_abnormality_turncount++;//呼ばれたらカウント
 
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら

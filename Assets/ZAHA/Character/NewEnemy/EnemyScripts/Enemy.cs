@@ -14,29 +14,6 @@ public class Enemy : EnemyBase
 
     void FixedUpdate()
     {
-        
-        if (!Istrun)
-        {
-            if (turnflg)
-            {
-                Debug.Log("状態異常の中身" + Abnormal_condition);
-
-                switch (Abnormal_condition)
-                {
-                    case AbnormalCondition.NONE:
-                        Debug.Log("状態異常じゃないです！！");
-                        break;
-                    case AbnormalCondition.Fire:
-                        Debug.Log("炎ダメージ");
-                        Fire_Abnormal_Condition();
-                        break;
-                }
-
-                Debug.Log("ターン終了");
-                turnflg = false;
-            }
-        }
-
         if (Enemy_anim == null) return; //敵のアニメーション取得
 
         if (Generation_enemy == null)//敵を生成する取得
@@ -49,6 +26,31 @@ public class Enemy : EnemyBase
             Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         }
 
+        if (!Istrun)//自分のターンじゃない時
+        {
+            if (turnflg)//初期フラグターン
+            {
+                //Debug.Log("状態異常の中身" + Abnormal_condition);
+
+                switch (Abnormal_condition)//状態異常の中身見る
+                {
+                    case AbnormalCondition.NONE:
+                        //Debug.Log("状態異常じゃないです！！");
+                        break;
+                    case AbnormalCondition.Fire:
+                        //Debug.Log("炎ダメージ");
+                        Fire_Abnormal_Condition();
+                        break;
+                    case AbnormalCondition.Ice:
+                        //Debug.Log("氷ダメージ");
+                        Ice_Abnormal_Condition();
+                        break;
+                }
+
+                //Debug.Log("ターン終了");
+                turnflg = false;
+            }
+        }
 
         //自分(敵)のターンだったら
         if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
@@ -106,7 +108,7 @@ public class Enemy : EnemyBase
             //当たった魔法が火のやつなら。(お試し、今は魔法に当たった時点)
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
-            Debug.Log("火を当てる");
+            //Debug.Log("火を当てる");
             //Damage(1);//ダメージ処理
             //Destroy(other.gameObject);
             
@@ -149,7 +151,7 @@ public class Enemy : EnemyBase
         {
             GameObject forward_obj = Generation_enemy.rootpos[X].transform.GetChild(Y + 1).gameObject; //前方
 
-            if (forward_obj.GetComponent<PseudoArray>().Whoisflg)
+            if (forward_obj.GetComponent<PseudoArray>().Mass_status == PseudoArray.MassStatus.ENEMY)
             {
                 Ismove = false;
                 //Debug.Log(gameObject.name + "前方に敵がいます");
@@ -168,7 +170,8 @@ public class Enemy : EnemyBase
 
             if (Ismove)
             {
-                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = false;//前回の位置のマスにオフフラグを立てる。
+                //Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = false;//前回の位置のマスにオフフラグを立てる。
+                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.NONE;
                 Move(X, nextpos); status = Status.Walk;//移動処理
             }
 
@@ -184,7 +187,8 @@ public class Enemy : EnemyBase
             if (Targetchangeflg) //ターゲットチェンジする時
             {
                 Y++;
-                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = true;//現在のマスにオンフラグを立てる。
+                //Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = true;//現在のマスにオンフラグを立てる。
+                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.ENEMY;//現在のマスにオンフラグを立てる。
                 Is_action = true;//移動した
                 Targetchangeflg = false;
             }
