@@ -33167,6 +33167,7 @@ MonoBehaviour:
   puzzle: {fileID: 1453115634}
   gauge: {fileID: 18831302}
   bgCircle: {fileID: 1290645487000550376}
+  pointer: {fileID: 0}
   fadeNowTime: 180
   s_PointControl: {fileID: 0}
   orbAnimator: {fileID: 1572807815}
@@ -33180,6 +33181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1290645486648335533}
   - component: {fileID: 1290645486648335522}
+  - component: {fileID: 1290645486648335534}
   m_Layer: 0
   m_Name: GameMana
   m_TagString: Untagged
@@ -33201,6 +33203,29 @@ Transform:
   m_Father: {fileID: 3820433668226942827}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1290645486648335534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290645486648335532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa11e1d39a59a147a07f65e9aac198b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trunphase: 0
+  rotateSpeed: 0
+  inCircle: {fileID: 1453115634}
+  outCircle: {fileID: 1290645487000550376}
+  circleMesh:
+  - {fileID: 1290645486059088500}
+  - {fileID: 1290645486320343403}
+  - {fileID: 1290645485599802347}
+  - {fileID: 1290645485209605242}
+  - {fileID: 1290645485861094201}
+  outCircleMesh: {fileID: 1290645487000550382}
 --- !u!1 &1290645486727995984
 GameObject:
   m_ObjectHideFlags: 0
