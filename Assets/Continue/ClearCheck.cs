@@ -65,12 +65,16 @@ public class ClearCheck : TrunManager
     [SerializeField] GameObject puzzle;
     [SerializeField] GameObject gauge;
     [SerializeField] GameObject bgCircle;
+    [SerializeField] GameObject pointer;
     int fadeTime = 180;
     [SerializeField] int fadeNowTime = 0;
     [SerializeField] PointControl s_PointControl;
 
     //オーブぐるぐるアニメーション用
     [SerializeField] private Animator orbAnimator;
+
+    // Puzzleターンが終了する時に使用する変数
+    PuzzleTurnEndAnim puzzleTurnEndAnim;
 
     TrunManager trunMgr;
 
@@ -85,6 +89,7 @@ public class ClearCheck : TrunManager
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
         AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        puzzleTurnEndAnim = this.GetComponent<PuzzleTurnEndAnim>();
         //oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
         //ppp.RandomColorSet();
     }
@@ -195,23 +200,24 @@ public class ClearCheck : TrunManager
 
             //パズルを消す
             //puzzle.SetActive(false);
-            //gauge.SetActive(false);
+            gauge.SetActive(false);
             //bgCircle.SetActive(false);
-
+            pointer.SetActive(false);
             //pc.PlayerAttack();
             attack = false;
             pc.attackNum = 0;
-
-            trunMgr.SetTrunPhase(TrunPhase.MagicAttack);
-            s_PointControl.enabled = false;
+            puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
+            //trunMgr.SetTrunPhase(TrunPhase.MagicAttack);
+            //s_PointControl.enabled = false;
         }
 
-        if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle)
+        if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
         {
+            pointer.SetActive(true);
             //puzzle.SetActive(true);
-            //gauge.SetActive(true);
+            gauge.SetActive(true);
             //bgCircle.SetActive(true);
-            s_PointControl.enabled = true;
+            //s_PointControl.enabled = true;
         }
         //ゲージに反映
         float per = nowComboTime / comboTime;
@@ -227,7 +233,7 @@ public class ClearCheck : TrunManager
                 //puzzle.SetActive(true);
                 //gauge.SetActive(true);
                 //bgCircle.SetActive(true);
-
+                //pointer.SetActive(true);
             }
         }
 

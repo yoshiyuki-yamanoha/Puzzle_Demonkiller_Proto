@@ -57,8 +57,3 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-
-Assets/Standard Assets.meta
-Assets/Standard Assets/Environment.meta
-Assets/Standard Assets/Environment/TerrainAssets.meta
-Assets/Standard Assets/Environment/TerrainAssets/SurfaceTextures.meta

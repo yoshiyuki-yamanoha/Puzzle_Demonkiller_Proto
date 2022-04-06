@@ -10,6 +10,8 @@ public class SEManager : MonoBehaviour
     AudioClip[] audioClips;
 
     AudioSource audioSource;
+    private AudioSource  sePlay;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,29 +26,29 @@ public class SEManager : MonoBehaviour
     {
         switch (seName)
         {
-            case "Select"://1
-                audioSource.PlayOneShot(audioClips[0]);
+            case "Select"://1　魔方陣時のカーソルの移動
+                audioSource.PlayOneShot(audioClips[0]/*ここに音量の値を入れて調整します*/);
                 break;
-            case "MagicChange"://2
-                audioSource.PlayOneShot(audioClips[0]);
+            case "MagicChange"://2　魔方陣の色の入れ替え
+                audioSource.PlayOneShot(audioClips[1]);
                 break;
-            case "MagicAreaSelect"://3
-                audioSource.PlayOneShot(audioClips[0]);
+            case "MagicAreaSelect"://3　魔方を打つエリアを選択
+                audioSource.PlayOneShot(audioClips[2]);
                 break;
-            case "MagicCursorSelect"://4
-                audioSource.PlayOneShot(audioClips[0]);
+            case "MagicCursorSelect"://4　魔法を打つ時のカーソル移動
+                audioSource.PlayOneShot(audioClips[3]);
                 break;
-            case "MagicShot"://5
-                audioSource.PlayOneShot(audioClips[0]);
+            case "MagicShot"://5　魔法を打つ時
+                audioSource.PlayOneShot(audioClips[4],0.3f);
                 break;
-            case "TurnChange"://6
-                audioSource.PlayOneShot(audioClips[0]);
+            case "TurnChange"://6　ターンが変わる時
+                audioSource.PlayOneShot(audioClips[5]);
                 break;
-            case "EnemySpawn"://7
-                audioSource.PlayOneShot(audioClips[0]);
+            case "EnemySpawn"://7　敵が出現した時
+                audioSource.PlayOneShot(audioClips[6],1.6f);
                 break;
-            case "EnemyDead"://8
-                audioSource.PlayOneShot(audioClips[0]);
+            case "EnemyDead"://8　敵を倒したとき
+                audioSource.PlayOneShot(audioClips[7]);
                 break;
         }
     }

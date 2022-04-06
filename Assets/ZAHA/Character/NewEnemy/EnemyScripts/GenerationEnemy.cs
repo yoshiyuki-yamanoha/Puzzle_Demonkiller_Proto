@@ -29,6 +29,8 @@ public class GenerationEnemy : MonoBehaviour
     bool enemy_max_flg = false;
 
     bool turnflg = false;
+
+    private SEManager sePlay;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,7 @@ public class GenerationEnemy : MonoBehaviour
         max_y = rootpos[0].transform.childCount;//子供の数取得
         enemy_kinds_max = enemy_prefab.Length;
         trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
     }
 
     void Generation(int num, int x, int y)
@@ -51,6 +54,10 @@ public class GenerationEnemy : MonoBehaviour
         Vector3 offset = new Vector3(0, enemy_prefab[num].transform.localScale.y, 0);//キャラの高さ分調整用
 
         GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemy_obj.transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
+
+
+
+        //敵の出現の音を入れる
 
         //スタートポジションを教えてあげる。生成したプレファブに
         Enemy enemy = enemy_instantiate.GetComponent<Enemy>();
@@ -121,6 +128,7 @@ public class GenerationEnemy : MonoBehaviour
                         {
                             Debug.Log("flg" + rootpos[randomX].transform.GetChild(randomY).GetComponent<PseudoArray>().Whoisflg);
                             Generation(Enemy_kinds_max, randomX, y);//引数(エネミーの種類 , スタートPos)生成。
+                            sePlay.Play("EnemySpawn");//敵が出現した時の音
                         }
 
                     }
