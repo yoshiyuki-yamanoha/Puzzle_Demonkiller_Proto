@@ -67,6 +67,7 @@ public class ClearCheck : TrunManager
     [SerializeField] GameObject bgCircle;
     int fadeTime = 180;
     [SerializeField] int fadeNowTime = 0;
+    [SerializeField] PointControl s_PointControl;
 
     //オーブぐるぐるアニメーション用
     [SerializeField] private Animator orbAnimator;
@@ -140,7 +141,14 @@ public class ClearCheck : TrunManager
             if (nowComboTime <= 0)
             {
                 AttackV.attackvar();
-                StartCoroutine("ColTest");
+                //bgCircle.SetActive(false);
+                MaxCombo = comboNum;
+                comboNum = 0;
+                nowComboTime = 0;
+                //オーブリセット
+                ppp.ResetOrbs();
+
+                AttackV.attackvar_erase();
                 nowComboTime = 0;
             }
         }
@@ -186,22 +194,24 @@ public class ClearCheck : TrunManager
         {
 
             //パズルを消す
-            puzzle.SetActive(false);
-            gauge.SetActive(false);
-            bgCircle.SetActive(false);
+            //puzzle.SetActive(false);
+            //gauge.SetActive(false);
+            //bgCircle.SetActive(false);
 
             //pc.PlayerAttack();
             attack = false;
             pc.attackNum = 0;
 
             trunMgr.SetTrunPhase(TrunPhase.MagicAttack);
+            s_PointControl.enabled = false;
         }
 
         if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle)
         {
-            puzzle.SetActive(true);
-            gauge.SetActive(true);
-            bgCircle.SetActive(true);
+            //puzzle.SetActive(true);
+            //gauge.SetActive(true);
+            //bgCircle.SetActive(true);
+            s_PointControl.enabled = true;
         }
         //ゲージに反映
         float per = nowComboTime / comboTime;
@@ -214,9 +224,10 @@ public class ClearCheck : TrunManager
             if (fadeNowTime <= 0)
             {
                 fadeNowTime = 0;
-                puzzle.SetActive(true);
-                gauge.SetActive(true);
-                bgCircle.SetActive(true);
+                //puzzle.SetActive(true);
+                //gauge.SetActive(true);
+                //bgCircle.SetActive(true);
+
             }
         }
 
@@ -390,25 +401,25 @@ public class ClearCheck : TrunManager
         }
         mpText.text = "魔力: " + magicPoint.ToString("0");
     }
-    private IEnumerator ColTest()
-    {
+    //private IEnumerator ColTest()
+    //{
         
 
-        yield return new WaitForSeconds(1.0f);
-        bgCircle.SetActive(false);
+    //    yield return new WaitForSeconds(1.0f);
+    //    bgCircle.SetActive(false);
 
-        yield return new WaitForSeconds(1.0f);
-        MaxCombo = comboNum;
-        comboNum = 0;
-        nowComboTime = 0;
+    //    yield return new WaitForSeconds(1.0f);
+    //    MaxCombo = comboNum;
+    //    comboNum = 0;
+    //    nowComboTime = 0;
 
         
         
 
-        //オーブリセット
-        ppp.ResetOrbs();
+    //    //オーブリセット
+    //    ppp.ResetOrbs();
 
-        AttackV.attackvar_erase();
-    }
+    //    AttackV.attackvar_erase();
+    //}
 
 }
