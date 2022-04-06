@@ -3682,7 +3682,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 0
   s_PlayerController: {fileID: 387063139}
-  sePlay: {fileID: 0}
 --- !u!1 &988259406
 GameObject:
   m_ObjectHideFlags: 0
@@ -7806,7 +7805,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 0
   s_PlayerController: {fileID: 387063139}
-  sePlay: {fileID: 0}
 --- !u!1 &2136507055
 GameObject:
   m_ObjectHideFlags: 0
@@ -33481,6 +33479,12 @@ MonoBehaviour:
   rotateSpeed: 0
   inCircle: {fileID: 1453115634}
   outCircle: {fileID: 1290645487000550376}
+  miniCircles:
+  - {fileID: 1290645486059088497}
+  - {fileID: 1290645486320343412}
+  - {fileID: 1290645485599802356}
+  - {fileID: 1290645485209605191}
+  - {fileID: 1290645485861094202}
   circleMesh:
   - {fileID: 1290645486059088500}
   - {fileID: 1290645486320343403}

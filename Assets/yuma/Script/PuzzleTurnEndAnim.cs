@@ -56,6 +56,11 @@ public class PuzzleTurnEndAnim : TrunManager
         }
         if (GetPuzzleTurnEndFlg())
         {
+            GameObject[] selecter = GameObject.FindGameObjectsWithTag("Selecter");
+            foreach(GameObject o in selecter)
+            {
+                Destroy(o);
+            }
             //inCircle.transform.Rotate(0.0f, 0.0f, rotateSpeed);
             //outCircle.transform.Rotate(-rotateSpeed, 0.0f, 0.0f);
 
