@@ -5,20 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
-    public enum Mode
-    {
-        Y,
-        X,
-    }
-
-    public enum EnemyAction{//エネミーアクション
-        Generation,
-        Movement,
-        Attack,
-    }
-
-    EnemyAction enemy_action;
-
     //前回の位置
     int oldx = 0;
     int oldy = 0;
@@ -48,13 +34,27 @@ public class EnemyBase : MonoBehaviour
     bool rangechek = true;
     bool attackflg = false;
     float attacktime = 0;
-    public EnemyKinds enemy_kinds;
+    
 
     bool istrun = false;//ターン中か
     bool is_action = false;
     bool ismove = false;
 
     [SerializeField] Slider hpber = null;
+
+    AbnormalCondition abnormal_condition = AbnormalCondition.NONE; //初期状態は状態異常なし。
+    public Status status;
+    public EnemyKinds enemy_kinds;
+    EnemyAction enemy_action;
+
+    int fire_abnormality_turncount = 0;//火異常カウント
+
+    //列挙体
+    public enum AbnormalCondition //状態異常
+    {
+        NONE,//無し
+        Fire,//燃えてる
+    };
 
     public enum EnemyKinds //敵種類
     {
@@ -71,7 +71,19 @@ public class EnemyBase : MonoBehaviour
         Death,
     }
 
-    public Status status;
+    public enum Mode
+    {
+        Y,
+        X,
+    }
+
+    public enum EnemyAction
+    {//エネミーアクション
+        Generation,
+        Movement,
+        Attack,
+    }
+    
 
     //参照用
     public float Hp { get => hp; set => hp = value; }
@@ -100,6 +112,8 @@ public class EnemyBase : MonoBehaviour
     public EnemyAction Enemy_action { get => enemy_action; set => enemy_action = value; }
     public int Oldx { get => oldx; set => oldx = value; }
     public int Oldy { get => oldy; set => oldy = value; }
+    public AbnormalCondition Abnormal_condition { get => abnormal_condition; set => abnormal_condition = value; }
+    public int Fire_abnormality_turncount { get => fire_abnormality_turncount; set => fire_abnormality_turncount = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -154,21 +168,27 @@ public class EnemyBase : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(target);
     }
 
-    public bool IndexCheck(int index, int mode)
+    public int IndexCheck(int index, int mode)
     {
-        rangechek = false;
 
-        if (mode == (int)Mode.X)
-        {
-            if (index < 0) { x = 0; rangechek = true; }
-            if (index >= Generation_enemy.max_x) { x = Generation_enemy.max_x; rangechek = true; }
-        }
+        //if (mode == (int)Mode.X)
+        //{
+        //    if (index < 0) { x = 0; rangechek = true; }
+        //    if (index >= Generation_enemy.max_x) { x = Generation_enemy.max_x;}
+        //}
+        //if (mode == (int)Mode.Y)
+        //{
+        //    if (index < 0) { y = 0; rangechek = true; }
+        //    if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y - 1;}
+        //}
+
         if (mode == (int)Mode.Y)
         {
-            if (index < 0) { y = 0; rangechek = true; }
-            if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y; rangechek = true;}
+            if (index < 0) { y = 0; }
+            if (index > Generation_enemy.max_y - 1) { y = Generation_enemy.max_y - 1; }
         }
-        return rangechek;
+
+        return y;
     }
 
     public void SpeedDown()
@@ -210,5 +230,18 @@ public class EnemyBase : MonoBehaviour
 
 
         return (nearestEnemy, currentJumpNum);
+    }
+
+    //火の魔法状態。
+    public void Fire_Abnormal_Condition()
+    {
+        Debug.Log("魔法でダメージ入るよーん");
+        Fire_abnormality_turncount++;
+
+        if (Fire_abnormality_turncount < 3)
+        {
+            //2ダメージ減らす。
+            Damage(2);
+        }
     }
 }
