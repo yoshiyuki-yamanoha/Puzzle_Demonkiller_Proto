@@ -48,12 +48,14 @@ public class EnemyBase : MonoBehaviour
     EnemyAction enemy_action;
 
     int fire_abnormality_turncount = 0;//火異常カウント
+    int ice_abnormality_turncount = 0;
 
     //列挙体
     public enum AbnormalCondition //状態異常
     {
         NONE,//無し
         Fire,//燃えてる
+        Ice,//凍結
     };
 
     public enum EnemyKinds //敵種類
@@ -114,6 +116,7 @@ public class EnemyBase : MonoBehaviour
     public int Oldy { get => oldy; set => oldy = value; }
     public AbnormalCondition Abnormal_condition { get => abnormal_condition; set => abnormal_condition = value; }
     public int Fire_abnormality_turncount { get => fire_abnormality_turncount; set => fire_abnormality_turncount = value; }
+    public int Ice_abnormality_turncount { get => ice_abnormality_turncount; set => ice_abnormality_turncount = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -238,10 +241,26 @@ public class EnemyBase : MonoBehaviour
         Debug.Log("魔法でダメージ入るよーん");
         Fire_abnormality_turncount++;
 
-        if (Fire_abnormality_turncount < 3)
+        if (Fire_abnormality_turncount <= 3)
         {
             //2ダメージ減らす。
             Damage(2);
+        }
+        else
+        {
+            Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
+        }
+    }
+
+    //凍結処理
+    void Ice_Abnormal_Condition()
+    {
+        Debug.Log("凍結魔法だわよん");
+        Ice_abnormality_turncount++;//呼ばれたらカウント
+
+        if (Ice_abnormality_turncount >= 2)//2ターン経過したら
+        {
+            Damage(1); //1ダメージを与える。
         }
     }
 }

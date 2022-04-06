@@ -14,6 +14,29 @@ public class Enemy : EnemyBase
 
     void FixedUpdate()
     {
+        
+        if (!Istrun)
+        {
+            if (turnflg)
+            {
+                Debug.Log("状態異常の中身" + Abnormal_condition);
+
+                switch (Abnormal_condition)
+                {
+                    case AbnormalCondition.NONE:
+                        Debug.Log("状態異常じゃないです！！");
+                        break;
+                    case AbnormalCondition.Fire:
+                        Debug.Log("炎ダメージ");
+                        Fire_Abnormal_Condition();
+                        break;
+                }
+
+                Debug.Log("ターン終了");
+                turnflg = false;
+            }
+        }
+
         if (Enemy_anim == null) return; //敵のアニメーション取得
 
         if (Generation_enemy == null)//敵を生成する取得
@@ -31,26 +54,10 @@ public class Enemy : EnemyBase
         if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
         {
             Istrun = true;//自分のターン(敵)開始
+            turnflg = true;//
         }
         else //ターンを終了する時
         {
-            if (turnflg)
-            {
-                switch (Abnormal_condition)
-                {
-                    case AbnormalCondition.NONE:
-                        Debug.Log("");
-                        break;
-                    case AbnormalCondition.Fire:
-                        Debug.Log("炎ダメージ");
-                        Fire_Abnormal_Condition();
-                        break;
-                }
-
-                Debug.Log("ターン終了");
-                turnflg = false;
-            }
-
             Enemy_action = EnemyAction.Movement;//ターンを動きにする
             Istrun = false;//ターン終了
             Is_action = false;//アクションをオフにする
@@ -96,8 +103,10 @@ public class Enemy : EnemyBase
         if (other.CompareTag("Magic"))//当たった相手が魔法だったら
         {
             //Fireだったら、
-            //当たった魔法が火のやつなら。
+            //当たった魔法が火のやつなら。(お試し、今は魔法に当たった時点)
             Abnormal_condition = AbnormalCondition.Fire;
+            Fire_abnormality_turncount = 0;//持続リセット
+            Debug.Log("火を当てる");
             //Damage(1);//ダメージ処理
             //Destroy(other.gameObject);
             
