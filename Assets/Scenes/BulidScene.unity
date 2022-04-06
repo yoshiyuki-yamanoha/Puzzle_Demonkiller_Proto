@@ -1178,7 +1178,7 @@ Camera:
   m_Depth: -0.23
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2666,7 +2666,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.391e-42, y: 1.04e-43, z: 9.167e-42, w: 0}
+  m_BoundingSphereOverride: {x: 4.82e-43, y: NaN, z: 4.83e-43, w: -5.07185e-29}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -7089,7 +7089,7 @@ PrefabInstance:
     - target: {fileID: 5345535899452045328, guid: c0170f9b98a7b0f4f87dee081b242260,
         type: 3}
       propertyPath: trunphase
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5345535899452045329, guid: c0170f9b98a7b0f4f87dee081b242260,
         type: 3}
@@ -33168,6 +33168,7 @@ MonoBehaviour:
   gauge: {fileID: 18831302}
   bgCircle: {fileID: 1290645487000550376}
   fadeNowTime: 180
+  s_PointControl: {fileID: 0}
   orbAnimator: {fileID: 1572807815}
 --- !u!1 &1290645486648335532
 GameObject:
