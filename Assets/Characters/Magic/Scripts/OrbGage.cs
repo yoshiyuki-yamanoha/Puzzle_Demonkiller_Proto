@@ -15,6 +15,10 @@ public class OrbGage : MonoBehaviour
 
     [SerializeField] Slider[] orb_Gage = new Slider[6];
 
+
+    Color[] orb_Gauge_Color = new Color[6];
+    [SerializeField] Color grayOutColor;
+
     //魔方陣の線の形
     public bool starflag;
     public bool pentflag;
@@ -31,6 +35,9 @@ public class OrbGage : MonoBehaviour
     [SerializeField] GameObject f_magicRange;
     Vector3 oriScale;
 
+    //スクリプト
+    [SerializeField] TrunManager s_TrunManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +50,13 @@ public class OrbGage : MonoBehaviour
         pentagonYellow.value = 0;
 
         oriScale = f_magicRange.transform.localScale;
+
+        //元の色を取得しておく。　グレーアウト用
+        for (int i = 0; i < orb_Gauge_Color.Length; i++)
+        {
+            orb_Gauge_Color[i] = orb_Gage[i].transform.GetChild(1).GetComponent<Image>().color;
+            orb_Gage[i].transform.GetChild(1).GetComponent<Image>().color = grayOutColor;
+        }
     }
 
     // Update is called once per frame
@@ -179,9 +193,19 @@ public class OrbGage : MonoBehaviour
         f_magicRange.transform.localScale = new Vector3(lev[0], 1, lev[0]);
     }
 
+    //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
+    public void UseOrb(int num) {
+        Orb_Level[num] = 0;
+
+        orb_Gage[num].transform.GetChild(1).GetComponent<Image>().color = grayOutColor;
+
+        if (!OrbCheckExsistens())
+            s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
+    }
+
     //オーブの存在が確認できるかの関数
     //確認出来たらtrueを返す
-    public bool OrbCheckExsistens() {
+    bool OrbCheckExsistens() {
 
         int totalNum = 0;
         foreach (var n in Orb_Level)
