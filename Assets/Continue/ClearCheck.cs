@@ -78,6 +78,9 @@ public class ClearCheck : TrunManager
 
     TrunManager trunMgr;
 
+    private SEManager sePlay;
+
+
     //OrbGage oGage;//オーブのゲージ
 
     private void Start()
@@ -92,6 +95,8 @@ public class ClearCheck : TrunManager
         puzzleTurnEndAnim = this.GetComponent<PuzzleTurnEndAnim>();
         //oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
         //ppp.RandomColorSet();
+
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }
 
     // Update is called once per frame
@@ -395,7 +400,9 @@ public class ClearCheck : TrunManager
 
     void ShowEffeLingSound() {
         Instantiate(clearEffe, effePos);
-        ass.PlayOneShot(se);
+
+        sePlay.Play("matchSE");//SEを鳴らす（魔方陣の位置が入れ替わる）
+        //ass.PlayOneShot(se);
     }
 
     public void SubMP() {

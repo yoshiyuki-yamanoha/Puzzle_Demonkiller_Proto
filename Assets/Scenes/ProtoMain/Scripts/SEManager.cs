@@ -27,16 +27,16 @@ public class SEManager : MonoBehaviour
         switch (seName)
         {
             case "Select"://1　魔方陣時のカーソルの移動
-                audioSource.PlayOneShot(audioClips[0],0.5f);
+                audioSource.PlayOneShot(audioClips[0],0.2f);
                 break;
             case "MagicChange"://2　魔方陣の色の入れ替え
                 audioSource.PlayOneShot(audioClips[1], 0.5f);
                 break;
             case "MagicAreaSelect"://3　魔方を打つエリアを選択
-                audioSource.PlayOneShot(audioClips[2], 0.5f);
+                audioSource.PlayOneShot(audioClips[2], 0.1f);
                 break;
             case "MagicCursorSelect"://4　魔法を打つ時のカーソル移動
-                audioSource.PlayOneShot(audioClips[3], 0.5f);
+                audioSource.PlayOneShot(audioClips[3], 1f);
                 break;
             case "MagicShot"://5　魔法を打つ時
                 audioSource.PlayOneShot(audioClips[4],0.3f);
@@ -52,6 +52,9 @@ public class SEManager : MonoBehaviour
                 break;
             case "Select2"://9魔方陣選択2
                 audioSource.PlayOneShot(audioClips[8], 0.1f);
+                break;
+            case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
+                audioSource.PlayOneShot(audioClips[9], 0.4f);
                 break;
         }
     }
