@@ -33,12 +33,12 @@ public class GenerationEnemy : PseudoArray
     //bool initturnflg = false;
 
     ////ターン中カメラ
-    //Camera enemy_camera = null;
-    //[SerializeField] Vector3 offset;//補正用
+    Camera enemy_camera = null;
+    [SerializeField] Vector3 offset;//補正用
 
-    //[SerializeField] GameObject target;
-    //Vector3 distance;
-    //bool cameraflg = true;
+    [SerializeField] GameObject target;
+    Vector3 distance;
+    bool cameraflg = true;
 
     float exit_time = 0;
 
@@ -51,7 +51,7 @@ public class GenerationEnemy : PseudoArray
 
 
     //具志堅SE処理
-    //SEManager sePlay;
+    SEManager sePlay;
 
     // Start is called before the first frame update
     void Start()
@@ -61,11 +61,11 @@ public class GenerationEnemy : PseudoArray
         enemy_kinds_max = enemy_prefab.Length;
         trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
 
-        //sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
 
-        //enemy_camera = GameObject.Find("EnemyCamera").GetComponent<Camera>();
-        //distance = enemy_camera.transform.position - target.transform.position;
-        //enemy_camera.depth = -2;
+        enemy_camera = GameObject.Find("EnemyCamera").GetComponent<Camera>();
+        distance = enemy_camera.transform.position - target.transform.position;
+        enemy_camera.depth = -2;
     }
 
     // Update is called once per frame
@@ -85,7 +85,7 @@ public class GenerationEnemy : PseudoArray
 
         if (!turn_exit_flg) //!抜けるフラグ
         {
-            //EnemyTurnCamera();//カメラ
+            EnemyTurnCamera();//カメラ
             //生成する状態なら
             if (is_generation)
             {
@@ -102,12 +102,12 @@ public class GenerationEnemy : PseudoArray
 
                         int Enemy_kinds_max = Random.Range(0, enemy_kinds_max);
                         int randomX = Random.Range(0, max_x);
-                        int randomY = Random.Range(0, max_y);
+                        int randomY = Random.Range(0, max_y - 7);
 
                         //生成する位置が誰もいない時 敵以外なら生成
                         if (rootpos[randomX].transform.GetChild(y).GetComponent<PseudoArray>().Mass_status != MassStatus.ENEMY)
                         {
-                            Generation(Enemy_kinds_max, randomX, y);//引数(エネミーの種類 , スタートPos)生成。
+                            Generation(Enemy_kinds_max, randomX, randomY);//引数(エネミーの種類 , スタートPos)生成。
                             //sePlay.Play("EnemySpawn");
                         }
 
@@ -168,6 +168,7 @@ public class GenerationEnemy : PseudoArray
                 exit_time = 0;
                 trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 search_count = 0;
+                enemy_camera.depth = -2;
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
                     StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg = true;
@@ -196,14 +197,14 @@ public class GenerationEnemy : PseudoArray
 
 
         //5は真ん中の敵
-        //if (x == 5)
-        //{
-        //    if (cameraflg)
-        //    {
-        //        target.transform.parent = enemy_instantiate.transform;
-        //        cameraflg = false;
-        //    }
-        //}
+        if (x == 5)
+        {
+            if (cameraflg)
+            {
+                target.transform.parent = enemy_instantiate.transform;
+                cameraflg = false;
+            }
+        }
 
         //スタートポジションを教えてあげる。生成したプレファブに
         Enemy enemy = enemy_instantiate.GetComponent<Enemy>();
@@ -229,22 +230,20 @@ public class GenerationEnemy : PseudoArray
             is_generation = false;//終了
             turn_exit_flg = true;
             enemy_oneturn_count = 0;
-
         }
+    }
+
+    //カメラコメントアウト
+    void EnemyTurnCamera()
+    {
+        enemy_camera.transform.position = target.transform.position + distance;
+        enemy_camera.depth = 0;
+        //Vector3 pos = main_camera.transform.position;
+        //main_camera.transform.position = new Vector3(pos.x, pos.y + offset.y, pos.z);
+
     }
 }
 
-
-
-//カメラコメントアウト
-//void EnemyTurnCamera()
-//{
-//    enemy_camera.transform.position = target.transform.position + distance;
-//    enemy_camera.depth = 0;
-//    //Vector3 pos = main_camera.transform.position;
-//    //main_camera.transform.position = new Vector3(pos.x, pos.y + offset.y, pos.z);
-
-//}
 
 
 
