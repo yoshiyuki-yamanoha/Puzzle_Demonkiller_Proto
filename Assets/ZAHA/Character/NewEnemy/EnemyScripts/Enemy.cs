@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
-    bool turnflg = true;
+    //bool turnflg = true;
+    bool init_abnormal = true;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class Enemy : EnemyBase
 
         if (!Istrun)//自分のターンじゃない時
         {
-            if (turnflg)//初期フラグターン
+            if (init_abnormal)//1回のみ入るフラグ
             {
                 //Debug.Log("状態異常の中身" + Abnormal_condition);
 
@@ -48,7 +49,7 @@ public class Enemy : EnemyBase
                 }
 
                 //Debug.Log("ターン終了");
-                turnflg = false;
+                init_abnormal = false;
             }
         }
 
@@ -56,7 +57,7 @@ public class Enemy : EnemyBase
         if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
         {
             Istrun = true;//自分のターン(敵)開始
-            turnflg = true;//
+            init_abnormal = true;//状態異常に1回のみ入るフラグ
         }
         else //ターンを終了する時
         {
@@ -65,13 +66,7 @@ public class Enemy : EnemyBase
             Is_action = false;//アクションをオフにする
         }
 
-        //GameObject forward_obj = Generation_enemy.rootpos[X].transform.GetChild(Y + 1).gameObject; //前方
-        //GameObject right_obj = Generation_enemy.rootpos[X + 1].transform.GetChild(Y).gameObject;//右
-        //GameObject left_obj = Generation_enemy.rootpos[X - 1].transform.GetChild(Y).gameObject;//左
-        //GameObject forward_right_obj = Generation_enemy.rootpos[X + 1].transform.GetChild(Y + 1).gameObject; //前右
-        //GameObject forward_left_obj = Generation_enemy.rootpos[X - 1].transform.GetChild(Y + 1).gameObject; //前左
-
-        HPber();//ゲージ減らしてみるぁ＞？
+        HPber();//HPゲージ
 
         //攻撃地点
         if (Istrun && !Is_action)
@@ -108,10 +103,10 @@ public class Enemy : EnemyBase
             //当たった魔法が火のやつなら。(お試し、今は魔法に当たった時点)
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
-            //Debug.Log("火を当てる");
-            //Damage(1);//ダメージ処理
-            //Destroy(other.gameObject);
-            
+                                           //Debug.Log("火を当てる");
+                                           //Damage(1);//ダメージ処理
+                                           //Destroy(other.gameObject);
+
 
         }
     }
@@ -142,84 +137,140 @@ public class Enemy : EnemyBase
     //敵移動
     void EnemyMovement()
     {
-        int nextpos = Y + 1;//目的値設定 //次の移動先を見る。
-
-        Oldx = X;//位置を保存
-        Oldy = Y;//位置を保存
-
-        if (IndexCheck(nextpos, (int)Mode.Y) <= 13)
+        if (!Endflg)//最終地点にいるのか
         {
-            GameObject forward_obj = Generation_enemy.rootpos[X].transform.GetChild(Y + 1).gameObject; //前方
+            GameObject forward_obj = Generation_enemy.rootpos[IndexCheckX(X)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前方
+            GameObject right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//右
+            GameObject left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//左
+            GameObject forward_right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前右
+            GameObject forward_left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前左
 
-            if (forward_obj.GetComponent<PseudoArray>().Mass_status == PseudoArray.MassStatus.ENEMY)
+
+            if (Targetchangeflg)
             {
-                Ismove = false;
-                //Debug.Log(gameObject.name + "前方に敵がいます");
-                Debug.DrawLine(transform.position, forward_obj.transform.position, Color.green);
-            }
-            else
-            {
-                Ismove = true;
-                //Debug.Log(gameObject.name + "前方に敵はいません");
+                if (forward_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//下方向
+                {
+                    Debug.DrawLine(transform.position, forward_obj.transform.position, Color.green);
+                    Ismove = true;
+                    NextposX = X;
+                    NextposY = Y + 1;
+                }
+                else if (forward_right_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//右
+                {
+                    Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
+                    Ismove = true;
+                    NextposX = X + 1;
+                    NextposY = Y + 1;
+                }
+                else if (forward_left_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//左
+                {
+                    Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
+                    Ismove = true;
+                    NextposX = X - 1;
+                    NextposY = Y + 1;
+                }
+                else if (right_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//右下
+                {
+                    Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
+                    Ismove = true;
+                    NextposX = X + 1;
+                    NextposY = Y;
+                }
+                else if (left_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//左下
+                {
+                    Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
+                    Ismove = true;
+                    NextposX = X - 1;
+                    NextposY = Y;
+                }
+                else//移動しない。
+                {
+                    Ismove = false;
+                    NextposX = X;
+                    NextposY = Y;
+                }
+                Targetchangeflg = false;
             }
 
+            if (Ismove) { Generation_enemy.rootpos[IndexCheckX(NextposX)].transform.GetChild(IndexCheckY(NextposY)).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.ENEMY; }
 
-            GameObject target_obj = Generation_enemy.rootpos[X].transform.GetChild(nextpos).gameObject;//次の位置にターゲットを設定
+            Oldx = X;//位置を保存
+            Oldy = Y;//位置を保存
+
+            GameObject target_obj = Generation_enemy.rootpos[IndexCheckX(NextposX)].transform.GetChild(IndexCheckY(NextposY)).gameObject;//次の位置にターゲットを設定
 
             Vector3 target = TargetDir(this.gameObject, target_obj);
 
             if (Ismove)
             {
-                //Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = false;//前回の位置のマスにオフフラグを立てる。
-                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.NONE;
-                Move(X, nextpos); status = Status.Walk;//移動処理
+                Generation_enemy.rootpos[IndexCheckX(Oldx)].transform.GetChild(IndexCheckY(Oldy)).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.NONE;
+                Move(IndexCheckX(NextposX), IndexCheckY(NextposY)); status = Status.Walk;//移動処理
             }
+
 
 
             //目的値についているか?
             if (target.magnitude < Targetdistance)
             {
-                status = Status.Idle;//アイドル状態
-                Targetchangeflg = true;//目的値切り替え         
-                Ismove = false;//動きを止める。
-            }
+                Y = IndexCheckY(NextposY);
+                X = IndexCheckX(NextposX);
 
-            if (Targetchangeflg) //ターゲットチェンジする時
-            {
-                Y++;
-                //Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Whoisflg = true;//現在のマスにオンフラグを立てる。
-                Generation_enemy.rootpos[X].transform.GetChild(Y).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.ENEMY;//現在のマスにオンフラグを立てる。
-                Is_action = true;//移動した
-                Targetchangeflg = false;
-            }
-        }
-
-        if (!Ismove)
-        {
-            if (Y == 14)
-            {
-                Attackflg = true;
-                if (Attackflg)
+                if (Y == Generation_enemy.max_y - 1)
                 {
-                    //////この辺、深夜脳死でかいたので、後で修正予定。
-                    if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
-                    {//再生
-
-                        Attacktime += Time.deltaTime; //3秒おきに攻撃
-                    }
-
-                    
-
-                    if (Attacktime > 2.5f)
-                    {
-                        Enemy_anim.TriggerAttack("Attack");//攻撃trigger
-                        Attacktime = 0;
-                        Attackflg = false;
-                        Is_action = true;
-                    }
+                    Endflg = true;
                 }
+
+                status = Status.Idle;//アイドル状態         
+                Ismove = false;//動きを止める。
+                Targetchangeflg = true;
+                Is_action = true;//行動した。
             }
         }
+        else
+        {
+
+            if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
+            {//再生
+
+                Attacktime += Time.deltaTime; //3秒おきに攻撃
+            }
+
+            Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+
+            if (Attacktime > 2.5f)
+            {
+                Attacktime = 0;
+                Is_action = true;
+            }
+
+        }
+
+        //if (!Ismove)
+        //{
+        //    if (Y == 14)
+        //    {
+        //        Attackflg = true;
+        //        if (Attackflg)
+        //        {
+        //            //////この辺、深夜脳死でかいたので、後で修正予定。
+        //            if (!Enemy_anim.AnimPlayBack("EnemyAttack") && !Enemy_anim.AnimPlayBack("EnemyAttack"))
+        //            {//再生
+
+        //                Attacktime += Time.deltaTime; //3秒おきに攻撃
+        //            }
+
+
+
+        //            if (Attacktime > 2.5f)
+        //            {
+        //                Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+        //                Attacktime = 0;
+        //                Attackflg = false;
+        //                Is_action = true;
+        //            }
+        //        }
+        //    }
+        //}
     }
 
 }

@@ -9,7 +9,7 @@ public class PseudoArray : MonoBehaviour
     public bool Whoisflg { get => whoisflg; set => whoisflg = value; }
     public MassStatus Mass_status { get => mass_status; set => mass_status = value; }
 
-    MassStatus mass_status = MassStatus.NONE;//マスの状態
+    [SerializeField] MassStatus mass_status = MassStatus.NONE;//マスの状態
 
     public enum MassStatus
     {
