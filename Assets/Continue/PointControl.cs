@@ -23,7 +23,7 @@ public class PointControl : MonoBehaviour
     private bool isSelect = false;
 
     //SE
-    private SEPlayer sePlay;
+    //private SEPlayer sePlay;
 
     //変更の親保存用
     [SerializeField] private Transform selTf;
@@ -45,7 +45,7 @@ public class PointControl : MonoBehaviour
     private GameObject[] porters;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
-    GameObject oldOverlapObject;
+    GameObject oldOverlapObject=null;
 
     //ポジション移動インターバル
     [SerializeField, Range(0, 60)]
@@ -108,6 +108,7 @@ public class PointControl : MonoBehaviour
     public int ccMode;
     public bool isMenu = false;
 
+    private SEManager sePlay;
 
     //オーブの処理
     OrbCon oc;
@@ -139,7 +140,9 @@ public class PointControl : MonoBehaviour
 
         CC = GameObject.Find("GameMana").GetComponent<ClearCheck>();
 
-        sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+        //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
+
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
 
         oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
 
@@ -184,7 +187,8 @@ public class PointControl : MonoBehaviour
             ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
             if (ang < 0) ang = 360.0f + ang;
 
-
+            GameObject OldSelectedCircle = oldOverlapObject;
+           
 
             if (interCount == 0)
             {
@@ -204,16 +208,22 @@ public class PointControl : MonoBehaviour
                         {
                             //最近選択していたオブジェクト
                             oldOverlapObject = ttp.GetGoalObject();
+                            
 
                             oriPos = ttp.GetGoalPos();
 
                             interCount = interval;
+
 
                             break;
                         }
 
                         per += 0.1f;
                     }
+                }
+
+                if (OldSelectedCircle != oldOverlapObject) {
+                    sePlay.Play("Select2");
                 }
 
                 //ポインターと魔法陣の当たり判定
@@ -285,6 +295,7 @@ public class PointControl : MonoBehaviour
 
                     //選択サークルを出させる
                     gp.ShowSelectCircle(selectCircle);
+                    
 
                     //Aボタン選択
                     SelectCircle(o);
@@ -333,7 +344,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                //sePlay.Play("DECIDE");//SEを鳴らす（魔方陣を選択した音）
+                sePlay.Play("Select");//SEを鳴らす（魔方陣を選択した音）
                 selA = obj;                                   //選択したオブジェ保存
                 selTf = selA.transform.parent;              //1個目の親オブジェ
                                                             //selA.transform.parent = c_Select;           //選択位置に移動
@@ -347,7 +358,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                //sePlay.Play("SWITCH");//SEを鳴らす（魔方陣の位置が入れ替わる）
+                sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
@@ -418,6 +429,7 @@ public class PointControl : MonoBehaviour
         //Bボタンで色入れ替え
         if (Input.GetButtonDown("Cont_L1"))
         {
+            //魔方陣の入れ替えの音を入れる
 
             int next = 0;
             for (int i = 0; i < changeCircleNum; i++)
@@ -782,13 +794,14 @@ public class PointControl : MonoBehaviour
         int oldNum = changeCircleNum;
 
         if (Input.GetButtonDown("Cont_L1")) {
-
+            sePlay.Play("MagicAreaSelect"); //色を入れ替える時の音
             changeCircleNum--;
             if (changeCircleNum < 2) changeCircleNum = 2;
+
         }
 
         if (Input.GetButtonDown("Cont_R1")) {
-
+            sePlay.Play("MagicAreaSelect");//色を入れ替える時の音
             changeCircleNum++;
             if (changeCircleNum > 5) changeCircleNum = 5;
         }

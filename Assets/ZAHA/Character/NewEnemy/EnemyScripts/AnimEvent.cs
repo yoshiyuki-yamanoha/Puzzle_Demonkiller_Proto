@@ -11,7 +11,7 @@ public class AnimEvent : MonoBehaviour
 
     private void Start()
     {
-        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
+        //sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
         if (wepon_boxcollider != null) {
             WeponHideAttack();
         }
@@ -28,7 +28,7 @@ public class AnimEvent : MonoBehaviour
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
         //敵が消える音を入れる//
-        sePlay.Play("EnemyDead");
+        //sePlay.Play("EnemyDead");
 
     }
 

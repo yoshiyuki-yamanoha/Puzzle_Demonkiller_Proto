@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    bool endflg = false;
+    bool init_search_flg = true;
     //前回の位置
     int oldx = 0;
     int oldy = 0;
+
+    int nextposX;//目的値設定 //次の移動先を見る。
+    int nextposY;
 
     //変数
     [SerializeField] float hp = 0; //hp
@@ -27,14 +32,14 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] TrunManager trun_manager = null;
     Transform core = null;
 
-    bool targetchangeflg = false;//次の目的値を切り替えるフラグ
+    bool targetchangeflg = true;//次の目的値を切り替えるフラグ
     float targetdistance = 0.1f;
     float targetchangetime = 0;//ターゲット切り替え時間
 
     bool rangechek = true;
     bool attackflg = false;
     float attacktime = 0;
-    
+
 
     bool istrun = false;//ターン中か
     bool is_action = false;
@@ -85,7 +90,7 @@ public class EnemyBase : MonoBehaviour
         Movement,
         Attack,
     }
-    
+
 
     //参照用
     public float Hp { get => hp; set => hp = value; }
@@ -117,6 +122,10 @@ public class EnemyBase : MonoBehaviour
     public AbnormalCondition Abnormal_condition { get => abnormal_condition; set => abnormal_condition = value; }
     public int Fire_abnormality_turncount { get => fire_abnormality_turncount; set => fire_abnormality_turncount = value; }
     public int Ice_abnormality_turncount { get => ice_abnormality_turncount; set => ice_abnormality_turncount = value; }
+    public int NextposX { get => nextposX; set => nextposX = value; }
+    public int NextposY { get => nextposY; set => nextposY = value; }
+    public bool Init_search_flg { get => init_search_flg; set => init_search_flg = value; }
+    public bool Endflg { get => endflg; set => endflg = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -171,27 +180,19 @@ public class EnemyBase : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(target);
     }
 
-    public int IndexCheck(int index, int mode)
+    public int IndexCheckX(int index)
     {
 
-        //if (mode == (int)Mode.X)
-        //{
-        //    if (index < 0) { x = 0; rangechek = true; }
-        //    if (index >= Generation_enemy.max_x) { x = Generation_enemy.max_x;}
-        //}
-        //if (mode == (int)Mode.Y)
-        //{
-        //    if (index < 0) { y = 0; rangechek = true; }
-        //    if (index >= Generation_enemy.max_y) { y = Generation_enemy.max_y - 1;}
-        //}
+        if (index < 0) { index = 0; }
+        if (index > Generation_enemy.max_x - 1) { index = Generation_enemy.max_x - 1; }
+        return index;
+    }
 
-        if (mode == (int)Mode.Y)
-        {
-            if (index < 0) { y = 0; }
-            if (index > Generation_enemy.max_y - 1) { y = Generation_enemy.max_y - 1; }
-        }
-
-        return y;
+    public int IndexCheckY(int index)
+    {
+        if (index < 0) { index = 0; }
+        if (index > Generation_enemy.max_y - 1) { index = Generation_enemy.max_y - 1;}
+        return index;
     }
 
     public void SpeedDown()
@@ -238,24 +239,27 @@ public class EnemyBase : MonoBehaviour
     //火の魔法状態。
     public void Fire_Abnormal_Condition()
     {
-        Debug.Log("魔法でダメージ入るよーん");
+
+        //Debug.Log("魔法でダメージ入るよーん");
         Fire_abnormality_turncount++;
 
         if (Fire_abnormality_turncount <= 3)
         {
             //2ダメージ減らす。
             Damage(2);
+            enemy_anim.TriggerAttack("HitDamage");
         }
         else
         {
             Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
+            Fire_abnormality_turncount = 0;//ターンリセット
         }
     }
 
     //凍結処理
-    void Ice_Abnormal_Condition()
+    public void Ice_Abnormal_Condition()
     {
-        Debug.Log("凍結魔法だわよん");
+        //Debug.Log("凍結魔法だわよん");
         Ice_abnormality_turncount++;//呼ばれたらカウント
 
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら

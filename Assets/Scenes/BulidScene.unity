@@ -1994,7 +1994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -57, y: 220}
+  m_AnchoredPosition: {x: -57.00006, y: 220}
   m_SizeDelta: {x: 569.5, y: 138.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518659485
@@ -3682,7 +3682,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 0
   s_PlayerController: {fileID: 387063139}
-  sePlay: {fileID: 0}
 --- !u!1 &988259406
 GameObject:
   m_ObjectHideFlags: 0
@@ -3979,6 +3978,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2228a0a762f922a4983a85ec9b432adf, type: 3}
   - {fileID: 8300000, guid: 0374afd473d12bb48bf5870eca01658d, type: 3}
   - {fileID: 8300000, guid: e700db1f32b65684cad201100abab4ce, type: 3}
+  - {fileID: 8300000, guid: 4eb14dfb235a9ce4bbe67aa344d27f91, type: 3}
 --- !u!82 &1161136428
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7805,7 +7805,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 0
   s_PlayerController: {fileID: 387063139}
-  sePlay: {fileID: 0}
 --- !u!1 &2136507055
 GameObject:
   m_ObjectHideFlags: 0
@@ -33480,6 +33479,12 @@ MonoBehaviour:
   rotateSpeed: 0
   inCircle: {fileID: 1453115634}
   outCircle: {fileID: 1290645487000550376}
+  miniCircles:
+  - {fileID: 1290645486059088497}
+  - {fileID: 1290645486320343412}
+  - {fileID: 1290645485599802356}
+  - {fileID: 1290645485209605191}
+  - {fileID: 1290645485861094202}
   circleMesh:
   - {fileID: 1290645486059088500}
   - {fileID: 1290645486320343403}
@@ -37168,6 +37173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404785662988
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37275,6 +37281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404789244844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37456,6 +37463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547404793859456
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -37563,6 +37571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404797566168
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37670,6 +37679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547404805532032
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37724,6 +37734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404805532038
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37884,6 +37895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547404814370818
 GameObject:
   m_ObjectHideFlags: 0
@@ -37917,6 +37929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404814370844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38098,6 +38111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547404849723688
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -38205,6 +38219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547404857734537
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38312,6 +38327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547404865895536
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -38419,6 +38435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547404875150404
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -38526,6 +38543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547404888034304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38580,6 +38598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404888034310
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38687,6 +38706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404909622078
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38773,6 +38793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404930881356
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38954,6 +38975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547404968135204
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39008,6 +39030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547404968135210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39168,6 +39191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547404989116496
 Transform:
   m_ObjectHideFlags: 0
@@ -39262,6 +39286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547404989116525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39382,6 +39407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547405035294624
 GameObject:
   m_ObjectHideFlags: 0
@@ -39415,6 +39441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405035294626
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39596,6 +39623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405092759428
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -39703,6 +39731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405115604580
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39778,6 +39807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405115604586
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -39947,6 +39977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405123138081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40054,6 +40085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405127239972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40114,6 +40146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405127239978
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40194,6 +40227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405144006066
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40315,6 +40349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405163048668
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40482,6 +40517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405189951252
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40589,6 +40625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547405193100896
 GameObject:
   m_ObjectHideFlags: 0
@@ -40622,6 +40659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405193100898
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40750,6 +40788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405194636662
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40910,6 +40949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405237757380
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -41017,6 +41057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405242822148
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -41124,6 +41165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405253515969
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41231,6 +41273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405265131600
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -41338,6 +41381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405291477760
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41392,6 +41436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405291477766
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41552,6 +41597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405328681496
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41659,6 +41705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547405347339088
 Transform:
   m_ObjectHideFlags: 0
@@ -41753,6 +41800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405347339117
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41873,6 +41921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405366603233
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41980,6 +42029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547405386614152
 Transform:
   m_ObjectHideFlags: 0
@@ -42102,6 +42152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547405394706880
 GameObject:
   m_ObjectHideFlags: 0
@@ -42135,6 +42186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405394706882
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42263,6 +42315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405403571222
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42370,6 +42423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405416223134
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42530,6 +42584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405424219652
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -42637,6 +42692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405450368309
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42744,6 +42800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405462225824
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42798,6 +42855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405462225830
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42884,6 +42942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405481359746
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43065,6 +43124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405500756372
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43119,6 +43179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405500756378
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43279,6 +43340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405539895360
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43333,6 +43395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405539895366
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43493,6 +43556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405616476640
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43600,6 +43664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405632666121
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43707,6 +43772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405635697012
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43814,6 +43880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405645609128
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43889,6 +43956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405645609134
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43990,6 +44058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405650408326
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44137,6 +44206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405651072765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44204,6 +44274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405653878042
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44364,6 +44435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405655181012
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44471,6 +44543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405657654305
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44593,6 +44666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405659593040
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -44700,6 +44774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405676239268
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -44807,6 +44882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547405709838160
 Transform:
   m_ObjectHideFlags: 0
@@ -44901,6 +44977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405709838189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45021,6 +45098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405727427448
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -45128,6 +45206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405732465368
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45235,6 +45314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405757764848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45289,6 +45369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405757764854
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45449,6 +45530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405800120872
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -45558,6 +45640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405800120879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45678,6 +45761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405802991556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45753,6 +45837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405802991562
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -45907,6 +45992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405824514401
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46014,6 +46100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405828423977
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46121,6 +46208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547405839673570
 Transform:
   m_ObjectHideFlags: 0
@@ -46168,6 +46256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405839673596
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -46335,6 +46424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405854404932
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -46442,6 +46532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547405855836626
 GameObject:
   m_ObjectHideFlags: 0
@@ -46475,6 +46566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405855836652
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -46671,6 +46763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405871678304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46725,6 +46818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405871678310
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46832,6 +46926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405887262054
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46939,6 +47034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405911524894
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47099,6 +47195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547405927904660
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -47206,6 +47303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547405935320112
 GameObject:
   m_ObjectHideFlags: 0
@@ -47239,6 +47337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405935320114
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47407,6 +47506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405937704813
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47527,6 +47627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547405958592976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47581,6 +47682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405958592982
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47741,6 +47843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547405981139720
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47848,6 +47951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406027538736
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47955,6 +48059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547406046391936
 Transform:
   m_ObjectHideFlags: 0
@@ -48049,6 +48154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406046391965
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48184,6 +48290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406050627794
 GameObject:
   m_ObjectHideFlags: 0
@@ -48217,6 +48324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406050627820
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48385,6 +48493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406060882669
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48505,6 +48614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406082903344
 GameObject:
   m_ObjectHideFlags: 0
@@ -48538,6 +48648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406082903346
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48719,6 +48830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406096584057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -48826,6 +48938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406098078980
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -48933,6 +49046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406135414632
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -49040,6 +49154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406152632096
 GameObject:
   m_ObjectHideFlags: 0
@@ -49073,6 +49188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406152632098
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49254,6 +49370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547406179567124
 Transform:
   m_ObjectHideFlags: 0
@@ -49309,6 +49426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406179567130
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49415,6 +49533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406185642950
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49522,6 +49641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406215594686
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49608,6 +49728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406221274732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49715,6 +49836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406227323282
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49896,6 +50018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406289954320
 GameObject:
   m_ObjectHideFlags: 0
@@ -49929,6 +50052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406289954322
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50110,6 +50234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406302168978
 GameObject:
   m_ObjectHideFlags: 0
@@ -50143,6 +50268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406302169004
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50324,6 +50450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406320187064
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -50431,6 +50558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406330701960
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -50538,6 +50666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406331134184
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -50645,6 +50774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406341987993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50752,6 +50882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406343049893
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50874,6 +51005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406347272948
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50981,6 +51113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406363834512
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -51088,6 +51221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406368579924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51142,6 +51276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406368579930
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51302,6 +51437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406377136224
 GameObject:
   m_ObjectHideFlags: 0
@@ -51335,6 +51471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406377136226
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51516,6 +51653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406383736416
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51623,6 +51761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406390819380
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51730,6 +51869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406425745961
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51837,6 +51977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406430505280
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51944,6 +52085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406433636264
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -52051,6 +52193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406434922601
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52158,6 +52301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547406452099760
 Transform:
   m_ObjectHideFlags: 0
@@ -52252,6 +52396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406452099789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52298,6 +52443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406455620658
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52479,6 +52625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406481356724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52533,6 +52680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406481356730
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52619,6 +52767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406483157516
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52800,6 +52949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547406522716768
 Transform:
   m_ObjectHideFlags: 0
@@ -52894,6 +53044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406522716797
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53014,6 +53165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406532843797
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53121,6 +53273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406550427224
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53228,6 +53381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406576933136
 GameObject:
   m_ObjectHideFlags: 0
@@ -53261,6 +53415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406576933138
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53442,6 +53597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406582843760
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53549,6 +53705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406591940244
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53656,6 +53813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406596405488
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53763,6 +53921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406601650041
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53870,6 +54029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406652510488
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53977,6 +54137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!1 &6863547406656229264
 GameObject:
   m_ObjectHideFlags: 0
@@ -54010,6 +54171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406656229266
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54138,6 +54300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406682917978
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54313,6 +54476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406704116036
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -54420,6 +54584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406710315540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54527,6 +54692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406710698820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54581,6 +54747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406710698826
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54741,6 +54908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406755152512
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54795,6 +54963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406755152518
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54955,6 +55124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406766913704
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55062,6 +55232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406786564261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55169,6 +55340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406792707924
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -55276,6 +55448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406798207396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55330,6 +55503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406798207402
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55490,6 +55664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &6863547406817589778
 Transform:
   m_ObjectHideFlags: 0
@@ -55537,6 +55712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!33 &6863547406817589804
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -55651,6 +55827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406822274998
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55811,6 +55988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!23 &6863547406892445552
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55918,6 +56096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406902393025
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56025,6 +56204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!65 &6863547406910118325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56132,6 +56312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoisflg: 0
+  mass_status: 0
 --- !u!4 &8019208593605396419
 Transform:
   m_ObjectHideFlags: 0
