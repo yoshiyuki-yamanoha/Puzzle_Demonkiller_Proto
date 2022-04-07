@@ -62,6 +62,11 @@ public class OrbGage : MonoBehaviour
 
         for (int i = 0; i < magicRanges.Length; i++)
             magicRanges[i].oriScale = magicRanges[i].magicRange.transform.localScale;
+
+        magicRanges[1].magicRange.SetActive(false);
+        magicRanges[2].magicRange.SetActive(false);
+        magicRanges[4].magicRange.SetActive(false);
+        magicRanges[5].magicRange.SetActive(false);
     }
 
     // Update is called once per frame
@@ -117,7 +122,7 @@ public class OrbGage : MonoBehaviour
             {
                 grayOutMask[i].SetActive(true);
             }
-            else grayOutMask[i].SetActive(false);
+            else if(Orb_Level[i] > 0) grayOutMask[i].SetActive(false);
             
         }
 
@@ -202,16 +207,21 @@ public class OrbGage : MonoBehaviour
 
     void ChangeMagicRange() {
         //魔法の範囲を設定するやし 今は炎だけ
-        int[] lev = Get_Orb_Level();
+        //int[] lev = Get_Orb_Level();
+
+        int[] levv = new int[Orb_Level.Length];
+        for (int i = 0; i < Orb_Level.Length; i++)
+            levv[i] = Orb_Level[i];
 
         {
-            if (lev[0] >= 0) lev[0] = 2 * lev[0] - 1;
+            if (levv[0] > 0) levv[0] = 2 * levv[0] - 1;
             
-            if (lev[3] >= 0) lev[3] = 2 * lev[0] - 1;
+            if (levv[3] > 0) levv[3] = 2 * levv[3] - 1;
+
         }
 
-        magicRanges[0].magicRange.transform.localScale = new Vector3(lev[0], 1, lev[0]);
-        magicRanges[3].magicRange.transform.localScale = new Vector3(lev[1], 1, 1);
+        magicRanges[0].magicRange.transform.localScale = new Vector3(magicRanges[0].oriScale.x * levv[0], 1, magicRanges[0].oriScale.z * levv[0]);
+        magicRanges[3].magicRange.transform.localScale = new Vector3(magicRanges[3].oriScale.x * levv[3], 1, 1);
     }
 
     //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
