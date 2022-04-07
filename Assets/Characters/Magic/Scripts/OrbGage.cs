@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class OrbGage : MonoBehaviour
 {
@@ -31,9 +32,17 @@ public class OrbGage : MonoBehaviour
 
     private const int ORB_MAX_LEVEL = 3;
 
+    [Serializable]
+    public struct MagicRanges {
+        public GameObject magicRange;
+        [NonSerialized] public Vector3 oriScale;
+    }
+
     //炎魔法の範囲
-    [SerializeField] GameObject f_magicRange;
-    Vector3 oriScale;
+    [SerializeField]
+    MagicRanges[] magicRanges;
+
+    
 
     //スクリプト
     [SerializeField] TrunManager s_TrunManager;
@@ -49,7 +58,8 @@ public class OrbGage : MonoBehaviour
         pentagonLightBlue.value = 0;
         pentagonYellow.value = 0;
 
-        oriScale = f_magicRange.transform.localScale;
+        for (int i = 0; i < magicRanges.Length; i++)
+            magicRanges[i].oriScale = magicRanges[i].magicRange.transform.localScale;
 
         //元の色を取得しておく。　グレーアウト用
         for (int i = 0; i < orb_Gauge_Color.Length; i++)
@@ -188,16 +198,28 @@ public class OrbGage : MonoBehaviour
         //魔法の範囲を設定するやし 今は炎だけ
         int[] lev = Get_Orb_Level();
 
-        if (lev[0] >= 2) lev[0] = 2 * lev[0] - 1;
+        {
+            if (lev[0] >= 0) lev[0] = 2 * lev[0] - 1;
+            
+            if (lev[3] >= 0) lev[3] = 2 * lev[0] - 1;
+        }
 
-        f_magicRange.transform.localScale = new Vector3(lev[0], 1, lev[0]);
+        magicRanges[0].magicRange.transform.localScale = new Vector3(lev[0], 1, lev[0]);
+        magicRanges[3].magicRange.transform.localScale = new Vector3(lev[1], 1, 1);
     }
 
     //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
     public void UseOrb(int num) {
+
+        //オーブのレベルを0にする
         Orb_Level[num] = 0;
 
+        //オーブ
         orb_Gage[num].transform.GetChild(1).GetComponent<Image>().color = grayOutColor;
+
+        //選択範囲を消す
+        magicRanges[num].magicRange.SetActive(false);
+        
 
         if (!OrbCheckExsistens())
             s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
