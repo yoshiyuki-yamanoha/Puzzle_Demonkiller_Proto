@@ -85,7 +85,8 @@ public class GenerationEnemy : PseudoArray
 
         if (!turn_exit_flg) //!抜けるフラグ
         {
-            EnemyTurnCamera();//カメラ
+            enemy_camera.depth = 0;
+            //EnemyTurnCamera();//カメラ
             //生成する状態なら
             if (is_generation)
             {
@@ -197,15 +198,15 @@ public class GenerationEnemy : PseudoArray
         //Search_obj.Add(enemy_instantiate);//リストに追加
 
 
-        //5は真ん中の敵
-        if (x == 5)
-        {
-            if (cameraflg)
-            {
-                target.transform.parent = enemy_instantiate.transform;
-                cameraflg = false;
-            }
-        }
+        ////5は真ん中の敵
+        //if (x == 5)
+        //{
+        //    if (cameraflg)
+        //    {
+        //        target.transform.parent = enemy_instantiate.transform;
+        //        cameraflg = false;
+        //    }
+        //}
 
         //スタートポジションを教えてあげる。生成したプレファブに
         Enemy enemy = enemy_instantiate.GetComponent<Enemy>();
@@ -234,15 +235,15 @@ public class GenerationEnemy : PseudoArray
         }
     }
 
-    //カメラコメントアウト
-    void EnemyTurnCamera()
-    {
-        enemy_camera.transform.position = target.transform.position + distance;
-        enemy_camera.depth = 0;
-        //Vector3 pos = main_camera.transform.position;
-        //main_camera.transform.position = new Vector3(pos.x, pos.y + offset.y, pos.z);
+    ////カメラコメントアウト
+    //void EnemyTurnCamera()
+    //{
+    //    enemy_camera.transform.position = target.transform.position + distance;
+    //    enemy_camera.depth = 0;
+    //    //Vector3 pos = main_camera.transform.position;
+    //    //main_camera.transform.position = new Vector3(pos.x, pos.y + offset.y, pos.z);
 
-    }
+    //}
 }
 
 

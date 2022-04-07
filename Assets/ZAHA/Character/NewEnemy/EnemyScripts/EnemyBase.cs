@@ -161,9 +161,11 @@ public class EnemyBase : MonoBehaviour
 
     public void Move(int startpos, int nextpos)//Move処理 //親(初期位置) //目的値
     {
+        Debug.Log("初期位置 " + startpos + "次のポス " + nextpos);
         Vector3 target = TargetDir(this.gameObject, Generation_enemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
         transform.position += target * Speed * Time.deltaTime;//移動
 
+        Debug.Log(this.gameObject.name + " スピード " + Speed);
         //Debug.DrawRay(this.transform.position, target * 2, Color.red);
     }
 

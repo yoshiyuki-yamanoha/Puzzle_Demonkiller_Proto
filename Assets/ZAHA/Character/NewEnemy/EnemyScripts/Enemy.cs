@@ -140,6 +140,19 @@ public class Enemy : EnemyBase
     //敵移動
     void EnemyMovement()
     {
+        if (Ismove)//動いている時
+        {
+
+        }
+        else//動いていない時
+        {
+            if (!Endflg)
+            {
+            }
+
+        }
+
+
         if (!Endflg)//最終地点にいるのか
         {
             GameObject forward_obj = Generation_enemy.rootpos[IndexCheckX(X)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前方
@@ -153,35 +166,35 @@ public class Enemy : EnemyBase
             {
                 if (forward_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//下方向
                 {
-                    Debug.DrawLine(transform.position, forward_obj.transform.position, Color.green);
+                    
                     Ismove = true;
                     NextposX = X;
                     NextposY = Y + 1;
                 }
                 else if (forward_right_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//右
                 {
-                    Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
+                    //Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
                     Ismove = true;
                     NextposX = X + 1;
                     NextposY = Y + 1;
                 }
                 else if (forward_left_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//左
                 {
-                    Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
+                    //Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
                     Ismove = true;
                     NextposX = X - 1;
                     NextposY = Y + 1;
                 }
                 else if (right_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//右下
                 {
-                    Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
+                    //Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
                     Ismove = true;
                     NextposX = X + 1;
                     NextposY = Y;
                 }
                 else if (left_obj.GetComponent<PseudoArray>().Mass_status == (int)PseudoArray.MassStatus.NONE)//左下
                 {
-                    Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
+                    //Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
                     Ismove = true;
                     NextposX = X - 1;
                     NextposY = Y;
@@ -195,6 +208,9 @@ public class Enemy : EnemyBase
                 Targetchangeflg = false;
             }
 
+            Debug.DrawLine(transform.position, Generation_enemy.rootpos[IndexCheckX(NextposX)].transform.GetChild(IndexCheckX(NextposY)).gameObject.transform.position, Color.green);
+
+            //移動している時
             if (Ismove) { Generation_enemy.rootpos[IndexCheckX(NextposX)].transform.GetChild(IndexCheckY(NextposY)).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.ENEMY; }
 
             Oldx = X;//位置を保存
@@ -206,7 +222,7 @@ public class Enemy : EnemyBase
 
             if (Ismove)
             {
-                Generation_enemy.rootpos[IndexCheckX(Oldx)].transform.GetChild(IndexCheckY(Oldy)).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.NONE;
+                Generation_enemy.rootpos[IndexCheckX(Oldx)].transform.GetChild(IndexCheckY(Oldy)).GetComponent<PseudoArray>().Mass_status = PseudoArray.MassStatus.NONE;//前回マスをオフにする。
                 Move(IndexCheckX(NextposX), IndexCheckY(NextposY)); status = Status.Walk;//移動処理
             }
 
@@ -220,7 +236,7 @@ public class Enemy : EnemyBase
 
                 if (Y == Generation_enemy.max_y - 1)
                 {
-                    Endflg = true;
+                    Endflg = true; //さ
                 }
 
                 status = Status.Idle;//アイドル状態         

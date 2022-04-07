@@ -2961,8 +2961,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fire: {fileID: 5831907550723602685}
-  hp: 100
-  max_hp: 2
+  hp: 10
+  max_hp: 10
   attack: 10
   speed: 1
   deathflg: 0
@@ -3165,9 +3165,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
