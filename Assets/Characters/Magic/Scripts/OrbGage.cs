@@ -27,6 +27,10 @@ public class OrbGage : MonoBehaviour
 
     private const int ORB_MAX_LEVEL = 3;
 
+    //炎魔法の範囲
+    [SerializeField] GameObject f_magicRange;
+    Vector3 oriScale;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +41,8 @@ public class OrbGage : MonoBehaviour
         pentagonRed.value = 0;
         pentagonLightBlue.value = 0;
         pentagonYellow.value = 0;
+
+        oriScale = f_magicRange.transform.localScale;
     }
 
     // Update is called once per frame
@@ -83,46 +89,48 @@ public class OrbGage : MonoBehaviour
         }
         colorflag = 0;
         Gage_Draw();
+
+        ChangeMagicRange();
     }
     public void starRedChage()
     {
         //starRed.value += 1;
-        if(Orb_Level[0]++ > ORB_MAX_LEVEL)
+        if(++Orb_Level[0] > ORB_MAX_LEVEL)
         {
             Orb_Level[0] = ORB_MAX_LEVEL;
         }
     }
     public void starLightBlueChage()
     {
-        if (Orb_Level[1]++ > ORB_MAX_LEVEL)
+        if (++Orb_Level[1] > ORB_MAX_LEVEL)
         {
             Orb_Level[1] = ORB_MAX_LEVEL;
         }
     }
     public void starYellowChage()
     {
-        if (Orb_Level[2]++ > ORB_MAX_LEVEL)
+        if (++Orb_Level[2] > ORB_MAX_LEVEL)
         {
             Orb_Level[2] = ORB_MAX_LEVEL;
         }
     }
     public void pentagonRedChage()
     {
-        if (Orb_Level[3]++ > ORB_MAX_LEVEL)
+        if (++Orb_Level[3] > ORB_MAX_LEVEL)
         {
             Orb_Level[3] = ORB_MAX_LEVEL;
         }
     }
     public void pentagonLightBlueChage()
     {
-        if (Orb_Level[4]++ > ORB_MAX_LEVEL)
+        if (++Orb_Level[4] > ORB_MAX_LEVEL)
         {
             Orb_Level[4] = ORB_MAX_LEVEL;
         }
     }
     public void pentagonYellowChage()
     {
-        if (Orb_Level[5]++ > ORB_MAX_LEVEL)
+        if (++Orb_Level[5] > ORB_MAX_LEVEL)
         {
             Orb_Level[5] = ORB_MAX_LEVEL;
         }
@@ -161,4 +169,24 @@ public class OrbGage : MonoBehaviour
     {
         return Orb_Level;
     }
-}
+
+    void ChangeMagicRange() {
+        //魔法の範囲を設定するやし 今は炎だけ
+        int[] lev = Get_Orb_Level();
+
+        if (lev[0] >= 2) lev[0] = 2 * lev[0] - 1;
+
+        f_magicRange.transform.localScale = new Vector3(lev[0], 1, lev[0]);
+    }
+
+    //オーブの存在が確認できるかの関数
+    //確認出来たらtrueを返す
+    public bool OrbCheckExsistens() {
+
+        int totalNum = 0;
+        foreach (var n in Orb_Level)
+            totalNum += n;
+
+        return (totalNum == 0 ? false : true);
+    }
+ }
