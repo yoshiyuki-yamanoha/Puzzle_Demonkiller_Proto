@@ -97,8 +97,11 @@ public class SelectUseOrb : TrunManager
     private void ChangeUseOrb(int num)
     {
         // 現在選択しているオーブから一周する
-        for (int oi = nowSelOrb + num; oi == nowSelOrb; oi+=num)
+        for (int oi = nowSelOrb + num; oi != nowSelOrb; oi+=num)
         {
+            if (oi > 5) oi -= 6;
+            if (oi < 0) oi += 6;
+
             //　オーブのレベルが１以上なら選択
             if (orbLevel[oi] >= 1)
             {
