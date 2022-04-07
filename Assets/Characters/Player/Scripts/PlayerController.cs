@@ -65,14 +65,14 @@ public class PlayerController : MonoBehaviour
     //魔法を生成、番号指定で撃つ魔法を変える。
     public void ShotMagic(/*List<GameObject>*/GameObject tage, int type, int lv) {
         //一番先頭のオーブを取得 0:r 1:b 2:y
-        int colorNum = 0;
-        int level = s_OrbCon.Get_FOL_Info();
+        //int colorNum = 0;
+        //int level = s_OrbCon.Get_FOL_Info();
 
         //使ったオーブを消し去る
         //s_OrbCon.del_FirstOrb();
 
         //先頭のオーブ
-        GameObject Magic = Instantiate(particleObject[colorNum], mainCamera.transform.position, transform.rotation);
+        GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
 
         //Magichomingを取得
         Magichoming mh = Magic.GetComponent<Magichoming>();
@@ -80,9 +80,9 @@ public class PlayerController : MonoBehaviour
         //魔法とんでいくターゲットを変える。
         mh.TargetObject = tage;
 
-        //魔法のレベルと種類を反映する
-        mh.magicLevel = level;
-        mh.magicType = colorNum;
+        //魔法の種類とレベルを反映する
+        mh.magicType = type;
+        mh.magicLevel = lv;
 
         GameObject.Find("TrunManager").GetComponent<TrunManager>().SetTrunPhase(TrunManager.TrunPhase.Enemy);
 
