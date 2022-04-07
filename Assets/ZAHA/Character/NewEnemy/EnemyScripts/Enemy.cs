@@ -6,6 +6,7 @@ public class Enemy : EnemyBase
 {
     //bool turnflg = true;
     bool init_abnormal = true;
+    bool init_anim_flg = true;
 
     private void Start()
     {
@@ -63,6 +64,7 @@ public class Enemy : EnemyBase
         {
             Enemy_action = EnemyAction.Movement;//ターンを動きにする
             Istrun = false;//ターン終了
+            init_anim_flg = true;
             Is_action = false;//アクションをオフにする
         }
 
@@ -229,18 +231,19 @@ public class Enemy : EnemyBase
         else
         {
 
+            Is_action = true;
+
             if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
             {//再生
 
                 Attacktime += Time.deltaTime; //3秒おきに攻撃
             }
 
-            Enemy_anim.TriggerAttack("Attack");//攻撃trigger
+            if (init_anim_flg) { Enemy_anim.TriggerAttack("Attack"); init_anim_flg = false; }//攻撃trigger
 
             if (Attacktime > 2.5f)
             {
                 Attacktime = 0;
-                Is_action = true;
             }
 
         }
