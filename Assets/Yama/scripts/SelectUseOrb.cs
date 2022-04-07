@@ -37,14 +37,7 @@ public class SelectUseOrb : TrunManager
         // オーブの情報を取得
         orbLevel = s_orbGage.Get_Orb_Level();
 
-        foreach (int type in orbLevel)
-        {
-            if (orbLevel[type] > 0)
-            {
-                nowSelOrb = type;
-                break;
-            }
-        }
+        SetOrbType();
     }
 
     /// <summary>
@@ -136,5 +129,17 @@ public class SelectUseOrb : TrunManager
     public (int, int) GetNowSelectOrb()
     {
         return (nowSelOrb, orbLevel[nowSelOrb]);
+    }
+
+    public void SetOrbType()
+    {
+        foreach (int type in orbLevel)
+        {
+            if (orbLevel[type] > 0)
+            {
+                nowSelOrb = type;
+                break;
+            }
+        }
     }
 }

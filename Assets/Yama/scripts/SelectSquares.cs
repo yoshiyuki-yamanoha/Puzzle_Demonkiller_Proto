@@ -226,7 +226,7 @@ public class SelectSquares : TrunManager
     {
 
         // nowMassH + 横幅が子要素の数を超えていなければヨシ！
-        while (nowMassH + (massRange/2) >= cCount)
+        while (nowMassH + (massRange / 2) >= cCount)
         {
             nowMassH--;
         }
@@ -239,10 +239,14 @@ public class SelectSquares : TrunManager
         if (type > 0) massRange = 1;
 
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + (massRange / 2) > 0)
+        while (nowMassV + (massRange / 2) > 0)
+        {
             nowMassV--;
+        }
 
-        if (nowMassV - (massRange / 2) < -gcCount)
+        while (nowMassV - (massRange / 2) < -gcCount)
+        {
             nowMassV++;
+        }
     }
 }

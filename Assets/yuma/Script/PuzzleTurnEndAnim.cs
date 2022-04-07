@@ -14,6 +14,7 @@ public class PuzzleTurnEndAnim : TrunManager
 
 
     TrunManager turnMgr;
+    SelectUseOrb selUseOrb;
 
     private SEManager sePlay;
 
@@ -44,6 +45,7 @@ public class PuzzleTurnEndAnim : TrunManager
         trunEndFlg = false;
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
         turnMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        selUseOrb = GameObject.Find("GameObject").GetComponent<SelectUseOrb>();
         buf_inCircleRotate = inCircle.transform.rotation;
         buf_outCircleRotate = outCircle.transform.rotation;
         Init();
@@ -86,6 +88,7 @@ public class PuzzleTurnEndAnim : TrunManager
                 {
                     inAlpha = 0.0f;
                     turnMgr.SetTrunPhase(TrunPhase.MagicAttack);
+                    selUseOrb.SetOrbType();
                     sePlay.Play("TurnChange"); //ターンチェンジの音を鳴らす
                     SetPuzzleTurnEndFlg(false);
                     Init();
