@@ -325,8 +325,8 @@ public class PointControl : MonoBehaviour
 
         }
 
-        // 色を変える
-        ColorChange();
+        //// 色を変える
+        //ColorChange();
     }
 
 

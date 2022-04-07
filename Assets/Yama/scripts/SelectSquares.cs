@@ -24,8 +24,8 @@ public class SelectSquares : TrunManager
     [SerializeField] PlayerController s_PlayerController;
 
     TrunManager turnMGR;
-
     SelectUseOrb selUseOrb;
+    OrbGage orbGage;
 
     // Start is called before the first frame update
     void Start()
@@ -40,10 +40,9 @@ public class SelectSquares : TrunManager
 
         if (currentPhase == TrunPhase.MagicAttack)
         {
-            var (type, lv) = selUseOrb.GetNowSelectOrb();
-            FlowToMoveTheSelector(type, lv);
+            FlowToMoveTheSelector();
 
-            ActivateMagic(type, lv);    //魔法を撃つ処理
+            ActivateMagic();    //魔法を撃つ処理
         }
     }
 
@@ -56,8 +55,9 @@ public class SelectSquares : TrunManager
         GetMassList();
 
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
-
-        selUseOrb = GameObject.Find("GameObject").gameObject.GetComponent<SelectUseOrb>();
+        GameObject gameObj = GameObject.Find("GameObject").gameObject;
+        selUseOrb = gameObj.GetComponent<SelectUseOrb>();
+        orbGage = gameObj.GetComponent<OrbGage>();
 
         selMovAmtH = 0;
         selMovAmtV = 0;
@@ -65,7 +65,7 @@ public class SelectSquares : TrunManager
     }
 
     // セレクターを動かす流れ
-    public void FlowToMoveTheSelector(int type, int lv)
+    public void FlowToMoveTheSelector()
     {
         selMovAmtH = 0;
         selMovAmtV = 0;
@@ -78,9 +78,12 @@ public class SelectSquares : TrunManager
         selMovAmtH = h;
         selMovAmtV = v;
 
-        MoveToStage(type, lv);
+        var (type, lv) = selUseOrb.GetNowSelectOrb();
+        int[] massRange = orbGage.GetMagicRanges();
 
-        if (CheckIfSelectorCanMove(type, lv) == true)
+        MoveToStage(type, massRange[type]);
+
+        if (CheckIfSelectorCanMove(type, massRange[type]) == true)
         {
             // セレクターの移動
             ChangePositionSelector();
@@ -123,7 +126,7 @@ public class SelectSquares : TrunManager
     /// 各状態のチェック
     /// </summary>
     /// <returns>すべての条件で真になれば真を返し、どれか一つでも偽であれば偽を返す</returns>
-    private bool CheckIfSelectorCanMove(int type, int lv)
+    private bool CheckIfSelectorCanMove(int type, int massRange)
     {
         // クールタイムが残っているか
         bool check = ElapsedOfCoolingTimeOfMovement();
@@ -134,15 +137,17 @@ public class SelectSquares : TrunManager
             return false;
 
         // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
-        if (nowMassH + selMovAmtH + (lv - 1) >= cCount)
+        if (nowMassH + selMovAmtH + (massRange / 2) >= cCount)
             return false;
-        if (nowMassH + selMovAmtH - (lv - 1) < 0)
+        if (nowMassH + selMovAmtH - (massRange / 2) < 0)
             return false;
 
+        if (type > 0) massRange = 1;
+
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + selMovAmtV > 0)
+        if (nowMassV + selMovAmtV + (massRange / 2) > 0)
             return false;
-        if (nowMassV + selMovAmtV < -gcCount)
+        if (nowMassV + selMovAmtV - (massRange / 2) < -gcCount)
             return false;
 
         nowMassH += selMovAmtH;
@@ -173,13 +178,13 @@ public class SelectSquares : TrunManager
     }
 
     //魔法を撃つ処理
-    void ActivateMagic(int type, int lv)
+    void ActivateMagic()
     {
 
         //Aボタンで魔法を放つ
         if (Input.GetButtonDown("Fire1"))
         {
-            //var (type, lv) = selUseOrb.GetNowSelectOrb();
+            var (type, lv) = selUseOrb.GetNowSelectOrb();
             s_PlayerController.ShotMagic(selector, type, lv);
         }
     }
@@ -217,26 +222,27 @@ public class SelectSquares : TrunManager
                                                       massList[nowMassH].transform.position.z + vMoveAmount);
     }
 
-    private void MoveToStage(int type, int lv)
+    private void MoveToStage(int type, int massRange)
     {
-        if (lv == 0) return;
 
         // nowMassH + 横幅が子要素の数を超えていなければヨシ！
-        while (nowMassH + (lv - 1) >= cCount)
+        while (nowMassH + (massRange/2) >= cCount)
         {
             nowMassH--;
         }
 
-        while (nowMassH - (lv - 1) < 0)
+        while (nowMassH - (massRange / 2) < 0)
         {
             nowMassH++;
         }
 
+        if (type > 0) massRange = 1;
+
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + (lv - 1) > 0)
+        if (nowMassV + (massRange / 2) > 0)
             nowMassV--;
 
-        if (nowMassV + (lv - 1) < -gcCount)
+        if (nowMassV - (massRange / 2) < -gcCount)
             nowMassV++;
     }
 }
