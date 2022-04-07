@@ -12,6 +12,7 @@ public class Enemy : EnemyBase
     {
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;
+        Fire.gameObject.SetActive(false);
     }
 
     void FixedUpdate()

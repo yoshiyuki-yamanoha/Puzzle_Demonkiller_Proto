@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour
     int nextposX;//目的値設定 //次の移動先を見る。
     int nextposY;
 
+    [SerializeField] Image fire = null;
     //変数
     [SerializeField] float hp = 0; //hp
     [SerializeField] float max_hp = 0; //hp
@@ -126,6 +127,7 @@ public class EnemyBase : MonoBehaviour
     public int NextposY { get => nextposY; set => nextposY = value; }
     public bool Init_search_flg { get => init_search_flg; set => init_search_flg = value; }
     public bool Endflg { get => endflg; set => endflg = value; }
+    public Image Fire { get => fire; set => fire = value; }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -240,6 +242,7 @@ public class EnemyBase : MonoBehaviour
     public void Fire_Abnormal_Condition()
     {
 
+        Fire.gameObject.SetActive(true);
         //Debug.Log("魔法でダメージ入るよーん");
         Fire_abnormality_turncount++;
 
@@ -253,6 +256,7 @@ public class EnemyBase : MonoBehaviour
         {
             Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
             Fire_abnormality_turncount = 0;//ターンリセット
+            Fire.gameObject.SetActive(false);
         }
     }
 

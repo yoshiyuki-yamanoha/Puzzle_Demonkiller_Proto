@@ -127,6 +127,7 @@ public class GenerationEnemy : PseudoArray
             }//生成フラグがオンの時
             else//ここが敵が動いている時↓
             {
+                Debug.Log("敵の数"+StageSarchEnemy.Length);
                 //敵がの持ってく行動フラグを見ている。
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
