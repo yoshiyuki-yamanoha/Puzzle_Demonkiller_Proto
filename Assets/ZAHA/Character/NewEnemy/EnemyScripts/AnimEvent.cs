@@ -20,6 +20,7 @@ public class AnimEvent : MonoBehaviour
         {
             FootHideAttack();
         }
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }
 
     public void Destroy()
@@ -28,7 +29,7 @@ public class AnimEvent : MonoBehaviour
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
         //敵が消える音を入れる//
-        //sePlay.Play("EnemyDead");
+        sePlay.Play("EnemyDead");
 
     }
 
