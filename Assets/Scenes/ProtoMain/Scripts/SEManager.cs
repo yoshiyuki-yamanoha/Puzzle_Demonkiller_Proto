@@ -42,7 +42,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[4],0.3f);
                 break;
             case "TurnChange"://6　ターンが変わる時
-                audioSource.PlayOneShot(audioClips[5], 0.5f);
+                audioSource.PlayOneShot(audioClips[5],1.0f);
                 break;
             case "EnemySpawn"://7　敵が出現した時
                 audioSource.PlayOneShot(audioClips[6], 0.5f);
@@ -51,7 +51,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[7], 0.5f);
                 break;
             case "Select2"://9魔方陣選択2
-                audioSource.PlayOneShot(audioClips[8], 0.5f);
+                audioSource.PlayOneShot(audioClips[8], 0.1f);
                 break;
         }
     }

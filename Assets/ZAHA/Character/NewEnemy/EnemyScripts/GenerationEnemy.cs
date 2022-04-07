@@ -80,8 +80,10 @@ public class GenerationEnemy : MonoBehaviour
 
         if (enemy_oneturn_count >= enemy_oneturn_max)
         {
+            
             is_generation = false;//終了
             trunmanager.trunphase = TrunManager.TrunPhase.Puzzle;//ターン移動
+            
             enemy_oneturn_count = 0;
         }
     }
@@ -101,6 +103,7 @@ public class GenerationEnemy : MonoBehaviour
                     Debug.Log("Puzulle移行");
                     enemy_max_flg = true;
                     is_generation = false;
+                    sePlay.Play("TurnChange"); //ターンチェンジの音を鳴らす
                     trunmanager.trunphase = TrunManager.TrunPhase.Puzzle;//パズルターンに移行
                 }
                 else
