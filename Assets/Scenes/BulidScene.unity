@@ -1955,6 +1955,9 @@ MonoBehaviour:
   - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
   - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
   - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
+  - {fileID: 3029636490363911873, guid: d5eb44df13f667b43a1760e3bf1c8193, type: 3}
   y_rotate: 4
   x_rotate: 4
   y_reverce: 0.1
@@ -1962,6 +1965,7 @@ MonoBehaviour:
   cc: {fileID: 1290645486648335522}
   attackNum: 0
   s_OrbCon: {fileID: 894188523}
+  s_OrbGage: {fileID: 387063143}
 --- !u!4 &387063140
 Transform:
   m_ObjectHideFlags: 0
@@ -2051,6 +2055,7 @@ MonoBehaviour:
   - magicRange: {fileID: 1258361130}
   - magicRange: {fileID: 2000727677}
   s_TrunManager: {fileID: 1973512903}
+  s_SelectUseOrb: {fileID: 387063147}
 --- !u!114 &387063144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2322,7 +2327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -57, y: 220}
+  m_AnchoredPosition: {x: -57.00006, y: 220}
   m_SizeDelta: {x: 569.5, y: 138.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518659485
@@ -4191,7 +4196,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894188519}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58a4f311ef400cf429c9b001265ee5e8, type: 3}
   m_Name: 

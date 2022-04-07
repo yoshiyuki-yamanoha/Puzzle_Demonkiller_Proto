@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     //おーぶしゅとく
     [SerializeField] OrbCon s_OrbCon;
+    [SerializeField] OrbGage s_OrbGage;
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +71,9 @@ public class PlayerController : MonoBehaviour
 
         //使ったオーブを消し去る
         //s_OrbCon.del_FirstOrb();
+
+        //オーブを消費する
+        s_OrbGage.UseOrb(type);
 
         //先頭のオーブ
         GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);

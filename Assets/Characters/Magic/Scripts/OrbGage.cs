@@ -48,6 +48,7 @@ public class OrbGage : MonoBehaviour
 
     //スクリプト
     [SerializeField] TrunManager s_TrunManager;
+    [SerializeField] SelectUseOrb s_SelectUseOrb;
 
     // Start is called before the first frame update
     void Start()
@@ -124,6 +125,17 @@ public class OrbGage : MonoBehaviour
             }
             else if(Orb_Level[i] > 0) grayOutMask[i].SetActive(false);
             
+        }
+
+        int num=0, num2=0;
+        (num, num2) = s_SelectUseOrb.GetNowSelectOrb();
+
+        //魔法陣を消す
+        for (int i = 0; i < 6; i++) {
+            if (num == i)
+                magicRanges[i].magicRange.SetActive(true);
+            else
+                magicRanges[i].magicRange.SetActive(false);
         }
 
     }
@@ -239,7 +251,7 @@ public class OrbGage : MonoBehaviour
         
 
         //選択範囲を消す
-        magicRanges[num].magicRange.SetActive(false);
+        //magicRanges[num].magicRange.SetActive(false);
 
 
         if (!OrbCheckExsistens())
@@ -250,11 +262,13 @@ public class OrbGage : MonoBehaviour
         }
     }
 
+    int totalNum;
+
     //オーブの存在が確認できるかの関数
     //確認出来たらtrueを返す
     bool OrbCheckExsistens() {
 
-        int totalNum = 0;
+        totalNum = 0;
         foreach (var n in Orb_Level)
             totalNum += n;
 
