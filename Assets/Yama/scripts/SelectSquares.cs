@@ -24,6 +24,8 @@ public class SelectSquares : TrunManager
 
     TrunManager turnMGR;
 
+    SelectUseOrb selUseOrb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,8 @@ public class SelectSquares : TrunManager
         GetMassList();
 
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+
+        selUseOrb = GameObject.Find("GameObject").gameObject.GetComponent<SelectUseOrb>();
 
         selMovAmtH = 0;
         selMovAmtV = 0;
@@ -167,7 +171,10 @@ public class SelectSquares : TrunManager
 
         //Aボタンで魔法を放つ
         if (Input.GetButtonDown("Fire1"))
-            s_PlayerController.ShotMagic(selector);
+        {
+            var (type, lv) = selUseOrb.GetNowSelectOrb();
+            s_PlayerController.ShotMagic(selector, type, lv);
+        }
     }
 
     private void GetMassList()
