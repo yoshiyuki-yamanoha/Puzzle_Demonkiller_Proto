@@ -14,11 +14,9 @@ public class OrbGage : MonoBehaviour
     public Slider pentagonLightBlue;
     public Slider pentagonYellow;
 
+    //オーブレベルゲージ用のスライダー
     [SerializeField] Slider[] orb_Gage = new Slider[6];
 
-
-    Color[] orb_Gauge_Color = new Color[6];
-    [SerializeField] Color grayOutColor;
 
     //魔方陣の線の形
     public bool starflag;
@@ -32,6 +30,10 @@ public class OrbGage : MonoBehaviour
 
     private const int ORB_MAX_LEVEL = 3;
 
+    //オーブグレーアウト用のやつ
+    [SerializeField] GameObject[] grayOutMask;
+
+    //魔法の範囲
     [Serializable]
     public struct MagicRanges {
         public GameObject magicRange;
@@ -60,13 +62,6 @@ public class OrbGage : MonoBehaviour
 
         for (int i = 0; i < magicRanges.Length; i++)
             magicRanges[i].oriScale = magicRanges[i].magicRange.transform.localScale;
-
-        //元の色を取得しておく。　グレーアウト用
-        for (int i = 0; i < orb_Gauge_Color.Length; i++)
-        {
-            orb_Gauge_Color[i] = orb_Gage[i].transform.GetChild(1).GetComponent<Image>().color;
-            orb_Gage[i].transform.GetChild(1).GetComponent<Image>().color = grayOutColor;
-        }
     }
 
     // Update is called once per frame
@@ -115,6 +110,17 @@ public class OrbGage : MonoBehaviour
         Gage_Draw();
 
         ChangeMagicRange();
+
+        //オーブをグレーアウト
+        for (int i = 0; i < grayOutMask.Length; i++) {
+            if (Orb_Level[i] == 0)
+            {
+                grayOutMask[i].SetActive(true);
+            }
+            else grayOutMask[i].SetActive(false);
+            
+        }
+
     }
     public void starRedChage()
     {
@@ -213,9 +219,7 @@ public class OrbGage : MonoBehaviour
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;
-
-        //オーブ
-        orb_Gage[num].transform.GetChild(1).GetComponent<Image>().color = grayOutColor;
+        
 
         //選択範囲を消す
         magicRanges[num].magicRange.SetActive(false);
