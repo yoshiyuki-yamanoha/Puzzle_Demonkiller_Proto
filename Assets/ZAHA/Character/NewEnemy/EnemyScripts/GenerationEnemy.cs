@@ -40,6 +40,7 @@ public class GenerationEnemy : PseudoArray
     //Vector3 distance;
     //bool cameraflg = true;
 
+    float exit_time = 0;
 
     //ターン終了フラグ
     bool turn_exit_flg = false;
@@ -75,6 +76,7 @@ public class GenerationEnemy : PseudoArray
         //自分のターンの時
         if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy) {
             if (turn_initflg) {
+                Debug.Log("敵のターン");
                 turn_exit_flg = false;//抜けるオフ
                 turn_initflg = false;
             }
@@ -122,10 +124,10 @@ public class GenerationEnemy : PseudoArray
                 {
                     time += Time.deltaTime;
                 }
-            }
-            else
+            }//生成フラグがオンの時
+            else//ここが敵が動いている時↓
             {
-                
+                //敵がの持ってく行動フラグを見ている。
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
                     if (StageSarchEnemy[i].GetComponent<Enemy>().Is_action)
@@ -152,25 +154,27 @@ public class GenerationEnemy : PseudoArray
                     
                 }
             }
+
         }
 
-        if (turn_exit_flg)
+        if (turn_exit_flg && trunmanager.trunphase ==  TrunManager.TrunPhase.Enemy)
         {
 
-            time += Time.deltaTime;
+            exit_time += Time.deltaTime;
 
-            if (time > 2)
+            if (exit_time > 2)
             {
-                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 turn_initflg = true;
-                time = 0;
-
+                exit_time = 0;
+                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 search_count = 0;
-                for (int i = 0; i <  StageSarchEnemy.Length; i++) {
+                for (int i = 0; i < StageSarchEnemy.Length; i++)
+                {
                     StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg = true;
                 }
             }
         }
+
     }
 
     void Generation(int num, int x, int y)
