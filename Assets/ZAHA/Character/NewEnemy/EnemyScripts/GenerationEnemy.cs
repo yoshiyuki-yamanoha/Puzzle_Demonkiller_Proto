@@ -109,7 +109,7 @@ public class GenerationEnemy : PseudoArray
                         if (rootpos[randomX].transform.GetChild(y).GetComponent<PseudoArray>().Mass_status != MassStatus.ENEMY)
                         {
                             Generation(Enemy_kinds_max, randomX, randomY);//引数(エネミーの種類 , スタートPos)生成。
-                            //sePlay.Play("EnemySpawn");
+                            sePlay.Play("EnemySpawn");
                         }
 
                     }

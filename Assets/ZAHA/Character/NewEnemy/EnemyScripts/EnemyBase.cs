@@ -252,13 +252,17 @@ public class EnemyBase : MonoBehaviour
         {
             //2ダメージ減らす。
             Damage(2);
+            if (Fire_abnormality_turncount == 3)
+            {
+                Fire.gameObject.SetActive(false);
+            }
+
             enemy_anim.TriggerAttack("HitDamage");
         }
         else
         {
             Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
             Fire_abnormality_turncount = 0;//ターンリセット
-            Fire.gameObject.SetActive(false);
         }
     }
 
