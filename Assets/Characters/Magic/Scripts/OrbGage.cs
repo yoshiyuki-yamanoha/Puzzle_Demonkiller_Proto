@@ -205,11 +205,18 @@ public class OrbGage : MonoBehaviour
         return Orb_Level;
     }
 
+    int[] levv;
+
+    public int[] GetMagicRanges() {
+
+        return levv;
+    }
+
     void ChangeMagicRange() {
         //魔法の範囲を設定するやし 今は炎だけ
         //int[] lev = Get_Orb_Level();
 
-        int[] levv = new int[Orb_Level.Length];
+        levv = new int[Orb_Level.Length];
         for (int i = 0; i < Orb_Level.Length; i++)
             levv[i] = Orb_Level[i];
 
