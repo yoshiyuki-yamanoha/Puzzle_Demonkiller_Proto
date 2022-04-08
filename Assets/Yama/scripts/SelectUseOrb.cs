@@ -34,8 +34,6 @@ public class SelectUseOrb : TrunManager
     {
         s_turnMGR = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         s_orbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
-        // オーブの情報を取得
-        orbLevel = s_orbGage.Get_Orb_Level();
 
         SetOrbType();
     }
@@ -133,6 +131,9 @@ public class SelectUseOrb : TrunManager
 
     public void SetOrbType()
     {
+        // オーブの情報を取得
+        orbLevel = s_orbGage.Get_Orb_Level();
+
         foreach (int type in orbLevel)
         {
             if (orbLevel[type] > 0)
