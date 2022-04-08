@@ -146,9 +146,9 @@ public class EnemyBase : MonoBehaviour
         Hpber.value = hp;
     }
 
-    public float Damage(float damege)//damage処理
+    public float Damage(float damage)//damage処理
     {
-        hp -= damege;
+        hp -= damage;
         if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
 
         return hp;
@@ -198,7 +198,7 @@ public class EnemyBase : MonoBehaviour
     public int IndexCheckY(int index)
     {
         if (index < 0) { index = 0; }
-        if (index > Generation_enemy.max_y - 1) { index = Generation_enemy.max_y - 1;}
+        if (index > Generation_enemy.max_y - 1) { index = Generation_enemy.max_y - 1; }
         return index;
     }
 
@@ -266,7 +266,7 @@ public class EnemyBase : MonoBehaviour
     public void Fire_Abnormal_UI()
     {
 
-        if(Fire_abnormality_turncount < 3)
+        if (Fire_abnormality_turncount < 3)
         {
             Fire.gameObject.SetActive(true);
         }

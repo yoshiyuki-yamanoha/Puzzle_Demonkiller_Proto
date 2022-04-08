@@ -33,36 +33,39 @@ public class Enemy : EnemyBase
 
         if (!Istrun)//自分のターンじゃない時
         {
+            //魔法のターンの時に
+            if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack) {
+                if (init_abnormal)//1回のみ入るフラグ
+                {
+                    //Debug.Log("状態異常の中身" + Abnormal_condition);
+
+                    switch (Abnormal_condition)//状態異常の中身見る
+                    {
+                        case AbnormalCondition.NONE:
+                            //Debug.Log("状態異常じゃないです！！");
+                            break;
+                        case AbnormalCondition.Fire:
+                            //Debug.Log("炎ダメージ");
+                            Fire_Abnormal_Condition();
+                            break;
+                        case AbnormalCondition.Ice:
+                            //Debug.Log("氷ダメージ");
+                            //Ice_Abnormal_Condition();
+                            break;
+                    }
+
+                    //Debug.Log("ターン終了");
+                    init_abnormal = false;
+                }
+            }
             //ここダメージ処理書いてた場所
         }
 
         //自分(敵)のターンだったら
         if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
         {
+            init_abnormal = true;//状態異常に1回のみ入るフラグ
             Istrun = true;//自分のターン(敵)開始
-            if (init_abnormal)//1回のみ入るフラグ
-            {
-                //Debug.Log("状態異常の中身" + Abnormal_condition);
-
-                switch (Abnormal_condition)//状態異常の中身見る
-                {
-                    case AbnormalCondition.NONE:
-                        //Debug.Log("状態異常じゃないです！！");
-                        break;
-                    case AbnormalCondition.Fire:
-                        //Debug.Log("炎ダメージ");
-                        Fire_Abnormal_Condition();
-                        //Fire.gameObject.SetActive(true);
-                        break;
-                    case AbnormalCondition.Ice:
-                        //Debug.Log("氷ダメージ");
-                        //Ice_Abnormal_Condition();
-                        break;
-                }
-
-                //Debug.Log("ターン終了");
-                init_abnormal = false;
-            }
         }
         else //ターンを終了する時
         {
@@ -70,7 +73,6 @@ public class Enemy : EnemyBase
             Istrun = false;//ターン終了
             init_anim_flg = true;
             Is_action = false;//アクションをオフにする
-            init_abnormal = true;//状態異常に1回のみ入るフラグ
             init_abnormal_ui = true;
         }
 
