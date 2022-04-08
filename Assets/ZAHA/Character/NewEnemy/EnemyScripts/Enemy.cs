@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : EnemyBase
 {
     //bool turnflg = true;
+    bool init_abnormal_ui = true;
     bool init_abnormal = true;
     bool init_anim_flg = true;
 
@@ -13,6 +14,7 @@ public class Enemy : EnemyBase
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;
         Fire.gameObject.SetActive(false);
+        Init_fire_color = Fire.color;//初期色を保存
     }
 
     void FixedUpdate()
@@ -31,6 +33,13 @@ public class Enemy : EnemyBase
 
         if (!Istrun)//自分のターンじゃない時
         {
+            //ここダメージ処理書いてた場所
+        }
+
+        //自分(敵)のターンだったら
+        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+        {
+            Istrun = true;//自分のターン(敵)開始
             if (init_abnormal)//1回のみ入るフラグ
             {
                 //Debug.Log("状態異常の中身" + Abnormal_condition);
@@ -43,10 +52,11 @@ public class Enemy : EnemyBase
                     case AbnormalCondition.Fire:
                         //Debug.Log("炎ダメージ");
                         Fire_Abnormal_Condition();
+                        //Fire.gameObject.SetActive(true);
                         break;
                     case AbnormalCondition.Ice:
                         //Debug.Log("氷ダメージ");
-                        Ice_Abnormal_Condition();
+                        //Ice_Abnormal_Condition();
                         break;
                 }
 
@@ -54,19 +64,14 @@ public class Enemy : EnemyBase
                 init_abnormal = false;
             }
         }
-
-        //自分(敵)のターンだったら
-        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
-        {
-            Istrun = true;//自分のターン(敵)開始
-            init_abnormal = true;//状態異常に1回のみ入るフラグ
-        }
         else //ターンを終了する時
         {
             Enemy_action = EnemyAction.Movement;//ターンを動きにする
             Istrun = false;//ターン終了
             init_anim_flg = true;
             Is_action = false;//アクションをオフにする
+            init_abnormal = true;//状態異常に1回のみ入るフラグ
+            init_abnormal_ui = true;
         }
 
         HPber();//HPゲージ
@@ -104,13 +109,20 @@ public class Enemy : EnemyBase
         {
             //Fireだったら、
             //当たった魔法が火のやつなら。(お試し、今は魔法に当たった時点)
-            Abnormal_condition = AbnormalCondition.Fire;
-            Fire_abnormality_turncount = 0;//持続リセット
+            //燃焼のタグ。
+
+            
                                            //Debug.Log("火を当てる");
                                            //Damage(1);//ダメージ処理
                                            //Destroy(other.gameObject);
+        }
 
 
+        //pullします。
+        if (other.CompareTag("Fire"))//燃焼のタグ
+        {
+            Abnormal_condition = AbnormalCondition.Fire;
+            Fire_abnormality_turncount = 0;//持続リセット
         }
     }
 
@@ -140,19 +152,6 @@ public class Enemy : EnemyBase
     //敵移動
     void EnemyMovement()
     {
-        if (Ismove)//動いている時
-        {
-
-        }
-        else//動いていない時
-        {
-            if (!Endflg)
-            {
-            }
-
-        }
-
-
         if (!Endflg)//最終地点にいるのか
         {
             GameObject forward_obj = Generation_enemy.rootpos[IndexCheckX(X)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前方
@@ -239,10 +238,37 @@ public class Enemy : EnemyBase
                     Endflg = true; //さ
                 }
 
+                //ここで状態異常確認
+                if (init_abnormal_ui)//1回のみ入るフラグ
+                {
+                    //Debug.Log("状態異常の中身" + Abnormal_condition);
+
+                    switch (Abnormal_condition)//状態異常の中身見る
+                    {
+                        case AbnormalCondition.NONE:
+                            //Debug.Log("状態異常じゃないです！！");
+                            break;
+                        case AbnormalCondition.Fire:
+                            //Debug.Log("炎ダメージ");
+                            //Fire_Abnormal_Condition();
+                            Fire_Abnormal_UI();
+                            break;
+                        case AbnormalCondition.Ice:
+                            //Debug.Log("氷ダメージ");
+                            //Ice_Abnormal_Condition();
+                            break;
+                    }
+
+                    //Debug.Log("ターン終了");
+                    init_abnormal_ui = false;
+                }
+
+
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
                 Targetchangeflg = true;
                 Is_action = true;//行動した。
+
             }
         }
         else

@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class GenerationEnemy : PseudoArray
 {
-    //List<GameObject> search_obj = new List<GameObject>();
-    //List<bool> search_bool = new List<bool>();
     int search_count = 0;
-    //int action_count = 0;
-    //int is_action_count = 0;
-    //bool init_action_flg = true;
 
     [SerializeField] bool is_generation = false;
     [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
@@ -32,22 +27,11 @@ public class GenerationEnemy : PseudoArray
     bool enemy_max_flg = false;
     //bool initturnflg = false;
 
-    ////ターン中カメラ
-    Camera enemy_camera = null;
-    [SerializeField] Vector3 offset;//補正用
-
-    [SerializeField] GameObject target;
-    Vector3 distance;
-    bool cameraflg = true;
-
     float exit_time = 0;
 
     //ターン終了フラグ
     bool turn_exit_flg = false;
     bool turn_initflg = true;
-
-    //public List<GameObject> Search_obj { get => search_obj; set => search_obj = value; }
-    //public List<bool> Search_bool { get => search_bool; set => search_bool = value; }
 
 
     //具志堅SE処理
@@ -62,10 +46,6 @@ public class GenerationEnemy : PseudoArray
         trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
 
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
-
-        enemy_camera = GameObject.Find("EnemyCamera").GetComponent<Camera>();
-        distance = enemy_camera.transform.position - target.transform.position;
-        enemy_camera.depth = -2;
     }
 
     // Update is called once per frame
@@ -76,7 +56,7 @@ public class GenerationEnemy : PseudoArray
         //自分のターンの時
         if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy) {
             if (turn_initflg) {
-                Debug.Log("敵のターン");
+                //Debug.Log("敵のターン");
                 turn_exit_flg = false;//抜けるオフ
                 turn_initflg = false;
             }
@@ -85,8 +65,6 @@ public class GenerationEnemy : PseudoArray
 
         if (!turn_exit_flg) //!抜けるフラグ
         {
-            enemy_camera.depth = 0;
-            //EnemyTurnCamera();//カメラ
             //生成する状態なら
             if (is_generation)
             {
@@ -128,7 +106,7 @@ public class GenerationEnemy : PseudoArray
             }//生成フラグがオンの時
             else//ここが敵が動いている時↓
             {
-                Debug.Log("敵の数"+StageSarchEnemy.Length);
+                //Debug.Log("敵の数"+StageSarchEnemy.Length);
                 //敵がの持ってく行動フラグを見ている。
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
@@ -146,7 +124,7 @@ public class GenerationEnemy : PseudoArray
                 if (search_count >= StageSarchEnemy.Length)
                 {
                     if (enemy_max_flg) {
-                        Debug.Log(search_count);
+                        //Debug.Log(search_count);
                         turn_exit_flg = true;
                     }
                     else
@@ -170,7 +148,7 @@ public class GenerationEnemy : PseudoArray
                 exit_time = 0;
                 trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 search_count = 0;
-                enemy_camera.depth = -2;
+                //enemy_camera.depth = -2;
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
                     StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg = true;
@@ -196,17 +174,6 @@ public class GenerationEnemy : PseudoArray
         GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemy_obj.transform.position + offset, new Quaternion(0, 180.0f, 0, 1));//生成
         enemy_instantiate.name =  enemy_prefab[num].name + enemy_count.ToString();
         //Search_obj.Add(enemy_instantiate);//リストに追加
-
-
-        ////5は真ん中の敵
-        //if (x == 5)
-        //{
-        //    if (cameraflg)
-        //    {
-        //        target.transform.parent = enemy_instantiate.transform;
-        //        cameraflg = false;
-        //    }
-        //}
 
         //スタートポジションを教えてあげる。生成したプレファブに
         Enemy enemy = enemy_instantiate.GetComponent<Enemy>();
@@ -234,26 +201,4 @@ public class GenerationEnemy : PseudoArray
             enemy_oneturn_count = 0;
         }
     }
-
-    ////カメラコメントアウト
-    //void EnemyTurnCamera()
-    //{
-    //    enemy_camera.transform.position = target.transform.position + distance;
-    //    enemy_camera.depth = 0;
-    //    //Vector3 pos = main_camera.transform.position;
-    //    //main_camera.transform.position = new Vector3(pos.x, pos.y + offset.y, pos.z);
-
-    //}
 }
-
-
-
-
-//if (enemy_last_obj != null)
-//{
-//    if (enemy_last_obj.GetComponent<Enemy>().Is_action)//最後に生成した敵を見る。
-//    {
-//        TrunManager trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
-//        trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
-//    }
-//}

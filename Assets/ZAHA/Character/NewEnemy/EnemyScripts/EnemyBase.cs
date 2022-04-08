@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    Color init_fire_color;
+
     bool endflg = false;
     bool init_search_flg = true;
     //前回の位置
@@ -94,6 +96,7 @@ public class EnemyBase : MonoBehaviour
 
 
     //参照用
+    public Color Init_fire_color { get => init_fire_color; set => init_fire_color = value; }
     public float Hp { get => hp; set => hp = value; }
     public float Attack { get => attack; }
     public float Speed { get => speed; set => speed = value; }
@@ -161,11 +164,11 @@ public class EnemyBase : MonoBehaviour
 
     public void Move(int startpos, int nextpos)//Move処理 //親(初期位置) //目的値
     {
-        Debug.Log("初期位置 " + startpos + "次のポス " + nextpos);
+        //Debug.Log("初期位置 " + startpos + "次のポス " + nextpos);
         Vector3 target = TargetDir(this.gameObject, Generation_enemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
         transform.position += target * Speed * Time.deltaTime;//移動
 
-        Debug.Log(this.gameObject.name + " スピード " + Speed);
+        //Debug.Log(this.gameObject.name + " スピード " + Speed);
         //Debug.DrawRay(this.transform.position, target * 2, Color.red);
     }
 
@@ -243,8 +246,6 @@ public class EnemyBase : MonoBehaviour
     //火の魔法状態。
     public void Fire_Abnormal_Condition()
     {
-
-        Fire.gameObject.SetActive(true);
         //Debug.Log("魔法でダメージ入るよーん");
         Fire_abnormality_turncount++;
 
@@ -252,17 +253,26 @@ public class EnemyBase : MonoBehaviour
         {
             //2ダメージ減らす。
             Damage(2);
-            if (Fire_abnormality_turncount == 3)
-            {
-                Fire.gameObject.SetActive(false);
-            }
-
+            Fire.color = new Color(Init_fire_color.r, Init_fire_color.g, Init_fire_color.b, 1 / Fire_abnormality_turncount);
             enemy_anim.TriggerAttack("HitDamage");
         }
         else
         {
             Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
             Fire_abnormality_turncount = 0;//ターンリセット
+        }
+    }
+
+    public void Fire_Abnormal_UI()
+    {
+
+        if(Fire_abnormality_turncount < 3)
+        {
+            Fire.gameObject.SetActive(true);
+        }
+        else
+        {
+            Fire.gameObject.SetActive(false);
         }
     }
 
