@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectSquares : TrunManager
 {
-    /*[SerializeField]*/ GameObject selector = null;
+    /*[SerializeField]*/
+    GameObject selector = null;
     int selMovAmtH;
     int selMovAmtV;
 
@@ -15,7 +15,8 @@ public class SelectSquares : TrunManager
     int nowMassH;
     int nowMassV;
 
-    /*[SerializeField]*/ int coolTimeMax = 10;
+    /*[SerializeField]*/
+    int coolTimeMax = 10;
     private int waitTime;
     private bool canSelect;
 
@@ -23,6 +24,8 @@ public class SelectSquares : TrunManager
     [SerializeField] PlayerController s_PlayerController;
 
     TrunManager turnMGR;
+    SelectUseOrb selUseOrb;
+    OrbGage orbGage;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +55,9 @@ public class SelectSquares : TrunManager
         GetMassList();
 
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+        GameObject gameObj = GameObject.Find("GameObject").gameObject;
+        selUseOrb = gameObj.GetComponent<SelectUseOrb>();
+        orbGage = gameObj.GetComponent<OrbGage>();
 
         selMovAmtH = 0;
         selMovAmtV = 0;
@@ -72,8 +78,16 @@ public class SelectSquares : TrunManager
         selMovAmtH = h;
         selMovAmtV = v;
 
-        // セレクターの移動
-        ChangePositionSelector();
+        var (type, lv) = selUseOrb.GetNowSelectOrb();
+        int[] massRange = orbGage.GetMagicRanges();
+
+        MoveToStage(type, massRange[type]);
+
+        if (CheckIfSelectorCanMove(type, massRange[type]) == true)
+        {
+            // セレクターの移動
+            ChangePositionSelector();
+        }
     }
 
     // 各スティックの値を取得
@@ -98,22 +112,21 @@ public class SelectSquares : TrunManager
     // セレクターの移動
     private void ChangePositionSelector()
     {
-        if (CheckIfSelectorCanMove() == true)
-        {
-            waitTime = coolTimeMax;
 
-            float vMoveAmount = (float)nowMassV * 5.0f;
-            selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
-                                                      massList[nowMassH].transform.position.y,
-                                                      massList[nowMassH].transform.position.z + vMoveAmount);
-        }
+        waitTime = coolTimeMax;
+
+        float vMoveAmount = (float)nowMassV * 5.0f;
+        selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
+                                                  massList[nowMassH].transform.position.y,
+                                                  massList[nowMassH].transform.position.z + vMoveAmount);
+
     }
 
     /// <summary>
     /// 各状態のチェック
     /// </summary>
     /// <returns>すべての条件で真になれば真を返し、どれか一つでも偽であれば偽を返す</returns>
-    private bool CheckIfSelectorCanMove()
+    private bool CheckIfSelectorCanMove(int type, int massRange)
     {
         // クールタイムが残っているか
         bool check = ElapsedOfCoolingTimeOfMovement();
@@ -124,15 +137,17 @@ public class SelectSquares : TrunManager
             return false;
 
         // nowMassH + selMovAmtHが子要素の数を超えていなければヨシ！
-        if (nowMassH + selMovAmtH >= cCount)
+        if (nowMassH + selMovAmtH + (massRange / 2) >= cCount)
             return false;
-        if (nowMassH + selMovAmtH < 0)
+        if (nowMassH + selMovAmtH - (massRange / 2) < 0)
             return false;
 
+        if (type > 0) massRange = 1;
+
         // nowMassVが子要素と親の数を超えていなければヨシ！
-        if (nowMassV + selMovAmtV > 0)
+        if (nowMassV + selMovAmtV + (massRange / 2) > 0)
             return false;
-        if (nowMassV + selMovAmtV < -gcCount)
+        if (nowMassV + selMovAmtV - (massRange / 2) < -gcCount)
             return false;
 
         nowMassH += selMovAmtH;
@@ -163,11 +178,15 @@ public class SelectSquares : TrunManager
     }
 
     //魔法を撃つ処理
-    void ActivateMagic() {
+    void ActivateMagic()
+    {
 
         //Aボタンで魔法を放つ
         if (Input.GetButtonDown("Fire1"))
-            s_PlayerController.ShotMagic(selector);
+        {
+            var (type, lv) = selUseOrb.GetNowSelectOrb();
+            s_PlayerController.ShotMagic(selector, type, lv);
+        }
     }
 
     private void GetMassList()
@@ -201,5 +220,33 @@ public class SelectSquares : TrunManager
         selector.transform.position = new Vector3(massList[nowMassH].transform.position.x,
                                                       massList[nowMassH].transform.position.y,
                                                       massList[nowMassH].transform.position.z + vMoveAmount);
+    }
+
+    private void MoveToStage(int type, int massRange)
+    {
+
+        // nowMassH + 横幅が子要素の数を超えていなければヨシ！
+        while (nowMassH + (massRange / 2) >= cCount)
+        {
+            nowMassH--;
+        }
+
+        while (nowMassH - (massRange / 2) < 0)
+        {
+            nowMassH++;
+        }
+
+        if (type > 0) massRange = 1;
+
+        // nowMassVが子要素と親の数を超えていなければヨシ！
+        while (nowMassV + (massRange / 2) > 0)
+        {
+            nowMassV--;
+        }
+
+        while (nowMassV - (massRange / 2) < -gcCount)
+        {
+            nowMassV++;
+        }
     }
 }

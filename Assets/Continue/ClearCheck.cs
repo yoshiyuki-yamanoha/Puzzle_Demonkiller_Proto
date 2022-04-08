@@ -97,6 +97,8 @@ public class ClearCheck : TrunManager
         //ppp.RandomColorSet();
 
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+
+        gauge.SetActive(false);
     }
 
     // Update is called once per frame

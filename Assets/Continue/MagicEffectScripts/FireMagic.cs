@@ -17,7 +17,7 @@ public class FireMagic : TrunManager
     float magicRange = 10.0f;
 
     //魔法のライフ
-    int magicLife = 3;
+    int magicLife = 1;
 
 
     

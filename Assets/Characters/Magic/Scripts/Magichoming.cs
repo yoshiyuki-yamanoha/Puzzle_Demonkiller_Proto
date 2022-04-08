@@ -11,6 +11,9 @@ public class Magichoming : MonoBehaviour
     //炎上エフェクト
     [SerializeField] GameObject fireEffe;
 
+    //炎のかべ　エフェクト
+    [SerializeField] GameObject fireWallEffe;
+
     //凍結エフェクト
     [SerializeField] GameObject iceEffe;
 
@@ -123,12 +126,34 @@ public class Magichoming : MonoBehaviour
                 //発生する追加効果の種類別の処理
                 {
                     //炎上 レベルにより範囲が変わる
-                    if (magicType == 0) {
+                    if (magicType == 0)
+                    {
+                        GameObject fire;
                         //範囲により変わる爆発
-                        GenerationMagic(ExpMini, transform.position);
+                        fire = GenerationMagic(Exp, transform.position);
+                        // レベルに応じてスケールの変更
+                        float scalX = 1f;
+                        if (magicLevel > 0)
+                            scalX = magicLevel * 2f - 1f;
+                        
+                        fire.transform.localScale = new Vector3(scalX, scalX, scalX);
                         //炎上するやつ
-                        GameObject fire = GenerationMagic(fireEffe, transform.position);
-                        fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);
+                        //GameObject fire = GenerationMagic(fireEffe, transform.position);
+                        //fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);
+                    }
+
+                    if (magicType == 3) { 
+                        GameObject magBuf = GenerationMagic(fireWallEffe, transform.position);
+
+                        Vector3 magBufSca = magBuf.transform.localScale;
+
+                        magBuf.transform.Rotate(new Vector3(0, 90, 0));
+
+                        magBuf.transform.position += new Vector3(0,2.5f,0);
+
+                        float scalZ = magicLevel * 2f - 1f;
+
+                        magBuf.transform.localScale = new Vector3(magBufSca.x, magBufSca.y, magBufSca.z * scalZ);
                     }
 
                     //低下|凍結 レベルにより、速度低下率が変わる
