@@ -233,7 +233,7 @@ public class OrbGage : MonoBehaviour
             levv[i] = Orb_Level[i];
 
         {
-            if (levv[0] > 0) levv[0] = 2 * levv[0] - 1;
+            if (levv[0] > 0) levv[0] = 2 * levv[0] + 1;
             
             if (levv[3] > 0) levv[3] = 2 * levv[3] - 1;
 
