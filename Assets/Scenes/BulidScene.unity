@@ -1399,6 +1399,7 @@ GameObject:
   - component: {fileID: 222253784}
   - component: {fileID: 222253783}
   - component: {fileID: 222253782}
+  - component: {fileID: 222253785}
   m_Layer: 0
   m_Name: EnemyCamera
   m_TagString: Untagged
@@ -1471,6 +1472,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &222253785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222253781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9baf4233bde632249855e17f7b87bc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &272236974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3447,7 +3460,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0.12109375, y: 0.05078125, z: 0.03515625, w: -0.05078125}
+  m_BoundingSphereOverride: {x: 1.8e-43, y: 0, z: 9.1835e-41, w: 5.1134013e-37}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -7605,7 +7618,7 @@ PrefabInstance:
     - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: enemy_max
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5298066893699814274, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}

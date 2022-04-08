@@ -14,7 +14,6 @@ public class Enemy : EnemyBase
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;
         Fire.gameObject.SetActive(false);
-        Init_fire_color = Fire.color;//初期色を保存
     }
 
     void FixedUpdate()
@@ -121,11 +120,11 @@ public class Enemy : EnemyBase
 
 
         //pullします。
-        //if (other.CompareTag("Fire"))//燃焼のタグ
-        //{
-        //    Abnormal_condition = AbnormalCondition.Fire;
-        //    Fire_abnormality_turncount = 0;//持続リセット
-        //}
+        if (other.CompareTag("Fire"))//燃焼のタグ
+        {
+            Abnormal_condition = AbnormalCondition.Fire;
+            Fire_abnormality_turncount = 0;//持続リセット
+        }
     }
 
     //敵の攻撃

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
-    Color init_fire_color;
-
     bool endflg = false;
     bool init_search_flg = true;
     //前回の位置
@@ -96,7 +94,6 @@ public class EnemyBase : MonoBehaviour
 
 
     //参照用
-    public Color Init_fire_color { get => init_fire_color; set => init_fire_color = value; }
     public float Hp { get => hp; set => hp = value; }
     public float Attack { get => attack; }
     public float Speed { get => speed; set => speed = value; }
@@ -253,7 +250,6 @@ public class EnemyBase : MonoBehaviour
         {
             //2ダメージ減らす。
             Damage(2);
-            Fire.color = new Color(Init_fire_color.r, Init_fire_color.g, Init_fire_color.b, 1 / Fire_abnormality_turncount);
             enemy_anim.TriggerAttack("HitDamage");
         }
         else
