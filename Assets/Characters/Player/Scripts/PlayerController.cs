@@ -88,7 +88,5 @@ public class PlayerController : MonoBehaviour
         mh.magicType = type;
         mh.magicLevel = lv;
 
-        GameObject.Find("TrunManager").GetComponent<TrunManager>().SetTrunPhase(TrunManager.TrunPhase.Enemy);
-
     }
 }
