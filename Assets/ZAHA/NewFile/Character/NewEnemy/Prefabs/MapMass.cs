@@ -90,12 +90,19 @@ public class MapMass:MonoBehaviour
     [SerializeField] GameObject tilemas_prefab = null;
     [SerializeField] GameObject icemas_prefab = null;
 
+    struct MassState {
+        public int state;
+        public GameObject massObj;
+    }
+
     public enum Mapinfo
     {
         NONE,
         Enemy,
         Ice,
     }
+
+    MassState[,] masses = new MassState[15, 11];
 
     int[,] map = new int[15, 11]{
         {0,0,0,0,0,0,0,0,0,0,0},
@@ -115,8 +122,15 @@ public class MapMass:MonoBehaviour
         {0,0,0,0,0,0,0,0,0,0,0},
     };
 
+    
+
     public int[,] Map { get => map; set => map = value; }
     public GameObject Tilemas_prefab { get => tilemas_prefab;}
+
+
+
+    //魔法セレクターの座標 (添え字)
+    int selX, selY;
 
     private void Start()
     {
@@ -126,7 +140,7 @@ public class MapMass:MonoBehaviour
 
     void InstanceMap()
     {
-        GameObject obj;
+        GameObject obj = null;
         for (int y = 0; y < Map.GetLength(0); y++)
         {
             for (int x = 0; x < Map.GetLength(1); x++)
@@ -142,7 +156,41 @@ public class MapMass:MonoBehaviour
                         obj.transform.parent = rootobj_.transform;
                         break;
                 }
+
+                masses[y, x].state = 0;
+                masses[y, x].massObj = obj;
             }
         }
+    }
+    //指定した添え字のGameObjectを返してくれる関数
+    public GameObject GetGameObjectOfSpecifiedMass(int x,int y) {
+
+        return masses[y, x].massObj;
+    }
+
+    //全てのマスGameObjectをゲットする
+    public GameObject[] GetAllMassObjects() {
+
+        var m = new GameObject[masses.Length];
+        int n = 0;
+
+        foreach (var o in masses) {
+            m[n] = o.massObj;
+            n++;
+        }
+
+        return m;
+    }
+
+    //魔法セレクターの位置を格納
+    public void SetMagicMassSelector(int x,int y)
+    {
+        selX = x;
+        selY = y;
+    }
+
+    public (int,int) GetMAgicMassSelector() {
+
+        return (selX, selY);
     }
 }

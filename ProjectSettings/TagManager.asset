@@ -18,6 +18,7 @@ TagManager:
   - Wepon
   - Selecter
   - Fire
+  - ChangedMass
   layers:
   - Default
   - TransparentFX
