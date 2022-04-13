@@ -9,17 +9,20 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] TrunManager s_TrunManager;
     [SerializeField] PlayerController s_PlayerContoller;
 
-    int nowSelX = 0;
-    int nowSelY = 0;
+    int nowSelX = 5;
+    int nowSelY = 5;
 
     const int rit_Interval = 5;
     [SerializeField] int moveInterval = rit_Interval;
 
     [SerializeField] Material defMat;
     [SerializeField] Material selMat;
-    [SerializeField] Material eleMats;
+    [SerializeField] Material[] eleMats = new Material[3];
 
-    
+    private void Start()
+    {
+        s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
+    }
 
     private void FixedUpdate()
     {
@@ -60,7 +63,6 @@ public class MagicMassSelecter : MonoBehaviour
         float hori = Input.GetAxis("Horizontal");
         float vert = -Input.GetAxis("Vertical");
 
-        GameObject oldSelectedMass = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
         int oldSelX = nowSelX;
         int oldSelY = nowSelY;
 
@@ -74,6 +76,11 @@ public class MagicMassSelecter : MonoBehaviour
             if (vert <= -0.5f && nowSelY > 0) nowSelY--;
         }
 
+        if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false){
+            nowSelX = oldSelX;
+            nowSelY = oldSelY;
+        }
+
         //セレクターが移動されたら
         if(oldSelX != nowSelX || oldSelY != nowSelY){
 
@@ -82,7 +89,8 @@ public class MagicMassSelecter : MonoBehaviour
             BeDefaultMatOldChangeedMasses();
 
             //新選択マスのマテリアルを変える
-            ChangeMatSpecifiedMass(nowSelX, nowSelY, selMat);
+            //ChangeMatSpecifiedMass(nowSelX, nowSelY, 0);
+            s_MagicRangeDetector.ChangeMagicRange();
 
             //変更後のマス座標を渡す
             PassSelecterPos();
@@ -101,19 +109,19 @@ public class MagicMassSelecter : MonoBehaviour
 
         foreach (GameObject g in cMasses){
             g.GetComponent<Renderer>().material = defMat;
-            g.tag = "";
+            g.tag = "Untagged";
         }
 
     }
 
     //指定したマスのマテリアルを指定のものに変える
-    public void ChangeMatSpecifiedMass(int x,int y,Material mat) {
+    public void ChangeMatSpecifiedMass(GameObject obj,int colorType=0) {
 
-        GameObject speci = s_MapMass.GetGameObjectOfSpecifiedMass(x, y);
+        //GameObject speci = s_MapMass.GetGameObjectOfSpecifiedMass(x, y);
 
-        speci.GetComponent<Renderer>().material = mat;
+        obj.GetComponent<Renderer>().material = eleMats[colorType];
 
-        speci.tag = "ChangedMass";
+        obj.tag = "ChangedMass";
     }
 
     //セレクターの位置情報(添え字)をMapMassに渡す
@@ -129,9 +137,11 @@ public class MagicMassSelecter : MonoBehaviour
     //Aボタンで魔法を撃つ
     void ActivateMagic() {
 
+        GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
+
         if (Input.GetButtonDown("Fire1")) {
-            //s_PlayerContoller.ShotMagic()
-            Debug.Log("魔法を撃つ");
+            foreach (var g in attackRange)
+                s_PlayerContoller.ShotMagic(g, 0, 1);
         }
     }
 

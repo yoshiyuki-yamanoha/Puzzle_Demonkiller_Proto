@@ -15,6 +15,8 @@ public class SelectUseOrb : TrunManager
     //List<>
     public GameObject selecter;
 
+    [SerializeField] MagicRangeDetector s_MagicRangeDetector;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,17 +51,17 @@ public class SelectUseOrb : TrunManager
             // 前へ移動
             if (Input.GetButtonDown("Cont_L1"))
             {
-                Debug.Log("LB");
                 int moveL = -1;
                 ChangeUseOrb(moveL);
+                s_MagicRangeDetector.ChangeMagicRange();
             }
 
             // 後ろへ移動
             if (Input.GetButtonDown("Cont_R1"))
             {
-                Debug.Log("RB");
                 int moveR = 1;
                 ChangeUseOrb(moveR);
+                s_MagicRangeDetector.ChangeMagicRange();
             }
         }
     }

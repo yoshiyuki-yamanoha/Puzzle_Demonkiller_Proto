@@ -5,6 +5,9 @@ using System;
 
 public class MagicRangeDetector : TrunManager
 {
+    const int stageWidth = 11;
+    const int stageHeight = 15;
+
     public enum MagicType
     {
         FireStar = 0,
@@ -13,6 +16,12 @@ public class MagicRangeDetector : TrunManager
         FirePenta,
         IcePenta,
         ThunderPenta
+    }
+
+    struct MagicMassStatus {
+        public int x;
+        public int y;
+        public GameObject obj;
     }
 
 
@@ -40,7 +49,6 @@ public class MagicRangeDetector : TrunManager
     MagicType oldMagicType;
     int magicLevel;
     int oldTyp, oldLev;
-    GameObject[,] magicRange;
 
     private void FixedUpdate()
     {
@@ -50,7 +58,8 @@ public class MagicRangeDetector : TrunManager
         GetOrInfobTick();
 
         //魔法の種類によって魔法の範囲を変える
-        ChangeMagicRange();
+
+        //ChangeMagicRange();
         
 
     }
@@ -76,35 +85,113 @@ public class MagicRangeDetector : TrunManager
 
     }
 
+    GameObject[] retRange;
+
     //魔法を撃つターンになった瞬間にセレクタを中心に魔法の範囲を求める。
-    void ChangeMagicRange() {
+    public void ChangeMagicRange() {
 
         //現在のセレクターの位置を取得 (添え字)
         int selX=0, selY=0;
         /*SelectSquares から massHとmassVを取ってきて格納する*/
         (selX, selY) = s_MagicMassSelecter.GetCurrentSelecerPos();
 
+        Debug.Log("x:" + selX + " y:" + selY);
+
+        MagicMassStatus[,] magicRange = null;
+
+        //範囲の最初
+        Vector2Int rangeStart;
+        int num;
 
         switch (magicType) {
             case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
 
                 //左上
-                Vector2Int upperLeft = new Vector2Int();
-                upperLeft.x = selX - magicLevel;
-                upperLeft.y = selY - magicLevel;
-
-                //右下
-                Vector2Int lowerRight = new Vector2Int();
-                lowerRight.x = selX + magicLevel;
-                lowerRight.y = selY + magicLevel;
-
+                rangeStart = new Vector2Int();
+                rangeStart.x = selX - magicLevel;
+                rangeStart.y = selY - magicLevel;
                 
-                int num = magicLevel * 2 + 1;
-                magicRange = new GameObject[num,num];
+                num = magicLevel * 2 + 1;
+                magicRange = new MagicMassStatus[num,num];
+
                 for (int i = 0; i < num; i++) {
-                    magicRange[i / num, i % num] = s_MapMass.GetGameObjectOfSpecifiedMass(i % num, i / num);
+                    for (int j = 0; j < num; j++) {
+                        magicRange[i, j].y = rangeStart.y + i;
+                        magicRange[i, j].x = rangeStart.x + j;
+                        magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y + i);
+                    }
                 }
 
+
+                break;
+            case MagicType.IceStar:      //五芒星　氷 (選択マスを中心にステージ縦(レベル)列)　ボスにも当たる
+
+                rangeStart = new Vector2Int();
+                rangeStart.x = magicLevel < 3 ? selX : selX - 1;
+                rangeStart.y = 0;
+
+                magicRange = new MagicMassStatus[15, magicLevel];
+
+                for (int i = 0; i < 15; i++)
+                {
+                    for (int j = 0; j < magicLevel; j++)
+                    {
+                        magicRange[i, j].y = i;
+                        magicRange[i, j].x = rangeStart.x + j;
+                        magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, i);
+                    }
+                }
+
+
+                break;
+            case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
+
+
+
+                break;
+            case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
+
+
+
+                break;
+            case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
+
+
+
+                break;
+            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
+
+
+
+                break;
+        }
+
+        if (magicRange == null) return;
+
+        retRange = new GameObject[magicRange.Length];
+        int n = 0;
+
+        foreach (var g in magicRange) {
+            //s_MagicMassSelecter.ChangeMatSpecifiedMass(g.x,g.y,((int)magicType%3));
+            s_MagicMassSelecter.ChangeMatSpecifiedMass(g.obj, (int)magicType % 3);
+            retRange[n++] = g.obj;
+        }
+    }
+
+    public GameObject[] GetCurrentAttackRange() {
+
+        return retRange;
+    }
+
+    //魔法の範囲がステージ外に出ないようにするゴリラ
+    public bool MagicRangeOverhangStageMap(int x,int y) {
+
+        //魔法の種類によって行ける範囲を変える
+        switch (magicType) {
+            case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
+
+                if ((x - magicLevel) < 0 || (x + magicLevel > stageWidth - 1)) return false;
+                if ((y - magicLevel) < 0 || (y + magicLevel > stageHeight - 1)) return false;
 
                 break;
             case MagicType.IceStar:      //五芒星　氷 (選択マスを中心にステージ縦(レベル)列)　ボスにも当たる
@@ -134,23 +221,8 @@ public class MagicRangeDetector : TrunManager
                 break;
         }
 
+        //問題なし
+        return true;
     }
-
-    //オーブのレベルを取ってくる
-    //void GetOrbLevelSet() {
-
-    //    //取ってくる
-    //    var levels = s_OrbGage.Get_Orb_Level();
-
-    //    //領域を確保
-    //    orbLevelKeeper = new int[levels.Length];
-
-    //    //領域にコピー
-    //    for (int i = 0; i < levels.Length; i++)
-    //        orbLevelKeeper[i] = levels[i];
-
-    //    //連続で行われないようにフラグを立てる
-    //    getLevelFlag = false;
-    //}
 
 }
