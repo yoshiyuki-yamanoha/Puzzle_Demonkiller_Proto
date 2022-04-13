@@ -9,18 +9,21 @@ public class PlayerCameraTest : TrunManager
     private GameObject mainCamera;
     private GameObject subCamera;
     private bool MSCameraflag;
-    private GameObject selector;
+    private GameObject selepos;//セレクターの位置情報
+    private MapMass selector;
     private Vector3 subCamePos;
 
     private Vector3 start;
     private Vector3 target;
 
-    private float startTime;
-    private float distance;//範囲
+    public float startTime;//開始時間
+    private float distance = 15;//範囲
 
 
-    public float Speed = 0.2f;
+    public float Speed = 0.1f;
     public float JourneyLength = 10f;
+    bool moveflag = false;
+    private int soeX, soeY; //添え字
 
     TrunManager trunMgr;
 
@@ -30,43 +33,84 @@ public class PlayerCameraTest : TrunManager
         mainCamera = GameObject.Find("Main Camera");
         subCamera = GameObject.Find("SubCamera");
 
-        subCamera.SetActive(false);
         MSCameraflag = false;
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
 
-        selector = GameObject.Find("Selector");
+        selector = GameObject.Find("MapInstance").GetComponent<MapMass>();
         start = selector.transform.position;
-        subCamera.transform.localPosition = new Vector3(start.x + 0f, start.y + 25f,start.z - 60f);
+        subCamera.transform.localPosition = new Vector3(start.x + 0f, start.y + 85/*25f*/,start.z - 62f);
 
 
         startTime = Time.time;
+
+        subCamera.SetActive(false);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //subCamePos = subCamera.transform.position;
-        //target = new Vector3(selector.transform.position.x, selector.transform.position.y + 25, selector.transform.position.z - 27);
-        //MagicCameraOn();
-        ////subCamera.transform.position = new Vector3(selector.transform.position.x,( selector.transform.position.y + 25), (selector.transform.position.z -27));
-        //if ((target.x > subCamePos.x + distance && target.x < subCamePos.x - distance) && (target.z > subCamePos.z + distance && target.z < subCamePos.z - distance))
+        (soeX, soeY) = selector.GetMAgicMassSelector();
+        selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
+        subCamePos = subCamera.transform.position; //subCamera.transform.position;
+        start = subCamera.transform.position;  //subCamera.transform.position;
+        target = new Vector3(/*selector.transform.position.x*/25, selepos.transform.position.y + 25, selepos.transform.position.z - 27);
+        MagicCameraOn();
+        //subCamera.transform.position = new Vector3(selector.transform.position.x,( selector.transform.position.y + 25), (selector.transform.position.z -27));
+        //if (target.x > subCamePos.x - distance || target.x < subCamePos.x + distance)
         //{
         //    subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
-        //    start = subCamera.transform.position;
         //}
+        //if(target.z > subCamePos.z - distance || target.z < subCamePos.z + distance)
+        //{
+        //    subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
+        //}
+        if (MSCameraflag == true)
+        {
+            if (/*(target.x < 30 && target.x > 20) || */(target.z < -31 && target.z > -93))
+            {
+                if (moveflag == true) {
+                    startTime = Time.time;
+                    moveflag = false;
+                }
+                subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
+                if(subCamera.transform.position == target )
+                {
+                    moveflag = true;
+                }
+            }
+        }
+        else
+        {
+            subCamera.transform.position = mainCamera.transform.position;
+            moveflag = true;
+        }
+        
     }
 
     public void MagicCameraOn()//魔法を撃つときにカメラを魔法を撃つときのカメラを起動
     {
-        //subCamera.transform.localPosition = new Vector3(0f, 25f, -60f);
         if (/*(Input.GetButtonDown("Fire3") && MSCameraflag == false)||*/ trunMgr.GetTrunPhase() == TrunPhase.MagicAttack)
         {
+            if(MSCameraflag == false)
+            {
+                //subCamera.transform.localPosition = new Vector3(selector.transform.position.x, selector.transform.position.y + 25, selector.transform.position.z - 27);
+                
+                MSCameraflag = true;
+            }
+            //if (MSCameraflag == true)
+            //{
+            //    mainCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
+            //}
             //mainCamera.SetActive(false);
             subCamera.SetActive(true);
             //MSCameraflag = true;
         }
         else if (/*(Input.GetButtonDown("Fire3") && MSCameraflag == true)||*/ trunMgr.GetTrunPhase() == TrunPhase.Enemy)
         {
+            if (MSCameraflag == true)
+            {
+                MSCameraflag = false;
+            }
             //mainCamera.SetActive(true);
             subCamera.SetActive(false);
             //MSCameraflag = false;
@@ -76,9 +120,10 @@ public class PlayerCameraTest : TrunManager
     {
 
     }
-    float CalcMoveRatio()
+    public float CalcMoveRatio()
     {
-        var distCovered = (Time.time - startTime) * Speed;
+        float distCovered = 0;
+        distCovered = (Time.time - startTime) * Speed;
         return distCovered / JourneyLength;
     }
 
