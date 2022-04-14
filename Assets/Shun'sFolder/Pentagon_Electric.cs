@@ -24,22 +24,17 @@ public class Pentagon_Electric : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            GameObject cre_pos = Stage_mass.transform.GetChild(cre_X).GetChild(cre_Y).gameObject;
-            Create_turret(cre_pos, test_Level);
-        }
     }
 
     public void Create_turret(GameObject tage, int Lev)
     {
-        Vector3 cre_pos = tage.transform.position;
+        //Vector3 cre_pos = tage.transform.position;
         //タレットの生成位置の補正
-        cre_pos.z -= 2.0f;
+        //cre_pos.z -= 2.0f;
 
-        GameObject obj = Instantiate(Electric_Obj, cre_pos, Quaternion.identity);
+       // GameObject obj = Instantiate(Electric_Obj, cre_pos, Quaternion.identity);
 
-        obj.GetComponent<Ele_tur_Attack>().Set_Init(Lev, Get_Map_Pos(tage),Stage_mass);
+        //obj.GetComponent<Ele_tur_Attack>().Set_Init(Lev, Get_Map_Pos(tage));
     }
 
     private Vector2 Get_Map_Pos(GameObject _tage)

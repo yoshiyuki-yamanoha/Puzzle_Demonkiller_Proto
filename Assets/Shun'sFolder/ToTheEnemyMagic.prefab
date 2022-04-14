@@ -14274,9 +14274,9 @@ GameObject:
   - component: {fileID: 2932282478934241067}
   - component: {fileID: 2939286461948734787}
   - component: {fileID: 3030490025633587386}
-  - component: {fileID: 7997910257431475005}
+  - component: {fileID: 3460984257535905686}
   m_Layer: 0
-  m_Name: Magic fire yellow
+  m_Name: ToTheEnemyMagic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19035,7 +19035,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7997910257431475005
+--- !u!114 &3460984257535905686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19044,25 +19044,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3029636490363911873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ebb71c363253384e8f3f8125c5ee4ab, type: 3}
+  m_Script: {fileID: 11500000, guid: fd7c4990da5fc614d9c8077a921ba514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Exp: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
-  ExpMini: {fileID: 3039696356620164826, guid: 5bf74bfcfbf5d9f4aa0ce6d98fedba1f, type: 3}
-  fireEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893,
-    type: 3}
-  firetrapEffe: {fileID: 7439202838639495679, guid: 594fdbb45cdd1ef408f90abf6f63c453,
-    type: 3}
-  iceEffe: {fileID: 8134288693290019878, guid: b8a5f613167f3d5409fe7bb19cd0b858, type: 3}
-  Pentagon_thunEffe: {fileID: 979136706244064231, guid: b4a52b57d3672e141b8faaa417f94d86,
-    type: 3}
-  StarthunEffe: {fileID: 106988, guid: 1ef5181e63fe418438672359b2d47813, type: 3}
-  TargetObject: {fileID: 0}
-  TargetObjTest: {fileID: 0}
-  ClCh: {fileID: 0}
-  targetno: 0
-  magicLevel: 1
-  magicType: 0
+  magic:
+  - {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
+  - {fileID: 8134288693290019878, guid: b8a5f613167f3d5409fe7bb19cd0b858, type: 3}
+  - {fileID: 979136706244064231, guid: b4a52b57d3672e141b8faaa417f94d86, type: 3}
+  - {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
+  - {fileID: 8134288693290019878, guid: a998a99141ef2794e9d61df61a58d323, type: 3}
+  - {fileID: 979136706244064231, guid: b4a52b57d3672e141b8faaa417f94d86, type: 3}
 --- !u!1 &3029662380787672985
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,8 @@ public class Magichoming : MonoBehaviour
     [SerializeField] GameObject iceEffe;
 
     //雷エフェクト
-    [SerializeField] GameObject thunEffe;
+    [SerializeField] GameObject Pentagon_thunEffe;
+    [SerializeField] GameObject StarthunEffe;
 
     public GameObject TargetObject;
     private Vector3 TargetPos;
@@ -159,15 +160,30 @@ public class Magichoming : MonoBehaviour
                     }
 
                     //低下|凍結 レベルにより、速度低下率が変わる
-                    if (magicType == 1) {
+                    if (magicType == 1)
+                    {
                         //え＾～氷みたいなエフェクト
-                        GenerationMagic(iceEffe, transform.position, 1.0f);
+                        GameObject _magic = GenerationMagic(iceEffe, transform.position);
+                        _magic.GetComponent<Star_Ice>().Create_IceBergs(TargetObject);
+                        Destroy(gameObject);
                     }
 
                     //ジャンプ&スタン レベルにより、ジャンプ回数が変わる (3～7)
-                    if (magicType == 2) {
+                    if (magicType == 2)
+                    {
                         //雷エフェクト
-                        GenerationMagic(thunEffe, transform.position, 1.0f);
+                        GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
+
+                        _magic.GetComponent<Ele_tur_Attack>().Set_Init(magicLevel, TargetObject);
+                    }
+
+                    //雷のタレット
+                    if (magicType == 5)
+                    {
+                        //雷エフェクト
+                        GameObject _magic = GenerationMagic(Pentagon_thunEffe, transform.position);
+
+                        _magic.GetComponent<Ele_tur_Attack>().Set_Init(magicLevel, TargetObject);
                     }
                 }
 
