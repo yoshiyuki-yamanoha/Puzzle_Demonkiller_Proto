@@ -19,6 +19,8 @@ TagManager:
   - Selecter
   - Fire
   - ChangedMass
+  - Mass
+  - Core
   layers:
   - Default
   - TransparentFX

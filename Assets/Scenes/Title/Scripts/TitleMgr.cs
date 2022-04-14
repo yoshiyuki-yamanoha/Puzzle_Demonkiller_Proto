@@ -49,7 +49,7 @@ public class TitleMgr : MonoBehaviour
         }
 
         // 選択しているStageによって飛ばすシーンを変える
-        if (Input.GetButtonDown("Fire2")) {
+        if (Input.GetButtonDown("Fire1")) {
             switch (selecter) {
                 case Select.Start: GameMgr.Instance.GotoSelectScene(); break;
                 case Select.Quit: GameMgr.Instance.GotoQuit(); break;

@@ -31,6 +31,12 @@ public class Enemy : EnemyBase
             Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
         }
 
+        if (Core == null)// マネジコアステイトを取得
+        {
+            //Core = GameObject.Find("Core").GetComponent<ManageCoreState>();
+            Core = GameObject.FindWithTag("Core").GetComponent<ManageCoreState>();
+        }
+
         if (!Istrun)//自分のターンじゃない時
         {
             //魔法のターンの時に
@@ -265,7 +271,13 @@ public class Enemy : EnemyBase
                 Attacktime += Time.deltaTime; //3秒おきに攻撃
             }
 
-            if (Init_anim_flg) { Enemy_anim.TriggerAttack("Attack"); Init_anim_flg = false; }//攻撃trigger
+            if (Init_anim_flg)
+            {
+                Enemy_anim.TriggerAttack("Attack");
+                Init_anim_flg = false;
+                Core.ReceiveDamage();// コアのｈｐ減らす
+
+            }//攻撃trigger
 
             if (Attacktime > 2.5f)
             {

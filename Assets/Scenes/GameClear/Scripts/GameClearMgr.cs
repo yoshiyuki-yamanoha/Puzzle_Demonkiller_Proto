@@ -13,7 +13,7 @@ public class GameClearMgr : MonoBehaviour
     // Update is called once per frame
     void Update() {
         coolTime -= Time.deltaTime;
-        if (Input.GetButtonDown("Fire2") && coolTime <= 0.0f) {
+        if (Input.GetButtonDown("Fire1") && coolTime <= 0.0f) {
             coolTime = 0.5f;
             GameMgr.Instance.GotoTitleScene();
         }
