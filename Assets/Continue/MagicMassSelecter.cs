@@ -32,6 +32,7 @@ public class MagicMassSelecter : MonoBehaviour
     int selectsNum = 0;
     int selectsNumLimit = 0;
     GameObject[] selectTargets;
+    int bottomCost = 99;
 
 
     private void Start()
@@ -47,6 +48,8 @@ public class MagicMassSelecter : MonoBehaviour
 
             SubMoveInterval();
 
+            if(selectsNum > 0)
+                CalcBottomCost();
 
             if (selectType == 0) MoveSelecter();
             if (selectType == 1) MoveSelecterEnemy();
@@ -233,6 +236,13 @@ public class MagicMassSelecter : MonoBehaviour
 
             int oldDifY = 99;
 
+            //コストを求める
+            
+            int osepX=0, osepY=0;
+            if(selectsNum > 0)
+                (osepX, osepY) = GetOldSelectedEnemyPos();
+            
+
             //指定方向で近い敵を探して
             foreach (var e in enemies)
             {
@@ -242,9 +252,15 @@ public class MagicMassSelecter : MonoBehaviour
                 //今いる位置からの差分を求める
                 int difY = Mathf.Abs(yBuf - nowSelY);
 
+                Enemy s_Enemy = e.GetComponent<Enemy>();
+                int xCost = Mathf.Abs(osepX - s_Enemy.X);
+                int yCost = Mathf.Abs(osepY - s_Enemy.Y);
+                int eneCost = xCost + yCost;
+
                 //見てるx軸にその敵が居たら
                 if (xLine == xBuf && oldDifY > difY) {
 
+                    if (selectsNum > 0 && eneCost != bottomCost) continue;
                     nearX = xBuf;
                     nearY = yBuf;
                     oldDifY = difY;
@@ -286,6 +302,11 @@ public class MagicMassSelecter : MonoBehaviour
 
             int oldDifX = 99;
 
+            //コストを求める
+            int osepX=0, osepY=0;
+            if (selectsNum > 0)
+                (osepX, osepY) = GetOldSelectedEnemyPos();
+
             //指定方向で近い敵を探して
             foreach (var e in enemies)
             {
@@ -295,10 +316,15 @@ public class MagicMassSelecter : MonoBehaviour
                 //今いる位置からの差分を求める
                 int difX = Mathf.Abs(xBuf - nowSelX);
 
+                Enemy s_Enemy = e.GetComponent<Enemy>();
+                int xCost = Mathf.Abs(osepX - s_Enemy.X);
+                int yCost = Mathf.Abs(osepY - s_Enemy.Y);
+                int eneCost = xCost + yCost;
+
                 //見てるx軸にその敵が居たら
                 if (yLine == yBuf && oldDifX > difX)
                 {
-
+                    if (selectsNum > 0 && eneCost != bottomCost) continue;
                     nearX = xBuf;
                     nearY = yBuf;
                     oldDifX = difX;
@@ -321,6 +347,16 @@ public class MagicMassSelecter : MonoBehaviour
         return (nearX, nearY);
     }
 
+    //今いるマスにいる敵GameObjectを返す
+    GameObject GetEnemyObjectOnCurrentSelectMass() {
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var e in enemies)
+            if (e.GetComponent<Enemy>().X == nowSelX && e.GetComponent<Enemy>().Y == nowSelY) return e;
+
+        return null;
+    }
 
     //マテリアルを変えたオブジェクトを全て戻す
     public void BeDefaultMatOldChangeedMasses() {
@@ -354,6 +390,8 @@ public class MagicMassSelecter : MonoBehaviour
         return (nowSelX, nowSelY);
     }
 
+    
+
     //Aボタンで魔法を撃つ
     void ActivateMagic() {
 
@@ -362,8 +400,8 @@ public class MagicMassSelecter : MonoBehaviour
 
         GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
 
-        //五芒星雷魔法 と 五角形雷魔法 以外
-        if (typ != 2 && typ != 4)
+        //五芒星雷魔法 と 五角形炎魔法 以外
+        if (typ != 2 && typ != 3)
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -379,16 +417,16 @@ public class MagicMassSelecter : MonoBehaviour
 
                     //選択上限
                     if (typ == 2) selectsNumLimit = lev;
-                    if (typ == 4) selectsNumLimit = lev + 1;
+                    if (typ == 3) selectsNumLimit = lev + 1;
 
                     selectTargets = new GameObject[selectsNumLimit];
                 }
 
-                //被って無ければその場所をマークしカウント
-                //foreach(var g in selectTargets)
-                //    if(g )
-                
-
+                //現在選択中のエネミー
+                if(typ == 2)
+                    selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
+                if (typ == 3)
+                    selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
 
                 //カウント
                 selectsNum++;
@@ -397,12 +435,56 @@ public class MagicMassSelecter : MonoBehaviour
                 if (selectsNum >= selectsNumLimit) {
 
                     //魔法を放つ
-
+                    if(typ == 2)
+                        s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
+                    if(typ == 3)
+                        foreach(var g in selectTargets)
+                            s_PlayerContoller.ShotMagic(g, typ, lev);
 
                     selectsNum = 0;
                 }
             }
         }
+    }
+
+    //複数選択魔法で2体目以降選択時に、最低コストを求める
+    void CalcBottomCost() {
+
+        if (selectTargets[0].GetComponent<Enemy>() == null) return;
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        GameObject objj = selectTargets[selectsNum - 1];
+
+        foreach (var e in enemies) {
+
+            if (e == objj) continue;
+
+            int oldSelectEnemyX, oldSelectEnemyY;
+            (oldSelectEnemyX, oldSelectEnemyY) = GetOldSelectedEnemyPos();
+
+            //敵との距離コスト
+            Enemy s_Enemy = e.GetComponent<Enemy>();
+            int xCost = Mathf.Abs(oldSelectEnemyX - s_Enemy.X);
+            int yCost = Mathf.Abs(oldSelectEnemyY - s_Enemy.Y);
+            int eneCost = xCost + yCost;
+
+            //最も近い敵のコストを入れる
+            if (eneCost < bottomCost) {
+                bottomCost = eneCost;
+            }
+        }
+    }
+
+    //直近選択した敵の座標を返す
+    (int, int) GetOldSelectedEnemyPos() {
+
+        //直近選択した敵の座標
+        Enemy s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<Enemy>();
+        int x = s_EnemyOld.X;
+        int y = s_EnemyOld.Y;
+
+        return (x, y);
     }
 
 }
