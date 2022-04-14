@@ -33,7 +33,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] int y = 0;//次の位置の要素数
 
     [SerializeField] TrunManager trun_manager = null;
-    Transform core = null;
+    [SerializeField] ManageCoreState core = null;
 
     bool targetchangeflg = true;//次の目的値を切り替えるフラグ
     float targetdistance = 0.1f;
@@ -113,7 +113,7 @@ public class EnemyBase : MonoBehaviour
     public EnemyAnimationBase Enemy_anim { get => enemy_anim; set => enemy_anim = value; }
     public float Targetdistance { get => targetdistance; }
     public float Targetchangetime { get => targetchangetime; set => targetchangetime = value; }
-    public Transform Core { get => core; set => core = value; }
+    public ManageCoreState Core { get => core; set => core = value; }
     public bool Rangechek { get => rangechek; set => rangechek = value; }
     public float Attacktime { get => attacktime; set => attacktime = value; }
     public bool Attackflg { get => attackflg; set => attackflg = value; }
@@ -167,7 +167,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (Core == null)
         {
-            Core = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            Core = GameObject.FindWithTag("Core").GetComponent<ManageCoreState>();
         }
     }
 

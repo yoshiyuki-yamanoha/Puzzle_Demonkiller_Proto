@@ -89,6 +89,7 @@ public class MapMass:MonoBehaviour
     GameObject rootobj_;
     [SerializeField] GameObject tilemas_prefab = null;
     [SerializeField] GameObject icemas_prefab = null;
+    [SerializeField] GameObject core_prefab = null;
 
     struct MassState {
         public int state;
@@ -100,6 +101,7 @@ public class MapMass:MonoBehaviour
         NONE,
         Enemy,
         Ice,
+        core,
     }
 
     MassState[,] masses = new MassState[15, 11];
@@ -119,7 +121,7 @@ public class MapMass:MonoBehaviour
         {0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,3,0,0,0,0,0},
     };
 
     
@@ -154,6 +156,14 @@ public class MapMass:MonoBehaviour
                     case (int)Mapinfo.Ice:
                         obj = Instantiate(icemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;
+                        break;
+                    case (int)Mapinfo.core:
+                        obj = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y*2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        //obj.transform.parent = rootobj_.transform;
+                        obj.gameObject.name = "Core";
+                        obj.gameObject.tag = "Core";
+                        obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
                         break;
                 }
 
