@@ -90,12 +90,12 @@ public class MagicRangeDetector : TrunManager
     //魔法を撃つターンになった瞬間にセレクタを中心に魔法の範囲を求める。
     public void ChangeMagicRange() {
 
+        s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
+
         //現在のセレクターの位置を取得 (添え字)
         int selX=0, selY=0;
         /*SelectSquares から massHとmassVを取ってきて格納する*/
         (selX, selY) = s_MagicMassSelecter.GetCurrentSelecerPos();
-
-        Debug.Log("x:" + selX + " y:" + selY);
 
         MagicMassStatus[,] magicRange = null;
 
@@ -105,6 +105,7 @@ public class MagicRangeDetector : TrunManager
 
         switch (magicType) {
             case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
+            case MagicType.ThunderPenta:
 
                 //左上
                 rangeStart = new Vector2Int();
@@ -145,23 +146,56 @@ public class MagicRangeDetector : TrunManager
 
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
-
-
-
-                break;
             case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
 
-
+                magicRange = new MagicMassStatus[1, 1];
+                magicRange[0,0].y = selY;
+                magicRange[0,0].x = selX;
+                magicRange[0, 0].obj = s_MapMass.GetGameObjectOfSpecifiedMass(selX, selY);
 
                 break;
+
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
+                if (magicLevel < 3)
+                {
+                    rangeStart = new Vector2Int();
+                    rangeStart.x = selX - magicLevel;
+                    rangeStart.y = selY;
 
+                    num = magicLevel * 2 + 1;
+                    magicRange = new MagicMassStatus[1, num];
 
-                break;
-            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
+                    for (int i = 0; i < 1; i++)
+                    {
+                        for (int j = 0; j < num; j++)
+                        {
+                            magicRange[i, j].y = rangeStart.y;
+                            magicRange[i, j].x = rangeStart.x + j;
+                            magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y);
+                        }
+                    }
+                }
+                else {
 
+                    rangeStart = new Vector2Int();
+                    rangeStart.x = selX - 1;
+                    rangeStart.y = selY - 1;
 
+                    num = magicLevel;
+                    magicRange = new MagicMassStatus[num, num];
+
+                    for (int i = 0; i < num; i++)
+                    {
+                        for (int j = 0; j < num; j++)
+                        {
+                            magicRange[i, j].y = rangeStart.y + i;
+                            magicRange[i, j].x = rangeStart.x + j;
+                            magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y + i);
+                        }
+                    }
+
+                }
 
                 break;
         }
@@ -172,7 +206,6 @@ public class MagicRangeDetector : TrunManager
         int n = 0;
 
         foreach (var g in magicRange) {
-            //s_MagicMassSelecter.ChangeMatSpecifiedMass(g.x,g.y,((int)magicType%3));
             s_MagicMassSelecter.ChangeMatSpecifiedMass(g.obj, (int)magicType % 3);
             retRange[n++] = g.obj;
         }
@@ -196,33 +229,44 @@ public class MagicRangeDetector : TrunManager
                 break;
             case MagicType.IceStar:      //五芒星　氷 (選択マスを中心にステージ縦(レベル)列)　ボスにも当たる
 
-
+                if (magicLevel < 3)
+                {
+                    if (x < 0 || (x + (magicLevel - 1) > stageWidth - 1)) return false;
+                }
+                else
+                    if ((x - 1) < 0 || (x + 1 > stageWidth - 1)) return false;
 
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
-
-
-
-                break;
             case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 )
+            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
 
-
+                if (x < 0 || x >= stageWidth) return false;
+                if (y < 0 || y >= stageHeight) return false;
 
                 break;
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
-
-
-                break;
-            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
-
-
+                if (magicLevel < 3)
+                {
+                    if ((x - magicLevel) < 0 || (x + magicLevel > stageWidth - 1)) return false;
+                    if (y < 0 || y> stageHeight - 1) return false;
+                }
+                else {
+                    if ((x - 1) < 0 || (x + 1 > stageWidth - 1)) return false;
+                    if ((y - 1) < 0 || (y + 1 > stageHeight - 1)) return false;
+                }
 
                 break;
         }
 
         //問題なし
         return true;
+    }
+
+    public (int, int) GetOrbInfo() {
+
+        return ((int)magicType, magicLevel);
     }
 
 }

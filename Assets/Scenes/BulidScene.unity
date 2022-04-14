@@ -2197,6 +2197,7 @@ MonoBehaviour:
   selecter: {fileID: 5840325049715654384, guid: 174862645efbd244c9cf110b1d617026,
     type: 3}
   s_MagicRangeDetector: {fileID: 1324937677}
+  s_MagicMassSelecter: {fileID: 1324937678}
 --- !u!1 &408220788
 GameObject:
   m_ObjectHideFlags: 0
@@ -6255,6 +6256,7 @@ MonoBehaviour:
   s_MagicRangeDetector: {fileID: 1324937677}
   s_TrunManager: {fileID: 1973512903}
   s_PlayerContoller: {fileID: 387063139}
+  s_SelectUseOrb: {fileID: 0}
   moveInterval: 8
   defMat: {fileID: 2100000, guid: 03bd71a8bdc9f5e449ade5d7c0705c92, type: 2}
   selMat: {fileID: 2100000, guid: 00e5754a17057b54ea677fd1d0aedd44, type: 2}

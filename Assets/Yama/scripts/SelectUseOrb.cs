@@ -16,6 +16,11 @@ public class SelectUseOrb : TrunManager
     public GameObject selecter;
 
     [SerializeField] MagicRangeDetector s_MagicRangeDetector;
+    [SerializeField] MagicMassSelecter s_MagicMassSelecter;
+
+    //オーブの切り替えを出来ないようにする
+    bool notSwitchOrb = false;
+    public bool osf { get => notSwitchOrb; set => notSwitchOrb = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -24,9 +29,10 @@ public class SelectUseOrb : TrunManager
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        SelectOrb_Update();
+        if(!notSwitchOrb)
+            SelectOrb_Update();
     }
 
     /// <summary>
@@ -53,7 +59,6 @@ public class SelectUseOrb : TrunManager
             {
                 int moveL = -1;
                 ChangeUseOrb(moveL);
-                s_MagicRangeDetector.ChangeMagicRange();
             }
 
             // 後ろへ移動
@@ -61,7 +66,6 @@ public class SelectUseOrb : TrunManager
             {
                 int moveR = 1;
                 ChangeUseOrb(moveR);
-                s_MagicRangeDetector.ChangeMagicRange();
             }
         }
     }
@@ -105,6 +109,13 @@ public class SelectUseOrb : TrunManager
 
         // クールタイムの追加
         waitTime = coolTimeMax;
+
+        //五芒星雷のときのみ敵選択モードに切り替え
+        if (nowSelOrb == 2) s_MagicMassSelecter.SwitchSelectType(1);
+        else s_MagicMassSelecter.SwitchSelectType(0);
+
+        //魔法の範囲を変える
+        s_MagicRangeDetector.ChangeMagicRange();
     }
 
     /// <summary>

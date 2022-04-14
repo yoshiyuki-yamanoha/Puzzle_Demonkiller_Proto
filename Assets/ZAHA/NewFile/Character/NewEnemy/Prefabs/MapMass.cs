@@ -165,6 +165,9 @@ public class MapMass:MonoBehaviour
     //指定した添え字のGameObjectを返してくれる関数
     public GameObject GetGameObjectOfSpecifiedMass(int x,int y) {
 
+        if (y > Map.GetLength(0) - 1 || y < 0) return null;
+        if (x > Map.GetLength(1) - 1 || x < 0) return null;
+
         return masses[y, x].massObj;
     }
 
