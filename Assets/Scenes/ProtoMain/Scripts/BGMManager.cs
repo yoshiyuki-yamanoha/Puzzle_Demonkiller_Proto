@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BGMManager : MonoBehaviour
 {
@@ -26,13 +27,23 @@ public class BGMManager : MonoBehaviour
         switch (bgmName)
         {
             case "TITLEBGM"://1　タイトルBGM
-                audioSource.PlayOneShot(audioClips[0], 0.2f);
+                
+                audioSource.clip = audioClips[0];
+                audioSource.loop = true;
+                audioSource.Play();
                 break;
             case "PLAYBGM"://2　プレイBGM
-                audioSource.PlayOneShot(audioClips[1], 0.5f);
+ 
+                audioSource.clip = audioClips[1];
+                audioSource.loop = true;
+                audioSource.volume = 0.6f;
+                audioSource.Play();
                 break;
             case "ENDBGM"://3　エンドBGM
-                audioSource.PlayOneShot(audioClips[2], 0.5f);
+                audioSource.clip = audioClips[2];
+                audioSource.loop = true;
+                audioSource.volume = 0.6f;
+                audioSource.Play();
                 break;
         }
     }
