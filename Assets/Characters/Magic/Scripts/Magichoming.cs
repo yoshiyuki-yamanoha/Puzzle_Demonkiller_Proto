@@ -47,6 +47,8 @@ public class Magichoming : MonoBehaviour
 
     GameObject Enemies;
 
+    public GameObject[] targets;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -174,7 +176,9 @@ public class Magichoming : MonoBehaviour
                         //雷エフェクト
                         GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
 
-                        _magic.GetComponent<Ele_tur_Attack>().Set_Init(magicLevel, TargetObject);
+                        ThunderSelect ts = _magic.GetComponent<ThunderSelect>();
+                        ts.Set_List(targets);
+                        ts.ThunderSelecter();
                     }
 
                     //雷のタレット

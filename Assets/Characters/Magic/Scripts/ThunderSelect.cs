@@ -34,12 +34,12 @@ public class ThunderSelect : MonoBehaviour
     }
     public void ThunderSelecter()
     {
-        Electricobj = Instantiate(ElectricCurrent, transform.position, transform.rotation);
+        //Electricobj = Instantiate(ElectricCurrent, transform.position, transform.rotation);
         lb = Electricobj.GetComponent<LightningBoltScript>();
-        //lb.StartObject = KillEnemyList_Thunder[now];
-        //lb.EndObject = KillEnemyList_Thunder[next];
-        lb.StartObject = test[now];
-        lb.EndObject = test[next];
+        lb.StartObject = KillEnemyList_Thunder[now];
+        lb.EndObject = KillEnemyList_Thunder[next];
+        //lb.StartObject = test[now];
+        //lb.EndObject = test[next];
     }
 
     public void ThunderSelecter_Add()
@@ -48,5 +48,13 @@ public class ThunderSelect : MonoBehaviour
         now++;
         next++;
         ThunderSelecter();
+    }
+
+    public void Set_List(GameObject[] objs)
+    {
+        foreach(GameObject obj in objs)
+        {
+            KillEnemyList_Thunder.Add(obj);
+        }
     }
 }

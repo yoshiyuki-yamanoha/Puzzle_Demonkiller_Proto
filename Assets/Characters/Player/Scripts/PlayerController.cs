@@ -86,6 +86,18 @@ public class PlayerController : MonoBehaviour
             mh.magicType = type;
             mh.magicLevel = lv;
         }
+        else if(type == 2)
+        {
+            Magichoming mh = Magic.GetComponent<Magichoming>();
+
+            //魔法とんでいくターゲットを変える。
+            mh.TargetObject = tage;
+
+            //魔法の種類とレベルを反映する
+            mh.magicType = type;
+            mh.magicLevel = lv;
+            mh.targets = targets;
+        }
         else
         {
             foreach (GameObject target in targets)
