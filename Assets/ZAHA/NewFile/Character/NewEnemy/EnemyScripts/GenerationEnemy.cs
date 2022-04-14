@@ -22,7 +22,8 @@ public class GenerationEnemy : PseudoArray
     float enemy_count = 0;//エネミーカウント
     int enemy_kinds_max = 0;//敵種類
     int enemy_oneturn_count = 0;
-    int enemy_oneturn_max = 4;
+    int enemy_oneturn_max = 0;  //1ターンに出る敵の最大大数
+    int Turn_Count = 1;  //1ターン目からターン数を数える（規定ターン数に敵を沸く処理を作る用
     //public GameObject[] rootpos = null;//親オブジェクト
     public bool initflg = true;
     float time = 0;
@@ -77,6 +78,18 @@ public class GenerationEnemy : PseudoArray
             //生成する状態なら
             if (is_generation)
             {
+                switch (Turn_Count) //ターンごとに敵の出る量を調整します  caseを使ってターンごとの沸きを調整できます
+                {                   //使い方：case敵の量を変えたいターンの数字を追加→enemy_oneturun_maxに敵を出したい数を代入（最低1体）
+                    case 1: //ターン1
+                        enemy_oneturn_max = 3;
+                        break;
+                    case 2: //ターン2 
+                        enemy_oneturn_max = 0;
+                        break;
+                    case 3: //ターン3
+                        enemy_oneturn_max = 2;
+                        break;
+                }
                 if (time > interval_s)//秒おきに生成
                 {
                     
@@ -88,9 +101,9 @@ public class GenerationEnemy : PseudoArray
                             enemy_oneturn_max = enemy_max;
                         }
 
-                        int Enemy_kinds_max = Random.Range(0, enemy_kinds_max);
-                        int randomX = Random.Range(0, max_x);
-                        int randomY = Random.Range(0, max_y - 7);
+                        int Enemy_kinds_max = Random.Range(0, enemy_kinds_max); //////敵の位置関係？
+                        int randomX = Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
+                        int randomY = Random.Range(0, max_y - 7);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
 
                         //生成する位置が誰もいない時 敵以外なら生成
                         if (map.Map[randomY , randomX] != (int)MapMass.Mapinfo.Enemy)
@@ -158,6 +171,8 @@ public class GenerationEnemy : PseudoArray
             {
                 turn_initflg = true;
                 exit_time = 0;
+                //Debug.Log("ターンカウントとトトと十っと夫とトト:" + Turn_Count);
+                Turn_Count++;  //ターンを加算していく
                 trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 search_count = 0;
                 //enemy_camera.depth = -2;
@@ -185,7 +200,10 @@ public class GenerationEnemy : PseudoArray
 
         Vector3 offset = new Vector3(0,  0.5f, 0);//キャラの高さ分調整用
 
-        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//生成
+
+
+
+        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemypos + offset, new Quaternion(0, 180.0f, 0, 1),transform);//生成
         enemy_instantiate.name =  enemy_prefab[num].name + enemy_count.ToString();
 
         //スタートポジションを教えてあげる。生成したプレファブに
@@ -207,8 +225,9 @@ public class GenerationEnemy : PseudoArray
         enemy_count++;//敵をカウント
         enemy_oneturn_count++;//1ターンでのカウント
 
-        if (enemy_oneturn_count >= enemy_oneturn_max)
+        if (enemy_oneturn_count >= enemy_oneturn_max)  //enemy_oneturn_maxの数敵が出てくる：ここでターン＋
         {
+            
             is_generation = false;//終了
             turn_exit_flg = true;
             enemy_oneturn_count = 0;

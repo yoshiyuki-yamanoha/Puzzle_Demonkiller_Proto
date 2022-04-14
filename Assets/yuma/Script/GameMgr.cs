@@ -32,6 +32,18 @@ public class GameMgr : SingletonMonoBehaviour<GameMgr>
         SceneManager.LoadScene(sceneName);
     }
 
+    // タイトルシーンへ遷移する
+    public void GotoTitleScene() {
+
+        ChangeScene("TitleScene");
+    }
+
+    // タイトルシーンへ遷移する
+    public void GotoSelectScene() {
+
+        ChangeScene("SelectScene");
+    }
+
     // Stage1シーンへ遷移する
     public void GotoBuildScene()
     {
@@ -39,17 +51,32 @@ public class GameMgr : SingletonMonoBehaviour<GameMgr>
         ChangeScene("BulidScene");
     }
 
-    // Stage1シーンへ遷移する
-    public void GotoTitleScene() {
+    // Stage2シーンへ遷移する
+    public void GotoStage2Scene() {
 
-        ChangeScene("TitleScene");
+        ChangeScene("Stage2Scene");
     }
 
+    // Stage3シーンへ遷移する
+    public void GotoStage3Scene() {
+
+        ChangeScene("Stage3Scene");
+    }
+
+    // ゲームクリアシーンへ遷移する
+    public void GotoGameClearScene() {
+
+        ChangeScene("GameClearScene");
+    }
+    // ゲームオーバーシーンへ遷移する
+    public void GotoGameOverScene() {
+
+        ChangeScene("GameOverScene");
+    }
 
     // ゲームを終了する
     public void GotoQuit()
     {
-
         Application.Quit();
     }
 
