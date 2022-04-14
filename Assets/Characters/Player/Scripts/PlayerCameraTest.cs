@@ -11,7 +11,7 @@ public class PlayerCameraTest : TrunManager
     private bool MSCameraflag;
     private GameObject selepos;//セレクターの位置情報
     private MapMass selector;
-    private Vector3 subCamePos;
+    //private Vector3 subCamePos;
 
     private Vector3 start;
     private Vector3 target;
@@ -19,8 +19,10 @@ public class PlayerCameraTest : TrunManager
     public float startTime;//開始時間
     private float distance = 15;//範囲
 
+    private float defSpeed = 1f;//Defaultのスピード
+    private float maAtakSelectSpeed = 5f;//魔法を撃つときのカメラのスピード
+    private float speed;//計算用のスピード
 
-    public float Speed = 0.1f;
     public float JourneyLength = 10f;
     bool moveflag = false;
     private int soeX, soeY; //添え字
@@ -37,9 +39,8 @@ public class PlayerCameraTest : TrunManager
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
 
         selector = GameObject.Find("MapInstance").GetComponent<MapMass>();
-        start = selector.transform.position;
         subCamera.transform.localPosition = new Vector3(start.x + 0f, start.y + 85/*25f*/,start.z - 62f);
-
+        speed = defSpeed;
 
         startTime = Time.time;
 
@@ -51,40 +52,13 @@ public class PlayerCameraTest : TrunManager
     {
         (soeX, soeY) = selector.GetMAgicMassSelector();
         selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
-        subCamePos = subCamera.transform.position; //subCamera.transform.position;
-        start = subCamera.transform.position;  //subCamera.transform.position;
+        start = subCamera.transform.position;
         target = new Vector3(/*selector.transform.position.x*/25, selepos.transform.position.y + 25, selepos.transform.position.z - 27);
         MagicCameraOn();
-        //subCamera.transform.position = new Vector3(selector.transform.position.x,( selector.transform.position.y + 25), (selector.transform.position.z -27));
-        //if (target.x > subCamePos.x - distance || target.x < subCamePos.x + distance)
-        //{
-        //    subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
-        //}
-        //if(target.z > subCamePos.z - distance || target.z < subCamePos.z + distance)
-        //{
-        //    subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
-        //}
-        if (MSCameraflag == true)
-        {
-            if (/*(target.x < 30 && target.x > 20) || */(target.z < -31 && target.z > -93))
-            {
-                if (moveflag == true) {
-                    startTime = Time.time;
-                    moveflag = false;
-                }
-                subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
-                if(subCamera.transform.position == target )
-                {
-                    moveflag = true;
-                }
-            }
-        }
-        else
-        {
-            subCamera.transform.position = mainCamera.transform.position;
-            moveflag = true;
-        }
-        
+        MagicCameraMove();
+
+
+
     }
 
     public void MagicCameraOn()//魔法を撃つときにカメラを魔法を撃つときのカメラを起動
@@ -112,18 +86,42 @@ public class PlayerCameraTest : TrunManager
                 MSCameraflag = false;
             }
             //mainCamera.SetActive(true);
-            subCamera.SetActive(false);
+            subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
+
+            speed = defSpeed;//魔法を撃つ時のカメラを止めるときにspeedをリセットする
             //MSCameraflag = false;
         }
     }
     public void MagicCameraMove()
     {
+        if (MSCameraflag == true)
+        {
+            if (/*(target.x < 30 && target.x > 20) || */(soeY <= 14 && soeY >= 0))
+            {
+                if (moveflag == true)
+                {
+                    startTime = Time.time;
+                    moveflag = false;
+                    speed = maAtakSelectSpeed;//計算用のスピードに魔法を撃つときのカーソルを追いかけるスピードを入れる
+                }
+                subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
+                if (subCamera.transform.position == target)
+                {
+                    moveflag = true;
+                }
+            }
+        }
+        else
+        {
+            subCamera.transform.position = mainCamera.transform.position;
+            moveflag = true;
+        }
 
     }
     public float CalcMoveRatio()
     {
         float distCovered = 0;
-        distCovered = (Time.time - startTime) * Speed;
+        distCovered = (Time.time - startTime) * speed;
         return distCovered / JourneyLength;
     }
 
