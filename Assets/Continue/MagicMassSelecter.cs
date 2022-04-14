@@ -405,8 +405,18 @@ public class MagicMassSelecter : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                foreach (var g in attackRange)
-                    s_PlayerContoller.ShotMagic(g, typ, lev);
+                //全ます
+                if (typ == 0 || typ == 1 || typ == 4)
+                {
+                    s_PlayerContoller.ShotMagic(attackRange[0], typ, lev,attackRange);
+                }
+
+                //
+                if (typ == 5) {
+                    int center = attackRange.Length / 2;
+
+                    s_PlayerContoller.ShotMagic(attackRange[center], typ, lev, attackRange);
+                }
             }
         }
         else {  //複数設置型
@@ -435,11 +445,8 @@ public class MagicMassSelecter : MonoBehaviour
                 if (selectsNum >= selectsNumLimit) {
 
                     //魔法を放つ
-                    if(typ == 2)
+                    if(typ == 2 || typ == 3)
                         s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
-                    if(typ == 3)
-                        foreach(var g in selectTargets)
-                            s_PlayerContoller.ShotMagic(g, typ, lev);
 
                     selectsNum = 0;
                 }
