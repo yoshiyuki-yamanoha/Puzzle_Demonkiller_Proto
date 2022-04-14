@@ -19051,7 +19051,7 @@ MonoBehaviour:
   ExpMini: {fileID: 3039696356620164826, guid: 5bf74bfcfbf5d9f4aa0ce6d98fedba1f, type: 3}
   fireEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893,
     type: 3}
-  fireWallEffe: {fileID: 6845840081137956043, guid: 18a9a6e5f8c911c458aa71fdee3a7d8a,
+  firetrapEffe: {fileID: 7439202838639495679, guid: 594fdbb45cdd1ef408f90abf6f63c453,
     type: 3}
   iceEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893, type: 3}
   thunEffe: {fileID: 6059315198711866145, guid: 484fb08b99795cf49b2fe8af2eec4893,

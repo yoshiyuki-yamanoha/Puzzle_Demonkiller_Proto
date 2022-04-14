@@ -47,6 +47,8 @@ public class GenerationEnemy : PseudoArray
     //具志堅BGM処理7
     private BGMManager bgmPlay;
 
+
+
     // Start is called before the first frame update
     void Start()
     {

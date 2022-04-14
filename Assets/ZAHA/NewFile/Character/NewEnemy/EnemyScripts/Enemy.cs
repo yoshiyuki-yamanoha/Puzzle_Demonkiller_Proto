@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
+    Magichoming magichoming;
     private void Start()
     {
         Init_speed = Speed;//初期のスピード保存
@@ -108,6 +109,7 @@ public class Enemy : EnemyBase
         {
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
+            Destroy(other.gameObject);
         }
     }
 
