@@ -15,6 +15,16 @@ public class SelectUseOrb : TrunManager
     //List<>
     public GameObject selecter;
 
+    //オーブUIの情報 
+    private GameObject pofm;
+    private GameObject poim;
+    private GameObject potm;
+    private GameObject sofm;
+    private GameObject soim;
+    private GameObject sotm;
+    private float defoY;//オーブUIの最初の高さ
+    private float moveY;//オーブUIの選択時の高さ
+
     [SerializeField] MagicRangeDetector s_MagicRangeDetector;
     [SerializeField] MagicMassSelecter s_MagicMassSelecter;
 
@@ -26,13 +36,16 @@ public class SelectUseOrb : TrunManager
     void Start()
     {
         SelectOrb_Init();
+        setOrbUI();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(!notSwitchOrb)
             SelectOrb_Update();
+
+        selectOrb();
     }
 
     /// <summary>
@@ -154,6 +167,68 @@ public class SelectUseOrb : TrunManager
                 nowSelOrb = ty;
                 break;
             }
+        }
+    }
+    private void setOrbUI()
+    {
+        pofm = GameObject.Find("PentagonOrbFireMask");
+        poim = GameObject.Find("PentagonOrbIceMask");
+        potm = GameObject.Find("PentagonOrbThunderMask");
+        sofm = GameObject.Find("StarOrbFireMask");
+        soim = GameObject.Find("StarOrbIceMask");
+        sotm = GameObject.Find("StarOrbThunderMask");
+        defoY = pofm.transform.position.y;
+        moveY = defoY + 20f;
+    }
+    private void selectOrb()
+    {
+        if (nowSelOrb == 0)
+        {
+            sofm.transform.position = new Vector3(sofm.transform.position.x, moveY, sofm.transform.position.z);
+        }
+        else
+        {
+            sofm.transform.position = new Vector3(sofm.transform.position.x, defoY, sofm.transform.position.z);
+        }
+        if (nowSelOrb == 1)
+        {
+            soim.transform.position = new Vector3(soim.transform.position.x, moveY, soim.transform.position.z);
+        }
+        else
+        {
+            soim.transform.position = new Vector3(soim.transform.position.x, defoY, soim.transform.position.z);
+        }
+        if (nowSelOrb == 2)
+        {
+            sotm.transform.position = new Vector3(sotm.transform.position.x, moveY, sotm.transform.position.z);
+        }
+        else
+        {
+            sotm.transform.position = new Vector3(sotm.transform.position.x, defoY, sotm.transform.position.z);
+        }
+        if (nowSelOrb == 3)
+        {
+            pofm.transform.position = new Vector3(pofm.transform.position.x, moveY, pofm.transform.position.z);
+        }
+        else
+        {
+            pofm.transform.position = new Vector3(pofm.transform.position.x, defoY, pofm.transform.position.z);
+        }
+        if (nowSelOrb == 4)
+        {
+            poim.transform.position = new Vector3(poim.transform.position.x, moveY, poim.transform.position.z);
+        }
+        else
+        {
+            poim.transform.position = new Vector3(poim.transform.position.x, defoY, poim.transform.position.z);
+        }
+        if (nowSelOrb == 5)
+        {
+            potm.transform.position = new Vector3(potm.transform.position.x, moveY, potm.transform.position.z);
+        }
+        else
+        {
+            potm.transform.position = new Vector3(potm.transform.position.x, defoY, potm.transform.position.z);
         }
     }
 }

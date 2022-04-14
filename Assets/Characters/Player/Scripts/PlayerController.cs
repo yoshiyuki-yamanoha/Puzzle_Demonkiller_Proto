@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //魔法を生成、番号指定で撃つ魔法を変える。
-    public void ShotMagic(/*List<GameObject>*/GameObject tage, int type, int lv) {
+    public void ShotMagic(/*List<GameObject>*/GameObject tage, int type, int lv,GameObject[] targets = null) {
         //一番先頭のオーブを取得 0:r 1:b 2:y
         //int colorNum = 0;
         //int level = s_OrbCon.Get_FOL_Info();

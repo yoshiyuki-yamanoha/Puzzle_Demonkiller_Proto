@@ -10,7 +10,7 @@ public class GenerationEnemy : PseudoArray
     [SerializeField] bool is_generation = false;
     [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
     [SerializeField] ParticleSystem[] enemy_particle = null;
-    [SerializeField] int enemy_max = 10;//敵最大値
+    [SerializeField] int enemy_max = 50;//敵最大値 盤面の敵の最大値
     [SerializeField] float interval_s = 5;//生成感覚
 
     //mapの生成情報
@@ -44,6 +44,11 @@ public class GenerationEnemy : PseudoArray
     //具志堅SE処理
     SEManager sePlay = null;
 
+    //具志堅BGM処理7
+    private BGMManager bgmPlay;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +61,9 @@ public class GenerationEnemy : PseudoArray
         trunmanager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
 
         if(sePlay != null)sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用
+        /*if (bgmPlay != null)*/
+        bgmPlay.Play("PLAYBGM");
     }
 
     // Update is called once per frame
@@ -88,6 +96,9 @@ public class GenerationEnemy : PseudoArray
                         break;
                     case 3: //ターン3
                         enemy_oneturn_max = 2;
+                        break;
+                    default:
+                        enemy_oneturn_max = Random.Range(2,5);
                         break;
                 }
                 if (time > interval_s)//秒おきに生成
