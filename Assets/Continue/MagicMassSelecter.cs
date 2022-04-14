@@ -415,7 +415,7 @@ public class MagicMassSelecter : MonoBehaviour
                 if (typ == 5) {
                     int center = attackRange.Length / 2;
 
-                    s_PlayerContoller.ShotMagic(attackRange[center], typ, lev, attackRange);
+                    s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
                 }
             }
         }
