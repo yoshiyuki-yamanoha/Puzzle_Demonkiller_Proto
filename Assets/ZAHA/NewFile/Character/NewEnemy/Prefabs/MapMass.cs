@@ -161,6 +161,7 @@ public class MapMass:MonoBehaviour
                 masses[y, x].massObj = obj;
             }
         }
+        rootobj_.AddComponent<ChildName>();
     }
     //指定した添え字のGameObjectを返してくれる関数
     public GameObject GetGameObjectOfSpecifiedMass(int x,int y) {
