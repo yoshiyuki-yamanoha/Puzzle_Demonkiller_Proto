@@ -14,10 +14,11 @@ public class BGMManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //コンポーネントの取得
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
+        audioSource = this.gameObject.transform.GetComponent<AudioSource>();
 
     }
 
