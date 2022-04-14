@@ -12,7 +12,7 @@ public class Magichoming : MonoBehaviour
     [SerializeField] GameObject fireEffe;
 
     //炎のかべ　エフェクト
-    [SerializeField] GameObject fireWallEffe;
+    [SerializeField] GameObject firetrapEffe;
 
     //凍結エフェクト
     [SerializeField] GameObject iceEffe;
@@ -43,6 +43,8 @@ public class Magichoming : MonoBehaviour
     public int magicType = 0;
 
     Transform acmg;
+
+    GameObject Enemies;
 
     // Start is called before the first frame update
     void Start()
@@ -143,7 +145,7 @@ public class Magichoming : MonoBehaviour
                     }
 
                     if (magicType == 3) { 
-                        GameObject magBuf = GenerationMagic(fireWallEffe, transform.position);
+                        GameObject magBuf = GenerationMagic(firetrapEffe, transform.position);
 
                         Vector3 magBufSca = magBuf.transform.localScale;
 
