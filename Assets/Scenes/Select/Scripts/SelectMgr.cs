@@ -60,7 +60,7 @@ public class SelectMgr : MonoBehaviour
         }
 
         // 選択しているStageによって飛ばすシーンを変える
-        if (Input.GetButtonDown("Fire2")) {
+        if (Input.GetButtonDown("Fire1")) {
             switch (selecter) {
                 case Select.Stage1: GameMgr.Instance.GotoBuildScene(); break;
                 case Select.Stage2: GameMgr.Instance.GotoStage2Scene(); break;

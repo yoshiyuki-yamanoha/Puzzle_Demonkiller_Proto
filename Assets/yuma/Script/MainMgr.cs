@@ -21,6 +21,10 @@ public class MainMgr : MonoBehaviour
         if(enemyDieNum >= enemyDieMax) {
             GameMgr.Instance.GotoGameClearScene();
         }
+        if(Input.GetButtonDown("Fire2"))
+        {
+            GameMgr.Instance.Restart();
+        }
     }
 
     public void EnemiDieCount() {

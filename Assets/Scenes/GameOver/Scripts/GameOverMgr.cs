@@ -15,7 +15,7 @@ public class GameOverMgr : MonoBehaviour
     void Update()
     {
         coolTime -= Time.deltaTime;
-        if( Input.GetButtonDown("Fire2") && coolTime <= 0.0f ) {
+        if( Input.GetButtonDown("Fire1") && coolTime <= 0.0f ) {
             coolTime = 0.5f;
             GameMgr.Instance.GotoTitleScene();
         } else if(coolTime <= 0.0f) {
