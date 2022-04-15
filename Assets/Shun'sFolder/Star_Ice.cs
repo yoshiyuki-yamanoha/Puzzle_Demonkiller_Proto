@@ -24,15 +24,23 @@ public class Star_Ice : MonoBehaviour
         child_Move();
     }
 
-    public void Create_IceBergs(GameObject taget)
+    public void Create_IceBergs(GameObject taget, int _lev)
     {
-        int num = (int.Parse(taget.name) / 15);
+        int num = (int.Parse(taget.name) % 11);
+        Debug.Log(int.Parse(taget.name));
 
         Stage_mass = GameObject.Find("MassRoot");
         Ice_objs.Clear();
         for (int i = 0; i < 15; i++)
         {
-            StartCoroutine(cre_ice(num ,i));
+            for (int j = 0; j < _lev; j++)
+            {
+                StartCoroutine(cre_ice(num + j, i));
+            }
+        }
+        for (int j = 0; j < _lev; j++)
+        {
+            Ene_Damage(num + j);
         }
     }
 
@@ -42,7 +50,7 @@ public class Star_Ice : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
 
-        int ObjNum = (num * 15) + (14 - child);
+        int ObjNum = (154 + (num * 2)) - ((num) + (child * 11));
         if (0 <= ObjNum || ObjNum > Stage_mass.transform.childCount - 1)
         {
             Vector3 crePos = new Vector3(Stage_mass.transform.GetChild(ObjNum).position.x,
@@ -77,6 +85,21 @@ public class Star_Ice : MonoBehaviour
             else
             {
                 Ice_objs.Remove(Ice_objs[i]);
+            }
+        }
+    }
+
+    void Ene_Damage(int num)
+    {
+        int magic_pos = num;
+
+        GameObject enemies = GameObject.Find("Sponer");
+        for (int i = 0; i < enemies.transform.childCount; i++)
+        {
+            Enemy ene = enemies.transform.GetChild(i).GetComponent<Enemy>();
+            if (num == ene.X)
+            {
+                ene.Damage(2);
             }
         }
     }

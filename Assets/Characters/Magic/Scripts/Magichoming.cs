@@ -166,7 +166,7 @@ public class Magichoming : MonoBehaviour
                     {
                         //え＾～氷みたいなエフェクト
                         GameObject _magic = GenerationMagic(iceEffe, transform.position);
-                        _magic.GetComponent<Star_Ice>().Create_IceBergs(TargetObject);
+                        _magic.GetComponent<Star_Ice>().Create_IceBergs(TargetObject,magicLevel);
                         Destroy(gameObject);
                     }
 

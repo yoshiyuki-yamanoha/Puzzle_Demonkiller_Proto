@@ -107,7 +107,7 @@ public class Shoot_The_at_Enemy_Magic : MonoBehaviour
     {
         if (magic_Type == (int)MAGIC.STAR_ICE)
         {
-            _magic.GetComponent<Star_Ice>().Create_IceBergs(taget);
+            _magic.GetComponent<Star_Ice>().Create_IceBergs(taget, magic_Lv);
             Destroy(gameObject);
         }
     }
