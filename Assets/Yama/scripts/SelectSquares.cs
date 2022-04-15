@@ -42,7 +42,7 @@ public class SelectSquares : TrunManager
         {
             FlowToMoveTheSelector();
 
-            ActivateMagic();    //魔法を撃つ処理
+            //ActivateMagic();    //魔法を撃つ処理
         }
     }
 
@@ -95,6 +95,8 @@ public class SelectSquares : TrunManager
     {
         float hStick = Input.GetAxis("Horizontal");
         float vStick = Input.GetAxis("Vertical");
+        //float hStick = Input.GetAxis("Vertical");//横表示テスト用
+        //float vStick = Input.GetAxis("Horizontal");//横表示テスト用
 
         return (hStick, vStick);
     }

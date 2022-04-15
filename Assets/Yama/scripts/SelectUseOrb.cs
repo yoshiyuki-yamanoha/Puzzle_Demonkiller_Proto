@@ -32,6 +32,9 @@ public class SelectUseOrb : TrunManager
     bool notSwitchOrb = false;
     public bool osf { get => notSwitchOrb; set => notSwitchOrb = value; }
 
+
+    int orbtype = 0, orblevel = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,10 +45,22 @@ public class SelectUseOrb : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!notSwitchOrb)
+            if (!notSwitchOrb)
             SelectOrb_Update();
 
-        selectOrb();
+        if (s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)//Player攻撃ターンか？
+        {
+            //選択しているオーブの表示
+            selectOrb();
+            //魔法の範囲を変える
+            s_MagicRangeDetector.ChangeMagicRange();
+            //選択しているオーブのレベルが０ならずらす
+            selectmoveOrb();
+        }
+        else
+        {//攻撃ターンじゃない時にオーブの位置を元に戻す
+            selectResetOrb();
+        }
     }
 
     /// <summary>
@@ -128,7 +143,7 @@ public class SelectUseOrb : TrunManager
         else s_MagicMassSelecter.SwitchSelectType(0);
 
         //魔法の範囲を変える
-        s_MagicRangeDetector.ChangeMagicRange();
+        //s_MagicRangeDetector.ChangeMagicRange();
     }
 
     /// <summary>
@@ -230,5 +245,25 @@ public class SelectUseOrb : TrunManager
         {
             potm.transform.position = new Vector3(potm.transform.position.x, defoY, potm.transform.position.z);
         }
+    }
+
+    private void selectResetOrb()
+    {
+        sofm.transform.position = new Vector3(sofm.transform.position.x, defoY, sofm.transform.position.z);
+        soim.transform.position = new Vector3(soim.transform.position.x, defoY, soim.transform.position.z);
+        sotm.transform.position = new Vector3(sotm.transform.position.x, defoY, sotm.transform.position.z);
+        pofm.transform.position = new Vector3(pofm.transform.position.x, defoY, pofm.transform.position.z);
+        poim.transform.position = new Vector3(poim.transform.position.x, defoY, poim.transform.position.z);
+        potm.transform.position = new Vector3(potm.transform.position.x, defoY, potm.transform.position.z);
+    }
+    void selectmoveOrb()//選択しているオーブがからの場合横に動かし
+    {
+        (orbtype, orblevel) = GetNowSelectOrb();
+        if(orblevel == 0)
+        {
+            int moveR = 1;
+            ChangeUseOrb(moveR);
+        }
+
     }
 }

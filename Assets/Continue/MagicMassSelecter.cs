@@ -53,8 +53,7 @@ public class MagicMassSelecter : MonoBehaviour
 
             if (selectType == 0) MoveSelecter();
             if (selectType == 1) MoveSelecterEnemy();
-
-            ActivateMagic();
+            ActivateMagic();//魔法を撃つ処理(本物)
         }
     }
 
@@ -397,61 +396,67 @@ public class MagicMassSelecter : MonoBehaviour
 
         int typ, lev;
         (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
-
-        GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
-
-        //五芒星雷魔法 と 五角形炎魔法 以外
-        if (typ != 2 && typ != 3)
+        if (lev > 0)//オーブのレベルが0より上なら入る↓
         {
-            if (Input.GetButtonDown("Fire1"))
+            GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
+
+            //五芒星雷魔法 と 五角形炎魔法 以外
+            if (typ != 2 && typ != 3)
             {
-                //全ます
-                if (typ == 0 || typ == 1 || typ == 4)
+                if (Input.GetButtonDown("Fire1"))
                 {
-                    s_PlayerContoller.ShotMagic(attackRange[0], typ, lev,attackRange);
-                }
+                    //全ます
+                    if (typ == 0 || typ == 1 || typ == 4)
+                    {
+                        s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
+                    }
 
-                //
-                if (typ == 5) {
-                    int center = attackRange.Length / 2;
+                    //
+                    if (typ == 5)
+                    {
+                        int center = attackRange.Length / 2;
 
-                    s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
-                }
-            }
-        }
-        else {  //複数設置型
-            if (Input.GetButtonDown("Fire1"))
-            {
-                //一番最初に選択した時
-                if (selectsNum == 0) {
-
-                    //選択上限
-                    if (typ == 2) selectsNumLimit = lev;
-                    if (typ == 3) selectsNumLimit = lev + 1;
-
-                    selectTargets = new GameObject[selectsNumLimit];
-                }
-
-                //現在選択中のエネミー
-                if(typ == 2)
-                    selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
-                if (typ == 3)
-                    selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
-
-                //カウント
-                selectsNum++;
-
-                //上限に達したら
-                if (selectsNum >= selectsNumLimit) {
-
-                    //魔法を放つ
-                    if(typ == 2 || typ == 3)
-                        s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
-
-                    selectsNum = 0;
+                        s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
+                    }
                 }
             }
-        }
+            else
+            {  //複数設置型
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    //一番最初に選択した時
+                    if (selectsNum == 0)
+                    {
+
+                        //選択上限
+                        if (typ == 2) selectsNumLimit = lev;
+                        if (typ == 3) selectsNumLimit = lev + 1;
+
+                        selectTargets = new GameObject[selectsNumLimit];
+                    }
+
+                    //現在選択中のエネミー
+                    if (typ == 2)
+                        selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
+                    if (typ == 3)
+                        selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
+
+                    //カウント
+                    selectsNum++;
+
+                    //上限に達したら
+                    if (selectsNum >= selectsNumLimit)
+                    {
+
+                        //魔法を放つ
+                        if (typ == 2 || typ == 3)
+                            s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
+
+                        selectsNum = 0;
+                    }
+                }
+            }
+        }//オーブのレベルが0より上なら入る↑
     }
 
     //複数選択魔法で2体目以降選択時に、最低コストを求める
