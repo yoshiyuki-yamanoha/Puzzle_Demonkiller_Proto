@@ -15,25 +15,33 @@ public class Ele_tur_Attack : MonoBehaviour
     private int efe_Max = 3;
     private GameObject tage;
 
+    private int LifeTrun;
+    private bool can_Attack;
+    private bool Is_once;
+
+    private TrunManager tm;
+
     public void Set_Init(int _lev, GameObject _tage)
     {
         Level = _lev;
         tage = _tage;
         Stage_mass = GameObject.Find("MassRoot");
         Set_pos();
+        LifeTrun = 3;
+        can_Attack = false;
+        Is_once = true;
+        tm = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+
     }
-    private void Start()
+    private void FixedUpdate()
     {
-        Invoke("tur_Attack", 2.0f);
-        Invoke("tur_Attack", 4.0f);
-        Invoke("tur_Attack", 6.0f);
-        //Destroy(gameObject, 7.0f);
+        attack();
     }
 
     void Set_pos()
     {
-        pos.x = int.Parse(tage.name) / 15;
-        pos.y = int.Parse(tage.name) % 15;
+        pos.x = int.Parse(tage.name) % 11;
+        pos.y = int.Parse(tage.name) / 11;
     }
 
     private void tur_Attack()
@@ -51,7 +59,7 @@ public class Ele_tur_Attack : MonoBehaviour
                 //if(i > Stage_mass.transform.childCount -1 || j > Stage_mass.transform.GetChild(i).childCount - 1) { continue; }
                 //create_Ele_Efe(Stage_mass.transform.GetChild(i).GetChild(j).gameObject); 
 
-                int targetNum = ((i * 15) + (j % 15));
+                int targetNum = i + (j * 11);
                 if (0 < targetNum && targetNum < Stage_mass.transform.childCount - 1)
                 {
                     Ene_Damage(Stage_mass.transform.GetChild(targetNum).gameObject);
@@ -59,13 +67,15 @@ public class Ele_tur_Attack : MonoBehaviour
                 }
             }
         }
+        LifeTrun--;
+        if (LifeTrun <= 0) Destroy(this.gameObject);
     }
 
     private void create_Ele_Efe(GameObject _tage)
     {
         for(int i = 0; i < efe_Max; i++)
         {
-            GameObject Efe = Instantiate(lightning_Efe, _tage.transform.position, Quaternion.identity);
+            GameObject Efe = Instantiate(lightning_Efe, _tage.transform.position, Quaternion.identity,transform);
 
             Vector3 start_pos = transform.position;
             start_pos.y = 2.0f;
@@ -81,7 +91,7 @@ public class Ele_tur_Attack : MonoBehaviour
 
     void Ene_Damage(GameObject _tage)
     {
-        Vector2 magic_pos= new Vector2( int.Parse(_tage.name) / 15, int.Parse(_tage.name) % 15);
+        Vector2 magic_pos= new Vector2(int.Parse(_tage.name) % 11, int.Parse(_tage.name) / 11);
 
         GameObject enemies = GameObject.Find("Sponer");
         for(int i = 0; i < enemies.transform.childCount; i++)
@@ -93,5 +103,33 @@ public class Ele_tur_Attack : MonoBehaviour
                 ene.Damage(1);
             }
         }
+    }
+
+    void attack()
+    {
+        if (tm.GetTrunPhase() == TrunManager.TrunPhase.Enemy && Is_once)
+        {
+            can_Attack = true;
+            Is_once = false;
+        }
+        else if(tm.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+        {
+            if (!Is_once)
+            {
+                Is_once = true;
+            }
+        }
+
+        if (can_Attack)
+        {
+            Debug.Log("START" + LifeTrun);
+            tur_Attack();
+            can_Attack = false;
+        }
+    }
+
+    public Vector2 Get_MapMass()
+    {
+        return pos;
     }
 }
