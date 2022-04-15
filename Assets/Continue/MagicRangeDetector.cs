@@ -60,7 +60,10 @@ public class MagicRangeDetector : TrunManager
         //魔法の種類によって魔法の範囲を変える
 
         //ChangeMagicRange();
-        
+        if (s_TrunManager.trunphase != TrunManager.TrunPhase.MagicAttack) {
+            s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
+        }
+
 
     }
 
