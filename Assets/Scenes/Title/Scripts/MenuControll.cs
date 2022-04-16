@@ -18,7 +18,7 @@ public class MenuControll : MonoBehaviour
     }
 
     float selectCoolTime;
-    const float SELECT_COOLTIME_MAX = 10.0f;// 選択カーソルが長押ししていても一瞬その場所で止まる最大時間
+    const float SELECT_COOLTIME_MAX = 8.0f;// 選択カーソルが長押ししていても一瞬その場所で止まる最大時間
 
     private void Start()
     {
@@ -38,11 +38,11 @@ public class MenuControll : MonoBehaviour
         {
 
             selectCoolTime = 0;   // クールタイムの固定
-            if(inputInfo >= 0.1f)
+            if(inputInfo >= 0.7f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.UP);
-            }else if (inputInfo <= -0.1f)
+            }else if (inputInfo <= -0.7f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.DOWN);
