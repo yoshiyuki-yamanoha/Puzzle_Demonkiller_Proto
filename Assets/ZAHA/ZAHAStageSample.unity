@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44296995, g: 0.49215227, b: 0.57189065, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6803,7 +6803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &109117246
 Transform:
   m_ObjectHideFlags: 0
@@ -8214,7 +8214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &207182639
 Transform:
   m_ObjectHideFlags: 0
@@ -10534,7 +10534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &278307336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15995,7 +15995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &352883462
 Transform:
   m_ObjectHideFlags: 0
@@ -17133,7 +17133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &494421547
 Transform:
   m_ObjectHideFlags: 0
@@ -23819,6 +23819,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2512123407366945345, guid: 05d84a44d8c09344996431bcb52c74c1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512123407366945345, guid: 05d84a44d8c09344996431bcb52c74c1,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3856238070704820190, guid: 05d84a44d8c09344996431bcb52c74c1,
         type: 3}
       propertyPath: m_Name
@@ -23960,7 +23970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &880086621
 Transform:
   m_ObjectHideFlags: 0
@@ -37753,7 +37763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1313307436
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39996,7 +40006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1499991176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40199,6 +40209,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856238070704820190, guid: 55aa10c03cbcf5942ab35859fd46819a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3856238070704820195, guid: 55aa10c03cbcf5942ab35859fd46819a,
         type: 3}
@@ -40773,7 +40788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1597141361
 Transform:
   m_ObjectHideFlags: 0
@@ -48025,7 +48040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1800408457
 Transform:
   m_ObjectHideFlags: 0
@@ -48845,7 +48860,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1867645363
 Light:
   m_ObjectHideFlags: 0
@@ -61328,7 +61343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2140287685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61345,6 +61360,7 @@ MonoBehaviour:
     type: 3}
   icemas_prefab: {fileID: 547846346185490423, guid: e597601ed3bf3cf45be34a2006d3c19a,
     type: 3}
+  core_prefab: {fileID: 0}
 --- !u!4 &2140287686
 Transform:
   m_ObjectHideFlags: 0
@@ -61721,7 +61737,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &156571262888739566
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -80836,6 +80852,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: smoke_thin
+      objectReference: {fileID: 0}
+    - target: {fileID: 1439059844186114602, guid: 209d7af3518642a488a2adc513ca8ea2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 209d7af3518642a488a2adc513ca8ea2, type: 3}
@@ -124854,6 +124875,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sponer
       objectReference: {fileID: 0}
+    - target: {fileID: 5298066893699814272, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: rootpos.Array.size
@@ -125043,7 +125069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &5345535900547201045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125060,6 +125086,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrunManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5345535899452045329, guid: c0170f9b98a7b0f4f87dee081b242260,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5345535899452045331, guid: c0170f9b98a7b0f4f87dee081b242260,
         type: 3}
@@ -125414,10 +125445,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6256949329308004060, guid: bf96e813d6430314e8505d9f39d7d427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6256949329818863000, guid: bf96e813d6430314e8505d9f39d7d427,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 27.334852
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf96e813d6430314e8505d9f39d7d427, type: 3}
@@ -125483,6 +125519,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Point Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902049891701051253, guid: eaf7dd24a9478d945ac35816d417ca62,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7902049891701051255, guid: eaf7dd24a9478d945ac35816d417ca62,
         type: 3}
