@@ -17,6 +17,7 @@ public class SelectMgr : MonoBehaviour
     Vector3[] selectMenuPos = new Vector3[3];
     [SerializeField] Transform cursor;
 
+    MenuControll menuControll;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,33 +26,57 @@ public class SelectMgr : MonoBehaviour
         selectMenuPos[0] = new Vector3(139.0f, 39.19f, 0.0f);
         selectMenuPos[1] = new Vector3(139.0f, -5.76f, 0.0f);
         selectMenuPos[2] = new Vector3(139.0f, -54.0f, 0.0f);
+        this.gameObject.AddComponent<MenuControll>();
+        menuControll = this.GetComponent<MenuControll>();
     }
 
     // Update is called once per frame
     private void Update() {
 
-
-        selectCoolTime--;// クールタイムを起動
-        if(Input.GetAxis("UPDOWN") <= 0.9f && Input.GetAxis("UPDOWN") >= 0.0f) {
-            selectCoolTime = 0;
+        int inputInfo = menuControll.GetUpDown();
+        if(inputInfo == ((int)MenuControll.UpDown.UP))
+        {
+            if (selecter != Select.Stage1)
+            {
+                selecter--;
+            }
+            else
+            {
+                selecter = Select.Stage3;
+            }
         }
-        if(selectCoolTime <= 0.0) {
-            float inputInfo = Input.GetAxis("UPDOWN");
-            selectCoolTime = SELECT_COOLTIME_MAX;   // クールタイムの初期化
-            if(inputInfo > 0.0f ) {
-                if (selecter != Select.Stage1) {
-                    selecter--;
-                }else {
-                    selecter = Select.Stage3;
-                }
-            }else if(inputInfo < 0.0f){
-                if(selecter != Select.Stage3) {
-                    selecter++;
-                }else {
-                    selecter = Select.Stage1;
-                }
-            } 
+        else if(inputInfo == ((int)MenuControll.UpDown.DOWN))
+        {
+            if (selecter != Select.Stage3)
+            {
+                selecter++;
+            }
+            else
+            {
+                selecter = Select.Stage1;
+            }
         }
+        //selectCoolTime--;// クールタイムを起動
+        //if(Input.GetAxis("UPDOWN") <= 0.9f && Input.GetAxis("UPDOWN") >= 0.0f) {
+        //    selectCoolTime = 0;
+        //}
+        //if(selectCoolTime <= 0.0) {
+        //    float inputInfo = Input.GetAxis("UPDOWN");
+        //    selectCoolTime = SELECT_COOLTIME_MAX;   // クールタイムの初期化
+        //    if(inputInfo > 0.0f ) {
+        //        if (selecter != Select.Stage1) {
+        //            selecter--;
+        //        }else {
+        //            selecter = Select.Stage3;
+        //        }
+        //    }else if(inputInfo < 0.0f){
+        //        if(selecter != Select.Stage3) {
+        //            selecter++;
+        //        }else {
+        //            selecter = Select.Stage1;
+        //        }
+        //    } 
+        //}
 
         switch (selecter) {
             case Select.Stage1: cursor.localPosition = selectMenuPos[0]; break;
