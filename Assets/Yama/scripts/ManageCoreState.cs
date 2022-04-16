@@ -33,7 +33,7 @@ public class ManageCoreState : TrunManager
 
     public void ReceiveDamage()
     {
-        coreHp -= EAP.zako;
+        coreHp -= EAP.knock;
 
         Debug.Log("cHp"+coreHp);
 

@@ -9,16 +9,18 @@ namespace Core
     /// </summary>
     public class core/*:MonoBehaviour*/
     {
-        public const int max_hp = 100;
+        public const int max_hp = 150;
     }
 
-    // 敵によってコアへのダメージは変わるか？
+    // 敵によってコアへのダメージは変わる
     /// <summary>
     /// enemy attack power
     /// </summary>
     public class EAP
     {
-        public const int zako = 20;
+        public const int knock = 10;
+        public const int explosion = 50;
+        public const int beam = 30;
     }
 }
 
