@@ -38,11 +38,11 @@ public class MenuControll : MonoBehaviour
         {
 
             selectCoolTime = 0;   // クールタイムの固定
-            if(inputInfo >= 0.1f)
+            if(inputInfo >= 0.8f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.UP);
-            }else if (inputInfo <= -0.1f)
+            }else if (inputInfo <= -0.8f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.DOWN);
