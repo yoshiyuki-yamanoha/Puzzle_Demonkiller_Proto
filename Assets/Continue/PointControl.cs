@@ -223,7 +223,7 @@ public class PointControl : MonoBehaviour
                 }
 
                 if (OldSelectedCircle != oldOverlapObject) {
-                    sePlay.Play("Select2");
+                    sePlay.Play("Select3");
                 }
 
                 //ポインターと魔法陣の当たり判定

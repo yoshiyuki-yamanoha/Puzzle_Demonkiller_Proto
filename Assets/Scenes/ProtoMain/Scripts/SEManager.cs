@@ -10,7 +10,7 @@ public class SEManager : MonoBehaviour
     AudioClip[] audioClips;
 
     AudioSource audioSource;
-    private AudioSource  sePlay;
+    private AudioSource sePlay;
 
 
     // Start is called before the first frame update
@@ -27,7 +27,7 @@ public class SEManager : MonoBehaviour
         switch (seName)
         {
             case "Select"://1　魔方陣時のカーソルの移動
-                audioSource.PlayOneShot(audioClips[0],0.2f);
+                audioSource.PlayOneShot(audioClips[0],1.0f);
                 break;
             case "MagicChange"://2　魔方陣の色の入れ替え
                 audioSource.PlayOneShot(audioClips[1], 0.5f);
@@ -45,17 +45,18 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[5],1.0f);
                 break;
             case "EnemySpawn"://7　敵が出現した時
-                audioSource.PlayOneShot(audioClips[6], 0.5f);
+                audioSource.PlayOneShot(audioClips[6], 0.8f);
                 break;
             case "EnemyDead"://8　敵を倒したとき
                 audioSource.PlayOneShot(audioClips[7], 0.5f);
                 break;
-            case "Select2"://9魔方陣選択2
-                audioSource.PlayOneShot(audioClips[8], 0.1f);
+            case "Select3"://9魔方陣選択2
+                audioSource.PlayOneShot(audioClips[8], 0.5f);
                 break;
             case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
                 audioSource.PlayOneShot(audioClips[9], 0.4f);
                 break;
+
         }
     }
 
