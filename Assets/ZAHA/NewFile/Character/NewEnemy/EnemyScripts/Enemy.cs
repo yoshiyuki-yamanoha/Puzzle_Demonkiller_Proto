@@ -33,8 +33,6 @@ public class Enemy : EnemyBase
 
         if (Core == null)// マネジコアステイトを取得
         {
-            //Core = GameObject.Find("Core").GetComponent<ManageCoreState>();
-            Core = GameObject.FindWithTag("Core").GetComponent<ManageCoreState>();
         }
 
         if (!Istrun)//自分のターンじゃない時

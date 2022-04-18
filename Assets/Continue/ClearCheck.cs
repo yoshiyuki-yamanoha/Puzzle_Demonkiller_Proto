@@ -42,7 +42,7 @@ public class ClearCheck : TrunManager
     Magichoming Mh;
 
     //ばりえーしょん
-    Attackvariation AttackV;
+    //Attackvariation AttackV;
     //ポイントコントロール
     PointControl ppp;
 
@@ -90,7 +90,7 @@ public class ClearCheck : TrunManager
         pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
         mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
-        AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
+        //AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         puzzleTurnEndAnim = this.GetComponent<PuzzleTurnEndAnim>();
         //oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
@@ -152,7 +152,7 @@ public class ClearCheck : TrunManager
             //コンボタイムが0になったらコンボ数を0に
             if (nowComboTime <= 0)
             {
-                AttackV.attackvar();
+                //AttackV.attackvar();
                 //bgCircle.SetActive(false);
                 MaxCombo = comboNum;
                 comboNum = 0;
@@ -160,7 +160,7 @@ public class ClearCheck : TrunManager
                 //オーブリセット
                 ppp.ResetOrbs();
 
-                AttackV.attackvar_erase();
+                //AttackV.attackvar_erase();
                 nowComboTime = 0;
             }
         }
