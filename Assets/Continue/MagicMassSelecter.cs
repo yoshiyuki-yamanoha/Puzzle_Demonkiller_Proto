@@ -34,10 +34,13 @@ public class MagicMassSelecter : MonoBehaviour
     GameObject[] selectTargets;
     int bottomCost = 99;
 
+    //SE用
+    SEManager sePlay;
 
     private void Start()
     {
         s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
     }
 
     private void FixedUpdate()
@@ -127,8 +130,8 @@ public class MagicMassSelecter : MonoBehaviour
         //現在の座標を取得
         (nowSelX, nowSelY) = s_MapMass.GetMAgicMassSelector();
 
-        float hori = Input.GetAxis("Horizontal");
-        float vert = -Input.GetAxis("Vertical");
+        float hori = Input.GetAxis("Horizontal");//スティックの入力を取っている
+        float vert = -Input.GetAxis("Vertical");//以下
 
         int oldSelX = nowSelX;
         int oldSelY = nowSelY;
@@ -201,12 +204,17 @@ public class MagicMassSelecter : MonoBehaviour
         //セレクターが移動されたら
         if (oldX != x || oldY != y)
         {
+
+            
             //座標の反映
             nowSelX = x;
             nowSelY = y;
 
             //新選択マスのマテリアルを変える
             s_MagicRangeDetector.ChangeMagicRange();
+
+            //
+            sePlay.Play("MagicCursorSelect");
 
             //変更後のマス座標を渡す
             PassSelecterPos();
@@ -369,7 +377,7 @@ public class MagicMassSelecter : MonoBehaviour
 
     }
 
-    //指定したマスのマテリアルを指定のものに変える
+    //指定したマスのマテリアルを指定のものに変える  //ここ？
     public void ChangeMatSpecifiedMass(GameObject obj,int colorType=0) {
 
         //GameObject speci = s_MapMass.GetGameObjectOfSpecifiedMass(x, y);
@@ -380,18 +388,20 @@ public class MagicMassSelecter : MonoBehaviour
     }
 
     //セレクターの位置情報(添え字)をMapMassに渡す
-    void PassSelecterPos() { 
+    void PassSelecterPos() {
+        sePlay.Play("MagicCursorSelect");//フィールドのマスを動かす時に音を鳴らす
         s_MapMass.SetMagicMassSelector(nowSelX,nowSelY);
     }
 
     //魔法セレクターが現在いるマスの添え字を返す
     public (int, int) GetCurrentSelecerPos() {
+        
         return (nowSelX, nowSelY);
     }
 
     
 
-    //Aボタンで魔法を撃つ
+    //Aボタンで魔法を撃つ /////////ここ
     void ActivateMagic() {
 
         int typ, lev;
@@ -405,10 +415,12 @@ public class MagicMassSelecter : MonoBehaviour
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
+
                     //全ます
                     if (typ == 0 || typ == 1 || typ == 4)
                     {
                         s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
+                        sePlay.Play("MagicShot");
                     }
 
                     //
@@ -417,6 +429,7 @@ public class MagicMassSelecter : MonoBehaviour
                         int center = attackRange.Length / 2;
 
                         s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
+                        sePlay.Play("MagicShot");
                     }
                 }
             }
@@ -424,6 +437,7 @@ public class MagicMassSelecter : MonoBehaviour
             {  //複数設置型
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    sePlay.Play("MagicShot");
                     //一番最初に選択した時
                     if (selectsNum == 0)
                     {
