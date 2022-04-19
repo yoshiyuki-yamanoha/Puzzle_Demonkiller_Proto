@@ -7,9 +7,6 @@ public class Enemy : EnemyBase
     Magichoming magichoming;
     private void Start()
     {
-        Init_speed = Speed;//初期のスピード保存
-        Hp = Max_hp;
-        Fire.gameObject.SetActive(false);
     }
 
     void FixedUpdate()

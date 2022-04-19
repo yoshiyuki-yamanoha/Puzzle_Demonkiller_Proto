@@ -291,6 +291,12 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    void InitFunction()
+    {
+        Init_speed = Speed;//初期のスピード保存
+        Hp = Max_hp;
+        Fire.gameObject.SetActive(false);
+    }
     //public void Move(Vector3 direction)
     //{
     //    Vector3 targetPos = transform.position + direction;
