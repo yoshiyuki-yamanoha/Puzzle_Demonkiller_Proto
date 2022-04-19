@@ -8,7 +8,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] MapMass map = null;
     bool endflg = false;
     bool init_search_flg = true;
-   
+
     //前回の位置
     int old_x = 0;
     int old_y = 0;
@@ -296,6 +296,7 @@ public class EnemyBase : MonoBehaviour
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;
         Fire.gameObject.SetActive(false);
+        GetObject();
     }
 
     //public void Move(Vector3 direction)
@@ -309,8 +310,227 @@ public class EnemyBase : MonoBehaviour
 
     //    transform.position = targetPos;
     //}
+    public void AbnormalStatus()
+    {
+        if (Init_abnormal)//1回のみ入るフラグ
+        {
+            switch (Abnormal_condition)//状態異常の中身見る
+            {
+                case AbnormalCondition.NONE:
+                    break;
+                case AbnormalCondition.Fire:
+                    Fire_Abnormal_Condition();
+                    break;
+                case AbnormalCondition.Ice:
+                    //Ice_Abnormal_Condition();
+                    break;
+            }
 
-    public void MassMove(int next_y , int next_x)
+            //Debug.Log("ターン終了");
+            Init_abnormal = false;
+        }
+    }
+
+    public void EnemyTurnStart()
+    {
+        Init_abnormal = true;//状態異常に1回のみ入るフラグ
+        Istrun = true;//自分のターン(敵)開始
+    }
+
+    public void EnemyTurnEnd()
+    {
+        Enemy_action = EnemyAction.Movement;//ターンを動きにする
+        Istrun = false;//ターン終了
+        Init_anim_flg = true;
+        Is_action = false;//アクションをオフにする
+        Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
+    }
+
+    public void EnemyDeath()
+    {
+        //死亡フラグが立った時。
+        if (Deathflg)
+        {
+            if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
+        }
+    }
+
+    public void EnemyMovement(int massnum)
+    {
+        if (!Endflg)//最終地点にいるのか
+        {
+            //GameObject forward_obj = Generation_enemy.rootpos[IndexCheckX(X)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前方
+            //GameObject right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//右
+            //GameObject left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//左
+            //GameObject forward_right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前右
+            //GameObject forward_left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前左
+            ;
+
+            if (Targetchangeflg)
+            {
+                SearchMovement(massnum); //2マス。
+                Targetchangeflg = false;
+            }
+
+            //移動している時
+            if (Ismove)
+            {
+                Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;
+            }
+
+            Oldx = X;//位置を保存
+            Oldy = Y;//位置を保存
+
+            if (Ismove)
+            {
+                Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.Enemy;
+                MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
+                status = Status.Walk;//移動処理
+            }
+
+
+            //移動したらオン
+
+            //目的値についているか?
+            if (Target_distance)//target.magnitude < Targetdistance
+            {
+                status = Status.Idle;//アイドル状態         
+                Ismove = false;//動きを止める。
+
+                Y = IndexCheckY(NextposY);
+                X = IndexCheckX(NextposX);
+
+                if (Y == Generation_enemy.max_y - 1)
+                {
+                    Endflg = true;
+                }
+
+                //ここで状態異常確認
+                if (Init_abnormal_ui)//1回のみ入るフラグ
+                {
+                    //Debug.Log("状態異常の中身" + Abnormal_condition);
+
+                    switch (Abnormal_condition)//状態異常の中身見る
+                    {
+                        case AbnormalCondition.NONE:
+                            //Debug.Log("状態異常じゃないです！！");
+                            break;
+                        case AbnormalCondition.Fire:
+                            //Debug.Log("炎ダメージ");
+                            //Fire_Abnormal_Condition();
+                            Fire_Abnormal_UI();
+                            break;
+                        case AbnormalCondition.Ice:
+                            //Debug.Log("氷ダメージ");
+                            //Ice_Abnormal_Condition();
+                            break;
+                    }
+
+                    //Debug.Log("ターン終了");
+                    Init_abnormal_ui = false;
+                }
+
+                Targetchangeflg = true;
+                Is_action = true;//行動した。
+
+            }
+        }
+        else
+        {
+            //攻撃
+            EnemyAttack();
+        }
+    }
+
+    public void GetObject()
+    {
+        if (Enemy_anim == null) return; //敵のアニメーション取得
+        Generation_enemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
+        Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
+
+    }
+
+    public void EnemyAttack()
+    {
+        Is_action = true;
+
+        if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
+        {//再生
+
+            Attacktime += Time.deltaTime; //3秒おきに攻撃
+        }
+
+        if (Init_anim_flg)
+        {
+            Enemy_anim.TriggerAttack("Attack");
+            Init_anim_flg = false;
+            Core.ReceiveDamage();// コアのｈｐ減らす
+
+        }//攻撃trigger
+
+        if (Attacktime > 2.5f)
+        {
+            Attacktime = 0;
+        }
+    }
+
+    public void SearchMovement(int massnum)
+    {
+        if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.NONE)//下方向
+        {
+            Debug.Log("下行けます");
+            Ismove = true;
+            Target_distance = false;
+            NextposX = X;
+            NextposY = Y + massnum;
+        }
+        else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//前右
+        {
+            Debug.Log("前右行けます");
+            //Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
+            Ismove = true;
+            Target_distance = false;
+            NextposX = X + massnum;
+            NextposY = Y + massnum;
+        }
+        else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//前左
+        {
+            Debug.Log("前左行けます");
+            //Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
+            Ismove = true;
+            Target_distance = false;
+            NextposX = X - massnum;
+            NextposY = Y + massnum;
+        }
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//右
+        {
+            Debug.Log("右行けます");
+            //Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
+            Ismove = true;
+            Target_distance = false;
+            NextposX = X + massnum;
+            NextposY = Y;
+        }
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//左
+        {
+            Debug.Log("左行けます");
+            //Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
+            Ismove = true;
+            Target_distance = false;
+            NextposX = X - massnum;
+            NextposY = Y;
+        }
+        else//移動しない。
+        {
+            Debug.Log("移動できません。");
+            Ismove = false;
+            NextposX = X;
+            NextposY = Y;
+        }
+    }
+
+    public void MassMove(int next_y, int next_x)
     {
         Vector3 next_pos = new Vector3(next_x * map.Tilemas_prefab.transform.localScale.x, 0, next_y * -map.Tilemas_prefab.transform.localScale.z);
         Debug.DrawLine(transform.position, next_pos);
