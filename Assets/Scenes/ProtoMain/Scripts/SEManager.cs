@@ -26,32 +26,33 @@ public class SEManager : MonoBehaviour
     {
         switch (seName)
         {
-            case "Select"://1　魔方陣時のカーソルの移動
-                audioSource.PlayOneShot(audioClips[0],1.0f);
+            case "Select"://1　魔方陣時の決定音
+                audioSource.PlayOneShot(audioClips[0],2.0f);
                 break;
-            case "MagicChange"://2　魔方陣の色の入れ替え
+
+            case "MagicChange"://2　魔法を入れ替えた時の音 //廃止予定
                 audioSource.PlayOneShot(audioClips[1], 0.5f);
                 break;
-            case "MagicAreaSelect"://3　魔方を打つエリアを選択
+            case "MagicAreaSelect"://3　魔法陣の色の入れ替え
                 audioSource.PlayOneShot(audioClips[2], 0.1f);
                 break;
             case "MagicCursorSelect"://4　魔法を打つ時のカーソル移動
-                audioSource.PlayOneShot(audioClips[3], 1f);
+                audioSource.PlayOneShot(audioClips[3], 1.0f);
                 break;
             case "MagicShot"://5　魔法を打つ時
-                audioSource.PlayOneShot(audioClips[4],0.3f);
+                audioSource.PlayOneShot(audioClips[4],0.9f);
                 break;
             case "TurnChange"://6　ターンが変わる時
                 audioSource.PlayOneShot(audioClips[5],1.0f);
                 break;
             case "EnemySpawn"://7　敵が出現した時
-                audioSource.PlayOneShot(audioClips[6], 0.8f);
+                audioSource.PlayOneShot(audioClips[6], 2.0f);
                 break;
             case "EnemyDead"://8　敵を倒したとき
                 audioSource.PlayOneShot(audioClips[7], 0.5f);
                 break;
-            case "Select3"://9魔方陣選択2
-                audioSource.PlayOneShot(audioClips[8], 0.5f);
+            case "Select3"://9魔方陣時のカーソル移動
+                audioSource.PlayOneShot(audioClips[8], 1.0f);
                 break;
             case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
                 audioSource.PlayOneShot(audioClips[9], 0.4f);
