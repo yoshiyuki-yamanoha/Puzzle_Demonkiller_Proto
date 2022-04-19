@@ -386,6 +386,8 @@ public class EnemyBase : MonoBehaviour
                 Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.Enemy;
                 MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
                 status = Status.Walk;//移動処理
+
+                Hpber.gameObject.SetActive(false);
             }
 
 
@@ -396,6 +398,7 @@ public class EnemyBase : MonoBehaviour
             {
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
+                Hpber.gameObject.SetActive(true);
 
                 Y = IndexCheckY(NextposY);
                 X = IndexCheckX(NextposX);
