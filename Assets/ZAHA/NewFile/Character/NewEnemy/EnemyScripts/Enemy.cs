@@ -7,6 +7,7 @@ public class Enemy : EnemyBase
     Magichoming magichoming;
     private void Start()
     {
+        InitFunction();
     }
 
     void FixedUpdate()
