@@ -98,7 +98,7 @@ public class Star_Ice : MonoBehaviour
         GameObject enemies = GameObject.Find("Sponer");
         for (int i = 0; i < enemies.transform.childCount; i++)
         {
-            Enemy ene = enemies.transform.GetChild(i).GetComponent<Enemy>();
+            EnemyBase ene = enemies.transform.GetChild(i).GetComponent<EnemyBase>();
             if (_x == ene.X && _y == ene.Y)
             {
                 ene.Damage(2);

@@ -96,7 +96,7 @@ public class Ele_tur_Attack : MonoBehaviour
         GameObject enemies = GameObject.Find("Sponer");
         for(int i = 0; i < enemies.transform.childCount; i++)
         {
-            Enemy ene = enemies.transform.GetChild(i).GetComponent<Enemy>();
+            EnemyBase ene = enemies.transform.GetChild(i).GetComponent<EnemyBase>();
             Vector2 ene_pos = new Vector2(ene.X, ene.Y);
             if(magic_pos == ene_pos)
             {

@@ -44,7 +44,7 @@ public class Star_Fire : MonoBehaviour
 
     private void ene_Damege(GameObject ene)
     {
-        Enemy e = ene.GetComponent<Enemy>();
+        EnemyBase e = ene.GetComponent<EnemyBase>();
         if (e != null)
         {
             e.Damage(damege_num);
