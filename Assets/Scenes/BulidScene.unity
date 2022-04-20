@@ -9580,22 +9580,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 1
   play:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2126782294}
+  - {fileID: 594475055}
+  - {fileID: 1588698616}
+  - {fileID: 386713815}
+  - {fileID: 2059176950}
   clearEffe: {fileID: 1825070996785202781, guid: 9243dfd1b2f2b15438742b65b651be06,
     type: 3}
   effePos: {fileID: 1290645485161632445}
   se: {fileID: 8300000, guid: 128c7b77c42b8464482473fd8e5242ad, type: 3}
   ass: {fileID: 1290645485165103394}
   playObjs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 75486575}
+  - {fileID: 1454466924}
+  - {fileID: 436753455}
+  - {fileID: 1396575521}
+  - {fileID: 89657064}
   soe: 0200000003000000000000000400000001000000
   magicPoint: 0
   mpText: {fileID: 3820433668574415681}
