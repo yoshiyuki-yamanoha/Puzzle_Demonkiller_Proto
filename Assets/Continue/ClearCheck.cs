@@ -107,106 +107,112 @@ public class ClearCheck : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        if (!cleared)
-        {
-            //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
-            if (CheckClear(1))
-            {
-                ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
-            }
-            else if (CheckClear(-1))
-            {
-                ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
-            }
-            //星の形になってればクリア(五芒星)↓２つのif文でチェック
-            else if (CheckClear(2))
-            {
-                ClearReward((int)PointControl.MAGIC_MODE.STAR);
-            }
-            else if (CheckClear(-2))
-            {
-                ClearReward((int)PointControl.MAGIC_MODE.STAR);
-            }
-
-
-
-            //全ての線が後ろの線に重なってればクリア(理想かも)
-        }
-
-        //シャッフル
-        if (cleared)
-        {
-            if (shuffleCount > 1) shuffleCount--;
-            if (shuffleCount == 1)
-            {
-
-                shuffleCount = 0;
-                Shuffle();
-
-                //線の色を戻す
-            }
-        }
-
-        //コンボタイムを減らしていく
-        if (nowComboTime != 0) {
-            nowComboTime--;
-
-            //コンボタイムが0になったらコンボ数を0に
-            if (nowComboTime <= 0)
-            {
-                //AttackV.attackvar();
-                //bgCircle.SetActive(false);
-                MaxCombo = comboNum;
-                comboNum = 0;
-                nowComboTime = 0;
-                //オーブリセット
-                ppp.ResetOrbs();
-
-                //AttackV.attackvar_erase();
-                nowComboTime = 0;
-            }
-        }
-
-        //コンボタイムが切れた時
-        if (attack == true && nowComboTime == 0)
+        if (trunMgr.trunphase == TrunManager.TrunPhase.Puzzle)
         {
 
-            //パズルを消す
-            gauge.SetActive(false);
-            pointer.SetActive(false);
-
-            attack = false;
-            pc.attackNum = 0;
-            puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
-        }
-
-        if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
-        {
-            pointer.SetActive(true);
-            //puzzle.SetActive(true);
-            gauge.SetActive(true);
-            //bgCircle.SetActive(true);
-            //s_PointControl.enabled = true;
-        }
-        //ゲージに反映
-        float per = nowComboTime / comboTime;
-        sld.value = per;
-        comboTex.text = "コンボ：" + comboNum.ToString();
-
-        //魔法打ってる間魔法陣が消える処理
-        if (fadeNowTime != 0) {
-            fadeNowTime--;
-            if (fadeNowTime <= 0)
+            if (!cleared)
             {
-                fadeNowTime = 0;
-            }
-        }
+                //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
+                if (CheckClear(1))
+                {
+                    ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
+                }
+                else if (CheckClear(-1))
+                {
+                    ClearReward((int)PointControl.MAGIC_MODE.PENTAGON);
+                }
+                //星の形になってればクリア(五芒星)↓２つのif文でチェック
+                else if (CheckClear(2))
+                {
+                    ClearReward((int)PointControl.MAGIC_MODE.STAR);
+                }
+                else if (CheckClear(-2))
+                {
+                    ClearReward((int)PointControl.MAGIC_MODE.STAR);
+                }
 
-        //撃ちたいときに打つ　
-        if (Input.GetButtonDown("Fire3"))
-        {
-            nowComboTime = 1;
+
+
+                //全ての線が後ろの線に重なってればクリア(理想かも)
+            }
+
+            //シャッフル
+            if (cleared)
+            {
+                if (shuffleCount > 1) shuffleCount--;
+                if (shuffleCount == 1)
+                {
+
+                    shuffleCount = 0;
+                    Shuffle();
+
+                    //線の色を戻す
+                }
+            }
+
+            //コンボタイムを減らしていく
+            if (nowComboTime != 0)
+            {
+                nowComboTime--;
+
+                //コンボタイムが0になったらコンボ数を0に
+                if (nowComboTime <= 0)
+                {
+                    //AttackV.attackvar();
+                    //bgCircle.SetActive(false);
+                    MaxCombo = comboNum;
+                    comboNum = 0;
+                    nowComboTime = 0;
+                    //オーブリセット
+                    ppp.ResetOrbs();
+
+                    //AttackV.attackvar_erase();
+                    nowComboTime = 0;
+                }
+            }
+
+            //コンボタイムが切れた時
+            if (attack == true && nowComboTime == 0)
+            {
+
+                //パズルを消す
+                gauge.SetActive(false);
+                pointer.SetActive(false);
+
+                attack = false;
+                pc.attackNum = 0;
+                puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
+            }
+
+            if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
+            {
+                pointer.SetActive(true);
+                //puzzle.SetActive(true);
+                gauge.SetActive(true);
+                //bgCircle.SetActive(true);
+                //s_PointControl.enabled = true;
+            }
+            //ゲージに反映
+            float per = nowComboTime / comboTime;
+            sld.value = per;
+            comboTex.text = "コンボ：" + comboNum.ToString();
+
+            //魔法打ってる間魔法陣が消える処理
+            if (fadeNowTime != 0)
+            {
+                fadeNowTime--;
+                if (fadeNowTime <= 0)
+                {
+                    fadeNowTime = 0;
+                }
+            }
+
+            //撃ちたいときに打つ　
+            if (Input.GetButtonDown("Fire3"))
+            {
+                nowComboTime = 1;
+            }
+
         }
     }
 

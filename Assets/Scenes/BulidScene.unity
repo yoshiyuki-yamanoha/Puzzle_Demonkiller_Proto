@@ -32427,8 +32427,9 @@ MonoBehaviour:
   bgCircle: {fileID: 1290645487000550376}
   pointer: {fileID: 1290645486538509422}
   fadeNowTime: 180
-  s_PointControl: {fileID: 0}
+  s_PointControl: {fileID: 1290645486538509411}
   orbAnimator: {fileID: 0}
+  s_OrbGage: {fileID: 387063143}
 --- !u!1 &1290645486648335532
 GameObject:
   m_ObjectHideFlags: 0
