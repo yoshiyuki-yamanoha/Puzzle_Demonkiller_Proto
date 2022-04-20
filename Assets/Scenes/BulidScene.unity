@@ -1183,6 +1183,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleToka
       objectReference: {fileID: 0}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: s_OrbGage
+      value: 
+      objectReference: {fileID: 387063143}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: gauge
+      value: 
+      objectReference: {fileID: 18831302}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: sld
+      value: 
+      objectReference: {fileID: 18831304}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: comboTex
+      value: 
+      objectReference: {fileID: 1101626325}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: mpText
+      value: 
+      objectReference: {fileID: 3820433668574415681}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71726a981af5cd847a926dbd4ecb21ba, type: 3}
 --- !u!1 &518659483
