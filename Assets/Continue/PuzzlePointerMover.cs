@@ -86,7 +86,7 @@ public class PuzzlePointerMover : MonoBehaviour
 
             if (c.circle.transform.GetChild(0).gameObject == currentSelectedCircle) break;
 
-            soeji++;
+            if(soeji < 4) soeji++;
         }
         Debug.Log("そえじ：" + soeji);
 
