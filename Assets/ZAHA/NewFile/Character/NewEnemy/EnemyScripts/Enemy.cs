@@ -13,40 +13,48 @@ public class Enemy : EnemyBase
 
     void FixedUpdate()
     {
-        //自分(敵)のターンだったら
-        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+        if (Abnormal_condition != AbnormalCondition.Ice)
         {
-            EnemyTurnStart();
+
+
+            //自分(敵)のターンだったら
+            if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+            {
+                EnemyTurnStart();
+            }
+            else //ターンを終了する時
+            {
+                //魔法のターンの時に
+                if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+                {
+                    AbnormalStatus();
+                }
+                EnemyTurnEnd();
+            }
+
+            HPber();//HPゲージ
+
+            //攻撃地点
+            if (Istrun && !Is_action)
+            {//自分のターンかつ行動していない時
+                switch (Enemy_action)
+                {
+                    case EnemyAction.Generation:
+                        break;
+                    case EnemyAction.Movement:
+                        EnemyMovement(1);//動けるマス範囲
+                        break;
+                }
+            }
+
+            EnemyDeath();//敵が死んだときの処理
+            Enemy_anim.AnimStatus(status);//アニメーション更新
         }
-        else //ターンを終了する時
+        else
         {
-            //魔法のターンの時に
-            if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
-            {
-                AbnormalStatus();
-            }
-            EnemyTurnEnd();
+            Is_action = true;
         }
-
-        HPber();//HPゲージ
-
-        //攻撃地点
-        if (Istrun && !Is_action)
-        {//自分のターンかつ行動していない時
-            switch (Enemy_action)
-            {
-                case EnemyAction.Generation:
-                    break;
-                case EnemyAction.Movement:
-                    EnemyMovement(1);//動けるマス範囲
-                    break;
-            }
-        }
-
-        EnemyDeath();//敵が死んだときの処理
-        Enemy_anim.AnimStatus(status);//アニメーション更新
     }
-
     //魔法陣の当たり判定
     private void OnTriggerEnter(Collider other)
     {
@@ -60,5 +68,15 @@ public class Enemy : EnemyBase
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
         }
+        if (other.CompareTag("Ice"))
+        {
+            Abnormal_condition = AbnormalCondition.Ice;
+            Ice_abnormality_turncount = 0;
+            Destroy(other.gameObject);
+        }
+    }
+    public void Icerelease()
+    {
+        Abnormal_condition = AbnormalCondition.NONE;
     }
 }
