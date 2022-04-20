@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    static List<GameObject> enemys_ = new List<GameObject>();//敵のリスト化
+    [SerializeField] int mynumber;
+
     [SerializeField] MapMass map = null;
     bool endflg = false;
     bool init_search_flg = true;
@@ -300,8 +303,20 @@ public class EnemyBase : MonoBehaviour
         Hp = Max_hp;
         Fire.gameObject.SetActive(false);
         GetObject();
+        enemys_.Add(this.gameObject);//自分を追加
+        mynumber = enemys_.Count;
     }
 
+    public void DeleteListEnemy()
+    {
+        foreach (var enemy in enemys_)
+        {
+            if(enemy == null)
+            {
+                enemys_.Remove(enemy);
+            }
+        }
+    }
     //public void Move(Vector3 direction)
     //{
     //    Vector3 targetPos = transform.position + direction;
@@ -455,7 +470,6 @@ public class EnemyBase : MonoBehaviour
         Generation_enemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
-
     }
 
     public void EnemyAttack()

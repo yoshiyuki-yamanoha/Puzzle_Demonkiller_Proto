@@ -41,7 +41,7 @@ public class ThunderSelect : MonoBehaviour
         lb.EndObject = KillEnemyList_Thunder[next];
         //lb.StartObject = test[now];
         //lb.EndObject = test[next];
-        if(next == KillEnemyList_Thunder.Count)
+        if(next <= KillEnemyList_Thunder.Count)
         {
             KillEnemyList_Thunder.Clear();
         }

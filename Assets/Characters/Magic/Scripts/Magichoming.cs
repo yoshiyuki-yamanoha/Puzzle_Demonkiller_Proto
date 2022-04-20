@@ -158,7 +158,7 @@ public class Magichoming : MonoBehaviour
 
                         magBuf.transform.position += new Vector3(0,2.5f,0);
 
-                        float scalZ = magicLevel * 2f - 1f;
+                        float scalZ = 1f;
 
                         magBuf.transform.localScale = new Vector3(magBufSca.x, magBufSca.y, magBufSca.z * scalZ);
                     }
@@ -175,12 +175,17 @@ public class Magichoming : MonoBehaviour
                     //ジャンプ&スタン レベルにより、ジャンプ回数が変わる (3～7)
                     if (magicType == 2)
                     {
-                        //雷エフェクト
                         GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
+                        Debug.Log("マジック" + _magic.GetComponent<ThunderSelect>());
+                        _magic.GetComponent<ThunderSelect>().Set_List(targets);
 
-                        ThunderSelect ts = _magic.GetComponent<ThunderSelect>();
-                        ts.Set_List(targets);
-                        ts.ThunderSelecter();
+                        //if (ts == null)
+                        //{
+                        //    Debug.Log("私はヌルです");
+                        //}
+                        //ts.Set_List(targets);
+
+                        //ts.ThunderSelecter();
                     }
                     if (magicType == 4)
                     {
