@@ -37,7 +37,7 @@ public class BGMManager : MonoBehaviour
  
                 audioSource.clip = audioClips[1];
                 audioSource.loop = true;
-                audioSource.volume = 0.3f;
+                audioSource.volume = 0.02f;
                 audioSource.Play();
                 break;
             case "ENDBGM"://3　エンドBGM
