@@ -250,7 +250,7 @@ public class EnemyBase : MonoBehaviour
     //火の魔法状態。
     public void Fire_Abnormal_Condition()
     {
-
+        Debug.Log("Im On fire");
         Fire_abnormality_turncount++;
 
         if (Fire_abnormality_turncount <= 3)
@@ -283,11 +283,12 @@ public class EnemyBase : MonoBehaviour
     public void Ice_Abnormal_Condition()
     {
         //Debug.Log("凍結魔法だわよん");
+        Debug.Log("Im Freeze");
         Ice_abnormality_turncount++;//呼ばれたらカウント
-
+        Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら
         {
-            abnormal_condition = AbnormalCondition.NONE;
+            Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Debug.Log("そして時は(ry");
         }
@@ -314,6 +315,7 @@ public class EnemyBase : MonoBehaviour
     //}
     public void AbnormalStatus()
     {
+        Debug.Log(Abnormal_condition);
         if (Init_abnormal)//1回のみ入るフラグ
         {
             switch (Abnormal_condition)//状態異常の中身見る

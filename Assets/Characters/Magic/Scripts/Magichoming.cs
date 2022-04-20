@@ -16,6 +16,7 @@ public class Magichoming : MonoBehaviour
 
     //凍結エフェクト
     [SerializeField] GameObject iceEffe;
+    [SerializeField] GameObject Pentagon_iceEffe;
 
     //雷エフェクト
     [SerializeField] GameObject Pentagon_thunEffe;
@@ -180,6 +181,11 @@ public class Magichoming : MonoBehaviour
                         ThunderSelect ts = _magic.GetComponent<ThunderSelect>();
                         ts.Set_List(targets);
                         ts.ThunderSelecter();
+                    }
+                    if (magicType == 4)
+                    {
+                        GameObject _magic = GenerationMagic(Pentagon_iceEffe, transform.position);
+                        _magic.GetComponent<PentagonIce>().MakeIceWall(TargetObject);
                     }
 
                     //雷のタレット

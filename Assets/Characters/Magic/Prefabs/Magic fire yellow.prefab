@@ -19054,6 +19054,8 @@ MonoBehaviour:
   firetrapEffe: {fileID: 7439202838639495679, guid: 594fdbb45cdd1ef408f90abf6f63c453,
     type: 3}
   iceEffe: {fileID: 8134288693290019878, guid: b8a5f613167f3d5409fe7bb19cd0b858, type: 3}
+  Pentagon_iceEffe: {fileID: 8134288693290019878, guid: a998a99141ef2794e9d61df61a58d323,
+    type: 3}
   Pentagon_thunEffe: {fileID: 979136706244064231, guid: b4a52b57d3672e141b8faaa417f94d86,
     type: 3}
   StarthunEffe: {fileID: 106988, guid: 1ef5181e63fe418438672359b2d47813, type: 3}
@@ -19063,6 +19065,12 @@ MonoBehaviour:
   targetno: 0
   magicLevel: 1
   magicType: 0
+  targets:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &3029662380787672985
 GameObject:
   m_ObjectHideFlags: 0

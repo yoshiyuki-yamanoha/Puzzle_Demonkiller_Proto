@@ -53,6 +53,22 @@ public class Enemy : EnemyBase
         else
         {
             Is_action = true;
+
+            if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+            {
+                EnemyTurnStart();
+            }
+            else //ターンを終了する時
+            {
+                //魔法のターンの時に
+                if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+                {
+                    AbnormalStatus();
+                }
+                EnemyTurnEnd();
+            }
+
+            HPber();//HPゲージ
         }
     }
     //魔法陣の当たり判定
