@@ -190,42 +190,42 @@ public class PointControl : MonoBehaviour
             GameObject OldSelectedCircle = oldOverlapObject;
             
 
-            if (interCount == 0)
-            {
-                //当たり判定を伸ばすやつ
-                foreach (GameObject o in porters)
-                {
-                    float per = 0.1f;
-                    Vector3 currentPerPos;
+            //if (interCount == 0)
+            //{
+            //    //当たり判定を伸ばすやつ
+            //    foreach (GameObject o in porters)
+            //    {
+            //        float per = 0.1f;
+            //        Vector3 currentPerPos;
 
-                    TransportToParent ttp = o.GetComponent<TransportToParent>();
+            //        TransportToParent ttp = o.GetComponent<TransportToParent>();
 
-                    while (per < 1.0f)
-                    {
-                        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
+            //        while (per < 1.0f)
+            //        {
+            //            currentPerPos = Vector3.Lerp(oriPos, ppos, per);
 
-                        if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
-                        {
-                            //最近選択していたオブジェクト
-                            oldOverlapObject = ttp.GetGoalObject();
-
-
-                            oriPos = ttp.GetGoalPos();
-
-                            interCount = interval;
+            //            if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
+            //            {
+            //                //最近選択していたオブジェクト
+            //                oldOverlapObject = ttp.GetGoalObject();
 
 
-                            break;
-                        }
+            //                oriPos = ttp.GetGoalPos();
 
-                        per += 0.1f;
-                    }
-                }
+            //                interCount = interval;
 
-                if (OldSelectedCircle != oldOverlapObject) {
-                    sePlay.Play("Select3");
-                }
-            }
+
+            //                break;
+            //            }
+
+            //            per += 0.1f;
+            //        }
+            //    }
+
+            //    if (OldSelectedCircle != oldOverlapObject) {
+            //        sePlay.Play("Select3");
+            //    }
+            //}
 
             //選択サークルや入れ替え選択など
             foreach (GameObject o in circles)
