@@ -419,6 +419,7 @@ public class MagicMassSelecter : MonoBehaviour
                     //全ます
                     if (typ == 0 || typ == 1 || typ == 4)
                     {
+
                         s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
                         sePlay.Play("MagicShot");
                     }
@@ -451,12 +452,9 @@ public class MagicMassSelecter : MonoBehaviour
 
                     //現在選択中のエネミー
                     if (typ == 2)
-                        selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
+                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(GetEnemyObjectOnCurrentSelectMass());
                     if (typ == 3)
-                        selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
-
-                    //カウント
-                    selectsNum++;
+                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY));
 
                     //上限に達したら
                     if (selectsNum >= selectsNumLimit)
@@ -513,4 +511,22 @@ public class MagicMassSelecter : MonoBehaviour
         return (x, y);
     }
 
+    //選択配列の中にあるオブジェクトとあいあいあいあ
+    GameObject SearchSameObjectInSelectArray(GameObject obj)
+    {
+        GameObject objBuff = obj;
+
+        if (selectsNum > 0)
+        {
+            foreach (GameObject g in selectTargets)
+            {
+                if (g == obj) return null;
+            }
+        }
+
+        //被りが無ければカウント
+        selectsNum++;
+
+        return objBuff;
+    }
 }

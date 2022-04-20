@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SelectUseOrb : TrunManager
 {
     TrunManager s_turnMGR;
     OrbGage s_orbGage;
-    int[] orbLevel = new int[6];
+    [NonSerialized] public int[] orbLevel = new int[6];
     int nowSelOrb;
 
     int coolTimeMax = 10;

@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 8134288693290019876}
   - component: {fileID: 8134288693290019877}
   - component: {fileID: 2672212939600607524}
+  - component: {fileID: 8146388153945092128}
+  - component: {fileID: -190254680509069206}
   m_Layer: 0
   m_Name: ice
-  m_TagString: Untagged
+  m_TagString: Ice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,3 +97,30 @@ MonoBehaviour:
   desflag: 0
   timer: 0
   miniIce: {fileID: 7457386028430985208, guid: bf3644a82d8c49c41a98ed9893c315f6, type: 3}
+--- !u!114 &8146388153945092128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134288693290019878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cb70814229092448b7e20b66d61c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IceWall: {fileID: 8134288693290019878}
+  testIce: {fileID: 0}
+--- !u!65 &-190254680509069206
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134288693290019878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6720036, y: 4.508243, z: 1.6720037}
+  m_Center: {x: 0, y: 0, z: 0}

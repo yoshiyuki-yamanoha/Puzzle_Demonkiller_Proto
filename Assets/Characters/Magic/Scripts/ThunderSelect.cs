@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class ThunderSelect : MonoBehaviour
 {
-    List<GameObject> KillEnemyList_Thunder;
+    List<GameObject> KillEnemyList_Thunder = new List<GameObject>();
     LightningBoltScript lb;
 
     [SerializeField] GameObject ElectricCurrent;
-    GameObject Electricobj;
+    public GameObject Electricobj;
     public GameObject[] test = new GameObject[5];
-    public int now, next;
+    public int now = 0;
+    public int next = 1;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         now = 0;
-        next = now + 1;
+        next = 1;
     }
 
     // Update is called once per frame
@@ -40,6 +41,10 @@ public class ThunderSelect : MonoBehaviour
         lb.EndObject = KillEnemyList_Thunder[next];
         //lb.StartObject = test[now];
         //lb.EndObject = test[next];
+        if(next == KillEnemyList_Thunder.Count)
+        {
+            KillEnemyList_Thunder.Clear();
+        }
     }
 
     public void ThunderSelecter_Add()
@@ -52,9 +57,10 @@ public class ThunderSelect : MonoBehaviour
 
     public void Set_List(GameObject[] objs)
     {
-        foreach(GameObject obj in objs)
+        foreach(GameObject o in objs)
         {
-            KillEnemyList_Thunder.Add(obj);
+            KillEnemyList_Thunder.Add(o);
         }
+        ThunderSelecter();
     }
 }
