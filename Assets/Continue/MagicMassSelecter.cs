@@ -444,17 +444,26 @@ public class MagicMassSelecter : MonoBehaviour
                     {
 
                         //選択上限
-                        if (typ == 2) selectsNumLimit = lev;
-                        if (typ == 3) selectsNumLimit = lev + 1;
+                        if (typ == 2) selectsNumLimit = lev + 1;
+                        if (typ == 3) selectsNumLimit = lev;
 
                         selectTargets = new GameObject[selectsNumLimit];
                     }
 
+                    //一番近い敵との距離をリセット
+                    bottomCost = 99;
+
                     //現在選択中のエネミー
                     if (typ == 2)
-                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(GetEnemyObjectOnCurrentSelectMass());
+                        selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
                     if (typ == 3)
-                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY));
+                        selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
+
+                    if(selectTargets[selectsNum] != null)
+                    selectTargets[selectsNum].tag = "MarkedEnemy";
+
+                    //被りが無ければカウント
+                    selectsNum++;
 
                     //上限に達したら
                     if (selectsNum >= selectsNumLimit)
@@ -462,7 +471,10 @@ public class MagicMassSelecter : MonoBehaviour
 
                         //魔法を放つ
                         if (typ == 2 || typ == 3)
+                        {
                             s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
+                            foreach (var e in selectTargets) e.tag = "Enemy";
+                        }
 
                         selectsNum = 0;
                     }
@@ -478,11 +490,9 @@ public class MagicMassSelecter : MonoBehaviour
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        GameObject objj = selectTargets[selectsNum - 1];
-
         foreach (var e in enemies) {
 
-            if (e == objj) continue;
+            //if (SearchSameObjectInSelectArray(e) == false) continue;
 
             int oldSelectEnemyX, oldSelectEnemyY;
             (oldSelectEnemyX, oldSelectEnemyY) = GetOldSelectedEnemyPos();
@@ -500,6 +510,8 @@ public class MagicMassSelecter : MonoBehaviour
         }
     }
 
+
+
     //直近選択した敵の座標を返す
     (int, int) GetOldSelectedEnemyPos() {
 
@@ -511,22 +523,18 @@ public class MagicMassSelecter : MonoBehaviour
         return (x, y);
     }
 
-    //選択配列の中にあるオブジェクトとあいあいあいあ
-    GameObject SearchSameObjectInSelectArray(GameObject obj)
+    //選択配列の中にあるオブジェクトと同じ物が存在するかを判定すう
+    bool SearchSameObjectInSelectArray(GameObject obj)
     {
-        GameObject objBuff = obj;
 
         if (selectsNum > 0)
         {
             foreach (GameObject g in selectTargets)
             {
-                if (g == obj) return null;
+                if (g == obj) return false;
             }
         }
 
-        //被りが無ければカウント
-        selectsNum++;
-
-        return objBuff;
+        return true;
     }
 }
