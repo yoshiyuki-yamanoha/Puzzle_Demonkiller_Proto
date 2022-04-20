@@ -45,7 +45,7 @@ public class PointControl : MonoBehaviour
     private GameObject[] porters;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
-    GameObject oldOverlapObject=null;
+    [NonSerialized] public GameObject oldOverlapObject=null;
 
     //ポジション移動インターバル
     [SerializeField, Range(0, 60)]
@@ -188,7 +188,7 @@ public class PointControl : MonoBehaviour
             if (ang < 0) ang = 360.0f + ang;
 
             GameObject OldSelectedCircle = oldOverlapObject;
-           
+            
 
             if (interCount == 0)
             {
@@ -208,7 +208,7 @@ public class PointControl : MonoBehaviour
                         {
                             //最近選択していたオブジェクト
                             oldOverlapObject = ttp.GetGoalObject();
-                            
+
 
                             oriPos = ttp.GetGoalPos();
 
@@ -225,34 +225,6 @@ public class PointControl : MonoBehaviour
                 if (OldSelectedCircle != oldOverlapObject) {
                     sePlay.Play("Select3");
                 }
-
-                //ポインターと魔法陣の当たり判定
-                //foreach (GameObject o in circles)
-                //{
-
-                //    float per = 0.1f;
-                //    Vector3 currentPerPos;
-                //    while (per < 1.0f)
-                //    {
-                //        currentPerPos = Vector3.Lerp(oriPos, ppos, per);
-
-                //        if (Vector3.Distance(currentPerPos, o.transform.position) < dist && oldOverlapObject != o)
-                //        {
-                //            //最近選択していたオブジェクト
-                //            oldOverlapObject = o;
-
-                //            //選択した親オブジェクトの位置にいく
-                //            oriPos = o.transform.parent.position;
-
-                //            interCount = interval;
-
-                //            break;
-                //        }
-
-                //        per += 0.1f;
-                //    }
-
-                //}
             }
 
             //選択サークルや入れ替え選択など
@@ -263,6 +235,7 @@ public class PointControl : MonoBehaviour
                 GameObject nodeA = null;
                 GameObject nodeB = null;
 
+                //今は使ってない選択モード
                 if (ccMode == 1)
                 {
                     nodeA = gp.GetLineEnd();
@@ -272,7 +245,6 @@ public class PointControl : MonoBehaviour
                             nodeB = o2;
                     }
                 }
-
                 if (ccMode == 2)
                 {
                     for (int i = 0; i < 5; i++)

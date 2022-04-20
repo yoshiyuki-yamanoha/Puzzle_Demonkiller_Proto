@@ -149,12 +149,31 @@ public class MagicRangeDetector : TrunManager
 
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
-            case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
 
                 magicRange = new MagicMassStatus[1, 1];
                 magicRange[0,0].y = selY;
                 magicRange[0,0].x = selX;
                 magicRange[0, 0].obj = s_MapMass.GetGameObjectOfSpecifiedMass(selX, selY);
+
+                break;
+
+            case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
+
+                rangeStart = new Vector2Int();
+                //.x = magicLevel < 3 ? selX : selX - 1;
+                rangeStart.x = selX - (magicLevel - 1);
+                rangeStart.y = selY;
+
+                int nn = 1 + (magicLevel - 1) * 2;
+
+                magicRange = new MagicMassStatus[1, nn];
+
+                for (int j = 0; j < nn; j++)
+                {
+                    magicRange[0, j].y = rangeStart.y;
+                    magicRange[0, j].x = rangeStart.x + j;
+                    magicRange[0, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y);
+                }
 
                 break;
 
@@ -225,6 +244,7 @@ public class MagicRangeDetector : TrunManager
         //魔法の種類によって行ける範囲を変える
         switch (magicType) {
             case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
+            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
 
                 if ((x - magicLevel) < 0 || (x + magicLevel > stageWidth - 1)) return false;
                 if ((y - magicLevel) < 0 || (y + magicLevel > stageHeight - 1)) return false;
@@ -241,13 +261,16 @@ public class MagicRangeDetector : TrunManager
 
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
-            case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 )
-            case MagicType.ThunderPenta: //五角形　雷 (選択マスにタレットを設置。　タレットの感知範囲はレベルで変わる)
 
-                if (x < 0 || x >= stageWidth) return false;
+                break;
+
+            case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 )
+
+                if (x - (magicLevel - 1) < 0 || x + (magicLevel - 1) >= stageWidth) return false;
                 if (y < 0 || y >= stageHeight) return false;
 
                 break;
+
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
                 if (magicLevel < 3)
