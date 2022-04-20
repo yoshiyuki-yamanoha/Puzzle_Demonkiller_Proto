@@ -44,7 +44,7 @@ public class OrbGage : MonoBehaviour
     [SerializeField]
     MagicRanges[] magicRanges;
 
-    
+
 
     //スクリプト
     [SerializeField] TrunManager s_TrunManager;
@@ -114,6 +114,7 @@ public class OrbGage : MonoBehaviour
         }
         colorflag = 0;
         Gage_Draw();
+        DelayPhase();
 
         ChangeMagicRange();
 
@@ -123,11 +124,11 @@ public class OrbGage : MonoBehaviour
             {
                 grayOutMask[i].SetActive(true);
             }
-            else if(Orb_Level[i] > 0) grayOutMask[i].SetActive(false);
-            
+            else if (Orb_Level[i] > 0) grayOutMask[i].SetActive(false);
+
         }
 
-        int num=0, num2=0;
+        int num = 0, num2 = 0;
         (num, num2) = s_SelectUseOrb.GetNowSelectOrb();
 
         //魔法陣を消す
@@ -142,7 +143,7 @@ public class OrbGage : MonoBehaviour
     public void starRedChage()
     {
         //starRed.value += 1;
-        if(++Orb_Level[0] > ORB_MAX_LEVEL)
+        if (++Orb_Level[0] > ORB_MAX_LEVEL)
         {
             Orb_Level[0] = ORB_MAX_LEVEL;
         }
@@ -184,11 +185,11 @@ public class OrbGage : MonoBehaviour
     }
     public int ChargeOrb(int type)//魔方陣の形
     {
-        if(type == (int)PointControl.MAGIC_MODE.STAR)//星型なら
+        if (type == (int)PointControl.MAGIC_MODE.STAR)//星型なら
         {
             starflag = true;
         }
-        if(type == (int)PointControl.MAGIC_MODE.PENTAGON)//五角形なら
+        if (type == (int)PointControl.MAGIC_MODE.PENTAGON)//五角形なら
         {
             pentflag = true;
         }
@@ -234,7 +235,7 @@ public class OrbGage : MonoBehaviour
 
         {
             if (levv[0] > 0) levv[0] = 2 * levv[0] + 1;
-            
+
             if (levv[3] > 0) levv[3] = 2 * levv[3] - 1;
 
         }
@@ -244,11 +245,14 @@ public class OrbGage : MonoBehaviour
     }
 
     //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
+
+    float delayTime = 0.0f;
+    float[] Times = new float[5]{4.7f, 3.0f, 1.0f, 1.0f, 1.0f,};
     public void UseOrb(int num) {
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;
-        
+
 
         //選択範囲を消す
         //magicRanges[num].magicRange.SetActive(false);
@@ -256,7 +260,30 @@ public class OrbGage : MonoBehaviour
 
         if (!OrbCheckExsistens())
         {
-            Invoke("HandOverPhase", 5.0f);
+            if(num == 0)
+            {
+                HandOverPhase();
+            }
+            else
+            {
+                delayTime = Times[num - 1];
+            }
+            //s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
+            //for (int i = 0; i < orb_Gage.Length; i++)
+            //    orb_Gage[i].value = 0;
+        }
+    }
+
+    void DelayPhase()
+    {
+        if(delayTime > 0)
+        {
+            delayTime -= Time.deltaTime;
+            if(delayTime <= 0)
+            {
+                HandOverPhase();
+                delayTime = -1.0f;
+            }
         }
     }
 
