@@ -658,6 +658,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1581036346757830119, guid: ac0f00dedfbd3ff4882b5e818bfd7f52,
         type: 3}
+    - target: {fileID: 3899782639922948245, guid: 69afa9d1ce5a2ab48b4989615766be66,
+        type: 3}
+      propertyPath: tree_prefab
+      value: 
+      objectReference: {fileID: 888141719049580984, guid: 9a3f92e55a10c04439b5576d8bc37e5d,
+        type: 3}
     - target: {fileID: 3899782639922948246, guid: 69afa9d1ce5a2ab48b4989615766be66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1095,8 +1101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd08c2c112e965745ab8d9723229c5c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireWall: {fileID: 6845840081137956043, guid: 18a9a6e5f8c911c458aa71fdee3a7d8a,
-    type: 3}
 --- !u!114 &387063146
 MonoBehaviour:
   m_ObjectHideFlags: 0
