@@ -256,10 +256,15 @@ public class OrbGage : MonoBehaviour
 
         if (!OrbCheckExsistens())
         {
-            s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
-            for (int i = 0; i < orb_Gage.Length; i++)
-                orb_Gage[i].value = 0;
+            Invoke("HandOverPhase", 5.0f);
         }
+    }
+
+    void HandOverPhase()
+    {
+        s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
+        for (int i = 0; i < orb_Gage.Length; i++)
+            orb_Gage[i].value = 0;
     }
 
     int totalNum;
