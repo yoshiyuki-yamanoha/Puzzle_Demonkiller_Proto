@@ -399,7 +399,7 @@ public class MagicMassSelecter : MonoBehaviour
         return (nowSelX, nowSelY);
     }
 
-    
+    int currentEnemyNums = 0;
 
     //Aボタンで魔法を撃つ /////////ここ
     void ActivateMagic() {
@@ -448,6 +448,8 @@ public class MagicMassSelecter : MonoBehaviour
                         //if (typ == 3) selectsNumLimit = lev;
 
                         selectTargets = new GameObject[selectsNumLimit];
+
+                        currentEnemyNums = GameObject.FindGameObjectsWithTag("Enemy").Length;
                     }
 
                     //一番近い敵との距離をリセット
