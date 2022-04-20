@@ -362,7 +362,7 @@ public class PointControl : MonoBehaviour
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
-                selA.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+                //selA.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
                 selA = null;
                 selB = null;
                 selTf = null;
@@ -805,7 +805,7 @@ public class PointControl : MonoBehaviour
             changeCircleNum++;
             if (changeCircleNum > 5) changeCircleNum = 5;
         }
-
+        CC.changeColorLine = true;
         //if (oldNum != changeCircleNum)
         //    RandomColorSet();
     }
