@@ -2312,7 +2312,7 @@ MonoBehaviour:
       goalPort: {fileID: 1564816376}
     - ang: 25
       goalPort: {fileID: 107867926}
-    - ang: 80
+    - ang: 155
       goalPort: {fileID: 0}
     - ang: 225
       goalPort: {fileID: 112804638}
