@@ -69,13 +69,13 @@ public class PlayerController : MonoBehaviour
         //オーブを消費する
         s_OrbGage.UseOrb(type);
 
-        //先頭のオーブ
-        GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
+        Debug.Log("魔法を撃てや");
 
-        if(type == 5 || type == 1)
+        if (type == 5 || type == 1)
         {
-            //Shoot_The_at_Enemy_Magic SM = Magic.GetComponent<Shoot_The_at_Enemy_Magic>();
-            //SM.Set_Ini(tage, type, lv);
+            //先頭のオーブ
+            GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
+
             //Magichomingを取得
             Magichoming mh = Magic.GetComponent<Magichoming>();
 
@@ -88,6 +88,9 @@ public class PlayerController : MonoBehaviour
         }
         else if(type == 2)
         {
+            //先頭のオーブ
+            GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
+
             Magichoming mh = Magic.GetComponent<Magichoming>();
 
             //魔法とんでいくターゲットを変える。
@@ -100,10 +103,24 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            ////先頭のオーブ
+            //GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
+
+            ////Magichomingを取得
+            //Magichoming mh = Magic.GetComponent<Magichoming>();
+
+            ////魔法とんでいくターゲットを変える。
+            //mh.TargetObject = tage;
+
+            ////魔法の種類とレベルを反映する
+            //mh.magicType = type;
+            //mh.magicLevel = lv;
+
             foreach (GameObject target in targets)
             {
-                //Shoot_The_at_Enemy_Magic SM = Magic.GetComponent<Shoot_The_at_Enemy_Magic>();
-                //SM.Set_Ini(target, type, lv);
+                //先頭のオーブ
+                GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
+
                 //Magichomingを取得
                 Magichoming mh = Magic.GetComponent<Magichoming>();
 
@@ -115,8 +132,5 @@ public class PlayerController : MonoBehaviour
                 mh.magicLevel = lv;
             }
         }
-
-       
-
     }
 }

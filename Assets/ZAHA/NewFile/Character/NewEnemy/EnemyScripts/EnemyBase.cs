@@ -287,7 +287,9 @@ public class EnemyBase : MonoBehaviour
 
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら
         {
-            Damage(1); //1ダメージを与える。
+            abnormal_condition = AbnormalCondition.NONE;
+            ice_abnormality_turncount = 0;
+            Debug.Log("そして時は(ry");
         }
     }
 
@@ -322,7 +324,7 @@ public class EnemyBase : MonoBehaviour
                     Fire_Abnormal_Condition();
                     break;
                 case AbnormalCondition.Ice:
-                    //Ice_Abnormal_Condition();
+                    Ice_Abnormal_Condition();
                     break;
             }
 
@@ -540,7 +542,7 @@ public class EnemyBase : MonoBehaviour
 
         Vector3 def = next_pos - transform.position;
         /*Vector3.MoveTowards(transform.position, next_pos, Speed * Time.deltaTime);*/
-        Debug.Log("目的値距離" + def.sqrMagnitude);
+        //Debug.Log("目的値距離" + def.sqrMagnitude);
 
         transform.position += def.normalized * Speed * Time.deltaTime;
 

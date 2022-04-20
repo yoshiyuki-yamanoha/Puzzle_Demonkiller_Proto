@@ -133,15 +133,16 @@ public class Magichoming : MonoBehaviour
                     //炎上 レベルにより範囲が変わる
                     if (magicType == 0)
                     {
+                        Debug.Log("炎の五芒星");
                         GameObject fire;
-                        //範囲により変わる爆発
+                        ////範囲により変わる爆発
                         fire = GenerationMagic(Exp, transform.position);
-                        // レベルに応じてスケールの変更
-                        float scalX = 1f;
-                        if (magicLevel > 0)
-                            scalX = magicLevel * 2f - 1f;
-                        
-                        fire.transform.localScale = new Vector3(scalX, scalX, scalX);
+                        //// レベルに応じてスケールの変更
+                        //float scalX = 1f;
+                        //if (magicLevel > 0)
+                        //    scalX = magicLevel * 2f - 1f;
+
+                        //fire.transform.localScale = new Vector3(scalX, scalX, scalX);
                         //炎上するやつ
                         //GameObject fire = GenerationMagic(fireEffe, transform.position);
                         //fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);

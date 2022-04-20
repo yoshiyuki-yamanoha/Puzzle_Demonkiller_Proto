@@ -38,10 +38,10 @@ public class Star_Ice : MonoBehaviour
                 StartCoroutine(cre_ice(num + j, i));
             }
         }
-        for (int j = 0; j < _lev; j++)
-        {
-            Ene_Damage(num + j);
-        }
+        //for (int j = 0; j < _lev; j++)
+        //{
+        //    Ene_Damage(num + j);
+        //}
     }
 
     IEnumerator cre_ice(int num,int child)
@@ -60,6 +60,8 @@ public class Star_Ice : MonoBehaviour
 
             GameObject IceChild = Instantiate(Ice, crePos, Quaternion.identity, this.transform);
             GameObject Iceefe = Instantiate(Ice_efe, Stage_mass.transform.GetChild(ObjNum).position, Quaternion.identity);
+
+            StartCoroutine(Ene_Damage(ObjNum % 11, ObjNum / 11));
 
             Ice_objs.Add(IceChild);
 
@@ -89,15 +91,15 @@ public class Star_Ice : MonoBehaviour
         }
     }
 
-    void Ene_Damage(int num)
+    IEnumerator Ene_Damage(int _x , int _y)
     {
-        int magic_pos = num;
+        yield return new WaitForSeconds(0.2f);
 
         GameObject enemies = GameObject.Find("Sponer");
         for (int i = 0; i < enemies.transform.childCount; i++)
         {
             Enemy ene = enemies.transform.GetChild(i).GetComponent<Enemy>();
-            if (num == ene.X)
+            if (_x == ene.X && _y == ene.Y)
             {
                 ene.Damage(2);
             }
