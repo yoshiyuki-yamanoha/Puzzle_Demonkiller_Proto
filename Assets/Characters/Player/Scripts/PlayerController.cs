@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     //魔法を生成、番号指定で撃つ魔法を変える。
     public void ShotMagic(/*List<GameObject>*/GameObject tage, int type, int lv,GameObject[] targets = null) {
+        Debug.Log(type);
 
         //オーブを消費する
         s_OrbGage.UseOrb(type);

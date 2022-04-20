@@ -411,13 +411,13 @@ public class MagicMassSelecter : MonoBehaviour
             GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
 
             //五芒星雷魔法 と 五角形炎魔法 以外
-            if (typ != 2 && typ != 3)
+            if (typ != 2)
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
 
                     //全ます
-                    if (typ == 0 || typ == 1 || typ == 4)
+                    if (typ == 0 || typ == 1 || typ == 4 || typ == 3)
                     {
 
                         s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
@@ -445,7 +445,7 @@ public class MagicMassSelecter : MonoBehaviour
 
                         //選択上限
                         if (typ == 2) selectsNumLimit = lev + 1;
-                        if (typ == 3) selectsNumLimit = lev;
+                        //if (typ == 3) selectsNumLimit = lev;
 
                         selectTargets = new GameObject[selectsNumLimit];
                     }

@@ -45,6 +45,8 @@ public class ThunderSelect : MonoBehaviour
         {
             KillEnemyList_Thunder.Clear();
         }
+        Destroy(gameObject, 1.0f); 
+        ThunderSelecter_Add();
     }
 
     public void ThunderSelecter_Add()
