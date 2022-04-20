@@ -12,7 +12,7 @@ public class Star_Ice : MonoBehaviour
     private float upSpeed = 10.0f;
     private float Max_y = 0.8f;
 
-    private List<GameObject> Ice_objs = new List<GameObject>();
+    [SerializeField]private List<GameObject> Ice_objs = new List<GameObject>();
     void Start()
     {
         Destroy(gameObject, 5f);
@@ -49,7 +49,6 @@ public class Star_Ice : MonoBehaviour
         float delay = (child) * 0.1f;
         yield return new WaitForSeconds(delay);
 
-
         int ObjNum = (154 + (num * 2)) - ((num) + (child * 11));
         if (0 <= ObjNum || ObjNum > Stage_mass.transform.childCount - 1)
         {
@@ -75,7 +74,7 @@ public class Star_Ice : MonoBehaviour
 
     private void child_Move()
     {
-        for(int i=0; i < Ice_objs.Count-1; i++)
+        for(int i=0; i < Ice_objs.Count; i++)
         {
             Vector3 pos = Ice_objs[i].transform.localPosition;
             if (Max_y > pos.y)

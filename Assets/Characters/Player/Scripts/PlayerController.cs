@@ -69,8 +69,6 @@ public class PlayerController : MonoBehaviour
         //オーブを消費する
         s_OrbGage.UseOrb(type);
 
-        Debug.Log("魔法を撃てや");
-
         if (type == 5 || type == 1)
         {
             //先頭のオーブ

@@ -106,5 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3eecb83127028342951710403577155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ice: {fileID: 8134288693290019878, guid: a998a99141ef2794e9d61df61a58d323, type: 3}
+  Ice: {fileID: 8134288693290019878, guid: f3daa8780e6c8d440be1f9ad3c623e43, type: 3}
   Ice_efe: {fileID: 5221478050829830493, guid: 2a35797670549e443ad469381c8589f0, type: 3}
+  Ice_objs: []
