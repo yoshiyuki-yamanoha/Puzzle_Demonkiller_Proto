@@ -80,6 +80,9 @@ public class ClearCheck : TrunManager
 
     private SEManager sePlay;
 
+    //既にレベルMaxになっているオーブか検証用
+    [SerializeField] OrbGage s_OrbGage;
+
 
     //OrbGage oGage;//オーブのゲージ
 
@@ -165,57 +168,17 @@ public class ClearCheck : TrunManager
             }
         }
 
-        
-
-        if (attack == true && nowComboTime == 0)
-        {
-            //int c = 0;
-
-            //GameObject[] enemies = GameObject.FindGameObjectsWithTag("MarkedEnemy");
-            //foreach (GameObject o in enemies)
-            //{
-            //    if (c == 0)
-            //    {
-            //        pc.PlayerAttack();
-            //        Mh = GameObject.Find("FireMagic1").GetComponent<Magichoming>();
-            //        Mh.targetno = 0;
-            //        c = 1;
-            //    }
-            //    else if (c == 1)
-            //    {
-            //        pc.PlayerAttack();
-            //        Mh = GameObject.Find("FireMagic2").GetComponent<Magichoming>();
-            //        Mh.targetno = 1;
-            //        c = 2;
-            //    }
-            //    else if (c == 2)
-            //    {
-            //        pc.PlayerAttack();
-            //        Mh = GameObject.Find("FireMagic3").GetComponent<Magichoming>();
-            //        Mh.targetno = 2;
-            //        c = 3;
-            //    }
-            //}
-
-            ////pc.PlayerAttack();
-            //attack = false;
-            //pc.attackNum = 0;
-        }
-
+        //コンボタイムが切れた時
         if (attack == true && nowComboTime == 0)
         {
 
             //パズルを消す
-            //puzzle.SetActive(false);
             gauge.SetActive(false);
-            //bgCircle.SetActive(false);
             pointer.SetActive(false);
-            //pc.PlayerAttack();
+
             attack = false;
             pc.attackNum = 0;
             puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
-            //trunMgr.SetTrunPhase(TrunPhase.MagicAttack);
-            //s_PointControl.enabled = false;
         }
 
         if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
@@ -237,10 +200,6 @@ public class ClearCheck : TrunManager
             if (fadeNowTime <= 0)
             {
                 fadeNowTime = 0;
-                //puzzle.SetActive(true);
-                //gauge.SetActive(true);
-                //bgCircle.SetActive(true);
-                //pointer.SetActive(true);
             }
         }
 
@@ -324,6 +283,29 @@ public class ClearCheck : TrunManager
 
     bool CheckClear(int nextNum)
     {
+
+        //既に揃っているオーブかどうか確認
+        var levels = s_OrbGage.Get_Orb_Level();
+
+        //現在の魔法陣の色
+        string na = GameObject.FindGameObjectWithTag("My").name;
+
+        //色判別
+        int cn = 0;
+        if (na == "S") cn = 1;
+        if (na == "Y") cn = 2;
+
+
+        //五角形
+        if(Math.Abs(nextNum) == 1)
+        {
+            if (levels[3+cn] == 3) return false;
+        }
+        //五芒星
+        if(Math.Abs(nextNum) == 2)
+        {
+            if (levels[cn] == 3) return false;
+        }
         
         for (int i = 0; i < play.Length; i++)
         {
@@ -401,10 +383,18 @@ public class ClearCheck : TrunManager
     }
 
     void ShowEffeLingSound() {
-        Instantiate(clearEffe, effePos);
+        s_PointControl.enabled = false;
+        Destroy(Instantiate(clearEffe, effePos),1.0f);
+        Invoke("ChangePointerMode", 0.5f);
 
         sePlay.Play("matchSE");//SEを鳴らす（魔方陣の位置が入れ替わる）
         //ass.PlayOneShot(se);
+    }
+    
+    //ポイントコントロールのアクティブ/非アクティブ化
+    void ChangePointerMode() {
+
+        s_PointControl.enabled = true;
     }
 
     public void SubMP() {
@@ -416,25 +406,5 @@ public class ClearCheck : TrunManager
         }
         mpText.text = "魔力: " + magicPoint.ToString("0");
     }
-    //private IEnumerator ColTest()
-    //{
-        
-
-    //    yield return new WaitForSeconds(1.0f);
-    //    bgCircle.SetActive(false);
-
-    //    yield return new WaitForSeconds(1.0f);
-    //    MaxCombo = comboNum;
-    //    comboNum = 0;
-    //    nowComboTime = 0;
-
-        
-        
-
-    //    //オーブリセット
-    //    ppp.ResetOrbs();
-
-    //    AttackV.attackvar_erase();
-    //}
 
 }
