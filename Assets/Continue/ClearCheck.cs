@@ -82,6 +82,7 @@ public class ClearCheck : TrunManager
 
     //既にレベルMaxになっているオーブか検証用
     [SerializeField] OrbGage s_OrbGage;
+    public bool changeColorLine = false;
 
 
     //OrbGage oGage;//オーブのゲージ
@@ -100,6 +101,9 @@ public class ClearCheck : TrunManager
         //ppp.RandomColorSet();
 
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        //線の色を付ける
+        foreach (GameObject o in playObjs)
+            o.GetComponent<GoToParent>().LineSetColor();
 
         gauge.SetActive(false);
     }
@@ -131,7 +135,14 @@ public class ClearCheck : TrunManager
                     ClearReward((int)PointControl.MAGIC_MODE.STAR);
                 }
 
+                if(changeColorLine == true)
+                {
+                    //線の色を付ける
+                    foreach (GameObject o in playObjs)
+                        o.GetComponent<GoToParent>().LineSetColor();
+                    changeColorLine = false;
 
+                }
 
                 //全ての線が後ろの線に重なってればクリア(理想かも)
             }
