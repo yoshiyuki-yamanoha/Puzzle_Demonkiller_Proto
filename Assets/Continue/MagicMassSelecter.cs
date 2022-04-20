@@ -455,15 +455,11 @@ public class MagicMassSelecter : MonoBehaviour
 
                     //現在選択中のエネミー
                     if (typ == 2)
-                        selectTargets[selectsNum] = GetEnemyObjectOnCurrentSelectMass();
+                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(GetEnemyObjectOnCurrentSelectMass());
                     if (typ == 3)
-                        selectTargets[selectsNum] = s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY);
+                        selectTargets[selectsNum] = (s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY));
 
-                    if(selectTargets[selectsNum] != null)
-                    selectTargets[selectsNum].tag = "MarkedEnemy";
 
-                    //被りが無ければカウント
-                    selectsNum++;
 
                     //上限に達したら
                     if (selectsNum >= selectsNumLimit)
@@ -492,7 +488,7 @@ public class MagicMassSelecter : MonoBehaviour
 
         foreach (var e in enemies) {
 
-            //if (SearchSameObjectInSelectArray(e) == false) continue;
+            if (SearchSameObjectInSelectArray2(e) == false) continue;
 
             int oldSelectEnemyX, oldSelectEnemyY;
             (oldSelectEnemyX, oldSelectEnemyY) = GetOldSelectedEnemyPos();
@@ -524,7 +520,27 @@ public class MagicMassSelecter : MonoBehaviour
     }
 
     //選択配列の中にあるオブジェクトと同じ物が存在するかを判定すう
-    bool SearchSameObjectInSelectArray(GameObject obj)
+    GameObject SearchSameObjectInSelectArray(GameObject obj)
+    {
+
+        if (selectsNum > 0)
+        {
+            foreach (GameObject g in selectTargets)
+            {
+                if (g == obj) return null;
+            }
+        }
+
+        if (selectTargets[selectsNum] != null)
+            selectTargets[selectsNum].tag = "MarkedEnemy";
+
+        //被りが無ければカウント
+        selectsNum++;
+
+        return obj;
+    }
+
+    bool SearchSameObjectInSelectArray2(GameObject obj)
     {
 
         if (selectsNum > 0)
