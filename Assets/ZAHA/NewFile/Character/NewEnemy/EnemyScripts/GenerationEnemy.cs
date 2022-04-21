@@ -60,7 +60,7 @@ public class GenerationEnemy : PseudoArray
         initpos[3] = new Vector2Int(12,7);
         initpos[4] = new Vector2Int(17,5);
         initpos[5] = new Vector2Int(17,9);
-        initpos[6] = new Vector2Int(2, 7);
+        initpos[6] = new Vector2Int(2, 8);
 
 
         initpos[7] = new Vector2Int(1,1 );
@@ -91,7 +91,7 @@ public class GenerationEnemy : PseudoArray
 
         //自分のターンの時
         if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy)
-        { 
+        {
             //DeleteListEnemy();
             enemy_base.DeleteListEnemy();//敵削除
 
@@ -101,6 +101,7 @@ public class GenerationEnemy : PseudoArray
                 {
                     StageSarchEnemy = GameObject.FindGameObjectsWithTag("Enemy");
                     sarchinit = false;
+
                     //Debug.Log("敵の数" + StageSarchEnemy.LongLength);
                 }
             }
@@ -166,7 +167,7 @@ public class GenerationEnemy : PseudoArray
                         int randomX = initpos[random].x;//Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
                         int randomY = initpos[random].y;//Random.Range(0, max_y);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
 
-                        if (random < 12) {
+                        if (random < 13) {
                             random++;
                         }
 
