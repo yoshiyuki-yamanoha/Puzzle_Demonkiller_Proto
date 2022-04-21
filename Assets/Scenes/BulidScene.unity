@@ -1127,6 +1127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 757378771, guid: 71726a981af5cd847a926dbd4ecb21ba, type: 3}
+      propertyPath: selectCircle
+      value: 
+      objectReference: {fileID: 876905120787734957, guid: 63868f6cc2589e14bb8abac8cab76974,
+        type: 3}
     - target: {fileID: 5631804626935792488, guid: 71726a981af5cd847a926dbd4ecb21ba,
         type: 3}
       propertyPath: m_LocalPosition.x
