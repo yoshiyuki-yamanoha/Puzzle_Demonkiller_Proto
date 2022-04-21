@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PuzzlePointerMover : MonoBehaviour
+public class PuzzlePointerMover : TrunManager
 {
     //角度と対象オブジェクト指定用の構造体
     [Serializable] struct GoalPorts {
@@ -21,6 +21,7 @@ public class PuzzlePointerMover : MonoBehaviour
 
     //スクリプト
     PointControl s_PointControl;
+    TrunManager s_TrunManager;
 
     //現在選択している魔法陣オブジェクト
     [SerializeField] GameObject currentSelectedCircle;
@@ -33,25 +34,40 @@ public class PuzzlePointerMover : MonoBehaviour
 
     //選択魔法陣
     [SerializeField] GameObject selectCircle;
+    GoToParent gp;
+
+    //音
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip moveSound;
 
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
+
+        gp = circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>();
+
+        gp.ShowSelectCircle(selectCircle);
+
+        s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
     private void FixedUpdate()
     {
-        //現在選択してる魔法陣を取得
-        GetCurrentSelecterCircle();
+        if (s_TrunManager.trunphase == TrunPhase.Puzzle)
+        {
 
-        //スティックの角度
-        CalcAngle();
+            //現在選択してる魔法陣を取得
+            GetCurrentSelecterCircle();
 
-        //魔法陣間の移動を制御する
-        if(isStickMove) Mover();
+            //スティックの角度
+            CalcAngle();
 
-        //更新後の選択している魔法陣の情報を渡す
-        SetCurrentSelecterCircle();
+            //魔法陣間の移動を制御する
+            if (isStickMove) Mover();
+
+            //更新後の選択している魔法陣の情報を渡す
+            SetCurrentSelecterCircle();
+        }
 
     }
 
@@ -108,8 +124,6 @@ public class PuzzlePointerMover : MonoBehaviour
                 
                 if (goal != null)
                 {
-                    //前回選択したオブジェクトのGotoParentを取得
-                    GoToParent gp = currentSelectedCircle.GetComponent<GoToParent>();
 
                     //選択サークルを消す
                     gp.FadeSelectCircle();
@@ -124,6 +138,7 @@ public class PuzzlePointerMover : MonoBehaviour
                     gp.ShowSelectCircle(selectCircle);
 
                     //移動音を鳴らす
+                    audioSource.PlayOneShot(moveSound);
 
                 }
             }

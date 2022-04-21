@@ -13,6 +13,7 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] TrunManager s_TrunManager;
     [SerializeField] PlayerController s_PlayerContoller;
     [SerializeField] SelectUseOrb s_SelectUseOrb;
+    [SerializeField] OrbGage s_OrbGage;
 
     //移動用
     int nowSelX = 5;
@@ -44,11 +45,12 @@ public class MagicMassSelecter : MonoBehaviour
     {
         s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
+        s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
     }
 
     private void FixedUpdate()
     {
-        if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack)
+        if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
         {
             GetMassInfos();
 

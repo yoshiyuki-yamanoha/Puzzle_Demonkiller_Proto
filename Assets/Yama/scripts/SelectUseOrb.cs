@@ -49,7 +49,7 @@ public class SelectUseOrb : TrunManager
             if (!notSwitchOrb)
             SelectOrb_Update();
 
-        if (s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)//Player攻撃ターンか？
+        if (s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack && s_orbGage.OrbCheckExsistens())//Player攻撃ターンか？
         {
             //選択しているオーブの表示
             selectOrb();
