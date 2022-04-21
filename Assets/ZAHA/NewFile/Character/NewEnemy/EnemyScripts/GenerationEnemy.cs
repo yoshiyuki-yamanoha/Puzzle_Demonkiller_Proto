@@ -198,7 +198,7 @@ public class GenerationEnemy : PseudoArray
                 Debug.Log("search大きさ." + StageSarchEnemy.Length);
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
-                    if (StageSarchEnemy[i].GetComponent<Enemy>().Is_action)
+                    if (StageSarchEnemy[i].GetComponent<EnemyBase>().Is_action)
                     {
                         if (StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg)
                         {

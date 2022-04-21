@@ -170,7 +170,7 @@ public class EnemyBase : MonoBehaviour
     public float Damage(float damage)//damage処理
     {
         hp -= damage;
-        if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
+        if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/  enemys_.Remove(this.gameObject); }
 
         return hp;
     }
@@ -319,12 +319,18 @@ public class EnemyBase : MonoBehaviour
 
     public void DeleteListEnemy()
     {
+        List<GameObject> g = new List<GameObject>();
         foreach (var enemy in enemys_)
         {
             if (enemy == null)
             {
-                enemys_.Remove(enemy);
+                g.Add(enemy);
             }
+        }
+
+        for(int i=0; i<g.Count; i++)
+        {
+            enemys_.Remove(g[i]);
         }
     }
 
