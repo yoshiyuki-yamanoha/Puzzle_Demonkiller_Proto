@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 8134288693290019875}
   - component: {fileID: 8134288693290019876}
   - component: {fileID: 8134288693290019877}
-  - component: {fileID: 6419521663556714345}
-  - component: {fileID: 4407921068077578267}
+  - component: {fileID: -190254680509069206}
   m_Layer: 0
-  m_Name: ICE_MAGIC
-  m_TagString: Untagged
+  m_Name: Star_ice_Efe
+  m_TagString: Ice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8134288693290019878}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -81,31 +80,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6419521663556714345
-MonoBehaviour:
+--- !u!65 &-190254680509069206
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8134288693290019878}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b59a3c8f11e9b1a45b6c8717dee49301, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Efe: {fileID: 5221478050829830493, guid: 2a35797670549e443ad469381c8589f0, type: 3}
---- !u!114 &4407921068077578267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8134288693290019878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3eecb83127028342951710403577155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Ice: {fileID: 8134288693290019878, guid: 353a6c6cb8b274e4da6f84370fd7f65b, type: 3}
-  Ice_efe: {fileID: 5221478050829830493, guid: 2a35797670549e443ad469381c8589f0, type: 3}
-  Ice_objs: []
+  serializedVersion: 2
+  m_Size: {x: 1.6720036, y: 4.508243, z: 1.6720037}
+  m_Center: {x: 0, y: 0, z: 0}

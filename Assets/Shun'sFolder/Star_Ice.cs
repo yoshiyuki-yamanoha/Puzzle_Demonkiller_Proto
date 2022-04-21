@@ -76,12 +76,19 @@ public class Star_Ice : MonoBehaviour
     {
         for(int i=0; i < Ice_objs.Count; i++)
         {
-            Vector3 pos = Ice_objs[i].transform.localPosition;
-            if (Max_y > pos.y)
+            if(Ice_objs[i] != null)
             {
-                pos.y += upSpeed * Time.deltaTime;
+                Vector3 pos = Ice_objs[i].transform.localPosition;
+                if (Max_y > pos.y)
+                {
+                    pos.y += upSpeed * Time.deltaTime;
 
-                Ice_objs[i].transform.localPosition = pos;
+                    Ice_objs[i].transform.localPosition = pos;
+                }
+                else
+                {
+                    Ice_objs.Remove(Ice_objs[i]);
+                }
             }
             else
             {
@@ -93,11 +100,13 @@ public class Star_Ice : MonoBehaviour
     IEnumerator Ene_Damage(int _x , int _y)
     {
         yield return new WaitForSeconds(0.2f);
+        EnemyBase eb = new EnemyBase();
 
-        GameObject enemies = GameObject.Find("Sponer");
-        for (int i = 0; i < enemies.transform.childCount; i++)
+        List<GameObject> enemies = eb.GetEnemyList();
+
+        for (int i = 0; i < enemies.Count; i++)
         {
-            EnemyBase ene = enemies.transform.GetChild(i).GetComponent<EnemyBase>();
+            EnemyBase ene = enemies[i].GetComponent<EnemyBase>();
             if (_x == ene.X && _y == ene.Y)
             {
                 ene.Damage(2);

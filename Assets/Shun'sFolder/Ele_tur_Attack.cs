@@ -93,10 +93,12 @@ public class Ele_tur_Attack : MonoBehaviour
     {
         Vector2 magic_pos= new Vector2(int.Parse(_tage.name) % 20, int.Parse(_tage.name) / 20);
 
-        GameObject enemies = GameObject.Find("Sponer");
-        for(int i = 0; i < enemies.transform.childCount; i++)
+        EnemyBase eb = new EnemyBase();
+
+        List<GameObject> enemies = eb.GetEnemyList();
+        for (int i = 0; i < enemies.Count; i++)
         {
-            EnemyBase ene = enemies.transform.GetChild(i).GetComponent<EnemyBase>();
+            EnemyBase ene = enemies[i].GetComponent<EnemyBase>();
             Vector2 ene_pos = new Vector2(ene.X, ene.Y);
             if(magic_pos == ene_pos)
             {
