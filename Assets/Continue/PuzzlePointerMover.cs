@@ -37,6 +37,8 @@ public class PuzzlePointerMover : MonoBehaviour
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
+
+        circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
     }
 
     private void FixedUpdate()

@@ -160,15 +160,14 @@ public class MagicRangeDetector : TrunManager
             case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
 
                 rangeStart = new Vector2Int();
-                //.x = magicLevel < 3 ? selX : selX - 1;
                 rangeStart.x = selX - (magicLevel - 1);
                 rangeStart.y = selY;
 
-                int nn = 1 + (magicLevel - 1) * 2;
+                num = 1 + (magicLevel - 1) * 2;
 
-                magicRange = new MagicMassStatus[1, nn];
+                magicRange = new MagicMassStatus[1, num];
 
-                for (int j = 0; j < nn; j++)
+                for (int j = 0; j < num; j++)
                 {
                     magicRange[0, j].y = rangeStart.y;
                     magicRange[0, j].x = rangeStart.x + j;
