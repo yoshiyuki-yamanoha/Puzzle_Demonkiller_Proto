@@ -1113,7 +1113,7 @@ GameObject:
   - component: {fileID: 1388736641965320740}
   - component: {fileID: 605173478290398530}
   - component: {fileID: 6466002323524396829}
-  - component: {fileID: 2218719140868270341}
+  - component: {fileID: 1747836455457244250}
   m_Layer: 8
   m_Name: FlameSwordEnemy
   m_TagString: Enemy
@@ -1228,7 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_animator: {fileID: 0}
---- !u!114 &2218719140868270341
+--- !u!114 &1747836455457244250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1237,13 +1237,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4644346809143061703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 695c09d15f2f750439427d4acc5b487c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebba72e85e365f4c958538bbe965b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mynumber: 0
   map: {fileID: 0}
-  hp: 10
-  max_hp: 10
-  attack: 10
+  hp: 6
+  max_hp: 6
+  attack: 1
   speed: 1
   deathflg: 0
   generation_enemy: {fileID: 0}

@@ -43,7 +43,20 @@ public class FlameSwordMove : EnemyBase
             }
         }
 
+        // 氷の状態異常にはならない処理
+        IceBreak();
+
         EnemyDeath();//敵が死んだときの処理
         Enemy_anim.AnimStatus(status);//アニメーション更新
+    }
+
+    /// <summary>
+    /// 氷の状態異常になったとき、即状態異常を解除して２ダメージ受ける
+    /// </summary>
+    void IceBreak() {
+        if (Abnormal_condition == AbnormalCondition.Ice) {
+            Abnormal_condition = AbnormalCondition.NONE;
+            Damage(2);  // 2ダメージ
+        }
     }
 }
