@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GenerationEnemy : PseudoArray
 {
+    Vector2Int[] initpos = new Vector2Int[13];//6体分
+    int random = 0;
+
     EnemyBase enemy_base;
     int search_count = 0;
     //インスペクターで設定用
@@ -21,7 +24,7 @@ public class GenerationEnemy : PseudoArray
     float enemy_count = 0;//エネミーカウント
     int enemy_kinds_max = 0;//敵種類
     int enemy_oneturn_count = 0;
-    int enemy_oneturn_max = 0;  //1ターンに出る敵の最大大数
+    int enemy_oneturn_max = 13;  //1ターンに出る敵の最大大数
     int Turn_Count = 1;  //1ターン目からターン数を数える（規定ターン数に敵を沸く処理を作る用
     //public GameObject[] rootpos = null;//親オブジェクト
     public bool initflg = true;
@@ -49,6 +52,25 @@ public class GenerationEnemy : PseudoArray
     {
         enemy_base = new EnemyBase();
         Debug.Log("enemy_base " + enemy_base);
+
+
+        initpos[0] = new Vector2Int(2,7);
+        initpos[1] = new Vector2Int(7,4);
+        initpos[2] = new Vector2Int(8,6);
+        initpos[3] = new Vector2Int(12,7);
+        initpos[4] = new Vector2Int(17,5);
+        initpos[5] = new Vector2Int(17,9);
+        initpos[6] = new Vector2Int(2, 8);
+
+
+        initpos[7] = new Vector2Int(1,1 );
+        initpos[8] = new Vector2Int(2, 4);
+        initpos[9] = new Vector2Int(2, 0);
+        initpos[10] = new Vector2Int(7,0 );
+        initpos[11] = new Vector2Int(16,2);
+        initpos[12] = new Vector2Int(16,3);
+
+
         //max_x = rootpos.Length;//スタートポジションの数分取得
         //max_y = rootpos[0].transform.childCount;//子供の数取得
         max_x = map.Map.GetLength(1);
@@ -79,9 +101,8 @@ public class GenerationEnemy : PseudoArray
                 {
                     StageSarchEnemy = GameObject.FindGameObjectsWithTag("Enemy");
                     sarchinit = false;
-                    Debug.Log("敵の数" + StageSarchEnemy.LongLength);
 
-
+                    //Debug.Log("敵の数" + StageSarchEnemy.LongLength);
                 }
             }
 
@@ -92,8 +113,8 @@ public class GenerationEnemy : PseudoArray
                 {
                     //if (enemy_count < enemy_max)
                     //{
-                        //Debug.Log("puzzleターンに移行");
-                        //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+                    Debug.Log("puzzleターンに移行");
+                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                     //}
                 }
             }
@@ -113,21 +134,21 @@ public class GenerationEnemy : PseudoArray
             //生成する状態なら
             if (is_generation)
             {
-                switch (Turn_Count) //ターンごとに敵の出る量を調整します  caseを使ってターンごとの沸きを調整できます
-                {                   //使い方：case敵の量を変えたいターンの数字を追加→enemy_oneturun_maxに敵を出したい数を代入（最低1体）
-                    case 1: //ターン1
-                        enemy_oneturn_max = 3;
-                        break;
-                    case 2: //ターン2 
-                        enemy_oneturn_max = 0;
-                        break;
-                    case 3: //ターン3
-                        enemy_oneturn_max = 2;
-                        break;
-                    default:
-                        enemy_oneturn_max = Random.Range(2, 5);
-                        break;
-                }
+                //switch (Turn_Count) //ターンごとに敵の出る量を調整します  caseを使ってターンごとの沸きを調整できます
+                //{                   //使い方：case敵の量を変えたいターンの数字を追加→enemy_oneturun_maxに敵を出したい数を代入（最低1体）
+                //    case 1: //ターン1
+                //        enemy_oneturn_max = 3;
+                //        break;
+                //    case 2: //ターン2 
+                //        enemy_oneturn_max = 0;
+                //        break;
+                //    case 3: //ターン3
+                //        enemy_oneturn_max = 2;
+                //        break;
+                //    default:
+                //        enemy_oneturn_max = Random.Range(2, 5);
+                //        break;
+                //}
                 if (time > interval_s)//秒おきに生成
                 {
 
@@ -140,11 +161,18 @@ public class GenerationEnemy : PseudoArray
                         }
 
                         int Enemy_kinds_max = Random.Range(0, enemy_kinds_max); //////敵の位置関係？
-                        int randomX = Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
-                        int randomY = Random.Range(0, max_y - 7);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
 
-                        //生成する位置が誰もいない時 敵以外なら生成
-                        if (map.Map[randomY, randomX] != (int)MapMass.Mapinfo.Enemy)
+
+                        
+                        int randomX = initpos[random].x;//Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
+                        int randomY = initpos[random].y;//Random.Range(0, max_y);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
+
+                        if (random < 13) {
+                            random++;
+                        }
+
+                        //生成する位置が誰もいない時 空いてるマスなら生成
+                        if (map.Map[randomY, randomX] == (int)MapMass.Mapinfo.NONE)
                         {
                             Generation(Enemy_kinds_max, randomX, randomY);//引数(エネミーの種類 , スタートPos)生成。
                             if (sePlay != null) sePlay.Play("EnemySpawn");
@@ -162,24 +190,28 @@ public class GenerationEnemy : PseudoArray
                 {
                     time += Time.deltaTime;
                 }
+
             }//生成フラグがオンの時
             else//ここが敵が動いている時↓
             {
                 //敵がの持ってく行動フラグを見ている。
+                Debug.Log("search大きさ." + StageSarchEnemy.Length);
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
-                    if (StageSarchEnemy[i].GetComponent<Enemy>().Is_action)
+                    if (StageSarchEnemy[i].GetComponent<EnemyBase>().Is_action)
                     {
                         if (StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg)
                         {
 
                             search_count++;
+                            Debug.Log("searchカウント" + search_count);
                             StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg = false;
                         }
                     }
                 }
 
-                if (search_count >= StageSarchEnemy.Length)
+
+                if (search_count >= StageSarchEnemy.Length)//searchカウントがステージのsearchカウントより大きいとき enemy max flgがターンMaxFlgが大きい時
                 {
                     if (enemy_max_flg)
                     {
@@ -258,7 +290,7 @@ public class GenerationEnemy : PseudoArray
 
         if (enemy_oneturn_count >= enemy_oneturn_max)  //enemy_oneturn_maxの数敵が出てくる：ここでターン＋
         {
-            Debug.Log("生成終了");
+            //Debug.Log("生成終了");
             oneturn_generation_flg = true;
             is_generation = false;//終了
             turn_exit_flg = true;

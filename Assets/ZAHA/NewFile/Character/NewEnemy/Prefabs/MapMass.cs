@@ -91,6 +91,7 @@ public class MapMass:MonoBehaviour
     [SerializeField] GameObject icemas_prefab = null;
     [SerializeField] GameObject core_prefab = null;
     [SerializeField] GameObject tree_prefab = null;
+    [SerializeField] GameObject bari_prefab = null;
 
     struct MassState {
         public int state;
@@ -104,6 +105,7 @@ public class MapMass:MonoBehaviour
         Ice,
         core,
         tree,
+        bari
     }
 
     MassState[,] masses = new MassState[20, 20];
@@ -122,10 +124,10 @@ public class MapMass:MonoBehaviour
         {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
         {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
         {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
-        {4,0,0,0,4,4,3,3,3,4,4,3,3,3,4,4,0,0,0,4},
+        {4,0,0,0,4,4,5,5,5,4,4,5,5,5,4,4,0,0,0,4},
         {4,0,0,0,4,4,0,0,0,0,0,0,0,0,4,4,0,0,0,4},
         {4,0,0,0,4,4,0,0,0,0,0,0,0,0,4,4,0,0,0,4},
-        {4,3,3,3,4,4,0,0,0,0,0,0,0,0,4,4,3,3,3,4},
+        {4,5,5,5,4,4,0,0,0,0,0,0,0,0,4,4,5,5,5,4},
         {4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,4},
         {4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,4},
         {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
@@ -148,8 +150,12 @@ public class MapMass:MonoBehaviour
     }
 
     void InstanceMap()
-    {
+    {   
         GameObject obj = null;
+
+        var treeParent = new GameObject("Trees");
+        var barriParent = new GameObject("Barricades");
+
         for (int y = 0; y < Map.GetLength(0); y++)
         {
             for (int x = 0; x < Map.GetLength(1); x++)
@@ -174,11 +180,19 @@ public class MapMass:MonoBehaviour
                         break;
                     case (int)Mapinfo.tree:
                         obj = Instantiate(tree_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, /*Tilemas_prefab.transform.localScale.y*/0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = treeParent.transform;
                         obj.gameObject.name = "tree";
                         //obj.gameObject.tag = "Core";
+                        obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z),Quaternion.identity);
+                        obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
+                        break;
+                    case (int)Mapinfo.bari:
+                        obj = Instantiate(bari_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = barriParent.transform;
+                        obj.gameObject.name = "Bari";
+                        obj.gameObject.tag = "Bari";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
-
                         break;
                 }
 

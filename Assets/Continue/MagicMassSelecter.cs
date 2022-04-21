@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class MagicMassSelecter : MonoBehaviour
 {
+    const int stageWidth = 20;
+    const int stageHeight = 20;
+
     //スクリプトたち
     [SerializeField] MapMass s_MapMass;
     [SerializeField] MagicRangeDetector s_MagicRangeDetector;
     [SerializeField] TrunManager s_TrunManager;
     [SerializeField] PlayerController s_PlayerContoller;
     [SerializeField] SelectUseOrb s_SelectUseOrb;
+    [SerializeField] OrbGage s_OrbGage;
 
     //移動用
     int nowSelX = 5;
@@ -41,17 +45,19 @@ public class MagicMassSelecter : MonoBehaviour
     {
         s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
+        s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
     }
 
     private void FixedUpdate()
     {
-        if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack)
+        if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
         {
+
             GetMassInfos();
 
             SubMoveInterval();
 
-            if(selectsNum > 0)
+            if(selectsNum > 0 && bottomCost == 99)
                 CalcBottomCost();
 
             if (selectType == 0) MoveSelecter();
@@ -122,6 +128,10 @@ public class MagicMassSelecter : MonoBehaviour
             //変更後のマス座標を渡す
             PassSelecterPos();
         }
+    }
+
+    public int GetSelectType() {
+        return selectType;
     }
 
     //セレクターの移動をする
@@ -280,7 +290,7 @@ public class MagicMassSelecter : MonoBehaviour
             xLine += vecNum;
 
             //ステージ範囲外に出たら戻る
-            if (xLine < -1 || xLine > 11)
+            if (xLine < -1 || xLine > stageWidth)
             {
                 currentSelectEnemy = oldSelectedEnemy;
                 return (nowSelX, nowSelY);
@@ -344,7 +354,7 @@ public class MagicMassSelecter : MonoBehaviour
             yLine += vecNum;
 
             //ステージ範囲外に出たら戻る
-            if (yLine < -1 || yLine > 15)
+            if (yLine < -1 || yLine > stageHeight)
             {
                 currentSelectEnemy = oldSelectedEnemy;
                 return (nowSelX, nowSelY);
@@ -464,7 +474,7 @@ public class MagicMassSelecter : MonoBehaviour
 
 
                     //上限に達したら
-                    if (selectsNum >= selectsNumLimit)
+                    if (selectsNum >= selectsNumLimit || selectsNum >= currentEnemyNums)
                     {
 
                         //魔法を放つ

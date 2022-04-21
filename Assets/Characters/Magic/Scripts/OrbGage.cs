@@ -298,7 +298,7 @@ public class OrbGage : MonoBehaviour
 
     //オーブの存在が確認できるかの関数
     //確認出来たらtrueを返す
-    bool OrbCheckExsistens() {
+    public bool OrbCheckExsistens() {
 
         totalNum = 0;
         foreach (var n in Orb_Level)

@@ -41,9 +41,6 @@ public class PointControl : MonoBehaviour
     //ゲームオブジェクト用
     private GameObject[] circles;
 
-    //誘導用透明オブジェクトたち
-    private GameObject[] porters;
-
     //前回選択してたオブジェクト(カーソル位置固定用)
     [NonSerialized] public GameObject oldOverlapObject=null;
 
@@ -171,127 +168,14 @@ public class PointControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        //カーソルの基準点がずっと中央
-        float hori = Input.GetAxis("Horizontal");
-        float vert = Input.GetAxis("Vertical");
-        Vector3 ppos = oriPos + new Vector3(hori * power, vert * power, 0);
 
         if (!isMenu)
         {
 
-            Debug.DrawLine(tf.position, ppos);
-            if (oldOverlapObject)
-                tf.position = oldOverlapObject.transform.position;
 
-            //スティックの角度を求める(今の所は角度は使ってない)
-            ang = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
-            if (ang < 0) ang = 360.0f + ang;
+            //Aボタン選択
+            SelectCircle(oldOverlapObject);
 
-            GameObject OldSelectedCircle = oldOverlapObject;
-            
-
-            //if (interCount == 0)
-            //{
-            //    //当たり判定を伸ばすやつ
-            //    foreach (GameObject o in porters)
-            //    {
-            //        float per = 0.1f;
-            //        Vector3 currentPerPos;
-
-            //        TransportToParent ttp = o.GetComponent<TransportToParent>();
-
-            //        while (per < 1.0f)
-            //        {
-            //            currentPerPos = Vector3.Lerp(oriPos, ppos, per);
-
-            //            if (Vector3.Distance(currentPerPos, o.transform.position) < portDist && oldOverlapObject != o)
-            //            {
-            //                //最近選択していたオブジェクト
-            //                oldOverlapObject = ttp.GetGoalObject();
-
-
-            //                oriPos = ttp.GetGoalPos();
-
-            //                interCount = interval;
-
-
-            //                break;
-            //            }
-
-            //            per += 0.1f;
-            //        }
-            //    }
-
-            //    if (OldSelectedCircle != oldOverlapObject) {
-            //        sePlay.Play("Select3");
-            //    }
-            //}
-
-            //選択サークルや入れ替え選択など
-            foreach (GameObject o in circles)
-            {
-                GoToParent gp = o.GetComponent<GoToParent>();
-
-                GameObject nodeA = null;
-                GameObject nodeB = null;
-
-                //今は使ってない選択モード
-                if (ccMode == 1)
-                {
-                    nodeA = gp.GetLineEnd();
-                    foreach (GameObject o2 in circles)
-                    {
-                        if (o2.GetComponent<GoToParent>().GetLineEnd() == o)
-                            nodeB = o2;
-                    }
-                }
-                if (ccMode == 2)
-                {
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (oyas[i].GetChild(0).gameObject == o)
-                        {
-                            int back = i - 1;
-                            int next = i + 1;
-                            if (back < 0) back += 5;
-                            if (next > 4) next -= 5;
-                            nodeA = oyas[back].GetChild(0).gameObject;
-                            nodeB = oyas[next].GetChild(0).gameObject;
-                        }
-                    }
-                }
-
-                //魔法陣の中心からdist分の範囲内に入ったら
-                if (Vector3.Distance(tf.position, o.transform.position) < dist)
-                {
-
-                    //選択サークルを出させる
-                    gp.ShowSelectCircle(selectCircle);
-                    
-
-                    //Aボタン選択
-                    SelectCircle(o);
-
-                    ////色替え (線が繋がってる二つを同時に)
-                    //ChangeColorMat(o);
-                    //if (nodeA) ChangeColorMat(nodeA);
-                    //if (nodeB) ChangeColorMat(nodeB);
-
-                }
-                else
-                {  //入って無ければ
-                    gp.FadeSelectCircle();
-                }
-            }
-
-            //インターバルカウント
-            if (interCount != 0)
-            {
-                interCount--;
-                if (interCount < 0) interCount = 0;
-            }
-
-            MagicColorNum.text = "魔方陣の色：" + changeCircleNum + "種類";
             //L1Riで色の数を決めれる
             ChangeColorNum();
 
@@ -305,8 +189,6 @@ public class PointControl : MonoBehaviour
     public void RegisterCircles()
     {
         circles = GameObject.FindGameObjectsWithTag("My");
-
-        porters = GameObject.FindGameObjectsWithTag("Porter");
     }
 
     public void SelectCircle(GameObject obj)

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    //攻撃エリア
+    bool attack_aria;
+
     Astar astar;//インスタンス化
     Vector2Int move_pos;
     static List<GameObject> enemys_ = new List<GameObject>();//敵のリスト化
@@ -154,6 +157,10 @@ public class EnemyBase : MonoBehaviour
         def.y = 0;//Y軸方向は見ない。
         return def;
     }
+    public List<GameObject> GetEnemyList()
+    {
+        return enemys_;
+    }
 
     public void HPber()
     {
@@ -163,7 +170,7 @@ public class EnemyBase : MonoBehaviour
     public float Damage(float damage)//damage処理
     {
         hp -= damage;
-        if (hp <= 0) { hp = 0; speed = 0; deathflg = true;/*死亡フラグ立てる 速度0 HP0*/ }
+        if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/  enemys_.Remove(this.gameObject); }
 
         return hp;
     }
@@ -295,6 +302,7 @@ public class EnemyBase : MonoBehaviour
         {
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
+            Damage(1);
             Debug.Log("そして時は(ry");
         }
     }
@@ -311,12 +319,18 @@ public class EnemyBase : MonoBehaviour
 
     public void DeleteListEnemy()
     {
+        List<GameObject> g = new List<GameObject>();
         foreach (var enemy in enemys_)
         {
             if (enemy == null)
             {
-                enemys_.Remove(enemy);
+                g.Add(enemy);
             }
+        }
+
+        for(int i=0; i<g.Count; i++)
+        {
+            enemys_.Remove(g[i]);
         }
     }
 
@@ -380,7 +394,7 @@ public class EnemyBase : MonoBehaviour
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(5, 5)));
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(10, 17)));
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);

@@ -2963,8 +2963,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mynumber: 0
   map: {fileID: 0}
-  hp: 10
-  max_hp: 10
+  hp: 3
+  max_hp: 3
   attack: 10
   speed: 1
   deathflg: 0
@@ -3182,9 +3182,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 3
   m_WholeNumbers: 0
-  m_Value: 10
+  m_Value: 3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

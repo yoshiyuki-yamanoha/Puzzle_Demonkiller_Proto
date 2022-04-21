@@ -43,15 +43,19 @@ public class ThunderSelect : MonoBehaviour
         //lb.EndObject = test[next];
         if(next <= KillEnemyList_Thunder.Count)
         {
-            KillEnemyList_Thunder.Clear();
+            Invoke(nameof(ThunderSelecter_Add), 1.0f);
         }
-        Destroy(gameObject, 1.0f); 
-        ThunderSelecter_Add();
+        else
+        {
+            Thunder_EnemyDamage();
+
+        }
+        //ThunderSelecter_Add();
     }
 
     public void ThunderSelecter_Add()
     {
-        Destroy(Electricobj);
+        //Destroy(Electricobj);
         now++;
         next++;
         ThunderSelecter();
@@ -64,5 +68,10 @@ public class ThunderSelect : MonoBehaviour
             KillEnemyList_Thunder.Add(o);
         }
         ThunderSelecter();
+    }
+
+    public void Thunder_EnemyDamage()
+    {
+
     }
 }

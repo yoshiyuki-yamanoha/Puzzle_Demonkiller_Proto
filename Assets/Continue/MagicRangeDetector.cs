@@ -5,8 +5,8 @@ using System;
 
 public class MagicRangeDetector : TrunManager
 {
-    const int stageWidth = 11;
-    const int stageHeight = 15;
+    const int stageWidth = 20;
+    const int stageHeight = 20;
 
     public enum MagicType
     {
@@ -93,6 +93,15 @@ public class MagicRangeDetector : TrunManager
     //魔法を撃つターンになった瞬間にセレクタを中心に魔法の範囲を求める。
     public void ChangeMagicRange() {
 
+        //五芒星雷のときのみ敵選択モードに切り替え
+        if (magicType == MagicType.ThunderStar &&
+            s_MagicMassSelecter.GetSelectType() != 1)
+        {
+            s_MagicMassSelecter.SwitchSelectType(1);
+        }
+        else if (magicType != MagicType.ThunderStar) 
+            s_MagicMassSelecter.SwitchSelectType(0);
+
         s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
 
         //現在のセレクターの位置を取得 (添え字)
@@ -134,9 +143,9 @@ public class MagicRangeDetector : TrunManager
                 rangeStart.x = magicLevel < 3 ? selX : selX - 1;
                 rangeStart.y = 0;
 
-                magicRange = new MagicMassStatus[15, magicLevel];
+                magicRange = new MagicMassStatus[stageHeight, magicLevel];
 
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < stageHeight; i++)
                 {
                     for (int j = 0; j < magicLevel; j++)
                     {
@@ -160,15 +169,14 @@ public class MagicRangeDetector : TrunManager
             case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 個数がふえーる)
 
                 rangeStart = new Vector2Int();
-                //.x = magicLevel < 3 ? selX : selX - 1;
                 rangeStart.x = selX - (magicLevel - 1);
                 rangeStart.y = selY;
 
-                int nn = 1 + (magicLevel - 1) * 2;
+                num = 1 + (magicLevel - 1) * 2;
 
-                magicRange = new MagicMassStatus[1, nn];
+                magicRange = new MagicMassStatus[1, num];
 
-                for (int j = 0; j < nn; j++)
+                for (int j = 0; j < num; j++)
                 {
                     magicRange[0, j].y = rangeStart.y;
                     magicRange[0, j].x = rangeStart.x + j;

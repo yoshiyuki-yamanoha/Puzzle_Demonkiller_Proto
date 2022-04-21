@@ -137,6 +137,7 @@ public class Magichoming : MonoBehaviour
                         GameObject fire;
                         ////範囲により変わる爆発
                         fire = GenerationMagic(Exp, transform.position);
+                        Destroy(fire, 1.5f);
                         //// レベルに応じてスケールの変更
                         //float scalX = 1f;
                         //if (magicLevel > 0)
@@ -176,9 +177,12 @@ public class Magichoming : MonoBehaviour
                     //ジャンプ&スタン レベルにより、ジャンプ回数が変わる (3～7)
                     if (magicType == 2)
                     {
-                        GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
-                        Debug.Log("マジック" + _magic.GetComponent<ThunderSelect>());
-                        _magic.GetComponent<ThunderSelect>().Set_List(targets);
+                        for(int s = 0; s <= magicLevel; s++)
+                        {
+                            GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
+                            Debug.Log("マジック" + _magic.GetComponent<ThunderSelect>());
+                            _magic.GetComponent<ThunderSelect>().Set_List(targets);
+                        }
 
                         //if (ts == null)
                         //{
