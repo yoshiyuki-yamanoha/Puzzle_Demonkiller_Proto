@@ -31,6 +31,9 @@ public class PuzzlePointerMover : MonoBehaviour
     //スティックの入力があるか
     bool isStickMove;
 
+    //選択魔法陣
+    [SerializeField] GameObject selectCircle;
+
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
@@ -88,21 +91,41 @@ public class PuzzlePointerMover : MonoBehaviour
 
             if(soeji < 4) soeji++;
         }
-        Debug.Log("そえじ：" + soeji);
+        //Debug.Log("そえじ：" + soeji);
 
         int cycleLimit = circlesArrays[soeji].goalPorts.Length;
-
         
 
         //あらかじめ登録したやつの繰り返し
         for (int i = 0; i < cycleLimit - 1; i++) {
 
-            if (leftStickAngle >= circlesArrays[soeji].goalPorts[i].ang &&
-                leftStickAngle < circlesArrays[soeji].goalPorts[i + 1].ang)
+            GameObject goal = circlesArrays[soeji].goalPorts[i].goalPort;   //指定オブジェクト
+            float thisAng = circlesArrays[soeji].goalPorts[i].ang;          //角度始点
+            float nextAng = circlesArrays[soeji].goalPorts[i + 1].ang;      //角度終点
+
+            if (leftStickAngle >= thisAng && leftStickAngle < nextAng)
             {
-                GameObject goal = circlesArrays[soeji].goalPorts[i].goalPort;
+                
                 if (goal != null)
+                {
+                    //前回選択したオブジェクトのGotoParentを取得
+                    GoToParent gp = currentSelectedCircle.GetComponent<GoToParent>();
+
+                    //選択サークルを消す
+                    gp.FadeSelectCircle();
+
+                    //ポインター移動
                     currentSelectedCircle = goal.transform.GetChild(0).gameObject;
+
+                    //現在選択中のオブジェクトのGotoParentを取得
+                    gp = currentSelectedCircle.GetComponent<GoToParent>();
+
+                    //選択サークルを出す
+                    gp.ShowSelectCircle(selectCircle);
+
+                    //移動音を鳴らす
+
+                }
             }
         }
 

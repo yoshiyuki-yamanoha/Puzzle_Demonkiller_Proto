@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MagicMassSelecter : MonoBehaviour
 {
+    const int stageWidth = 20;
+    const int stageHeight = 20;
+
     //スクリプトたち
     [SerializeField] MapMass s_MapMass;
     [SerializeField] MagicRangeDetector s_MagicRangeDetector;
@@ -280,7 +283,7 @@ public class MagicMassSelecter : MonoBehaviour
             xLine += vecNum;
 
             //ステージ範囲外に出たら戻る
-            if (xLine < -1 || xLine > 11)
+            if (xLine < -1 || xLine > stageWidth)
             {
                 currentSelectEnemy = oldSelectedEnemy;
                 return (nowSelX, nowSelY);
@@ -344,7 +347,7 @@ public class MagicMassSelecter : MonoBehaviour
             yLine += vecNum;
 
             //ステージ範囲外に出たら戻る
-            if (yLine < -1 || yLine > 15)
+            if (yLine < -1 || yLine > stageHeight)
             {
                 currentSelectEnemy = oldSelectedEnemy;
                 return (nowSelX, nowSelY);
