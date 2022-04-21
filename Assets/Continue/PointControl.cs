@@ -41,9 +41,6 @@ public class PointControl : MonoBehaviour
     //ゲームオブジェクト用
     private GameObject[] circles;
 
-    //誘導用透明オブジェクトたち
-    private GameObject[] porters;
-
     //前回選択してたオブジェクト(カーソル位置固定用)
     [NonSerialized] public GameObject oldOverlapObject=null;
 
@@ -192,8 +189,6 @@ public class PointControl : MonoBehaviour
     public void RegisterCircles()
     {
         circles = GameObject.FindGameObjectsWithTag("My");
-
-        porters = GameObject.FindGameObjectsWithTag("Porter");
     }
 
     public void SelectCircle(GameObject obj)
