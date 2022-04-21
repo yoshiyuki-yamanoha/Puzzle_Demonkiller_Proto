@@ -390,7 +390,7 @@ public class EnemyBase : MonoBehaviour
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(10, 17)));
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
-                Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);
+                //Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);
                 Ismove = true;
                 Target_distance = false;
                 Targetchangeflg = false;
@@ -560,7 +560,7 @@ public class EnemyBase : MonoBehaviour
 
     public void MassMove(int next_y, int next_x)
     {
-        Debug.Log(this.gameObject.name + "MassMove" + "[Y]" + next_y + " [X] " + next_x);
+        //Debug.Log(this.gameObject.name + "MassMove" + "[Y]" + next_y + " [X] " + next_x);
         Vector3 next_pos = new Vector3(next_x * map.Tilemas_prefab.transform.localScale.x, 0, next_y * -map.Tilemas_prefab.transform.localScale.z);
         Debug.DrawLine(transform.position, next_pos);
 
