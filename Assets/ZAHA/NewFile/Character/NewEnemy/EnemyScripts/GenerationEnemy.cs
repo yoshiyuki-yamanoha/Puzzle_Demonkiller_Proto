@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GenerationEnemy : PseudoArray
 {
-    Vector2Int[] initpos = new Vector2Int[6];//6体分
+    Vector2Int[] initpos = new Vector2Int[13];//6体分
+    int random = 0;
 
     EnemyBase enemy_base;
     int search_count = 0;
@@ -23,7 +24,7 @@ public class GenerationEnemy : PseudoArray
     float enemy_count = 0;//エネミーカウント
     int enemy_kinds_max = 0;//敵種類
     int enemy_oneturn_count = 0;
-    int enemy_oneturn_max = 0;  //1ターンに出る敵の最大大数
+    int enemy_oneturn_max = 13;  //1ターンに出る敵の最大大数
     int Turn_Count = 1;  //1ターン目からターン数を数える（規定ターン数に敵を沸く処理を作る用
     //public GameObject[] rootpos = null;//親オブジェクト
     public bool initflg = true;
@@ -59,6 +60,15 @@ public class GenerationEnemy : PseudoArray
         initpos[3] = new Vector2Int(12,7);
         initpos[4] = new Vector2Int(17,5);
         initpos[5] = new Vector2Int(17,9);
+        initpos[6] = new Vector2Int(2, 7);
+
+
+        initpos[7] = new Vector2Int(1,1 );
+        initpos[8] = new Vector2Int(2, 4);
+        initpos[9] = new Vector2Int(2, 0);
+        initpos[10] = new Vector2Int(7,0 );
+        initpos[11] = new Vector2Int(16,2);
+        initpos[12] = new Vector2Int(16,3);
 
 
         //max_x = rootpos.Length;//スタートポジションの数分取得
@@ -123,21 +133,21 @@ public class GenerationEnemy : PseudoArray
             //生成する状態なら
             if (is_generation)
             {
-                switch (Turn_Count) //ターンごとに敵の出る量を調整します  caseを使ってターンごとの沸きを調整できます
-                {                   //使い方：case敵の量を変えたいターンの数字を追加→enemy_oneturun_maxに敵を出したい数を代入（最低1体）
-                    case 1: //ターン1
-                        enemy_oneturn_max = 3;
-                        break;
-                    case 2: //ターン2 
-                        enemy_oneturn_max = 0;
-                        break;
-                    case 3: //ターン3
-                        enemy_oneturn_max = 2;
-                        break;
-                    default:
-                        enemy_oneturn_max = Random.Range(2, 5);
-                        break;
-                }
+                //switch (Turn_Count) //ターンごとに敵の出る量を調整します  caseを使ってターンごとの沸きを調整できます
+                //{                   //使い方：case敵の量を変えたいターンの数字を追加→enemy_oneturun_maxに敵を出したい数を代入（最低1体）
+                //    case 1: //ターン1
+                //        enemy_oneturn_max = 3;
+                //        break;
+                //    case 2: //ターン2 
+                //        enemy_oneturn_max = 0;
+                //        break;
+                //    case 3: //ターン3
+                //        enemy_oneturn_max = 2;
+                //        break;
+                //    default:
+                //        enemy_oneturn_max = Random.Range(2, 5);
+                //        break;
+                //}
                 if (time > interval_s)//秒おきに生成
                 {
 
@@ -152,10 +162,13 @@ public class GenerationEnemy : PseudoArray
                         int Enemy_kinds_max = Random.Range(0, enemy_kinds_max); //////敵の位置関係？
 
 
-                        int random  = Random.Range(0, 7);
+                        
                         int randomX = initpos[random].x;//Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
                         int randomY = initpos[random].y;//Random.Range(0, max_y);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
 
+                        if (random < 12) {
+                            random++;
+                        }
 
                         //生成する位置が誰もいない時 空いてるマスなら生成
                         if (map.Map[randomY, randomX] == (int)MapMass.Mapinfo.NONE)
