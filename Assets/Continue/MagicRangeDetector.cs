@@ -93,6 +93,15 @@ public class MagicRangeDetector : TrunManager
     //魔法を撃つターンになった瞬間にセレクタを中心に魔法の範囲を求める。
     public void ChangeMagicRange() {
 
+        //五芒星雷のときのみ敵選択モードに切り替え
+        if (magicType == MagicType.ThunderStar &&
+            s_MagicMassSelecter.GetSelectType() != 1)
+        {
+            s_MagicMassSelecter.SwitchSelectType(1);
+        }
+        else if (magicType != MagicType.ThunderStar) 
+            s_MagicMassSelecter.SwitchSelectType(0);
+
         s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
 
         //現在のセレクターの位置を取得 (添え字)
