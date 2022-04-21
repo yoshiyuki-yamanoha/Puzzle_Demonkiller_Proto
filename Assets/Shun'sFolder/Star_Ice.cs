@@ -26,12 +26,12 @@ public class Star_Ice : MonoBehaviour
 
     public void Create_IceBergs(GameObject taget, int _lev)
     {
-        int num = (int.Parse(taget.name) % 11);
+        int num = (int.Parse(taget.name) % 20);
         Debug.Log(int.Parse(taget.name));
 
         Stage_mass = GameObject.Find("MassRoot");
         Ice_objs.Clear();
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 20; i++)
         {
             for (int j = 0; j < _lev; j++)
             {
@@ -49,7 +49,7 @@ public class Star_Ice : MonoBehaviour
         float delay = (child) * 0.1f;
         yield return new WaitForSeconds(delay);
 
-        int ObjNum = (154 + (num * 2)) - ((num) + (child * 11));
+        int ObjNum = (380 + (num * 2)) - ((num) + (child * 20));
         if (0 <= ObjNum || ObjNum > Stage_mass.transform.childCount - 1)
         {
             Vector3 crePos = new Vector3(Stage_mass.transform.GetChild(ObjNum).position.x,
@@ -60,7 +60,7 @@ public class Star_Ice : MonoBehaviour
             GameObject IceChild = Instantiate(Ice, crePos, Quaternion.identity, this.transform);
             GameObject Iceefe = Instantiate(Ice_efe, Stage_mass.transform.GetChild(ObjNum).position, Quaternion.identity);
 
-            StartCoroutine(Ene_Damage(ObjNum % 11, ObjNum / 11));
+            StartCoroutine(Ene_Damage(ObjNum % 20, ObjNum / 20));
 
             Ice_objs.Add(IceChild);
 

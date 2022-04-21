@@ -94,13 +94,13 @@ public class BombEnemy : EnemyBase
         Abnormal_condition = AbnormalCondition.NONE;
     }
 
-    public override void EnemyAttack()
-    {
-        Animator anim = GetComponent<Animator>();
-        anim.SetTrigger("attack01");
+    //public override void EnemyAttack()
+    //{
+    //    Animator anim = GetComponent<Animator>();
+    //    anim.SetTrigger("attack01");
 
-        Core.ReceiveDamage();// コアのｈｐ減らす
+    //    Core.ReceiveDamage();// コアのｈｐ減らす
 
-        Destroy(gameObject,1.5f);
-    }
+    //    Destroy(gameObject,1.5f);
+    //}
 }
