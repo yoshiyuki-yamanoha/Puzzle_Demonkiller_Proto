@@ -126,7 +126,8 @@ public class PuzzlePointerMover : TrunManager
                 {
 
                     //選択サークルを消す
-                    gp.FadeSelectCircle();
+                    if(gp)
+                        gp.FadeSelectCircle();
 
                     //ポインター移動
                     currentSelectedCircle = goal.transform.GetChild(0).gameObject;
@@ -135,7 +136,8 @@ public class PuzzlePointerMover : TrunManager
                     gp = currentSelectedCircle.GetComponent<GoToParent>();
 
                     //選択サークルを出す
-                    gp.ShowSelectCircle(selectCircle);
+                    if(gp)
+                        gp.ShowSelectCircle(selectCircle);
 
                     //移動音を鳴らす
                     audioSource.PlayOneShot(moveSound);
