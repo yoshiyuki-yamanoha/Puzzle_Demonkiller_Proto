@@ -34,7 +34,6 @@ public class PuzzlePointerMover : TrunManager
 
     //選択魔法陣
     [SerializeField] GameObject selectCircle;
-    GoToParent gp;
 
     //音
     [SerializeField] AudioSource audioSource;
@@ -44,9 +43,7 @@ public class PuzzlePointerMover : TrunManager
     {
         s_PointControl = GetComponent<PointControl>();
 
-        gp = circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>();
-
-        gp.ShowSelectCircle(selectCircle);
+        circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
         s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
@@ -126,18 +123,13 @@ public class PuzzlePointerMover : TrunManager
                 {
 
                     //選択サークルを消す
-                    if(gp)
-                        gp.FadeSelectCircle();
+                    currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
 
                     //ポインター移動
                     currentSelectedCircle = goal.transform.GetChild(0).gameObject;
 
-                    //現在選択中のオブジェクトのGotoParentを取得
-                    gp = currentSelectedCircle.GetComponent<GoToParent>();
-
                     //選択サークルを出す
-                    if(gp)
-                        gp.ShowSelectCircle(selectCircle);
+                    currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
                     //移動音を鳴らす
                     audioSource.PlayOneShot(moveSound);
