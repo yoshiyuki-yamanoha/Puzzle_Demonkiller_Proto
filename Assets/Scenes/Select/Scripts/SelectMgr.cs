@@ -88,8 +88,8 @@ public class SelectMgr : MonoBehaviour
         if (Input.GetButtonDown("Fire1")) {
             switch (selecter) {
                 case Select.Stage1: GameMgr.Instance.GotoBuildScene(); break;
-                case Select.Stage2: GameMgr.Instance.GotoStage2Scene(); break;
-                case Select.Stage3: GameMgr.Instance.GotoStage3Scene(); break;
+                case Select.Stage2: GameMgr.Instance.GotoBuildScene(); break;
+                case Select.Stage3: GameMgr.Instance.GotoBuildScene(); break;
             }
         }
 
