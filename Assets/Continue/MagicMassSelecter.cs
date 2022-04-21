@@ -52,11 +52,12 @@ public class MagicMassSelecter : MonoBehaviour
     {
         if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
         {
+
             GetMassInfos();
 
             SubMoveInterval();
 
-            if(selectsNum > 0)
+            if(selectsNum > 0 && bottomCost == 99)
                 CalcBottomCost();
 
             if (selectType == 0) MoveSelecter();
@@ -127,6 +128,10 @@ public class MagicMassSelecter : MonoBehaviour
             //変更後のマス座標を渡す
             PassSelecterPos();
         }
+    }
+
+    public int GetSelectType() {
+        return selectType;
     }
 
     //セレクターの移動をする
@@ -469,7 +474,7 @@ public class MagicMassSelecter : MonoBehaviour
 
 
                     //上限に達したら
-                    if (selectsNum >= selectsNumLimit)
+                    if (selectsNum >= selectsNumLimit || selectsNum >= currentEnemyNums)
                     {
 
                         //魔法を放つ

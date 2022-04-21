@@ -840,6 +840,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 888141719049580984, guid: 9a3f92e55a10c04439b5576d8bc37e5d,
         type: 3}
+    - target: {fileID: 3899782639922948245, guid: 69afa9d1ce5a2ab48b4989615766be66,
+        type: 3}
+      propertyPath: bari_prefab
+      value: 
+      objectReference: {fileID: 3267632427728010191, guid: 5051f3f770010474c80934929083b1d0,
+        type: 3}
     - target: {fileID: 3899782639922948246, guid: 69afa9d1ce5a2ab48b4989615766be66,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -33,7 +33,7 @@ public class Barricade : MonoBehaviour
     }
 
     //barricade消す。
-    void BarricadeDestroy()
+    public void BarricadeDestroy()
     {
         Destroy(this.gameObject);//自分自身を消す。
     }
