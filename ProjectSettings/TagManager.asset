@@ -21,6 +21,8 @@ TagManager:
   - ChangedMass
   - Mass
   - Core
+  - Ice
+  - Bari
   layers:
   - Default
   - TransparentFX
