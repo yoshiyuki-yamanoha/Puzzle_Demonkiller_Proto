@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Core;
 
-public class ManageCoreState : TrunManager
+public class ManageBarricade : TrunManager
 {
-    GameObject coreObj;
-    int coreHp;
+    GameObject barriObj;
+    int barriHp;
 
     TrunManager turnMGR;
 
     void Start()
     {
-        coreObj = this.gameObject;
-        coreHp = core.max_hp;
+        barriObj = this.gameObject;
+        barriHp = core.max_hp;
 
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
     }
@@ -32,9 +32,9 @@ public class ManageCoreState : TrunManager
 
     public void ReceiveDamage()
     {
-        coreHp -= EAP.knock;
+        barriHp -= EAP.knock;
 
-        Debug.Log("cHp"+coreHp);
+        Debug.Log("bHp" + barriHp);
 
         CheckHP();
 
@@ -43,10 +43,9 @@ public class ManageCoreState : TrunManager
     public void CheckHP()
     {
         // ｈｐが零になっていなるか確認
-        if (coreHp <= 0)
+        if (barriHp <= 0)
         {
-            // ゲームオーバーシーンへ遷移する関数
-            GameMgr.Instance.GotoGameOverScene();
+            Destroy(this.gameObject);
         }
     }
 }

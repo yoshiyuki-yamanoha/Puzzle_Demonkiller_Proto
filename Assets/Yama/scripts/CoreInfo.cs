@@ -22,6 +22,14 @@ namespace Core
         public const int explosion = 50;
         public const int beam = 30;
     }
+
+    /// <summary>
+    /// バリケードの定数
+    /// </summary>
+    public class barri/*:MonoBehaviour*/
+    {
+        public const int max_hp = 1;
+    }
 }
 
 public class CoreInfo : MonoBehaviour
