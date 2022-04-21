@@ -154,6 +154,7 @@ public class MapMass:MonoBehaviour
         GameObject obj = null;
 
         var treeParent = new GameObject("Trees");
+        var barriParent = new GameObject("Barricades");
 
         for (int y = 0; y < Map.GetLength(0); y++)
         {
@@ -187,7 +188,7 @@ public class MapMass:MonoBehaviour
                         break;
                     case (int)Mapinfo.bari:
                         obj = Instantiate(bari_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
-                        obj.transform.parent = treeParent.transform;
+                        obj.transform.parent = barriParent.transform;
                         obj.gameObject.name = "Bari";
                         obj.gameObject.tag = "Bari";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
