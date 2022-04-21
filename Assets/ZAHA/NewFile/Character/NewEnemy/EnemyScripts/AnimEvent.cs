@@ -27,14 +27,11 @@ public class AnimEvent : MonoBehaviour
     {
         //GameObject.Find("Stage1Mgr").GetComponent<Stage1Mgr>().DieEnemyCount();
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
-        Destroy(transform.parent.gameObject);//一番上の親オブジェクト削除
+        Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
         //敵が消える音を入れる//
         if (sePlay != null) sePlay.Play("EnemyDead");
         MainMgr mg = new MainMgr();
         mg.EnemiDieCount();
-
-
-
     }
 
     public void WeponShowAttack()

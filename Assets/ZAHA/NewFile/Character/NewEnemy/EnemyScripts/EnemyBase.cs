@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    Astar astar;//インスタンス化
+    Vector2Int move_pos;
     static List<GameObject> enemys_ = new List<GameObject>();//敵のリスト化
     [SerializeField] int mynumber;
 
@@ -293,6 +295,7 @@ public class EnemyBase : MonoBehaviour
         {
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
+            Damage(1);
             Debug.Log("そして時は(ry");
         }
     }
@@ -311,23 +314,13 @@ public class EnemyBase : MonoBehaviour
     {
         foreach (var enemy in enemys_)
         {
-            if(enemy == null)
+            if (enemy == null)
             {
                 enemys_.Remove(enemy);
             }
         }
     }
-    //public void Move(Vector3 direction)
-    //{
-    //    Vector3 targetPos = transform.position + direction;
 
-    //    while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-    //    {
-    //        transform.position = Vector3.MoveTowards(transform.position, targetPos, 5f * Time.deltaTime);
-    //    }
-
-    //    transform.position = targetPos;
-    //}
     public void AbnormalStatus()
     {
         Debug.Log(Abnormal_condition);
@@ -385,9 +378,15 @@ public class EnemyBase : MonoBehaviour
             //GameObject forward_left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前左
             ;
 
-            if (Targetchangeflg)
+            if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
-                SearchMovement(massnum); //2マス。
+                //SearchMovement(massnum); //2マス。
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(5, 5)));
+                NextposX = move_pos.x;
+                NextposY = move_pos.y;
+                Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);
+                Ismove = true;
+                Target_distance = false;
                 Targetchangeflg = false;
             }
 
@@ -415,6 +414,7 @@ public class EnemyBase : MonoBehaviour
             //目的値についているか?
             if (Target_distance)//target.magnitude < Targetdistance
             {
+                Debug.Log("アイドル状態");
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
                 Hpber.gameObject.SetActive(true);
@@ -422,7 +422,7 @@ public class EnemyBase : MonoBehaviour
                 Y = IndexCheckY(NextposY);
                 X = IndexCheckX(NextposX);
 
-                if (Y == Generation_enemy.max_y - 1)
+                if (Y == Generation_enemy.max_y - 1)//ゴールに着いたのか
                 {
                     Endflg = true;
                 }
@@ -470,6 +470,7 @@ public class EnemyBase : MonoBehaviour
         Generation_enemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
+        astar = this.gameObject.GetComponent<Astar>();
     }
 
     public void EnemyAttack()
@@ -553,6 +554,7 @@ public class EnemyBase : MonoBehaviour
 
     public void MassMove(int next_y, int next_x)
     {
+        Debug.Log(this.gameObject.name + "MassMove" + "[Y]" + next_y + " [X] " + next_x);
         Vector3 next_pos = new Vector3(next_x * map.Tilemas_prefab.transform.localScale.x, 0, next_y * -map.Tilemas_prefab.transform.localScale.z);
         Debug.DrawLine(transform.position, next_pos);
 
