@@ -40,8 +40,8 @@ public class Ele_tur_Attack : MonoBehaviour
 
     void Set_pos()
     {
-        pos.x = int.Parse(tage.name) % 11;
-        pos.y = int.Parse(tage.name) / 11;
+        pos.x = int.Parse(tage.name) % 20;
+        pos.y = int.Parse(tage.name) / 20;
     }
 
     private void tur_Attack()
@@ -59,7 +59,7 @@ public class Ele_tur_Attack : MonoBehaviour
                 //if(i > Stage_mass.transform.childCount -1 || j > Stage_mass.transform.GetChild(i).childCount - 1) { continue; }
                 //create_Ele_Efe(Stage_mass.transform.GetChild(i).GetChild(j).gameObject); 
 
-                int targetNum = i + (j * 11);
+                int targetNum = i + (j * 20);
                 if (0 < targetNum && targetNum < Stage_mass.transform.childCount - 1)
                 {
                     Ene_Damage(Stage_mass.transform.GetChild(targetNum).gameObject);
@@ -91,7 +91,7 @@ public class Ele_tur_Attack : MonoBehaviour
 
     void Ene_Damage(GameObject _tage)
     {
-        Vector2 magic_pos= new Vector2(int.Parse(_tage.name) % 11, int.Parse(_tage.name) / 11);
+        Vector2 magic_pos= new Vector2(int.Parse(_tage.name) % 20, int.Parse(_tage.name) / 20);
 
         GameObject enemies = GameObject.Find("Sponer");
         for(int i = 0; i < enemies.transform.childCount; i++)
