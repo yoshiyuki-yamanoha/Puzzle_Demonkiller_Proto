@@ -234,7 +234,7 @@ public class GenerationEnemy : PseudoArray
 
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
 
-        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemypos + offset, new Quaternion(0, 180.0f, 0, 1), transform);//敵を生成
+        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
         enemy_instantiate.name = enemy_prefab[num].name + enemy_count.ToString();
 
         //スタートポジションを教えてあげる。生成したプレファブに

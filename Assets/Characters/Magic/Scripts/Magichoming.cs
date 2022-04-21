@@ -128,7 +128,6 @@ public class Magichoming : MonoBehaviour
             }
             else
             {
-
                 //発生する追加効果の種類別の処理
                 {
                     //炎上 レベルにより範囲が変わる
@@ -149,18 +148,20 @@ public class Magichoming : MonoBehaviour
                         //fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);
                     }
 
-                    if (magicType == 3) { 
-                        GameObject magBuf = GenerationMagic(firetrapEffe, transform.position);
+                    if (magicType == 3) {
+                        GameObject _magic = GenerationMagic(firetrapEffe, transform.position);
+                        //_magic.GetComponent<Pentagonfire>().P_Fire(TargetObject);
+                        //GameObject magBuf = GenerationMagic(firetrapEffe, transform.position);
 
-                        Vector3 magBufSca = magBuf.transform.localScale;
+                        //Vector3 magBufSca = magBuf.transform.localScale;
 
-                        magBuf.transform.Rotate(new Vector3(0, 90, 0));
+                        //magBuf.transform.Rotate(new Vector3(0, 90, 0));
 
-                        magBuf.transform.position += new Vector3(0,2.5f,0);
+                        //magBuf.transform.position += new Vector3(0,2.5f,0);
 
-                        float scalZ = 1f;
+                        //float scalZ = 1f;
 
-                        magBuf.transform.localScale = new Vector3(magBufSca.x, magBufSca.y, magBufSca.z * scalZ);
+                        //magBuf.transform.localScale = new Vector3(magBufSca.x, magBufSca.y, magBufSca.z * scalZ);
                     }
 
                     //低下|凍結 レベルにより、速度低下率が変わる
@@ -190,7 +191,7 @@ public class Magichoming : MonoBehaviour
                     if (magicType == 4)
                     {
                         GameObject _magic = GenerationMagic(Pentagon_iceEffe, transform.position);
-                        _magic.GetComponent<PentagonIce>().MakeIceWall(TargetObject);
+                        //_magic.GetComponent<PentagonIce>().MakeIceWall(TargetObject);
                     }
 
                     //雷のタレット
