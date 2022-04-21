@@ -5,8 +5,8 @@ using System;
 
 public class MagicRangeDetector : TrunManager
 {
-    const int stageWidth = 11;
-    const int stageHeight = 15;
+    const int stageWidth = 20;
+    const int stageHeight = 20;
 
     public enum MagicType
     {
@@ -134,9 +134,9 @@ public class MagicRangeDetector : TrunManager
                 rangeStart.x = magicLevel < 3 ? selX : selX - 1;
                 rangeStart.y = 0;
 
-                magicRange = new MagicMassStatus[15, magicLevel];
+                magicRange = new MagicMassStatus[stageHeight, magicLevel];
 
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < stageHeight; i++)
                 {
                     for (int j = 0; j < magicLevel; j++)
                     {

@@ -4,45 +4,35 @@ using UnityEngine;
 
 public class PentagonIce : MonoBehaviour
 {
-    [SerializeField] GameObject IceWall;
-
-    Enemy enemy;
-    public GameObject testIce;
-    // Start is called before the first frame update
-    void Start()
+    bool Is_once, afterOneTurn;
+    int LifeTrun;
+    TrunManager tm;
+    private void Start()
     {
-        
+        tm = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        LifeTrun = 0;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if(testIce != null)
+        if (tm.GetTrunPhase() == TrunManager.TrunPhase.Enemy && Is_once)
         {
-            Debug.Log("お前を殺す");
-            //EnemyFreeze();
+            afterOneTurn = true;
+            Is_once = false;
+        }
+        else if (tm.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+        {
+            if (!Is_once)
+            {
+                Is_once = true;
+            }
+        }
+
+        if (afterOneTurn)
+        {
+            Debug.Log("START" + LifeTrun);
+            LifeTrun--;
+            if (LifeTrun <= 0) Destroy(this.gameObject);
+            afterOneTurn = false;
         }
     }
-
-    public void MakeIceWall(GameObject tage)
-    {
-        Instantiate(IceWall, tage.transform.position, Quaternion.identity);
-    }
-    //public void EnemyFreeze(GameObject e)
-    //{
-    //    Debug.Log("this is " + e);
-    //    EnemyBase eneb = e.transform.GetComponent<EnemyBase>();
-    //    eneb.Abnormal_condition = EnemyBase.AbnormalCondition.Ice;
-    //}
-
-    ////enemy = GameObject.Find("Demon0").GetComponent<Enemy>();
-    //List<GameObject> el = new List<GameObject>();
-    ////el = りょうがから敵をもらう♥
-    //foreach(GameObject ene in el)
-    //{
-    //    if (ene.transform.GetComponent<Enemy>() == null)
-    //        continue;
-
-    //    ene.transform.GetComponent<Enemy>().enabled = false;
-    //}
 }

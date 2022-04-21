@@ -96,7 +96,7 @@ public class PlayerCameraTest : TrunManager
     {
         if (MSCameraflag == true)
         {
-            if (/*(target.x < 30 && target.x > 20) || */(soeY <= 14 && soeY >= 0))
+            if ((soeY <= 20 && soeY >= 0) || (soeX <= 20 && soeX >= 0))
             {
                 if (moveflag == true)
                 {
