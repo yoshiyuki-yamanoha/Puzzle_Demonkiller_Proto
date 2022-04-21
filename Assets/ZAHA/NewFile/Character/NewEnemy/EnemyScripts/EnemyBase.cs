@@ -295,6 +295,7 @@ public class EnemyBase : MonoBehaviour
         {
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
+            Damage(1);
             Debug.Log("そして時は(ry");
         }
     }
