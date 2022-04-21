@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GenerationEnemy : PseudoArray
 {
+    Vector2Int[] initpos = new Vector2Int[6];//6体分
+
     EnemyBase enemy_base;
     int search_count = 0;
     //インスペクターで設定用
@@ -49,6 +51,16 @@ public class GenerationEnemy : PseudoArray
     {
         enemy_base = new EnemyBase();
         Debug.Log("enemy_base " + enemy_base);
+
+
+        initpos[0] = new Vector2Int(2,7);
+        initpos[1] = new Vector2Int(7,4);
+        initpos[2] = new Vector2Int(8,6);
+        initpos[3] = new Vector2Int(12,7);
+        initpos[4] = new Vector2Int(17,5);
+        initpos[5] = new Vector2Int(17,9);
+
+
         //max_x = rootpos.Length;//スタートポジションの数分取得
         //max_y = rootpos[0].transform.childCount;//子供の数取得
         max_x = map.Map.GetLength(1);
@@ -138,8 +150,12 @@ public class GenerationEnemy : PseudoArray
                         }
 
                         int Enemy_kinds_max = Random.Range(0, enemy_kinds_max); //////敵の位置関係？
-                        int randomX = Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
-                        int randomY = Random.Range(0, max_y - 7);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
+
+
+                        int random  = Random.Range(0, 7);
+                        int randomX = initpos[random].x;//Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
+                        int randomY = initpos[random].y;//Random.Range(0, max_y);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
+
 
                         //生成する位置が誰もいない時 空いてるマスなら生成
                         if (map.Map[randomY, randomX] == (int)MapMass.Mapinfo.NONE)
@@ -160,6 +176,7 @@ public class GenerationEnemy : PseudoArray
                 {
                     time += Time.deltaTime;
                 }
+
             }//生成フラグがオンの時
             else//ここが敵が動いている時↓
             {
@@ -172,6 +189,7 @@ public class GenerationEnemy : PseudoArray
                         {
 
                             search_count++;
+                            Debug.Log("searchカウント" + search_count);
                             StageSarchEnemy[i].GetComponent<Enemy>().Init_search_flg = false;
                         }
                     }
