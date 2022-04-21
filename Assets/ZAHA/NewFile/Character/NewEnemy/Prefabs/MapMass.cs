@@ -148,8 +148,11 @@ public class MapMass:MonoBehaviour
     }
 
     void InstanceMap()
-    {
+    {   
         GameObject obj = null;
+
+        var treeParent = new GameObject("Trees");
+
         for (int y = 0; y < Map.GetLength(0); y++)
         {
             for (int x = 0; x < Map.GetLength(1); x++)
@@ -174,6 +177,7 @@ public class MapMass:MonoBehaviour
                         break;
                     case (int)Mapinfo.tree:
                         obj = Instantiate(tree_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, /*Tilemas_prefab.transform.localScale.y*/0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = treeParent.transform;
                         obj.gameObject.name = "tree";
                         //obj.gameObject.tag = "Core";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);

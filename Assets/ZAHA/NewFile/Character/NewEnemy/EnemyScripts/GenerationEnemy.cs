@@ -143,8 +143,8 @@ public class GenerationEnemy : PseudoArray
                         int randomX = Random.Range(0, max_x);   //// //敵のx座標の位置を入れる
                         int randomY = Random.Range(0, max_y - 7);  ////敵のy座標の位置を入れる　右辺で、y座標のスポーン位置を調整
 
-                        //生成する位置が誰もいない時 敵以外なら生成
-                        if (map.Map[randomY, randomX] != (int)MapMass.Mapinfo.Enemy)
+                        //生成する位置が誰もいない時 空いてるマスなら生成
+                        if (map.Map[randomY, randomX] == (int)MapMass.Mapinfo.NONE)
                         {
                             Generation(Enemy_kinds_max, randomX, randomY);//引数(エネミーの種類 , スタートPos)生成。
                             if (sePlay != null) sePlay.Play("EnemySpawn");
