@@ -81,7 +81,7 @@ public class GenerationEnemy : PseudoArray
 
         //自分のターンの時
         if (trunmanager.trunphase == TrunManager.TrunPhase.Enemy)
-        {
+        { 
             //DeleteListEnemy();
             enemy_base.DeleteListEnemy();//敵削除
 
@@ -102,7 +102,7 @@ public class GenerationEnemy : PseudoArray
                 {
                     //if (enemy_count < enemy_max)
                     //{
-                    //Debug.Log("puzzleターンに移行");
+                    Debug.Log("puzzleターンに移行");
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                     //}
                 }
@@ -181,6 +181,7 @@ public class GenerationEnemy : PseudoArray
             else//ここが敵が動いている時↓
             {
                 //敵がの持ってく行動フラグを見ている。
+                Debug.Log("search大きさ." + StageSarchEnemy.Length);
                 for (int i = 0; i < StageSarchEnemy.Length; i++)
                 {
                     if (StageSarchEnemy[i].GetComponent<Enemy>().Is_action)
@@ -195,7 +196,8 @@ public class GenerationEnemy : PseudoArray
                     }
                 }
 
-                if (search_count >= StageSarchEnemy.Length)
+
+                if (search_count >= StageSarchEnemy.Length)//searchカウントがステージのsearchカウントより大きいとき enemy max flgがターンMaxFlgが大きい時
                 {
                     if (enemy_max_flg)
                     {

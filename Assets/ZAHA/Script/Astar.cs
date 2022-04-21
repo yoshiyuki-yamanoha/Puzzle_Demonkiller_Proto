@@ -71,7 +71,7 @@ public class Astar : MonoBehaviour
 
             open_list.Remove(current_node);//オープンリストの取得した削除
             close_list.Add(current_node);//追加
-
+            //Debug.Log(this.gameObject.name + " " + "敵の座標 " + " Y [" + current_node.Pos.y + "]" + " X [" + current_node.Pos.x + "]");
             //オープンの中身をみるデバッグ
 
             //Debug.Log(a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
@@ -142,7 +142,7 @@ public class Astar : MonoBehaviour
                 {
                     if (close.Pos == adjacent.Pos)//同じノード
                     {
-                        Debug.Log("クローズリストに同じノードがあります。" + " クローズリスト[" + close.Pos.y + "," + close.Pos.x + "]" + "隣接ノード位置 [" + adjacent.Pos.y + "," + adjacent.Pos.x + "]");
+                        //Debug.Log("クローズリストに同じノードがあります。" + " クローズリスト[" + close.Pos.y + "," + close.Pos.x + "]" + "隣接ノード位置 [" + adjacent.Pos.y + "," + adjacent.Pos.x + "]");
                         list_open_add = false;
                     }
                 }
@@ -152,10 +152,16 @@ public class Astar : MonoBehaviour
                 {
                     if (open.Pos == adjacent.Pos && adjacent.G > open.G)//同じノード
                     {
-                        Debug.Log("Openlistに同じノードがあります。");
+                        //Debug.Log("Openlistに同じノードがあります。");
                         list_open_add = false;
                     }
                 }
+
+                if (goal.Pos == adjacent.Pos)
+                {
+                    Debug.Log("鱗片にゴールがあります。");
+                }
+                
 
                 if (list_open_add) open_list.Add(adjacent);//オープンリストに追加
             }
