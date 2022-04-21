@@ -155,6 +155,12 @@ public class EnemyBase : MonoBehaviour
         return def;
     }
 
+    //返すやつ
+    public List<GameObject> GetEnemyList()
+    {
+        return enemys_;
+    }
+
     public void HPber()
     {
         Hpber.value = hp;
@@ -381,7 +387,7 @@ public class EnemyBase : MonoBehaviour
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(5, 5)));
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(10, 17)));
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);

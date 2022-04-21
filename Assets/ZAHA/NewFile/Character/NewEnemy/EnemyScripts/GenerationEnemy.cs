@@ -79,9 +79,7 @@ public class GenerationEnemy : PseudoArray
                 {
                     StageSarchEnemy = GameObject.FindGameObjectsWithTag("Enemy");
                     sarchinit = false;
-                    Debug.Log("敵の数" + StageSarchEnemy.LongLength);
-
-
+                    //Debug.Log("敵の数" + StageSarchEnemy.LongLength);
                 }
             }
 
@@ -92,8 +90,8 @@ public class GenerationEnemy : PseudoArray
                 {
                     //if (enemy_count < enemy_max)
                     //{
-                        //Debug.Log("puzzleターンに移行");
-                        //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+                    //Debug.Log("puzzleターンに移行");
+                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                     //}
                 }
             }
@@ -258,7 +256,7 @@ public class GenerationEnemy : PseudoArray
 
         if (enemy_oneturn_count >= enemy_oneturn_max)  //enemy_oneturn_maxの数敵が出てくる：ここでターン＋
         {
-            Debug.Log("生成終了");
+            //Debug.Log("生成終了");
             oneturn_generation_flg = true;
             is_generation = false;//終了
             turn_exit_flg = true;
