@@ -90,6 +90,7 @@ public class MapMass:MonoBehaviour
     [SerializeField] GameObject tilemas_prefab = null;
     [SerializeField] GameObject icemas_prefab = null;
     [SerializeField] GameObject core_prefab = null;
+    [SerializeField] GameObject tree_prefab = null;
 
     struct MassState {
         public int state;
@@ -102,26 +103,32 @@ public class MapMass:MonoBehaviour
         Enemy,
         Ice,
         core,
+        tree,
     }
 
-    MassState[,] masses = new MassState[15, 11];
+    MassState[,] masses = new MassState[20, 20];
 
-    int[,] map = new int[15, 11]{
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,3,0,0,0,0,0},
+    int[,] map = new int[20, 20]{
+        {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,3,3,3,4,4,3,3,3,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,0,0,0,0,0,4,4,0,0,0,4},
+        {4,0,0,0,4,4,0,0,0,0,0,0,0,0,4,4,0,0,0,4},
+        {4,3,3,3,4,4,0,0,0,0,0,0,0,0,4,4,3,3,3,4},
+        {4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,4},
+        {4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,4},
+        {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
     };
 
     
@@ -164,6 +171,14 @@ public class MapMass:MonoBehaviour
                         obj.gameObject.tag = "Core";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
+                        break;
+                    case (int)Mapinfo.tree:
+                        obj = Instantiate(tree_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, /*Tilemas_prefab.transform.localScale.y*/0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.gameObject.name = "tree";
+                        //obj.gameObject.tag = "Core";
+                        obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
+
                         break;
                 }
 

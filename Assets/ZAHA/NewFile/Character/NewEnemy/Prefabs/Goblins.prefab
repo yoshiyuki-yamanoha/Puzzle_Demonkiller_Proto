@@ -2835,6 +2835,7 @@ GameObject:
   - component: {fileID: 7401063828066879805}
   - component: {fileID: 3191871338222945284}
   - component: {fileID: 4003829806422715497}
+  - component: {fileID: 787540736985951720}
   m_Layer: 8
   m_Name: Goblins
   m_TagString: Enemy
@@ -2960,7 +2961,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695c09d15f2f750439427d4acc5b487c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fire: {fileID: 5831907550723602685}
+  mynumber: 0
+  map: {fileID: 0}
   hp: 10
   max_hp: 10
   attack: 10
@@ -2968,12 +2970,27 @@ MonoBehaviour:
   deathflg: 0
   generation_enemy: {fileID: 0}
   enemy_anim: {fileID: 3191871338222945284}
-  y: 0
   x: 0
+  y: 0
   trun_manager: {fileID: 0}
+  core: {fileID: 0}
   hpber: {fileID: 7186273011420981217}
   status: 0
   enemy_kinds: 1
+  fire: {fileID: 5831907550723602685}
+--- !u!114 &787540736985951720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856238070704820190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b1e67fac2db56a4ba41eaf7b58e56b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  init_turn: 1
 --- !u!1 &5763954837322420639
 GameObject:
   m_ObjectHideFlags: 0
