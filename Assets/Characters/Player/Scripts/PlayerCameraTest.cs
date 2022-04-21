@@ -53,7 +53,7 @@ public class PlayerCameraTest : TrunManager
         (soeX, soeY) = selector.GetMAgicMassSelector();
         selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
         start = subCamera.transform.position;
-        target = new Vector3(/*selector.transform.position.x*/25, selepos.transform.position.y + 25, selepos.transform.position.z - 27);
+        target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 25, selepos.transform.position.z - 27);
         MagicCameraOn();
         MagicCameraMove();
 
