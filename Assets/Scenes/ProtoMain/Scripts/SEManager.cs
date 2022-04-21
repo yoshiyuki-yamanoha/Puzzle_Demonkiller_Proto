@@ -40,7 +40,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[3], 1.0f);
                 break;
             case "MagicShot"://5　魔法を打つ時
-                audioSource.PlayOneShot(audioClips[4],0.9f);
+                audioSource.PlayOneShot(audioClips[4],0.3f);
                 break;
             case "TurnChange"://6　ターンが変わる時
                 audioSource.PlayOneShot(audioClips[5],1.0f);
