@@ -30,9 +30,9 @@ public class ManageCoreState : TrunManager
         }
     }
 
-    public void ReceiveDamage()
+    public void ReceiveDamage(int dmgtype = EAP.knock)
     {
-        coreHp -= EAP.knock;
+        coreHp -= dmgtype;
 
         Debug.Log("cHp"+coreHp);
 

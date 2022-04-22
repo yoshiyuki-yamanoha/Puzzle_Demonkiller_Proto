@@ -838,7 +838,7 @@ PrefabInstance:
         type: 3}
       propertyPath: tree_prefab
       value: 
-      objectReference: {fileID: 888141719049580984, guid: 9a3f92e55a10c04439b5576d8bc37e5d,
+      objectReference: {fileID: 4788954330591623057, guid: 05469d07e68d40444b5db83214bd857e,
         type: 3}
     - target: {fileID: 3899782639922948245, guid: 69afa9d1ce5a2ab48b4989615766be66,
         type: 3}
