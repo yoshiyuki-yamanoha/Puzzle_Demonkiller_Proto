@@ -78,7 +78,8 @@ public class GenerationEnemy : PseudoArray
             }
             else
             {
-                if (SearchMoveEnemy()) {
+                if (SearchMoveEnemy())
+                {
                     if (generation_flg)
                     {//生成フラグがオンだったら生成
                         while (enemy_oneturn_count < enemy_oneturn_max)
@@ -119,16 +120,16 @@ public class GenerationEnemy : PseudoArray
                 search_list_enemys.Remove(search_enemy);//敵をリストから消す
             }
 
-            if (search_enemy.GetComponent<Enemy>().Is_action)//行動が終わったか確認
+            if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
             {
                 search_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
             }
         }
 
-        if(search_list_enemys.Count <= 0)//リストが0になぅったら
+        if (search_list_enemys.Count <= 0)//リストが0になぅったら
         {
             //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
-            search_flg =  true;//検索終了
+            search_flg = true;//検索終了
         }
 
         return search_flg;
@@ -139,11 +140,11 @@ public class GenerationEnemy : PseudoArray
         time += Time.deltaTime;//カウント開始
         if (time > interval_s)//スパンごと出現させる
         {
-            int random = Random.Range(0, 2);//敵の種類ランダム生成
-
+            int random_enem_kinds = Random.Range(0, 4);//敵の種類ランダム生成
+            int random_magic = Random.Range(0, 2);//敵の種類ランダム生成
             if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
             {
-                InstanceEnemy(random, pos.x, pos.y); // 生成種類 生成　X Y
+                InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
                 if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
             }
             time = 0;//タイム初期化
@@ -155,42 +156,97 @@ public class GenerationEnemy : PseudoArray
         }
     }
 
-    void InstanceEnemy(int num, int x, int y)//生成
+    void InstanceEnemy(int magic_num, int enemy_kinds, int x, int y)//生成
     {
         map.Map[y, x] = (int)MapMass.Mapinfo.Enemy;//mapに敵の情報を渡す。
 
         Vector3 enemypos = new Vector3(map.Tilemas_prefab.transform.localScale.x * x, 0, -map.Tilemas_prefab.transform.localScale.z * y);//敵の出現位置
 
         //出現する魔法陣を生成/////////////////////////////////////////////////////////////////////////////////////////////////////
-        ParticleSystem new_particle = Instantiate(enemy_particle[num], enemypos, enemy_particle[num].gameObject.transform.rotation);
+        ParticleSystem new_particle = Instantiate(enemy_particle[magic_num], enemypos, enemy_particle[magic_num].gameObject.transform.rotation);
         new_particle.Play();//再生
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
 
-        GameObject enemy_instantiate = Instantiate(enemy_prefab[num], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
+        GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
 
-        enemy_instantiate.name = enemy_prefab[num].name + enemy_count.ToString();//敵の名前を変更
+        Debug.Log("敵情報 " + enemy_instantiate);
+        enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
 
-        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
 
-        switch (enemy_info.enemy_kinds)//敵の生成した座標を渡す。
+        switch (enemy_kinds)
         {
-            case EnemyBase.EnemyKinds.Demon:
-                enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+            case 0:
+                SetGoblinInfo(enemy_instantiate, x, y);
                 break;
-            case EnemyBase.EnemyKinds.Demon1:
-                enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+            case 1:
+                SetWoManEnemyInfo(enemy_instantiate, x, y);
                 break;
-            case EnemyBase.EnemyKinds.Boss:
-                enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+            case 2:
+                SetBomInfo(enemy_instantiate, x, y);
+                break;
+            case 3:
+                SetFlameSwordInfo(enemy_instantiate, x, y);
                 break;
         }
+        //switch (num)
+        //{
+        //    case 0:
+        //        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
+        //        break;
+        //    case 1:
+        //        BombEnemy enemy_info = enemy_instantiate.GetComponent<BombEnemy>();//敵情報取得
+        //        break;
+        //    case 2:
+        //        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
+        //        break;
+        //}
+
+        //switch (enemy_info.enemy_kinds)//敵の生成した座標を渡す。
+        //{
+        //    case EnemyBase.EnemyKinds.Demon:
+        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+        //        break;
+        //    case EnemyBase.EnemyKinds.Demon1:
+        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+        //        break;
+        //    case EnemyBase.EnemyKinds.Boss:
+        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+        //        break;
+        //    case EnemyBase.EnemyKinds.Bom:
+        //        Debug.Log("ボムちゃん情報");
+        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+        //        break;
+        //}
 
         enemy_count++;
         enemy_oneturn_count++;
     }
 
+    void SetFlameSwordInfo(GameObject enemy_instantiate, int x, int y)
+    {
+        FlameSwordMove enemy_info = enemy_instantiate.GetComponent<FlameSwordMove>();//敵情報取得
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+    }
+
+    void SetBomInfo(GameObject enemy_instantiate, int x, int y)
+    {
+        BombEnemy enemy_info = enemy_instantiate.GetComponent<BombEnemy>();//敵情報取得
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+    }
+
+    void SetGoblinInfo(GameObject enemy_instantiate, int x, int y)
+    {
+        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+    }
+
+    void SetWoManEnemyInfo(GameObject enemy_instantiate, int x, int y)
+    {
+        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
+    }
 
     void GenerationEnemy_BGM()//BGM関係
     {

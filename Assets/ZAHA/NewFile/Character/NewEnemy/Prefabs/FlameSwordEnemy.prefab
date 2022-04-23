@@ -655,7 +655,7 @@ Animator:
   m_GameObject: {fileID: 2187081726733706301}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f3392e95529ae7540ad53657e3d0ce7d, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1a94f44f0220f6e428e893ceab094e84, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1114,6 +1114,7 @@ GameObject:
   - component: {fileID: 605173478290398530}
   - component: {fileID: 6466002323524396829}
   - component: {fileID: 1747836455457244250}
+  - component: {fileID: 142378835041413591}
   m_Layer: 8
   m_Name: FlameSwordEnemy
   m_TagString: Enemy
@@ -1227,7 +1228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0a2d17a79b7a044b597c71456c4f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy_animator: {fileID: 0}
+  enemy_animator: {fileID: 2187081726724339881}
 --- !u!114 &1747836455457244250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1257,6 +1258,19 @@ MonoBehaviour:
   status: 0
   enemy_kinds: 0
   fire: {fileID: 6514701586256220388}
+--- !u!114 &142378835041413591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644346809143061703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b1e67fac2db56a4ba41eaf7b58e56b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  init_turn: 1
 --- !u!1 &5442458698568785934
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,6 +84,7 @@ public class EnemyBase : MonoBehaviour
         Demon,
         Demon1,
         Boss,
+        Bom,
     }
 
     public enum Status
@@ -309,10 +310,10 @@ public class EnemyBase : MonoBehaviour
 
     public void InitFunction()
     {
+        GetObject();
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;
         Fire.gameObject.SetActive(false);
-        GetObject();
         enemys_.Add(this.gameObject);//自分を追加
         mynumber = enemys_.Count;
     }
@@ -479,7 +480,8 @@ public class EnemyBase : MonoBehaviour
 
     public void GetObject()
     {
-        if (Enemy_anim == null) return; //敵のアニメーション取得
+        //if (Enemy_anim == null) return; //敵のアニメーション取得
+        Debug.Log("オブジェクト取得");
         Generation_enemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
