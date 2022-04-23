@@ -8,7 +8,6 @@ public class BombEnemy : EnemyBase
     private void Start()
     {
         InitFunction();
-
     }
 
     void FixedUpdate()
@@ -46,7 +45,9 @@ public class BombEnemy : EnemyBase
             }
 
             EnemyDeath();//敵が死んだときの処理
-            Enemy_anim.AnimStatus(status);//アニメーション更新
+            if (Enemy_anim != null) {
+                Enemy_anim.AnimStatus(status);//アニメーション更新
+            }
         }
         else
         {
