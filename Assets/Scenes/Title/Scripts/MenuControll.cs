@@ -28,8 +28,10 @@ public class MenuControll : MonoBehaviour
     public int GetUpDown()
     {
         selectCoolTime--;// クールタイムを起動
-        float inputInfo = Input.GetAxis("UPDOWN");
-        if (inputInfo == 0.0f)
+        float buttonInputInfo = Input.GetAxis("UPDOWN");
+        float stickInputInfo = Input.GetAxis("Vertical");
+
+        if (buttonInputInfo == 0.0f && stickInputInfo == 0.0f)
         {
             selectCoolTime = 0;
         }
@@ -38,11 +40,11 @@ public class MenuControll : MonoBehaviour
         {
 
             selectCoolTime = 0;   // クールタイムの固定
-            if(inputInfo >= 0.8f)
+            if(buttonInputInfo >= 0.8f || stickInputInfo >= 0.8f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.UP);
-            }else if (inputInfo <= -0.8f)
+            }else if (buttonInputInfo <= -0.8f || stickInputInfo <= -0.8f)
             {
                 selectCoolTime = SELECT_COOLTIME_MAX;
                 return ((int)UpDown.DOWN);
