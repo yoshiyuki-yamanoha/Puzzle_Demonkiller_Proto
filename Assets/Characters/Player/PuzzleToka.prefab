@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69dc5dcaf69952943a3348d989bf62d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trunphase: 0
   circlesArrays:
   - circle: {fileID: 5631804628046396138}
     goalPorts:
@@ -209,7 +210,7 @@ MonoBehaviour:
       goalPort: {fileID: 5631804626260009879}
     - ang: 25
       goalPort: {fileID: 5631804628046396138}
-    - ang: 155
+    - ang: 135
       goalPort: {fileID: 0}
     - ang: 225
       goalPort: {fileID: 5631804626736400228}
@@ -221,6 +222,10 @@ MonoBehaviour:
       goalPort: {fileID: 0}
   currentSelectedCircle: {fileID: 0}
   leftStickAngle: 0
+  selectCircle: {fileID: 876905120787734957, guid: 63868f6cc2589e14bb8abac8cab76974,
+    type: 3}
+  audioSource: {fileID: 0}
+  moveSound: {fileID: 0}
 --- !u!1 &5631804626036700731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,7 +1882,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -2811,7 +2816,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -3243,7 +3248,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -4634,7 +4639,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5049,7 +5054,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
