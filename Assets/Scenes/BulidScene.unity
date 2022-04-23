@@ -2597,7 +2597,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 9.49e-42, y: 1.04e-43, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.0162e-41, y: 1.04e-43, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5079,7 +5079,7 @@ PrefabInstance:
     - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: enemy_prefab.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
@@ -5203,6 +5203,18 @@ PrefabInstance:
       propertyPath: map
       value: 
       objectReference: {fileID: 1243347993}
+    - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
+      propertyPath: enemy_prefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 1818861082154570, guid: b76f08f5af8ca314ca0b9dba8a82bcbd,
+        type: 3}
+    - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
+      propertyPath: enemy_prefab.Array.data[3]
+      value: 
+      objectReference: {fileID: 4644346809143061703, guid: a60df395406f33046b223a8e12c80691,
+        type: 3}
     - target: {fileID: 5298066893699814274, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: m_LocalPosition.x
