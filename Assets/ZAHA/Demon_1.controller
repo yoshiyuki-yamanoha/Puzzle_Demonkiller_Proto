@@ -192,7 +192,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyWalk
-  m_Speed: 0.9
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2437871460483165730}
@@ -281,10 +281,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -2890195222745592490}
-    m_Position: {x: 810, y: 100, z: 0}
+    m_Position: {x: 810, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3492746023257125997}
-    m_Position: {x: 440, y: 240, z: 0}
+    m_Position: {x: 420, y: 540, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5577791192796144304}
     m_Position: {x: 440, y: -10, z: 0}
@@ -296,13 +296,13 @@ AnimatorStateMachine:
     m_Position: {x: 440, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -950385621785923474}
-    m_Position: {x: 810, y: 150, z: 0}
+    m_Position: {x: 880, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4489713771743894786}
     m_Position: {x: 130, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6435429773531665136}
-    m_Position: {x: 280, y: 700, z: 0}
+    m_Position: {x: 260, y: -110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

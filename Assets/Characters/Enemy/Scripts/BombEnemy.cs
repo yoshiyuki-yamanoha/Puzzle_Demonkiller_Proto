@@ -17,15 +17,13 @@ public class BombEnemy : EnemyBase
             //自分(敵)のターンだったら
             if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
             {
-                EnemyTurnStart();
+                if (!AbnormalStatus())
+                {//ステータスダメージが喰らったらエネミーターンにする。
+                    EnemyTurnStart();
+                }
             }
             else //ターンを終了する時
             {
-                //魔法のターンの時に
-                if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
-                {
-                    AbnormalStatus();
-                }
                 EnemyTurnEnd();
             }
 

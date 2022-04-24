@@ -622,6 +622,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2187081726733404709}
   - component: {fileID: 2187081726724339881}
+  - component: {fileID: 690488530526995729}
   m_Layer: 0
   m_Name: UD_demo_character
   m_TagString: Untagged
@@ -664,6 +665,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &690488530526995729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2187081726733706301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wepon_boxcollider: {fileID: 0}
+  foot_boxcollider: {fileID: 0}
 --- !u!1 &2187081726733707839
 GameObject:
   m_ObjectHideFlags: 0

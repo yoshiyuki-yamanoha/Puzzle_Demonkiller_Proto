@@ -268,6 +268,7 @@ public class EnemyBase : MonoBehaviour
 
         if (Fire_abnormality_turncount <= 3)
         {
+            Debug.Log("ダメージアニメーション");
             //2ダメージ減らす。
             Damage(2);
             enemy_anim.TriggerAttack("HitDamage");
@@ -296,7 +297,6 @@ public class EnemyBase : MonoBehaviour
     public void Ice_Abnormal_Condition()
     {
         //Debug.Log("凍結魔法だわよん");
-        Debug.Log("Im Freeze");
         Ice_abnormality_turncount++;//呼ばれたらカウント
         Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら
@@ -304,7 +304,6 @@ public class EnemyBase : MonoBehaviour
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Damage(1);
-            Debug.Log("そして時は(ry");
         }
     }
 
@@ -335,9 +334,9 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void AbnormalStatus()
+    public bool AbnormalStatus()
     {
-        Debug.Log(Abnormal_condition);
+        //Debug.Log(Abnormal_condition);
         if (Init_abnormal)//1回のみ入るフラグ
         {
             switch (Abnormal_condition)//状態異常の中身見る
@@ -345,7 +344,9 @@ public class EnemyBase : MonoBehaviour
                 case AbnormalCondition.NONE:
                     break;
                 case AbnormalCondition.Fire:
-                    Fire_Abnormal_Condition();
+                    if (Fire.gameObject.activeInHierarchy) {
+                        Fire_Abnormal_Condition();
+                    }
                     break;
                 case AbnormalCondition.Ice:
                     Ice_Abnormal_Condition();
@@ -355,16 +356,18 @@ public class EnemyBase : MonoBehaviour
             //Debug.Log("ターン終了");
             Init_abnormal = false;
         }
+
+        return Init_abnormal;
     }
 
     public void EnemyTurnStart()
     {
-        Init_abnormal = true;//状態異常に1回のみ入るフラグ
         Istrun = true;//自分のターン(敵)開始
     }
 
     public void EnemyTurnEnd()
     {
+        Init_abnormal = true;//状態異常に1回のみ入るフラグ
         Enemy_action = EnemyAction.Movement;//ターンを動きにする
         Istrun = false;//ターン終了
         Init_anim_flg = true;
@@ -398,7 +401,6 @@ public class EnemyBase : MonoBehaviour
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(10, 17)));
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
-                Debug.Log(this.gameObject.name + "[Y]" + move_pos.y + "[X]" + move_pos.x);
                 Ismove = true;
                 Target_distance = false;
                 Targetchangeflg = false;
@@ -428,7 +430,6 @@ public class EnemyBase : MonoBehaviour
             //目的値についているか?
             if (Target_distance)//target.magnitude < Targetdistance
             {
-                Debug.Log("アイドル状態");
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
                 Hpber.gameObject.SetActive(true);
@@ -481,7 +482,6 @@ public class EnemyBase : MonoBehaviour
     public void GetObject()
     {
         //if (Enemy_anim == null) return; //敵のアニメーション取得
-        Debug.Log("オブジェクト取得");
         Generation_enemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         Trun_manager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         Map = GameObject.Find("MapInstance").GetComponent<MapMass>();
@@ -516,7 +516,6 @@ public class EnemyBase : MonoBehaviour
     {
         if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.NONE)//下方向
         {
-            Debug.Log("下行けます");
             Ismove = true;
             Target_distance = false;
             NextposX = X;
@@ -524,7 +523,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//前右
         {
-            Debug.Log("前右行けます");
             //Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
             Ismove = true;
             Target_distance = false;
@@ -533,7 +531,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//前左
         {
-            Debug.Log("前左行けます");
             //Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
             Ismove = true;
             Target_distance = false;
@@ -542,7 +539,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//右
         {
-            Debug.Log("右行けます");
             //Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
             Ismove = true;
             Target_distance = false;
@@ -551,7 +547,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//左
         {
-            Debug.Log("左行けます");
             //Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
             Ismove = true;
             Target_distance = false;
@@ -560,7 +555,6 @@ public class EnemyBase : MonoBehaviour
         }
         else//移動しない。
         {
-            Debug.Log("移動できません。");
             Ismove = false;
             NextposX = X;
             NextposY = Y;
@@ -569,7 +563,6 @@ public class EnemyBase : MonoBehaviour
 
     public void MassMove(int next_y, int next_x)
     {
-        Debug.Log(this.gameObject.name + "MassMove" + "[Y]" + next_y + " [X] " + next_x);
         Vector3 next_pos = new Vector3(next_x * map.Tilemas_prefab.transform.localScale.x, 0, next_y * -map.Tilemas_prefab.transform.localScale.z);
         Debug.DrawLine(transform.position, next_pos);
 
@@ -581,7 +574,6 @@ public class EnemyBase : MonoBehaviour
 
         if (def.sqrMagnitude < 1f)
         {
-            Debug.Log("目的値到着");
             Target_distance = true;
             transform.position = next_pos;
         }

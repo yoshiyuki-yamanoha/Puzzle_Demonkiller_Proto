@@ -34,7 +34,7 @@ public class GenerationEnemy : PseudoArray
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
-    int enemy_oneturn_max = 10;  //1ターンに出る敵の最大大数
+    int enemy_oneturn_max = 1;  //1ターンに出る敵の最大大数
 
     //mapの生成情報
     [HideInInspector] public int max_x = 0;//map横最大
@@ -66,7 +66,6 @@ public class GenerationEnemy : PseudoArray
             {//最初のターン
                 if (enemy_oneturn_count < enemy_oneturn_max)
                 { //1ターンに生成出来る数が最大値を超えたら
-                    Debug.Log("生成中");
                     Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 19)));
                 }
                 else
@@ -171,7 +170,6 @@ public class GenerationEnemy : PseudoArray
 
         GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
 
-        Debug.Log("敵情報 " + enemy_instantiate);
         enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
 
 
