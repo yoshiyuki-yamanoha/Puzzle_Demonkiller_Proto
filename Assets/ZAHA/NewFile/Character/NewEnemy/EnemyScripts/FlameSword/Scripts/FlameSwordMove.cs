@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlameSwordMove : EnemyBase
 {
+    float time = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,12 @@ public class FlameSwordMove : EnemyBase
         {
             if (!AbnormalStatus())
             {//ステータスダメージが喰らったらエネミーターンにする。
-                EnemyTurnStart();
+                time += Time.deltaTime;
+                if (time > 3)
+                {
+                    EnemyTurnStart();
+                    time = 0;
+                }
             }
         }
         else //ターンを終了する時

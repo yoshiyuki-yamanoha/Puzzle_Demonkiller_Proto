@@ -26,7 +26,7 @@ public class EnemyBase : MonoBehaviour
 
     bool target_distance = false;
     //変数
-    [SerializeField] float hp = 0; //hp
+    float hp = 0; //hp
     [SerializeField] float max_hp = 0; //hp
     [SerializeField] float attack = 0; //攻撃
     [SerializeField] float speed = 0; //速度
@@ -149,6 +149,33 @@ public class EnemyBase : MonoBehaviour
     public bool Init_anim_flg { get => init_anim_flg; set => init_anim_flg = value; }
     public MapMass Map { get => map; set => map = value; }
     public bool Target_distance { get => target_distance; set => target_distance = value; }
+
+
+    public void InitFunction()
+    {
+        GetObject();
+        Init_speed = Speed;//初期のスピード保存
+        Hp = Max_hp;//MaxHP
+        Hpber.maxValue = Max_hp;//HPゲージに反映
+        Fire.gameObject.SetActive(false);
+        enemys_.Add(this.gameObject);//自分を追加
+        mynumber = enemys_.Count;
+    }
+
+    public void EnemyTurnStart()
+    {
+        Istrun = true;//自分のターン(敵)開始
+    }
+
+    public void EnemyTurnEnd()
+    {
+        Init_abnormal = true;//状態異常に1回のみ入るフラグ
+        Enemy_action = EnemyAction.Movement;//ターンを動きにする
+        Istrun = false;//ターン終了
+        Init_anim_flg = true;
+        Is_action = false;//アクションをオフにする
+        Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
+    }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
     {
@@ -307,16 +334,6 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void InitFunction()
-    {
-        GetObject();
-        Init_speed = Speed;//初期のスピード保存
-        Hp = Max_hp;
-        Fire.gameObject.SetActive(false);
-        enemys_.Add(this.gameObject);//自分を追加
-        mynumber = enemys_.Count;
-    }
-
     public void DeleteListEnemy()
     {
         List<GameObject> g = new List<GameObject>();
@@ -358,21 +375,6 @@ public class EnemyBase : MonoBehaviour
         }
 
         return Init_abnormal;
-    }
-
-    public void EnemyTurnStart()
-    {
-        Istrun = true;//自分のターン(敵)開始
-    }
-
-    public void EnemyTurnEnd()
-    {
-        Init_abnormal = true;//状態異常に1回のみ入るフラグ
-        Enemy_action = EnemyAction.Movement;//ターンを動きにする
-        Istrun = false;//ターン終了
-        Init_anim_flg = true;
-        Is_action = false;//アクションをオフにする
-        Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
     }
 
     public void EnemyDeath()

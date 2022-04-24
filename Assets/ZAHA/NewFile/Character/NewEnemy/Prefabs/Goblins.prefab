@@ -2963,8 +2963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mynumber: 0
   map: {fileID: 0}
-  hp: 1
-  max_hp: 1
+  max_hp: 3
   attack: 10
   speed: 1
   deathflg: 0

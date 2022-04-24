@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : EnemyBase
 {
     Magichoming magichoming;
+    float time = 0;
     private void Start()
     {
         InitFunction();
@@ -22,7 +23,12 @@ public class Enemy : EnemyBase
             {
 
                 if (!AbnormalStatus()) {//ステータスダメージが喰らったらエネミーターンにする。
-                    EnemyTurnStart();
+
+                    time += Time.deltaTime;
+                    if (time > 3) {
+                        EnemyTurnStart();
+                        time = 0;
+                    }
                 }
             }
             else //ターンを終了する時
