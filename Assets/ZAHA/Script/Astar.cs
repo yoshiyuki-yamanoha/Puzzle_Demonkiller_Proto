@@ -52,23 +52,24 @@ public class Astar : MonoBehaviour
 
         //スタートノード指定
         open_list.Add(start);
+        current_node = open_list[0];
 
         for (int i = 0; i < 1; i++)
         {
             //オープンリストから現在のノードを取得。
-            current_node = open_list[0];
+            //current_node = open_list[0];
             a_count++;//今何回目のループか見ちゃうやつ
 
-            //オープンリストの中で一番コストが低いものを現在のノードにする。
-            foreach (var selectnode in open_list)
-            {
-                //オープンリストの中で一番小さいノードを選ぶ
-                if (selectnode.F < current_node.F)
-                {
-                    current_node = selectnode;//現在のノードを小さいノードに代入
-                    //Debug.Log("選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
-                }
-            }
+            ////オープンリストの中で一番コストが低いものを現在のノードにする。
+            //foreach (var selectnode in open_list)
+            //{
+            //    //オープンリストの中で一番小さいノードを選ぶ
+            //    if (selectnode.F < current_node.F)
+            //    {
+            //        current_node = selectnode;//現在のノードを小さいノードに代入
+            //        //Debug.Log("選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
+            //    }
+            //}
 
             open_list.Remove(current_node);//オープンリストの取得した削除
             close_list.Add(current_node);//クローズリストに追加
@@ -172,7 +173,7 @@ public class Astar : MonoBehaviour
 
             for (int open = 0; open < open_list.Count; open++)
             {
-                Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
+                //Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
             }
 
             foreach (var selectnode in open_list)
@@ -182,14 +183,14 @@ public class Astar : MonoBehaviour
                 if (selectnode.F < current_node.F)
                 {
                     current_node = selectnode;//現在のノードを小さいノードに代入
-                    Debug.Log("Openリスト小さいかチェックした時のノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
+                    //Debug.Log("Openリスト小さいかチェックした時のノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
                 }
             }
 
             
         }
 
-        Debug.Log("返す時の現在値" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
+        //Debug.Log("返す時の現在値" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
         return current_node.Pos;
         //クローズの中身をみるデバッグ
     }

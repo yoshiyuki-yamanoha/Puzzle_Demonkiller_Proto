@@ -170,11 +170,12 @@ public class EnemyBase : MonoBehaviour
     public void EnemyTurnEnd()
     {
         Init_abnormal = true;//状態異常に1回のみ入るフラグ
+        Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
+
         Enemy_action = EnemyAction.Movement;//ターンを動きにする
         Istrun = false;//ターン終了
         Init_anim_flg = true;
         Is_action = false;//アクションをオフにする
-        Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
     }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
@@ -323,8 +324,9 @@ public class EnemyBase : MonoBehaviour
     //凍結処理
     public void Ice_Abnormal_Condition()
     {
-        //Debug.Log("凍結魔法だわよん");
+        Debug.Log("凍結魔法だわよん");
         Ice_abnormality_turncount++;//呼ばれたらカウント
+
         Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 2)//2ターン経過したら
         {
@@ -356,16 +358,19 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log(Abnormal_condition);
         if (Init_abnormal)//1回のみ入るフラグ
         {
+            Debug.Log("状態異常確認");
             switch (Abnormal_condition)//状態異常の中身見る
             {
                 case AbnormalCondition.NONE:
                     break;
                 case AbnormalCondition.Fire:
-                    if (Fire.gameObject.activeInHierarchy) {
+                    if (Fire.gameObject.activeInHierarchy) {//
+                        Debug.Log("ファイヤ処理");
                         Fire_Abnormal_Condition();
                     }
                     break;
                 case AbnormalCondition.Ice:
+                    Debug.Log("アイス処理");
                     Ice_Abnormal_Condition();
                     break;
             }

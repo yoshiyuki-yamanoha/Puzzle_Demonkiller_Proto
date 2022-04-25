@@ -33,7 +33,7 @@ public class Enemy : EnemyBase
             }
             else //ターンを終了する時
             {
-                EnemyTurnEnd();
+                EnemyTurnEnd();//ターン終了 エネミーターン以外の時
             }
 
             HPber();//HPゲージ
@@ -84,13 +84,16 @@ public class Enemy : EnemyBase
 
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
+            Debug.Log("炎攻撃");
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
         }
+
         if (other.CompareTag("Ice"))
         {
             Abnormal_condition = AbnormalCondition.Ice;
+            Debug.Log("アイス攻撃" + Abnormal_condition);
             Ice_abnormality_turncount = 0;
             Destroy(other.gameObject);
         }
