@@ -19,6 +19,11 @@ public class SelectMgr : MonoBehaviour
 
     MenuControll menuControll;
     // Start is called before the first frame update
+
+    public BGMManager bgmPlay = null;
+
+    SEManager sePlay = null;
+
     void Start()
     {
         selecter = Select.Stage1;
@@ -28,6 +33,7 @@ public class SelectMgr : MonoBehaviour
         selectMenuPos[2] = new Vector3(139.0f, -54.0f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
+        GenerationSelect_BGM();
     }
 
     // Update is called once per frame
@@ -97,5 +103,12 @@ public class SelectMgr : MonoBehaviour
         if(Input.GetButtonDown("Cont_L1")) {
             GameMgr.Instance.GotoTitleScene();
         }
+    }
+
+    void GenerationSelect_BGM()
+    {
+        if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用  
+        bgmPlay.Play("SELECTBGM");
     }
 }
