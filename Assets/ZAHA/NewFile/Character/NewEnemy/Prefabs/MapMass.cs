@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapMass:MonoBehaviour
+public class MapMass : MonoBehaviour
 {
     //サンプルコード
     //int width;//幅
@@ -85,6 +85,10 @@ public class MapMass:MonoBehaviour
     //        Debug.Log(s);
     //    }
     //}
+    GameObject[,] core_bari_Data = new GameObject[20, 20];//コアとバリケードの位置保存
+
+    int i = 0;
+    int j = 0;
 
     GameObject rootobj_;
     [SerializeField] GameObject tilemas_prefab = null;
@@ -93,7 +97,8 @@ public class MapMass:MonoBehaviour
     [SerializeField] GameObject tree_prefab = null;
     [SerializeField] GameObject bari_prefab = null;
 
-    struct MassState {
+    struct MassState
+    {
         public int state;
         public GameObject massObj;
     }
@@ -133,10 +138,12 @@ public class MapMass:MonoBehaviour
         {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
     };
 
-    
+
 
     public int[,] Map { get => map; set => map = value; }
-    public GameObject Tilemas_prefab { get => tilemas_prefab;}
+    public GameObject Tilemas_prefab { get => tilemas_prefab; }
+    public GameObject[,] Core_bari_Data { get => core_bari_Data; set => core_bari_Data = value; }
+
 
 
 
@@ -147,10 +154,52 @@ public class MapMass:MonoBehaviour
     {
         rootobj_ = new GameObject("MassRoot");//空のオブジェクトを作成-!
         InstanceMap();//インスタントmapを
+        InitCore();//コア配列作成
+    }
+
+    void InitCore()
+    {
+        GameObject[] bari_obj = GameObject.FindGameObjectsWithTag("Bari");
+        GameObject[] core_obj = GameObject.FindGameObjectsWithTag("Core");
+
+        //for (int core = 0; core < core_obj.Length; core++ )
+        //{
+        //    Debug.Log(core_obj[core].name = "core" + core);
+        //}
+
+        //for (int bari = 0; bari < bari_obj.Length; bari++)
+        //{
+        //    Debug.Log(bari_obj[bari].name = "core" + bari);
+        //}
+
+        for (int y = 0; y < Map.GetLength(0); y++)
+        {
+            for (int x = 0; x < Map.GetLength(1); x++)
+            {
+                if (Map[y, x] == (int)MapMass.Mapinfo.core)
+                {
+                    if (i > core_obj.Length)
+                        continue;
+                    Core_bari_Data[y, x] = core_obj[i];
+                    i++;
+                }
+                else if (Map[y, x] == (int)MapMass.Mapinfo.bari)
+                {
+                    if (j > bari_obj.Length)
+                        continue;
+                    Core_bari_Data[y, x] = bari_obj[j];
+                    j++;
+                }
+                else
+                {
+                    Core_bari_Data[y, x] = null;
+                }
+            }
+        }
     }
 
     void InstanceMap()
-    {   
+    {
         GameObject obj = null;
 
         var treeParent = new GameObject("Trees");
@@ -171,7 +220,7 @@ public class MapMass:MonoBehaviour
                         obj.transform.parent = rootobj_.transform;
                         break;
                     case (int)Mapinfo.core:
-                        obj = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y*2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y * 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         //obj.transform.parent = rootobj_.transform;
                         obj.gameObject.name = "Core";
                         obj.gameObject.tag = "Core";
@@ -183,7 +232,7 @@ public class MapMass:MonoBehaviour
                         obj.transform.parent = treeParent.transform;
                         obj.gameObject.name = "tree";
                         //obj.gameObject.tag = "Core";
-                        obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z),Quaternion.identity);
+                        obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
                         break;
                     case (int)Mapinfo.bari:
@@ -203,7 +252,8 @@ public class MapMass:MonoBehaviour
         rootobj_.AddComponent<ChildName>();
     }
     //指定した添え字のGameObjectを返してくれる関数
-    public GameObject GetGameObjectOfSpecifiedMass(int x,int y) {
+    public GameObject GetGameObjectOfSpecifiedMass(int x, int y)
+    {
 
         if (y > Map.GetLength(0) - 1 || y < 0) return null;
         if (x > Map.GetLength(1) - 1 || x < 0) return null;
@@ -212,12 +262,14 @@ public class MapMass:MonoBehaviour
     }
 
     //全てのマスGameObjectをゲットする
-    public GameObject[] GetAllMassObjects() {
+    public GameObject[] GetAllMassObjects()
+    {
 
         var m = new GameObject[masses.Length];
         int n = 0;
 
-        foreach (var o in masses) {
+        foreach (var o in masses)
+        {
             m[n] = o.massObj;
             n++;
         }
@@ -226,13 +278,14 @@ public class MapMass:MonoBehaviour
     }
 
     //魔法セレクターの位置を格納
-    public void SetMagicMassSelector(int x,int y)
+    public void SetMagicMassSelector(int x, int y)
     {
         selX = x;
         selY = y;
     }
 
-    public (int,int) GetMAgicMassSelector() {
+    public (int, int) GetMAgicMassSelector()
+    {
 
         return (selX, selY);
     }

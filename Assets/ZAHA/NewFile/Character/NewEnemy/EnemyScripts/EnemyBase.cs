@@ -347,7 +347,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        for(int i=0; i<g.Count; i++)
+        for (int i = 0; i < g.Count; i++)
         {
             enemys_.Remove(g[i]);
         }
@@ -364,7 +364,8 @@ public class EnemyBase : MonoBehaviour
                 case AbnormalCondition.NONE:
                     break;
                 case AbnormalCondition.Fire:
-                    if (Fire.gameObject.activeInHierarchy) {//
+                    if (Fire.gameObject.activeInHierarchy)
+                    {//
                         Debug.Log("ファイヤ処理");
                         Fire_Abnormal_Condition();
                     }
@@ -393,15 +394,7 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum)
     {
-        if (!Endflg)//最終地点にいるのか
-        {
-            //GameObject forward_obj = Generation_enemy.rootpos[IndexCheckX(X)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前方
-            //GameObject right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//右
-            //GameObject left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y)).gameObject;//左
-            //GameObject forward_right_obj = Generation_enemy.rootpos[IndexCheckX(X + 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前右
-            //GameObject forward_left_obj = Generation_enemy.rootpos[IndexCheckX(X - 1)].transform.GetChild(IndexCheckY(Y + 1)).gameObject; //前左
-            ;
-
+        if (!astar.GetAttackAria()) {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
@@ -499,24 +492,25 @@ public class EnemyBase : MonoBehaviour
     {
         Is_action = true;
 
-        if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
-        {//再生
+        //if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
+        //{//再生
 
-            Attacktime += Time.deltaTime; //3秒おきに攻撃
-        }
+        //    Attacktime += Time.deltaTime; //3秒おきに攻撃
+        //}
+        Vector2Int attackpos = astar.GetAttackPos();
 
         if (Init_anim_flg)
         {
             Enemy_anim.TriggerAttack("Attack");
             Init_anim_flg = false;
-            Core.ReceiveDamage();// コアのｈｐ減らす
-
+            map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage();
+            //Core.ReceiveDamage();// コアのｈｐ減らす
         }//攻撃trigger
 
-        if (Attacktime > 2.5f)
-        {
-            Attacktime = 0;
-        }
+        //if (Attacktime > 2.5f)
+        //{
+        //    Attacktime = 0;
+        //}
     }
 
     public void SearchMovement(int massnum)
