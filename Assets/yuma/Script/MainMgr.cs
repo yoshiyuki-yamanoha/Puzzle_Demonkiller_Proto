@@ -21,7 +21,7 @@ public class MainMgr : MonoBehaviour
         if(enemyDieNum >= enemyDieMax) {
             GameMgr.Instance.GotoGameClearScene();
         }
-        if(Input.GetButtonDown("Fire2"))
+        if(Input.GetButtonDown("Start"))
         {
             GameMgr.Instance.Restart();
         }
