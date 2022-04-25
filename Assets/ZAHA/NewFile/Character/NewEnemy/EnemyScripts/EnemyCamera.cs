@@ -18,10 +18,13 @@ public class EnemyCamera : MonoBehaviour
     bool moveflag = false;
 
     PlayerCameraTest cameraMove;
-    Vector3 pos = new Vector3(0,0,0);
+    Vector3 pos = new Vector3(0, 0, 0);
 
     Camera enemy_camera = null;
     Enemy enemyste; //敵のステータス読み取り用
+
+     public bool startFlag = true;
+    float x = 0, y = 0, z = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +33,57 @@ public class EnemyCamera : MonoBehaviour
         enemy_camera = this.gameObject.GetComponent<Camera>();
         enemy_camera.depth = -2;
         defaultCamerapos = new Vector3(25.22f, 3.7f, -80);
+        transform.position = new Vector3(0, 26, -107);
     }
 
     // Update is called once per frame
-    private void FixedUpdate(){
+    private void FixedUpdate() {
+        if (startFlag == true)
+        {
+            if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
+            {
+                enemy_camera.depth = 0;
+                x += 0.5f;
+                transform.position = new Vector3(x, 26, -107);
+                if(x > 95)
+                {
+                    startFlag = false;
+                    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+                }
+            }
+            else
+            {
+                startFlag = false;
+                enemy_camera.depth = -2;
+            }
+        }
+        else
+        {
+
+            EnemyCameraMove();
+        }
+    }
+
+
+    GameObject CloseEnemycamera()//近い敵
+    {
+        float closeDist = 1000.0f;
+
+        foreach (var target in targets)
+        {
+            float targetDist = Vector3.Distance(transform.position, target.transform.position);
+            if (closeDist > targetDist)
+            {
+                closeDist = targetDist;
+                closeEnemy = target;
+            }
+        }
+
+        return closeEnemy;
+    }
+
+    void EnemyCameraMove()
+    {
         //1ターンで一番近い敵
         if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
         {
@@ -81,23 +131,5 @@ public class EnemyCamera : MonoBehaviour
             initflg = true;
             moveflag = true;
         }
-    }
-
-
-    GameObject CloseEnemycamera()//近い敵
-    {
-        float closeDist = 1000.0f;
-
-        foreach (var target in targets)
-        {
-            float targetDist = Vector3.Distance(transform.position, target.transform.position);
-            if (closeDist > targetDist)
-            {
-                closeDist = targetDist;
-                closeEnemy = target;
-            }
-        }
-
-        return closeEnemy;
     }
 }

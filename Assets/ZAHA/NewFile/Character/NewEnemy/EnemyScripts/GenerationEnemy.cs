@@ -42,6 +42,9 @@ public class GenerationEnemy : PseudoArray
 
     //他のスクリプトから参照してた奴
     public bool initflg = false;
+
+    //敵を映すCameraのScript情報
+    [SerializeField] EnemyCamera EC;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,9 +73,12 @@ public class GenerationEnemy : PseudoArray
                 }
                 else
                 {
-                    enemy_oneturn_count = 0;
-                    init_generation_flg = false;
-                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+                    if (EC.startFlag == false)
+                    {
+                        enemy_oneturn_count = 0;
+                        init_generation_flg = false;
+                        trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+                    }
                 }
             }
             else
@@ -87,7 +93,8 @@ public class GenerationEnemy : PseudoArray
                         }
                         enemy_oneturn_count = 0;
                     }
-                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+                        trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+                    
                 }
             }
         }
