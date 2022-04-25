@@ -16,8 +16,8 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] OrbGage s_OrbGage;
 
     //移動用
-    int nowSelX = 5;
-    int nowSelY = 5;
+    int nowSelX = 10;
+    int nowSelY = 10;
 
     const int rit_Interval = 5;
     [SerializeField] int moveInterval = rit_Interval;

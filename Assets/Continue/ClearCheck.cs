@@ -316,12 +316,12 @@ public class ClearCheck : TrunManager
         //五角形
         if(Math.Abs(nextNum) == 1)
         {
-            if (levels[3+cn] == 3) return false;
+            if (levels[3+cn] == 30) return false;
         }
         //五芒星
         if(Math.Abs(nextNum) == 2)
         {
-            if (levels[cn] == 3) return false;
+            if (levels[cn] == 30) return false;
         }
         
         for (int i = 0; i < play.Length; i++)

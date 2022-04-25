@@ -140,7 +140,8 @@ public class MagicRangeDetector : TrunManager
             case MagicType.IceStar:      //五芒星　氷 (選択マスを中心にステージ縦(レベル)列)　ボスにも当たる
 
                 rangeStart = new Vector2Int();
-                rangeStart.x = magicLevel < 3 ? selX : selX - 1;
+                //rangeStart.x = magicLevel < 3 ? selX : selX - 1;
+                rangeStart.x = magicLevel % 2 == 1 ? selX - (magicLevel / 2) : (selX + 1) - (magicLevel / 2);
                 rangeStart.y = 0;
 
                 magicRange = new MagicMassStatus[stageHeight, magicLevel];
@@ -187,44 +188,18 @@ public class MagicRangeDetector : TrunManager
 
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
-                if (magicLevel < 3)
+                rangeStart = new Vector2Int();
+                rangeStart.x = selX - magicLevel / 2;
+                rangeStart.y = selY;
+
+                num = magicLevel;
+                magicRange = new MagicMassStatus[1, num];
+
+                for (int j = 0; j < num; j++)
                 {
-                    rangeStart = new Vector2Int();
-                    rangeStart.x = selX - magicLevel;
-                    rangeStart.y = selY;
-
-                    num = magicLevel * 2 + 1;
-                    magicRange = new MagicMassStatus[1, num];
-
-                    for (int i = 0; i < 1; i++)
-                    {
-                        for (int j = 0; j < num; j++)
-                        {
-                            magicRange[i, j].y = rangeStart.y;
-                            magicRange[i, j].x = rangeStart.x + j;
-                            magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y);
-                        }
-                    }
-                }
-                else {
-
-                    rangeStart = new Vector2Int();
-                    rangeStart.x = selX - 1;
-                    rangeStart.y = selY - 1;
-
-                    num = magicLevel;
-                    magicRange = new MagicMassStatus[num, num];
-
-                    for (int i = 0; i < num; i++)
-                    {
-                        for (int j = 0; j < num; j++)
-                        {
-                            magicRange[i, j].y = rangeStart.y + i;
-                            magicRange[i, j].x = rangeStart.x + j;
-                            magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y + i);
-                        }
-                    }
-
+                        magicRange[0, j].y = rangeStart.y;
+                        magicRange[0, j].x = rangeStart.x + j;
+                        magicRange[0, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y);
                 }
 
                 break;

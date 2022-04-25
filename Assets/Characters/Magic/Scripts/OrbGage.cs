@@ -28,7 +28,7 @@ public class OrbGage : MonoBehaviour
     //各オーブのレベル0~3  0:赤星 1:青星 2:黄星 3:赤角 4:青角 5:黄角 
     private int[] Orb_Level = new int[6];
 
-    private const int ORB_MAX_LEVEL = 3;
+    private const int ORB_MAX_LEVEL = 30;
 
     //オーブグレーアウト用のやつ
     [SerializeField] GameObject[] grayOutMask;
@@ -150,6 +150,7 @@ public class OrbGage : MonoBehaviour
     }
     public void starLightBlueChage()
     {
+
         if (++Orb_Level[1] > ORB_MAX_LEVEL)
         {
             Orb_Level[1] = ORB_MAX_LEVEL;
@@ -178,6 +179,7 @@ public class OrbGage : MonoBehaviour
     }
     public void pentagonYellowChage()
     {
+
         if (++Orb_Level[5] > ORB_MAX_LEVEL)
         {
             Orb_Level[5] = ORB_MAX_LEVEL;
