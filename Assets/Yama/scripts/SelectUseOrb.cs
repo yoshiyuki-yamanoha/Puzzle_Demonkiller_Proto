@@ -28,6 +28,8 @@ public class SelectUseOrb : TrunManager
 
     [SerializeField] MagicRangeDetector s_MagicRangeDetector;
     [SerializeField] MagicMassSelecter s_MagicMassSelecter;
+    [SerializeField] MagicRangeDetector2 s_MagicRangeDetector2;
+    [SerializeField] MagicMassSelecter2 s_MagicMassSelecter2;
 
     //オーブの切り替えを出来ないようにする
     bool notSwitchOrb = false;
@@ -35,6 +37,9 @@ public class SelectUseOrb : TrunManager
 
 
     int orbtype = 0, orblevel = 0;
+
+    //魔法専用シーン
+    [SerializeField] bool magicMagicMode;
 
     // Start is called before the first frame update
     void Start()
@@ -49,12 +54,15 @@ public class SelectUseOrb : TrunManager
             if (!notSwitchOrb)
             SelectOrb_Update();
 
-        if (s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack && s_orbGage.OrbCheckExsistens())//Player攻撃ターンか？
+        if (magicMagicMode || s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack && s_orbGage.OrbCheckExsistens())//Player攻撃ターンか？
         {
             //選択しているオーブの表示
             selectOrb();
+
             //魔法の範囲を変える
-            s_MagicRangeDetector.ChangeMagicRange();
+            if (!magicMagicMode) s_MagicRangeDetector.ChangeMagicRange();
+            else s_MagicRangeDetector2.ChangeMagicRange();
+
             //選択しているオーブのレベルが０ならずらす
             selectmoveOrb();
         }
@@ -69,10 +77,17 @@ public class SelectUseOrb : TrunManager
     /// </summary>
     private void SelectOrb_Init()
     {
-        s_turnMGR = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        if(!magicMagicMode) s_turnMGR = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         s_orbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
 
         SetOrbType();
+
+        //魔法専用シーンだけの初期化
+        if (magicMagicMode) {
+            for (int i = 0; i < orbLevel.Length; i++)
+                orbLevel[i] = 1;
+        }
+
     }
 
     /// <summary>
@@ -140,8 +155,15 @@ public class SelectUseOrb : TrunManager
         waitTime = coolTimeMax;
 
         //五芒星雷のときのみ敵選択モードに切り替え
-        if (nowSelOrb == 2) s_MagicMassSelecter.SwitchSelectType(1);
-        else s_MagicMassSelecter.SwitchSelectType(0);
+        if (!magicMagicMode)
+        {
+            if (nowSelOrb == 2) s_MagicMassSelecter.SwitchSelectType(1);
+            else s_MagicMassSelecter.SwitchSelectType(0);
+        }
+        else {
+            if (nowSelOrb == 2) s_MagicMassSelecter2.SwitchSelectType(1);
+            else s_MagicMassSelecter2.SwitchSelectType(0);
+        }
 
         //魔法の範囲を変える
         //s_MagicRangeDetector.ChangeMagicRange();
@@ -154,9 +176,12 @@ public class SelectUseOrb : TrunManager
     private bool DecideCanChooseOrb()
     {
         // オーブを選択しても良いターンか判断
-        TrunPhase currentPhase = s_turnMGR.GetTrunPhase();
-        if (currentPhase != TrunPhase.MagicAttack)
-            return false;
+        if (!magicMagicMode)
+        {
+            TrunPhase currentPhase = s_turnMGR.GetTrunPhase();
+            if (currentPhase != TrunPhase.MagicAttack)
+                return false;
+        }
 
         // クールタイムが残っているか判断
         if (ElapsedOfCoolingTimeOfMovement() == false)
