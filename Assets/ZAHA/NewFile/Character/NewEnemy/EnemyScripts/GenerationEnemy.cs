@@ -34,7 +34,7 @@ public class GenerationEnemy : PseudoArray
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
-    int enemy_oneturn_max = 1;  //1ターンに出る敵の最大大数
+    [SerializeField]int enemy_oneturn_max = 5;  //1ターンに出る敵の最大大数
 
     //mapの生成情報
     [HideInInspector] public int max_x = 0;//map横最大
@@ -69,7 +69,7 @@ public class GenerationEnemy : PseudoArray
             {//最初のターン
                 if (enemy_oneturn_count < enemy_oneturn_max)
                 { //1ターンに生成出来る数が最大値を超えたら
-                    Generation(new Vector2Int(7, 11));
+                    Generation(new Vector2Int(7, 12));//Random.Range(0,20), Random.Range(0, 20))
                 }
                 else
                 {
