@@ -39,18 +39,22 @@ public class PuzzlePointerMover : TrunManager
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip moveSound;
 
+    //パズルのみのシーンで使うbool
+    [SerializeField] private bool puzzleOnlyMode;
+
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
 
         circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
-        s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        if(!puzzleOnlyMode)
+            s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
     private void FixedUpdate()
     {
-        if (s_TrunManager.trunphase == TrunPhase.Puzzle)
+        if (puzzleOnlyMode || s_TrunManager.trunphase == TrunPhase.Puzzle)
         {
 
             //現在選択してる魔法陣を取得
@@ -126,10 +130,13 @@ public class PuzzlePointerMover : TrunManager
                     currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
 
                     //ポインター移動
-                    currentSelectedCircle = goal.transform.GetChild(0).gameObject;
+                    if (goal.transform.childCount > 0)
+                    {
+                        currentSelectedCircle = goal.transform.GetChild(0).gameObject;
 
-                    //選択サークルを出す
-                    currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+                        //選択サークルを出す
+                        currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+                    }
 
                     //移動音を鳴らす
                     audioSource.PlayOneShot(moveSound);
