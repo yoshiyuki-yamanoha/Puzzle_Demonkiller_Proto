@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    //ゴールリスト
+    List<Vector2Int> core_pos_list = new List<Vector2Int>();//コアの場所を保存するやーつ
+
     //攻撃エリア
     bool attack_aria;
 
@@ -394,7 +397,8 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum)
     {
-        if (!astar.GetAttackAria()) {
+        if (!astar.GetAttackAria())
+        {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
@@ -479,6 +483,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    //取得
     public void GetObject()
     {
         //if (Enemy_anim == null) return; //敵のアニメーション取得
@@ -488,6 +493,7 @@ public class EnemyBase : MonoBehaviour
         astar = this.gameObject.GetComponent<Astar>();
     }
 
+    //敵攻撃
     public void EnemyAttack()
     {
         Is_action = true;
@@ -501,11 +507,25 @@ public class EnemyBase : MonoBehaviour
 
         if (Init_anim_flg)
         {
+            if (map.Core_bari_Data[attackpos.y, attackpos.x].gameObject != null)
+            {
+                if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
+                {//バリケード
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage();//バリケードにダメージよーん
+                }else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
+                {
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage();//コアにダメージよーん
+                }
+            }
+            else
+            {
+                astar.SetAttackAria(false);//コアがないなったら攻撃オフにして―
+                map.Map[attackpos.y, attackpos.x] = (int)MapMass.Mapinfo.NONE;//マスが空いた情報を埋めるん
+            }
+
             Enemy_anim.TriggerAttack("Attack");
             Init_anim_flg = false;
-            map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage();
-            //Core.ReceiveDamage();// コアのｈｐ減らす
-        }//攻撃trigger
+        }
 
         //if (Attacktime > 2.5f)
         //{

@@ -116,6 +116,17 @@ public class Astar : MonoBehaviour
                 new Vector2Int(1, 0),//右
             };
 
+            //攻撃
+            if (map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.bari || map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.core)
+            {
+                Debug.Log("前方向にに攻撃エリアあった!");
+                SetAttackAria(true);//攻撃エリア発見
+                SetAttackPos(dir[0] + current_node.Pos);//攻撃エリア隣接ノード
+
+                Debug.Log("Y [" + dir[0].y + current_node.Pos.y + "]" + "X [" + dir[0].x + current_node.Pos.x + "]" + map.Map[dir[0].y + current_node.Pos.y, +dir[0].x + current_node.Pos.x] + "があります");
+                continue;
+            }
+
             for (int number = 0; number < 4; number++)//4方向分調べている。
             {
                 Vector2Int adjacent_node_pos = new Vector2Int(current_node.Pos.x + dir[number].x, current_node.Pos.y + dir[number].y);//隣接ノードの位置生成
@@ -125,16 +136,6 @@ public class Astar : MonoBehaviour
                 {
                     Debug.Log("範囲外デス。");
                     continue; //個々より下は処理しない（スキップ）
-                }
-
-                //攻撃
-                if (map.Map[adjacent_node_pos.y, adjacent_node_pos.x] == (int)MapMass.Mapinfo.bari || map.Map[adjacent_node_pos.y, adjacent_node_pos.x] == (int)MapMass.Mapinfo.core)
-                {
-                    SetAttackAria(true);//攻撃エリア発見
-                    SetAttackPos(adjacent_node_pos);//攻撃エリア隣接ノード
-
-                    Debug.Log("Y [" + adjacent_node_pos.y + "]" + "X [" + adjacent_node_pos.x + "]" + map.Map[adjacent_node_pos.y, adjacent_node_pos.x] + "があります");
-                    continue;
                 }
 
                 if (map.Map[adjacent_node_pos.y, adjacent_node_pos.x] != 0) //mapの移動出来る範囲をみる。//0は移動可能
@@ -224,7 +225,7 @@ public class Astar : MonoBehaviour
         return attackpos;
     }
 
-    void SetAttackAria(bool attackaria)
+    public void SetAttackAria(bool attackaria)
     {
         this.attackaria = attackaria;
     }

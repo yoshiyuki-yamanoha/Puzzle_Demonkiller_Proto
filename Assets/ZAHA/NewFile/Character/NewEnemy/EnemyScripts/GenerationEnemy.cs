@@ -69,7 +69,7 @@ public class GenerationEnemy : PseudoArray
             {//最初のターン
                 if (enemy_oneturn_count < enemy_oneturn_max)
                 { //1ターンに生成出来る数が最大値を超えたら
-                    Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 19)));
+                    Generation(new Vector2Int(7, 11));
                 }
                 else
                 {
@@ -93,8 +93,8 @@ public class GenerationEnemy : PseudoArray
                         }
                         enemy_oneturn_count = 0;
                     }
-                        trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
-                    
+                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+
                 }
             }
         }
@@ -146,8 +146,9 @@ public class GenerationEnemy : PseudoArray
         time += Time.deltaTime;//カウント開始
         if (time > interval_s)//スパンごと出現させる
         {
-            int random_enem_kinds = Random.Range(0, 4);//敵の種類ランダム生成
+            int random_enem_kinds = Random.Range(0, 2);//敵の種類ランダム生成
             int random_magic = Random.Range(0, 2);//敵の種類ランダム生成
+
             if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
             {
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
