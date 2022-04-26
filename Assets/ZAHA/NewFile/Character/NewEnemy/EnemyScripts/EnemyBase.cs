@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
-    //ゴールリスト
-    List<Vector2Int> core_pos_list = new List<Vector2Int>();//コアの場所を保存するやーつ
-
     //攻撃エリア
-    bool attack_aria;
+    bool init_goal = true;
+    Node goal;
+    bool attackaria;
+    Vector2Int attackpos;
+    bool init_attack_search = true;
 
     Astar astar;//インスタンス化
     Vector2Int move_pos;
@@ -152,7 +153,9 @@ public class EnemyBase : MonoBehaviour
     public bool Init_anim_flg { get => init_anim_flg; set => init_anim_flg = value; }
     public MapMass Map { get => map; set => map = value; }
     public bool Target_distance { get => target_distance; set => target_distance = value; }
-
+    public bool Attackaria { get => attackaria; set => attackaria = value; }
+    public Vector2Int Attackpos { get => attackpos; set => attackpos = value; }
+    public bool Init_attack_search { get => init_attack_search; set => init_attack_search = value; }
 
     public void InitFunction()
     {
@@ -174,6 +177,7 @@ public class EnemyBase : MonoBehaviour
     {
         Init_abnormal = true;//状態異常に1回のみ入るフラグ
         Init_abnormal_ui = true;//1ターンに1回のみ処理する用フラグ
+        Init_attack_search = true;//攻撃検索オン
 
         Enemy_action = EnemyAction.Movement;//ターンを動きにする
         Istrun = false;//ターン終了
@@ -397,12 +401,34 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum)
     {
-        if (!astar.GetAttackAria())
+        if (Init_attack_search) {
+            AttackSearchMovement(massnum);
+            Init_attack_search = false;
+        }
+
+        if (Attackaria)
+        {
+            Attacktime += Time.deltaTime;
+            if (Attacktime > 2)
+            {
+                Is_action = true;
+                Attacktime = 0;
+            }
+            EnemyAttack();
+        }
+        else
         {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
+                if (init_goal)
+                {
+                    goal = new Node(null, map.GetCore().pos[Random.Range(0, 4)]);
+                    Debug.Log("Goal位置" + "Y [" + goal.Pos.y + "X [" + goal.Pos.x);
+                    init_goal = false;
+                }
+
                 //SearchMovement(massnum); //2マス。
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), new Node(null, new Vector2Int(10, 17)));
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal);
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Ismove = true;
@@ -441,10 +467,11 @@ public class EnemyBase : MonoBehaviour
                 Y = IndexCheckY(NextposY);
                 X = IndexCheckX(NextposX);
 
-                if (Y == Generation_enemy.max_y - 1)//ゴールに着いたのか
-                {
-                    Endflg = true;
-                }
+                //ここで前方が攻撃エリアか見る
+
+                //自分の回りの位置が攻撃エリアかをみて
+                //攻撃エリアなら攻撃するフラグをオン
+
 
                 //ここで状態異常確認
                 if (Init_abnormal_ui)//1回のみ入るフラグ
@@ -476,11 +503,9 @@ public class EnemyBase : MonoBehaviour
 
             }
         }
-        else
-        {
-            //攻撃
-            EnemyAttack();
-        }
+        //}
+        //攻撃
+        //EnemyAttack();
     }
 
     //取得
@@ -496,90 +521,102 @@ public class EnemyBase : MonoBehaviour
     //敵攻撃
     public void EnemyAttack()
     {
-        Is_action = true;
-
         //if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
         //{//再生
 
         //    Attacktime += Time.deltaTime; //3秒おきに攻撃
         //}
-        Vector2Int attackpos = astar.GetAttackPos();
+        Vector2Int attackpos = Attackpos;
 
         if (Init_anim_flg)
         {
+            Debug.Log("攻撃タイーむ");
             if (map.Core_bari_Data[attackpos.y, attackpos.x].gameObject != null)
             {
                 if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
                 {//バリケード
                     map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage();//バリケードにダメージよーん
-                }else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
+                }
+                else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
                 {
                     map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage();//コアにダメージよーん
                 }
-            }
-            else
-            {
-                astar.SetAttackAria(false);//コアがないなったら攻撃オフにして―
-                map.Map[attackpos.y, attackpos.x] = (int)MapMass.Mapinfo.NONE;//マスが空いた情報を埋めるん
             }
 
             Enemy_anim.TriggerAttack("Attack");
             Init_anim_flg = false;
         }
 
-        //if (Attacktime > 2.5f)
+        //if (Attacktime > 1.5f)
         //{
         //    Attacktime = 0;
         //}
     }
 
-    public void SearchMovement(int massnum)
+    public void AttackSearchMovement(int massnum)
     {
-        if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.NONE)//下方向
+        if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//下方向
         {
-            Ismove = true;
-            Target_distance = false;
-            NextposX = X;
-            NextposY = Y + massnum;
+            if (map.Core_bari_Data[IndexCheckY(Y + massnum), IndexCheckX(X)].gameObject != null)
+            {
+                Debug.Log("下にバリケードかコア攻撃");
+                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y + massnum));
+                Attackaria = true;
+            }
+            else
+            {
+                Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+                Attackaria = false;
+            }
         }
-        else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//前右
+
+        if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.core)//右
         {
-            //Debug.DrawLine(transform.position, forward_right_obj.transform.position, Color.green);
-            Ismove = true;
-            Target_distance = false;
-            NextposX = X + massnum;
-            NextposY = Y + massnum;
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + massnum)].gameObject != null))
+            {
+                Debug.Log("右にコア攻撃");
+                Attackpos = new Vector2Int(IndexCheckX(X + massnum), IndexCheckY(Y));
+                Attackaria = true;
+            }
+            else
+            {
+                Attackaria = false;
+                Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] = (int)MapMass.Mapinfo.NONE;
+            }
         }
-        else if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//前左
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.core)//左
         {
-            //Debug.DrawLine(transform.position, forward_left_obj.transform.position, Color.green);
-            Ismove = true;
-            Target_distance = false;
-            NextposX = X - massnum;
-            NextposY = Y + massnum;
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - massnum)].gameObject != null))
+            {
+                Debug.Log("左コア攻撃");
+                Attackpos = new Vector2Int(IndexCheckX(X - massnum), IndexCheckY(Y));
+                Attackaria = true;
+            }
+            else
+            {
+                Attackaria = false;
+                Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+            }
         }
-        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.NONE)//右
+        else if (Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.core)//左
         {
-            //Debug.DrawLine(transform.position, right_obj.transform.position, Color.green);
-            Ismove = true;
-            Target_distance = false;
-            NextposX = X + massnum;
-            NextposY = Y;
+            if ((map.Core_bari_Data[IndexCheckY(Y - massnum), IndexCheckX(X)].gameObject != null))
+            {
+                Debug.Log("上コア攻撃");
+                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y - massnum));
+                Attackaria = true;
+            }
+            else
+            {
+                Attackaria = false;
+                Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+            }
         }
-        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.NONE)//左
-        {
-            //Debug.DrawLine(transform.position, left_obj.transform.position, Color.green);
-            Ismove = true;
-            Target_distance = false;
-            NextposX = X - massnum;
-            NextposY = Y;
-        }
-        else//移動しない。
-        {
-            Ismove = false;
-            NextposX = X;
-            NextposY = Y;
-        }
+        //else
+        //{
+        //    Debug.Log("攻撃エリアなし!");
+        //    Attackaria = false;
+        //}
     }
 
     public void MassMove(int next_y, int next_x)
