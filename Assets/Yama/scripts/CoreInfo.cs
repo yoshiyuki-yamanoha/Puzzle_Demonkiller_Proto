@@ -18,7 +18,8 @@ namespace Core
     /// </summary>
     public class EAP
     {
-        public const int knock = 10;
+        //zahaコアのダメージ処理テストのため変更した-
+        public const int knock = 100;//10だった場所
         public const int explosion = 50;
         public const int beam = 30;
     }

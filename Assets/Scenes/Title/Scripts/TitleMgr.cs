@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class TitleMgr : MonoBehaviour
 {
@@ -17,15 +18,24 @@ public class TitleMgr : MonoBehaviour
     [SerializeField] Transform cursor;
 
     MenuControll menuControll;
+
+   public BGMManager bgmPlay = null;
+
+    SEManager  sePlay = null;
+
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        
         selecter = Select.Start;
         selectCoolTime = 0.0f;
         selectMenuPos[0] = new Vector3(4.98f, -57.0f, 0.0f);
         selectMenuPos[1] = new Vector3(4.98f, -102.6f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
+        GenerationTitle_BGM();
     }
 
     // Update is called once per frame
@@ -53,6 +63,8 @@ public class TitleMgr : MonoBehaviour
         // 選択しているStageによって飛ばすシーンを変える
         if (Input.GetButtonDown("Fire1"))
         {
+
+
             switch (selecter)
             {
                 case Select.Start: GameMgr.Instance.GotoSelectScene(); break;
@@ -77,5 +89,13 @@ public class TitleMgr : MonoBehaviour
         //}
 
 
+    }
+
+    void GenerationTitle_BGM()
+    {
+        if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用  
+        bgmPlay.Play("TITLEBGM");
+        
     }
 }

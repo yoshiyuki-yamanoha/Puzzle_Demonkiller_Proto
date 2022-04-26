@@ -21,6 +21,11 @@ public class Astar : MonoBehaviour
 
     List<Vector2Int> rootlist_node = new List<Vector2Int>();
 
+    bool init_astar = true;
+
+    bool attackaria = false;
+    Vector2Int attackpos;
+
     int a_count = 0;//探索カウント
 
     internal Node Current_root_node { get => current_root_node; set => current_root_node = value; }
@@ -50,36 +55,42 @@ public class Astar : MonoBehaviour
         //ゴール設定
         Node goal_node = goal;
 
-        //スタートノード指定
-        open_list.Add(start);
+        ////スタートノード指定
+        if (init_astar)
+        {
+            open_list.Add(start);
+            current_node = open_list[0];
+            init_astar = false;
+        }
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             //オープンリストから現在のノードを取得。
-            current_node = open_list[0];
-            a_count++;
+            //current_node = open_list[0];
+            a_count++;//今何回目のループか見ちゃうやつ
 
-            foreach (var selectnode in open_list)
-            {
-                //オープンリストの中で一番小さいノードを選ぶ
-                if (selectnode.F < current_node.F)
-                {
-                    current_node = selectnode;//現在のノードを小さいノードに代入
-                    //Debug.Log("選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
-                }
-            }
+            ////オープンリストの中で一番コストが低いものを現在のノードにする。
+            //foreach (var selectnode in open_list)
+            //{
+            //    //オープンリストの中で一番小さいノードを選ぶ
+            //    if (selectnode.F < current_node.F)
+            //    {
+            //        current_node = selectnode;//現在のノードを小さいノードに代入
+            //        //Debug.Log("選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
+            //    }
+            //}
 
             open_list.Remove(current_node);//オープンリストの取得した削除
-            close_list.Add(current_node);//追加
-            //Debug.Log(this.gameObject.name + " " + "敵の座標 " + " Y [" + current_node.Pos.y + "]" + " X [" + current_node.Pos.x + "]");
-            //オープンの中身をみるデバッグ
+            close_list.Add(current_node);//クローズリストに追加
 
-            //Debug.Log(a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
-            ////クローズの中身をみるデバッグ
-            //for (int close = 0; close < close_list.Count; close++)
-            //{
-            //    Debug.Log(a_count + "回目Closeの中身 " + "[" + close_list[close].Pos.y + "]" + "[" + close_list[close].Pos.x + "]");
-            //}
+            //Debug.Log((a_count + 1) + "回目" + "選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
+            Debug.Log(a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
+
+            //クローズの中身をみるデバッグ
+            for (int close = 0; close < close_list.Count; close++)
+            {
+                Debug.Log(a_count + "回目Closeの中身 " + "[" + close_list[close].Pos.y + "]" + "[" + close_list[close].Pos.x + "]");
+            }
 
             //    ////ゴールチェック
             if (GoolCheck(current_node, goal_node))
@@ -104,6 +115,17 @@ public class Astar : MonoBehaviour
                 new Vector2Int(-1, 0),//左
                 new Vector2Int(1, 0),//右
             };
+
+            //攻撃
+            if (map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.bari || map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.core)
+            {
+                Debug.Log("前方向にに攻撃エリアあった!");
+                SetAttackAria(true);//攻撃エリア発見
+                SetAttackPos(dir[0] + current_node.Pos);//攻撃エリア隣接ノード
+
+                Debug.Log("Y [" + dir[0].y + current_node.Pos.y + "]" + "X [" + dir[0].x + current_node.Pos.x + "]" + map.Map[dir[0].y + current_node.Pos.y, +dir[0].x + current_node.Pos.x] + "があります");
+                continue;
+            }
 
             for (int number = 0; number < 4; number++)//4方向分調べている。
             {
@@ -157,19 +179,61 @@ public class Astar : MonoBehaviour
                     }
                 }
 
-                if (goal.Pos == adjacent.Pos)
-                {
-                    Debug.Log("鱗片にゴールがあります。");
-                }
-                
+                //if (goal.Pos == adjacent.Pos)
+                //{
+                //    Debug.Log("鱗片にゴールがあります。");
+                //}
+
 
                 if (list_open_add) open_list.Add(adjacent);//オープンリストに追加
+
+
             }
+            //隣接ノード探索終了
+
+            for (int open = 0; open < open_list.Count; open++)
+            {
+                //Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
+            }
+
+            foreach (var selectnode in open_list)
+            {
+                //オープンリストの中で一番小さいノードを選ぶ
+
+                if (selectnode.F < current_node.F)
+                {
+                    current_node = selectnode;//現在のノードを小さいノードに代入
+                    //Debug.Log("Openリスト小さいかチェックした時のノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
+                }
+            }
+
+
         }
 
+        Debug.Log("返す時の現在値" + a_count + "回目 " + "次の地点移動" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
         return current_node.Pos;
+        //クローズの中身をみるデバッグ
     }
 
+    void SetAttackPos(Vector2Int attackpos)
+    {
+        this.attackpos = attackpos;
+    }
+
+    public Vector2Int GetAttackPos()
+    {
+        return attackpos;
+    }
+
+    public void SetAttackAria(bool attackaria)
+    {
+        this.attackaria = attackaria;
+    }
+
+    public bool GetAttackAria()
+    {
+        return attackaria;
+    }
 
     //ゴールをチェックしてくれる関数
     bool GoolCheck(Node current, Node goal)
@@ -216,7 +280,7 @@ public class Node //ノードクラス
 
         g = 0;
         h = 0;
-        f = 0;
+        f = 1000;
     }
 
     //プロパティ

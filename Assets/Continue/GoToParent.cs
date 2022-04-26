@@ -31,8 +31,8 @@ public class GoToParent : MonoBehaviour
         oriName = gameObject.name;
 
         //線
-        lr.startWidth = 0.2f;                   // 開始点の太さを0.1にする
-        lr.endWidth = 0.2f;                     // 終了点の太さを0.1にする
+        lr.startWidth = 0.3f;                   // 開始点の太さを0.1にする
+        lr.endWidth = 0.3f;                     // 終了点の太さを0.1にする
     }
 
     GameObject endLinePos;
