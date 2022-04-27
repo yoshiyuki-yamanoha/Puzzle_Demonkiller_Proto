@@ -25,6 +25,8 @@ public class PuzzleTurnEndAnim : TrunManager
     [SerializeField] MeshRenderer[] circleMesh = new MeshRenderer[5];   // 小さい魔法陣の透明度を変更する変数
     [SerializeField] MeshRenderer outCircleMesh;   // 大きい魔法陣の透明度を変更する変数
 
+    [SerializeField] MeshRenderer[] miniOutCircleMesh = new MeshRenderer[5];
+    [SerializeField] MeshRenderer outCircleMesh2;//あとで消えるかも？
     // バックアップ用のGameObject
     Quaternion buf_inCircleRotate;
     Quaternion buf_outCircleRotate;
@@ -84,7 +86,7 @@ public class PuzzleTurnEndAnim : TrunManager
                 inCircle.transform.Rotate(0.0f, 0.0f, rotateSpeed + 5.0f);
                 outCircle.transform.Rotate(0.0f,rotateSpeed, 0.0f);
 
-                if(inAlpha <= 0.0f)
+                if (inAlpha <= 0.0f)
                 {
                     inAlpha = 0.0f;
                     turnMgr.SetTrunPhase(TrunPhase.MagicAttack);
@@ -102,15 +104,19 @@ public class PuzzleTurnEndAnim : TrunManager
                 else
                 {
                     inAlpha -= 0.03f;
-                    outAlpha -= 0.03f;
+                    if (outAlpha > 0) {
+                        outAlpha -= 0.03f;
+                    }
                 }
                 
                 for(int i=0;i<5; i++)
                 {
                     circleMesh[i].material.color = new Color(circleMesh[i].material.color.r, circleMesh[i].material.color.g, circleMesh[i].material.color.b, inAlpha);
+                    miniOutCircleMesh[i].material.color = new Color(miniOutCircleMesh[i].material.color.r, miniOutCircleMesh[i].material.color.g, miniOutCircleMesh[i].material.color.b, inAlpha);
                 }
 
                 outCircleMesh.material.color = new Color(outCircleMesh.material.color.r, outCircleMesh.material.color.g, outCircleMesh.material.color.b, outAlpha);
+                outCircleMesh2.material.color = new Color(outCircleMesh2.material.color.r, outCircleMesh2.material.color.g, outCircleMesh2.material.color.b, outAlpha);
             }
         }
     }

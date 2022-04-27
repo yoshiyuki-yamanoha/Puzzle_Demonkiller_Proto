@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeOut : MonoBehaviour
 {
-    float fadeSpeed = 0.02f;//フェードスピード
+    float fadeSpeed = 0.06f;//フェードスピード
     float red, green, blue, alpha;//色:r,g,b 透明度:a
     public bool fadeOutFlag = false;// Fadeoutのフラグ
     public bool fadeInFlag = false;//FadeInのフラグ
@@ -32,7 +32,7 @@ public class FadeOut : MonoBehaviour
         }
         if(fadeInFlag == true)
         {
-            alpha -= fadeSpeed * 2;
+            alpha -= fadeSpeed; 
         }
 
         SetAlpha();
