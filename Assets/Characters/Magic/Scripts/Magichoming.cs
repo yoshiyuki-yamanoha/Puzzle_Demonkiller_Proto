@@ -57,8 +57,8 @@ public class Magichoming : MonoBehaviour
         //TargetPosTest = TargetObjTest.transform.position;
         //TargetObject = GameObject.Find("MarkingPointer1");
         //TargetPos = TargetObject.transform.position;
-        ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
-        combo = ClCh.MaxCombo;
+        //ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
+        //combo = ClCh.MaxCombo;
         //targetno = pc.attackNum;
         //TargetPos = TargetObject.transform.position;
 
@@ -177,20 +177,9 @@ public class Magichoming : MonoBehaviour
                     //ジャンプ&スタン レベルにより、ジャンプ回数が変わる (3～7)
                     if (magicType == 2)
                     {
-                        for(int s = 0; s <= magicLevel; s++)
-                        {
-                            GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
-                            Debug.Log("マジック" + _magic.GetComponent<ThunderSelect>());
-                            _magic.GetComponent<ThunderSelect>().Set_List(targets);
-                        }
-
-                        //if (ts == null)
-                        //{
-                        //    Debug.Log("私はヌルです");
-                        //}
-                        //ts.Set_List(targets);
-
-                        //ts.ThunderSelecter();
+                        GameObject _magic = GenerationMagic(StarthunEffe, transform.position);
+                        Debug.Log("マジック" + _magic.GetComponent<Star_Electric>());
+                        _magic.GetComponent<Star_Electric>().Set_Ini(TargetObject,magicLevel);
                     }
                     if (magicType == 4)
                     {

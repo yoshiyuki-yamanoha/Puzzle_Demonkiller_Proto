@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] OrbCon s_OrbCon;
     [SerializeField] OrbGage s_OrbGage;
 
+    //魔法専用モード
+    [SerializeField] bool magicOnlyMode;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(type);
 
         //オーブを消費する
-        s_OrbGage.UseOrb(type);
+        if(!magicOnlyMode) s_OrbGage.UseOrb(type);
 
         if (type == 5 || type == 1)
         {

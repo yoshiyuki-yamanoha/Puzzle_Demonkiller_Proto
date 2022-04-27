@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeOut : MonoBehaviour
 {
-    float fadeSpeed = 0.02f;//フェードスピード
+    float fadeSpeed = 0.06f;//フェードスピード
     float red, green, blue, alpha;//色:r,g,b 透明度:a
     public bool fadeOutFlag = false;// Fadeoutのフラグ
     public bool fadeInFlag = false;//FadeInのフラグ
@@ -30,9 +30,9 @@ public class FadeOut : MonoBehaviour
         {
             StartFadeOut();
         }
-        if(fadeOutFlag == true)
+        if(fadeInFlag == true)
         {
-            alpha -= fadeSpeed * 2;
+            alpha -= fadeSpeed; 
         }
 
         SetAlpha();
@@ -41,6 +41,7 @@ public class FadeOut : MonoBehaviour
         starttextkuro.text = "BattleStart";
         starttextsiro.color = new Color(red, green, blue, alpha);
         starttextkuro.color = new Color(0, 0, 0, alpha);
+        //gageColor
     }
 
     void StartFadeOut()
@@ -49,7 +50,6 @@ public class FadeOut : MonoBehaviour
         if(alpha >= 1)
         {
             fadeOutFlag = false;
-            fadeInFlag = true;
         }
     }
     void SetAlpha()

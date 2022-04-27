@@ -22,12 +22,16 @@ public class EnemyCamera : MonoBehaviour
 
     Camera enemy_camera = null;
     Enemy enemyste; //敵のステータス読み取り用
+    float timer = 0;
 
-     public bool startFlag = true;
+    public bool startFlag = true;
     float x = 0, y = 0, z = 0;
+
+    FadeOut fadeout;
     // Start is called before the first frame update
     void Start()
     {
+        fadeout = GameObject.Find("FadeImage").GetComponent<FadeOut>();
         tr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         cameraMove = GameObject.Find("GameObject").GetComponent<PlayerCameraTest>();
         enemy_camera = this.gameObject.GetComponent<Camera>();
@@ -42,13 +46,24 @@ public class EnemyCamera : MonoBehaviour
         {
             if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
             {
+                //Debug.Log(timer);
+                timer += Time.deltaTime;
                 enemy_camera.depth = 0;
                 x += 0.5f;
                 transform.position = new Vector3(x, 26, -107);
-                if(x > 95)
+                //if(x > 95)
+                //{
+                //    startFlag = false;
+                //    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+                //}
+                if(timer > 3)
+                {
+                    fadeout.fadeOutFlag = true;
+                }
+                if(timer > 4)
                 {
                     startFlag = false;
-                    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+                    fadeout.fadeInFlag = true;
                 }
             }
             else
