@@ -38,7 +38,7 @@ public class ClearCheck : TrunManager
     float shuffleCount;
 
     //プレイヤーコントローラー
-    PlayerController pc;
+    [SerializeField] PlayerController pc;
     Magichoming Mh;
 
     //ばりえーしょん
@@ -76,13 +76,19 @@ public class ClearCheck : TrunManager
     // Puzzleターンが終了する時に使用する変数
     PuzzleTurnEndAnim puzzleTurnEndAnim;
 
-    TrunManager trunMgr;
+    [SerializeField] TrunManager trunMgr;
 
-    private SEManager sePlay;
+    [SerializeField] private SEManager sePlay;
 
     //既にレベルMaxになっているオーブか検証用
     [SerializeField] OrbGage s_OrbGage;
     public bool changeColorLine = false;
+
+    //パズルふぇいずに戻ってきたときに一回だけシャッフルする
+    bool isShuffle = true;
+
+    //パズル
+    [SerializeField] bool puzzleOnlyMode;
 
 
     //OrbGage oGage;//オーブのゲージ
@@ -91,28 +97,35 @@ public class ClearCheck : TrunManager
     {
         attack = false;
         DrawLine();
-        pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
-        mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
+        if (!puzzleOnlyMode)
+        {
+            pc = GameObject.Find("GameObject").GetComponent<PlayerController>();
+            mp = GameObject.Find("Main Camera").GetComponent<MagicPointer>();
+            trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+            puzzleTurnEndAnim = this.GetComponent<PuzzleTurnEndAnim>();
+            sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+            gauge.SetActive(false);
+        }
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
-        //AttackV = GameObject.Find("GameObject").GetComponent<Attackvariation>();
-        trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
-        puzzleTurnEndAnim = this.GetComponent<PuzzleTurnEndAnim>();
-        //oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
-        //ppp.RandomColorSet();
+        
+        
 
-        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        
         //線の色を付ける
         foreach (GameObject o in playObjs)
             o.GetComponent<GoToParent>().LineSetColor();
 
-        gauge.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (trunMgr.trunphase == TrunManager.TrunPhase.Puzzle)
+        if (puzzleOnlyMode || trunMgr.trunphase == TrunPhase.Puzzle)
         {
+            //1回だけシャッフル
+            if (isShuffle) { Shuffle(); isShuffle = false; }
+
 
             if (!cleared)
             {
@@ -135,7 +148,7 @@ public class ClearCheck : TrunManager
                     ClearReward((int)PointControl.MAGIC_MODE.STAR);
                 }
 
-                if(changeColorLine == true)
+                if (changeColorLine == true)
                 {
                     //線の色を付ける
                     foreach (GameObject o in playObjs)
@@ -161,52 +174,61 @@ public class ClearCheck : TrunManager
                 }
             }
 
-            //コンボタイムを減らしていく
-            if (nowComboTime != 0)
-            {
-                nowComboTime--;
+            
 
-                //コンボタイムが0になったらコンボ数を0に
-                if (nowComboTime <= 0)
+            if (!puzzleOnlyMode)
+            {
+                //コンボタイムを減らしていく
+                if (nowComboTime != 0)
                 {
-                    //AttackV.attackvar();
-                    //bgCircle.SetActive(false);
-                    MaxCombo = comboNum;
-                    comboNum = 0;
-                    nowComboTime = 0;
-                    //オーブリセット
-                    ppp.ResetOrbs();
+                    nowComboTime--;
 
-                    //AttackV.attackvar_erase();
-                    nowComboTime = 0;
+                    //コンボタイムが0になったらコンボ数を0に
+                    if (nowComboTime <= 0)
+                    {
+                        //AttackV.attackvar();
+                        //bgCircle.SetActive(false);
+                        MaxCombo = comboNum;
+                        comboNum = 0;
+                        nowComboTime = 0;
+                        //オーブリセット
+                        ppp.ResetOrbs();
+
+                        //AttackV.attackvar_erase();
+                        nowComboTime = 0;
+                    }
                 }
+
+                //コンボタイムが切れた時
+                if (attack == true && nowComboTime == 0)
+                {
+
+                    //パズルを消す
+                    gauge.SetActive(false);
+                    pointer.SetActive(false);
+
+                    attack = false;
+                    pc.attackNum = 0;
+                    puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
+                }
+
+                if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
+                {
+                    pointer.SetActive(true);
+                    //puzzle.SetActive(true);
+                    gauge.SetActive(true);
+                    //bgCircle.SetActive(true);
+                    //s_PointControl.enabled = true;
+                }
+
+                //ゲージに反映
+                float per = nowComboTime / comboTime;
+                sld.value = per;
+                comboTex.text = "コンボ：" + comboNum.ToString();
             }
 
-            //コンボタイムが切れた時
-            if (attack == true && nowComboTime == 0)
-            {
 
-                //パズルを消す
-                gauge.SetActive(false);
-                pointer.SetActive(false);
-
-                attack = false;
-                pc.attackNum = 0;
-                puzzleTurnEndAnim.SetPuzzleTurnEndFlg(true);
-            }
-
-            if (trunMgr.GetTrunPhase() == TrunPhase.Puzzle && !puzzleTurnEndAnim.GetPuzzleTurnEndFlg())
-            {
-                pointer.SetActive(true);
-                //puzzle.SetActive(true);
-                gauge.SetActive(true);
-                //bgCircle.SetActive(true);
-                //s_PointControl.enabled = true;
-            }
-            //ゲージに反映
-            float per = nowComboTime / comboTime;
-            sld.value = per;
-            comboTex.text = "コンボ：" + comboNum.ToString();
+            
 
             //魔法打ってる間魔法陣が消える処理
             if (fadeNowTime != 0)
@@ -224,6 +246,9 @@ public class ClearCheck : TrunManager
                 nowComboTime = 1;
             }
 
+        }
+        else {
+            if(!puzzleOnlyMode) isShuffle = true;
         }
     }
 
@@ -300,28 +325,32 @@ public class ClearCheck : TrunManager
 
     bool CheckClear(int nextNum)
     {
-
-        //既に揃っているオーブかどうか確認
-        var levels = s_OrbGage.Get_Orb_Level();
-
-        //現在の魔法陣の色
-        string na = GameObject.FindGameObjectWithTag("My").name;
-
-        //色判別
-        int cn = 0;
-        if (na == "S") cn = 1;
-        if (na == "Y") cn = 2;
-
-
-        //五角形
-        if(Math.Abs(nextNum) == 1)
+        if (!puzzleOnlyMode)
         {
-            if (levels[3+cn] == 30) return false;
-        }
-        //五芒星
-        if(Math.Abs(nextNum) == 2)
-        {
-            if (levels[cn] == 30) return false;
+
+            //既に揃っているオーブかどうか確認
+            var levels = s_OrbGage.Get_Orb_Level();
+
+            //現在の魔法陣の色
+            string na = GameObject.FindGameObjectWithTag("My").name;
+
+            //色判別
+            int cn = 0;
+            if (na == "S") cn = 1;
+            if (na == "Y") cn = 2;
+
+
+            //五角形
+            if (Math.Abs(nextNum) == 1)
+            {
+                if (levels[3 + cn] == 30) return false;
+            }
+            //五芒星
+            if (Math.Abs(nextNum) == 2)
+            {
+                if (levels[cn] == 30) return false;
+            }
+
         }
         
         for (int i = 0; i < play.Length; i++)
@@ -404,7 +433,7 @@ public class ClearCheck : TrunManager
         Destroy(Instantiate(clearEffe, effePos),1.0f);
         Invoke("ChangePointerMode", 0.5f);
 
-        sePlay.Play("matchSE");//SEを鳴らす（魔方陣の位置が入れ替わる）
+        if(!puzzleOnlyMode) sePlay.Play("matchSE");//SEを鳴らす（魔方陣の位置が入れ替わる）
         //ass.PlayOneShot(se);
     }
     

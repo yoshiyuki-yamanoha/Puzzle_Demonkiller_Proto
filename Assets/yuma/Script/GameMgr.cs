@@ -74,6 +74,17 @@ public class GameMgr : SingletonMonoBehaviour<GameMgr>
         ChangeScene("GameOverScene");
     }
 
+    public void GotoPuzzleOnlyScene()
+    {
+
+        ChangeScene("PuzzleOnly");
+    }
+
+    public void GotoMagicOnlyScene() {
+
+        ChangeScene("MagicOnly");
+    }
+
     // ゲームを終了する
     public void GotoQuit()
     {

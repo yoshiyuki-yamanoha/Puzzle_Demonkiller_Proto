@@ -25,7 +25,7 @@ public class Enemy : EnemyBase
                 if (!AbnormalStatus()) {//ステータスダメージが喰らったらエネミーターンにする。
 
                     time += Time.deltaTime;
-                    if (time > 3) {
+                    if (time > 2) {
                         EnemyTurnStart();
                         time = 0;
                     }

@@ -42,7 +42,7 @@ public class PointControl : MonoBehaviour
     private GameObject[] circles;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
-    [NonSerialized] public GameObject oldOverlapObject=null;
+    [NonSerialized] public GameObject oldOverlapObject = null;
 
     //ポジション移動インターバル
     [SerializeField, Range(0, 60)]
@@ -107,6 +107,9 @@ public class PointControl : MonoBehaviour
 
     private SEManager sePlay;
 
+    //パズル専用シーン
+    [SerializeField] bool puzzleOnlyMode;
+
     //オーブの処理
     OrbCon oc;
 
@@ -120,6 +123,8 @@ public class PointControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
         //魔方陣の色
         magiccolor = new string[] { "赤", "水", "黄", "青", "緑", "なし" };
         MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
@@ -139,11 +144,14 @@ public class PointControl : MonoBehaviour
 
         //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
-        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        if (!puzzleOnlyMode)
+        {
+            sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
 
-        oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
+            oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
 
-        oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
+            oGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
+        }
 
         tf = transform;
 
@@ -166,7 +174,7 @@ public class PointControl : MonoBehaviour
 
     GameObject circleA = null;
 
-    void FixedUpdate()
+    void Update()
     {
 
         if (!isMenu)
@@ -198,8 +206,8 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("Select");//SEを鳴らす（魔方陣を選択した音）
-                selA = obj;                                   //選択したオブジェ保存
+                if(!puzzleOnlyMode) sePlay.Play("Select");//SEを鳴らす（魔方陣を選択した音）
+                selA = obj;                                 //選択したオブジェ保存
                 selTf = selA.transform.parent;              //1個目の親オブジェ
                                                             //selA.transform.parent = c_Select;           //選択位置に移動
 
@@ -212,7 +220,7 @@ public class PointControl : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
             {
-                sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
+                if(!puzzleOnlyMode) sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
@@ -411,6 +419,7 @@ public class PointControl : MonoBehaviour
                 //orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
                 //oc.CreateOrb(circleMats[i].mat, type);//OrbConのcreateオーブ
                 oGage.ChargeOrb(type);
+                
 
                 orbNum++;
                 if (orbpower < 5) orbpower++;
@@ -432,29 +441,28 @@ public class PointControl : MonoBehaviour
         orbpower = 0;
         colorcom = null;
 
-        magicpowernow = null;
-        magiccolornow = null;
-        magictypenow = null;
-        magiceffectnow = null;
+        //magicpowernow = null;
+        //magiccolornow = null;
+        //magictypenow = null;
+        //magiceffectnow = null;
         red = 0;
         blue = 0;
         yellow = 0;
         light_blue = 0;
         green = 0; 
         speed_downflag = false;
-        MagicColor.text = "魔法のいろ：\n　赤：０\n　青：０\n　黄：０\n　水：０\n　緑：０";
-        MagicEffect.text = "魔法の効果：\n"
-            + "　コンボ加算：オフ\n"
-            + "　減速：オフ";
-        MagicType.text = "魔法の種類：\nなし";
-        MagicPower.text = "魔法の威力：\nなし";
+        //MagicColor.text = "魔法のいろ：\n　赤：０\n　青：０\n　黄：０\n　水：０\n　緑：０";
+        //MagicEffect.text = "魔法の効果：\n"
+        //    + "　コンボ加算：オフ\n"
+        //    + "　減速：オフ";
+        //MagicType.text = "魔法の種類：\nなし";
+        //MagicPower.text = "魔法の威力：\nなし";
         //for (int i = 0; i < orbs.Length; i++)
         //{
         //    orbs[i].GetComponent<Renderer>().material = resetMat;
         //    orbs[i].transform.GetChild(0).gameObject.SetActive(false);
         //    orbs[i].transform.GetChild(1).gameObject.SetActive(false);
         //}
-        oc.Orb_Clear();
 
     }
 
@@ -492,150 +500,151 @@ public class PointControl : MonoBehaviour
             {
                 oGage.colorflag = 1;
             }
-            if(clearColor == "水")
+            if (clearColor == "水")
             {
                 oGage.colorflag = 2;
             }
-            if(clearColor == "黄")
+            if (clearColor == "黄")
             {
                 oGage.colorflag = 3;
             }
-            int colorcomnum = magiccolornow.Length;
-            if (colorcomnum > 5)
-            {
-                magiccolornow = magiccolornow.Remove(0, 1);
-            }
-            red = CountChar(magiccolornow, '赤');
+            //    int colorcomnum = magiccolornow.Length;
+            //    if (colorcomnum > 5)
+            //    {
+            //        magiccolornow = magiccolornow.Remove(0, 1);
+            //    }
+            //    red = CountChar(magiccolornow, '赤');
 
-            blue = CountChar(magiccolornow, '青');
-            yellow = CountChar(magiccolornow, '黄');
-            light_blue = CountChar(magiccolornow, '水');
-            green = CountChar(magiccolornow, '緑');
-            //red = CountChar(colorcom, '赤');
-            //blue = CountChar(colorcom, '青');
-            //yellow = CountChar(colorcom, '黄');
-            //light_blue = CountChar(colorcom, '水');
-            //green = CountChar(colorcom, '緑');
+            //    blue = CountChar(magiccolornow, '青');
+            //    yellow = CountChar(magiccolornow, '黄');
+            //    light_blue = CountChar(magiccolornow, '水');
+            //    green = CountChar(magiccolornow, '緑');
+            //    //red = CountChar(colorcom, '赤');
+            //    //blue = CountChar(colorcom, '青');
+            //    //yellow = CountChar(colorcom, '黄');
+            //    //light_blue = CountChar(colorcom, '水');
+            //    //green = CountChar(colorcom, '緑');
 
-            int magiceffectnum = magiceffectnow.Length;
-            int acount = CountChar(magiceffectnow, '攻');
-            int ccount = CountChar(magiceffectnow, 'コ');
-            int hcount = CountChar(magiceffectnow, '回');
-            int dcount = CountChar(magiceffectnow, '減');
-            int flame_count = CountChar(magictypenow, '炎');
-            int water_count = CountChar(magictypenow, '水');
-            int thunder_count = CountChar(magictypenow, '雷');
-            int ice_count = CountChar(magictypenow, '氷');
-            int wind_count = CountChar(magictypenow, '風');
-            //int[] colorCount = null;
+            //    int magiceffectnum = magiceffectnow.Length;
+            //    int acount = CountChar(magiceffectnow, '攻');
+            //    int ccount = CountChar(magiceffectnow, 'コ');
+            //    int hcount = CountChar(magiceffectnow, '回');
+            //    int dcount = CountChar(magiceffectnow, '減');
+            //    int flame_count = CountChar(magictypenow, '炎');
+            //    int water_count = CountChar(magictypenow, '水');
+            //    int thunder_count = CountChar(magictypenow, '雷');
+            //    int ice_count = CountChar(magictypenow, '氷');
+            //    int wind_count = CountChar(magictypenow, '風');
+            //    //int[] colorCount = null;
 
 
-            if (ccount > 1 /*&& magiceffectnum < 7*/)
-            {
-                magiceffectnow = magiceffectnow.Replace("コンボｎ倍", "");
-                magiceffectnow += "コンボｎ倍";
-            }
-            if (acount > 1 && magiceffectnum < 7)
-            {
-                magiceffectnow = magiceffectnow.Replace("攻撃", "");
-                magiceffectnow += "攻撃";
-            }
-            if (hcount > 1 && magiceffectnum < 7)
-            {
-                magiceffectnow = magiceffectnow.Replace("回復", "");
-                magiceffectnow += "回復";
-            }
-            if (dcount > 1 && magiceffectnum < 7)
-            {
-                magiceffectnow = magiceffectnow.Replace("減速", "");
-                magiceffectnow += "減速";
-            }
-            if ((acount > 1 || hcount > 1 || dcount > 1) && magiceffectnum > 6)
-            {
-                magiceffectnow = magiceffectnow.Remove(6, 2);
-            }
-            if (flame_count > 1)
-            {
-                magictypenow = magictypenow.Replace("炎", "");
-                magictypenow += "炎";
-            }
-            if (water_count > 1)
-            {
-                magictypenow = magictypenow.Replace("水", "");
-                magictypenow += "水";
-            }
-            if (thunder_count > 1)
-            {
-                magictypenow = magictypenow.Replace("雷", "");
-                magictypenow += "雷";
-            }
-            if (ice_count > 1)
-            {
-                magictypenow = magictypenow.Replace("氷", "");
-                magictypenow += "氷";
-            }
-            if (wind_count > 1)
-            {
-                magictypenow = magictypenow.Replace("風", "");
-                magictypenow += "風";
-            }
-            //mc++;
-        }
-        //オーブ溜まり具合かまたはコンボによって魔法の威力を上げる
+            //    if (ccount > 1 /*&& magiceffectnum < 7*/)
+            //    {
+            //        magiceffectnow = magiceffectnow.Replace("コンボｎ倍", "");
+            //        magiceffectnow += "コンボｎ倍";
+            //    }
+            //    if (acount > 1 && magiceffectnum < 7)
+            //    {
+            //        magiceffectnow = magiceffectnow.Replace("攻撃", "");
+            //        magiceffectnow += "攻撃";
+            //    }
+            //    if (hcount > 1 && magiceffectnum < 7)
+            //    {
+            //        magiceffectnow = magiceffectnow.Replace("回復", "");
+            //        magiceffectnow += "回復";
+            //    }
+            //    if (dcount > 1 && magiceffectnum < 7)
+            //    {
+            //        magiceffectnow = magiceffectnow.Replace("減速", "");
+            //        magiceffectnow += "減速";
+            //    }
+            //    if ((acount > 1 || hcount > 1 || dcount > 1) && magiceffectnum > 6)
+            //    {
+            //        magiceffectnow = magiceffectnow.Remove(6, 2);
+            //    }
+            //    if (flame_count > 1)
+            //    {
+            //        magictypenow = magictypenow.Replace("炎", "");
+            //        magictypenow += "炎";
+            //    }
+            //    if (water_count > 1)
+            //    {
+            //        magictypenow = magictypenow.Replace("水", "");
+            //        magictypenow += "水";
+            //    }
+            //    if (thunder_count > 1)
+            //    {
+            //        magictypenow = magictypenow.Replace("雷", "");
+            //        magictypenow += "雷";
+            //    }
+            //    if (ice_count > 1)
+            //    {
+            //        magictypenow = magictypenow.Replace("氷", "");
+            //        magictypenow += "氷";
+            //    }
+            //    if (wind_count > 1)
+            //    {
+            //        magictypenow = magictypenow.Replace("風", "");
+            //        magictypenow += "風";
+            //    }
+            //    //mc++;
+            //}
+            ////オーブ溜まり具合かまたはコンボによって魔法の威力を上げる
 
-        if (orbpower > 4 && CC.comboNum > 14)
-        {
-            magicpowernow = magicpower[4];
+            //if (orbpower > 4 && CC.comboNum > 14)
+            //{
+            //    magicpowernow = magicpower[4];
+            //}
+            //else if (orbpower > 3 && CC.comboNum > 9)
+            //{
+            //    magicpowernow = magicpower[3];
+            //}
+            //else if (orbpower > 4 || CC.comboNum > 6)
+            //{
+            //    magicpowernow = magicpower[2];
+            //}
+            //else if (orbpower > 2 || CC.comboNum > 4)
+            //{
+            //    magicpowernow = magicpower[1];
+            //}
+            //else if (orbpower > 0 || CC.comboNum > 0)
+            //{
+            //    magicpowernow = magicpower[0];
+            //}
+            //if (blue > 0)
+            //{
+            //    speed_downflag = true;
+            //}
+            ////オーブが溜まった後
+            //MagicColor.text = "魔法のいろ：\n"
+            //    + "　赤：" + red.ToString() + "\n"
+            //    + "　青：" + blue.ToString() + "\n"
+            //    + "　黄：" + yellow.ToString() + "\n"
+            //    + "　水：" + light_blue.ToString() + "\n"
+            //    + "　緑：" + green.ToString();
+            //MagicEffect.text = "魔法の効果：\n"
+            //    + "　コンボ加算：";
+            //if (red > 0)
+            //{
+            //    MagicEffect.text += red.ToString() + "倍\n　減速：";
+            //}
+            //else
+            //{
+            //    MagicEffect.text += "オフ\n　減速：";
+            //}
+            //if (speed_downflag == true)
+            //{
+            //    MagicEffect.text += "オン" + "\n";
+            //}
+            //else
+            //{
+            //    MagicEffect.text += "オフ" + "\n";
+            //}
+            //MagicType.text = "魔法の種類：\n　" + magictypenow;
+            //MagicPower.text = "魔法の威力：\n　" + magicpowernow;
         }
-        else if (orbpower > 3 && CC.comboNum > 9)
-        {
-            magicpowernow = magicpower[3];
-        }
-        else if (orbpower > 4 || CC.comboNum > 6)
-        {
-            magicpowernow = magicpower[2];
-        }
-        else if (orbpower > 2 || CC.comboNum > 4)
-        {
-            magicpowernow = magicpower[1];
-        }
-        else if (orbpower > 0 || CC.comboNum > 0)
-        {
-            magicpowernow = magicpower[0];
-        }
-        if(blue > 0)
-        {
-            speed_downflag = true;
-        }
-        //オーブが溜まった後
-        MagicColor.text = "魔法のいろ：\n"
-            + "　赤：" + red.ToString() + "\n"
-            + "　青：" + blue.ToString() + "\n"
-            + "　黄：" + yellow.ToString() + "\n"
-            + "　水：" + light_blue.ToString() + "\n"
-            + "　緑：" + green.ToString();
-        MagicEffect.text = "魔法の効果：\n"
-            + "　コンボ加算：";
-        if (red > 0)
-        {
-            MagicEffect.text += red.ToString() + "倍\n　減速：";
-        }
-        else
-        {
-            MagicEffect.text += "オフ\n　減速：";
-        }
-        if (speed_downflag == true)
-        {
-            MagicEffect.text += "オン" + "\n";
-        }
-        else
-        {
-            MagicEffect.text += "オフ" + "\n";
-        }
-        MagicType.text = "魔法の種類：\n　" + magictypenow;
-        MagicPower.text = "魔法の威力：\n　" + magicpowernow;
-
     }
+
     // 文字の出現回数をカウント
     public static int CountChar(string s, char c)
     {
@@ -648,14 +657,14 @@ public class PointControl : MonoBehaviour
         int oldNum = changeCircleNum;
 
         if (Input.GetButtonDown("Cont_L1")) {
-            sePlay.Play("MagicAreaSelect"); //色を入れ替える時の音
+            if(!puzzleOnlyMode) sePlay.Play("MagicAreaSelect"); //色を入れ替える時の音
             changeCircleNum--;
             if (changeCircleNum < 2) changeCircleNum = 2;
 
         }
 
         if (Input.GetButtonDown("Cont_R1")) {
-            sePlay.Play("MagicAreaSelect");//色を入れ替える時の音
+            if(!puzzleOnlyMode) sePlay.Play("MagicAreaSelect");//色を入れ替える時の音
             changeCircleNum++;
             if (changeCircleNum > 5) changeCircleNum = 5;
         }

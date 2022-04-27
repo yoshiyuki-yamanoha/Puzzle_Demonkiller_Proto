@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver/GameOverScene.unity
     guid: b1a0218f97d93b5429dac91fe6cddbb7
+  - enabled: 1
+    path: Assets/Scenes/MagicOnly/MagicOnly.unity
+    guid: 7315f0939d959ac4697ffcc13fef9d5c
+  - enabled: 1
+    path: Assets/Scenes/PuzzleOnly/PuzzleOnly.unity
+    guid: abc0217aa3c06bb4ab6de88c15c02503
   m_configObjects: {}

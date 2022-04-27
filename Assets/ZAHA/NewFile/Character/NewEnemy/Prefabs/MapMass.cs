@@ -115,6 +115,14 @@ public class MapMass : MonoBehaviour
 
     MassState[,] masses = new MassState[20, 20];
 
+    public struct Core
+    {
+        public List<Vector2Int> pos;
+        public List<GameObject> obj;
+    }
+
+    Core core_info = new Core();
+
     int[,] map = new int[20, 20]{
         {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
         {4,0,0,0,4,4,0,0,0,4,4,0,0,0,4,4,0,0,0,4},
@@ -144,16 +152,16 @@ public class MapMass : MonoBehaviour
     public GameObject Tilemas_prefab { get => tilemas_prefab; }
     public GameObject[,] Core_bari_Data { get => core_bari_Data; set => core_bari_Data = value; }
 
-
-
-
     //魔法セレクターの座標 (添え字)
     int selX, selY;
 
     private void Start()
     {
+        Debug.Log("MapMass");
         rootobj_ = new GameObject("MassRoot");//空のオブジェクトを作成-!
         InstanceMap();//インスタントmapを
+        core_info.pos = new List<Vector2Int>();
+        core_info.obj = new List<GameObject>();
         InitCore();//コア配列作成
     }
 
@@ -181,6 +189,7 @@ public class MapMass : MonoBehaviour
                     if (i > core_obj.Length)
                         continue;
                     Core_bari_Data[y, x] = core_obj[i];
+                    SetCore(new Vector2Int(x, y) , core_obj[i]);//コアの場所を追加
                     i++;
                 }
                 else if (Map[y, x] == (int)MapMass.Mapinfo.bari)
@@ -196,6 +205,18 @@ public class MapMass : MonoBehaviour
                 }
             }
         }
+    }
+
+    void SetCore(Vector2Int pos , GameObject obj)
+    {
+        Debug.Log(core_info);
+        core_info.pos.Add(pos);
+        core_info.obj.Add(obj); 
+    }
+
+    public Core GetCore()
+    {
+        return core_info;
     }
 
     void InstanceMap()
