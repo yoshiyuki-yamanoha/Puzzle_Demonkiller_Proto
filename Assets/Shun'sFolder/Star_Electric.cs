@@ -28,11 +28,13 @@ public class Star_Electric : MonoBehaviour
         //最初の_targetはマス？のはず
         target = _target;
         magic_Level = _level;
-            
-        tar_ene_pos.x = int.Parse(target.name) % 20;
-        tar_ene_pos.y = int.Parse(target.name) / 20;
 
-        GameObject first_Target = Map_mass_EneSer(tar_ene_pos);
+        EnemyBase eb = target.GetComponent<EnemyBase>();
+        
+        tar_ene_pos.x = eb.X;
+        tar_ene_pos.y = eb.Y;
+
+        GameObject first_Target = target;
         if(first_Target != null)
         {
             targets.Add(first_Target);

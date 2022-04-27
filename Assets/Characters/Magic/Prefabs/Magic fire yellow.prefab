@@ -19058,7 +19058,8 @@ MonoBehaviour:
     type: 3}
   Pentagon_thunEffe: {fileID: 979136706244064231, guid: b4a52b57d3672e141b8faaa417f94d86,
     type: 3}
-  StarthunEffe: {fileID: 106988, guid: 1ef5181e63fe418438672359b2d47813, type: 3}
+  StarthunEffe: {fileID: 1671226372970974190, guid: 2223c6cebbf497840971b3c0e6e1a40a,
+    type: 3}
   TargetObject: {fileID: 0}
   TargetObjTest: {fileID: 0}
   ClCh: {fileID: 0}
