@@ -30,7 +30,7 @@ public class FadeOut : MonoBehaviour
         {
             StartFadeOut();
         }
-        if(fadeOutFlag == true)
+        if(fadeInFlag == true)
         {
             alpha -= fadeSpeed * 2;
         }
@@ -41,6 +41,7 @@ public class FadeOut : MonoBehaviour
         starttextkuro.text = "BattleStart";
         starttextsiro.color = new Color(red, green, blue, alpha);
         starttextkuro.color = new Color(0, 0, 0, alpha);
+        //gageColor
     }
 
     void StartFadeOut()
@@ -49,7 +50,6 @@ public class FadeOut : MonoBehaviour
         if(alpha >= 1)
         {
             fadeOutFlag = false;
-            fadeInFlag = true;
         }
     }
     void SetAlpha()
