@@ -1255,6 +1255,7 @@ MonoBehaviour:
   attackNum: 0
   s_OrbCon: {fileID: 0}
   s_OrbGage: {fileID: 387063143}
+  magicOnlyMode: 0
 --- !u!4 &387063140
 Transform:
   m_ObjectHideFlags: 0
@@ -1345,6 +1346,7 @@ MonoBehaviour:
   - magicRange: {fileID: 2000727677}
   s_TrunManager: {fileID: 1973512903}
   s_SelectUseOrb: {fileID: 387063147}
+  magicOnlyMode: 0
 --- !u!114 &387063144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1403,6 +1405,9 @@ MonoBehaviour:
     type: 3}
   s_MagicRangeDetector: {fileID: 1324937677}
   s_MagicMassSelecter: {fileID: 1324937678}
+  s_MagicRangeDetector2: {fileID: 0}
+  s_MagicMassSelecter2: {fileID: 0}
+  magicMagicMode: 0
 --- !u!1001 &402176483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1520,7 +1525,7 @@ GameObject:
   - component: {fileID: 443803454}
   - component: {fileID: 443803453}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1878,6 +1883,26 @@ PrefabInstance:
       propertyPath: s_OrbGage
       value: 
       objectReference: {fileID: 387063143}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: puzzleOnlyMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 387063139}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: trunMgr
+      value: 
+      objectReference: {fileID: 1973512903}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: sePlay
+      value: 
+      objectReference: {fileID: 1161136427}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71726a981af5cd847a926dbd4ecb21ba, type: 3}
 --- !u!1 &518659483

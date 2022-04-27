@@ -38,7 +38,7 @@ public class ClearCheck : TrunManager
     float shuffleCount;
 
     //プレイヤーコントローラー
-    PlayerController pc;
+    [SerializeField] PlayerController pc;
     Magichoming Mh;
 
     //ばりえーしょん
@@ -76,9 +76,9 @@ public class ClearCheck : TrunManager
     // Puzzleターンが終了する時に使用する変数
     PuzzleTurnEndAnim puzzleTurnEndAnim;
 
-    TrunManager trunMgr;
+    [SerializeField] TrunManager trunMgr;
 
-    private SEManager sePlay;
+    [SerializeField] private SEManager sePlay;
 
     //既にレベルMaxになっているオーブか検証用
     [SerializeField] OrbGage s_OrbGage;
@@ -121,7 +121,7 @@ public class ClearCheck : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (puzzleOnlyMode || trunMgr.trunphase == TrunManager.TrunPhase.Puzzle)
+        if (puzzleOnlyMode || trunMgr.trunphase == TrunPhase.Puzzle)
         {
             //1回だけシャッフル
             if (isShuffle) { Shuffle(); isShuffle = false; }

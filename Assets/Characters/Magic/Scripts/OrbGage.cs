@@ -59,6 +59,7 @@ public class OrbGage : MonoBehaviour
         //オーブのスライダーゲージの初期化
         if (!magicOnlyMode)
         {
+
             starRed.value = 0;
             starLightBlue.value = 0;
             starYellow.value = 0;
@@ -153,6 +154,7 @@ public class OrbGage : MonoBehaviour
     public void starRedChage()
     {
         //starRed.value += 1;
+
         if (++Orb_Level[0] > ORB_MAX_LEVEL)
         {
             Orb_Level[0] = ORB_MAX_LEVEL;
@@ -197,6 +199,7 @@ public class OrbGage : MonoBehaviour
     }
     public int ChargeOrb(int type)//魔方陣の形
     {
+
         if (type == (int)PointControl.MAGIC_MODE.STAR)//星型なら
         {
             starflag = true;
