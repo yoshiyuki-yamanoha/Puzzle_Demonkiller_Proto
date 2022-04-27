@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectMgr : MonoBehaviour
 {
+
     enum Select
     {
         Stage1,
@@ -23,6 +24,9 @@ public class SelectMgr : MonoBehaviour
     public BGMManager bgmPlay = null;
 
     SEManager sePlay = null;
+
+    //デバッグ専用シーンへ移動できるかどうか
+    [SerializeField] bool movavleDebugScenes;
 
     void Start()
     {
@@ -103,6 +107,10 @@ public class SelectMgr : MonoBehaviour
         if(Input.GetButtonDown("Cont_L1")) {
             GameMgr.Instance.GotoTitleScene();
         }
+
+        //デバッグでしかいけないシーン
+        if(movavleDebugScenes)
+            ToTheDebugScene();
     }
 
     void GenerationSelect_BGM()
@@ -110,5 +118,20 @@ public class SelectMgr : MonoBehaviour
         if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
         bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用  
         bgmPlay.Play("SELECTBGM");
+    }
+
+    void ToTheDebugScene() {
+
+        //Xボタンで魔法撃つだけのシーンへ
+        if (Input.GetButtonDown("Fire3")) {
+            GameMgr.Instance.GotoMagicOnlyScene();
+        }
+
+        //Yボタンでパズルを解くだけのシーンへ
+        if (Input.GetButtonDown("Fire4"))
+        {
+            GameMgr.Instance.GotoPuzzleOnlyScene();
+        }
+
     }
 }

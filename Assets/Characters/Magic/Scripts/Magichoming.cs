@@ -57,8 +57,8 @@ public class Magichoming : MonoBehaviour
         //TargetPosTest = TargetObjTest.transform.position;
         //TargetObject = GameObject.Find("MarkingPointer1");
         //TargetPos = TargetObject.transform.position;
-        ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
-        combo = ClCh.MaxCombo;
+        //ClCh = GameObject.Find("GameMana").gameObject.GetComponent<ClearCheck>();
+        //combo = ClCh.MaxCombo;
         //targetno = pc.attackNum;
         //TargetPos = TargetObject.transform.position;
 

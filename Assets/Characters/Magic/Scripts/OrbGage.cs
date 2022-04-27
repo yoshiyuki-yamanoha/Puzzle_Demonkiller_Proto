@@ -50,24 +50,30 @@ public class OrbGage : MonoBehaviour
     [SerializeField] TrunManager s_TrunManager;
     [SerializeField] SelectUseOrb s_SelectUseOrb;
 
+    //魔法専用シーン
+    [SerializeField] bool magicOnlyMode;
+
     // Start is called before the first frame update
     void Start()
     {
         //オーブのスライダーゲージの初期化
-        starRed.value = 0;
-        starLightBlue.value = 0;
-        starYellow.value = 0;
-        pentagonRed.value = 0;
-        pentagonLightBlue.value = 0;
-        pentagonYellow.value = 0;
+        if (!magicOnlyMode)
+        {
+            starRed.value = 0;
+            starLightBlue.value = 0;
+            starYellow.value = 0;
+            pentagonRed.value = 0;
+            pentagonLightBlue.value = 0;
+            pentagonYellow.value = 0;
 
-        for (int i = 0; i < magicRanges.Length; i++)
-            magicRanges[i].oriScale = magicRanges[i].magicRange.transform.localScale;
+            for (int i = 0; i < magicRanges.Length; i++)
+                magicRanges[i].oriScale = magicRanges[i].magicRange.transform.localScale;
 
-        magicRanges[1].magicRange.SetActive(false);
-        magicRanges[2].magicRange.SetActive(false);
-        magicRanges[4].magicRange.SetActive(false);
-        magicRanges[5].magicRange.SetActive(false);
+            magicRanges[1].magicRange.SetActive(false);
+            magicRanges[2].magicRange.SetActive(false);
+            magicRanges[4].magicRange.SetActive(false);
+            magicRanges[5].magicRange.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -132,11 +138,15 @@ public class OrbGage : MonoBehaviour
         (num, num2) = s_SelectUseOrb.GetNowSelectOrb();
 
         //魔法陣を消す
-        for (int i = 0; i < 6; i++) {
-            if (num == i)
-                magicRanges[i].magicRange.SetActive(true);
-            else
-                magicRanges[i].magicRange.SetActive(false);
+        if (!magicOnlyMode)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (num == i)
+                    magicRanges[i].magicRange.SetActive(true);
+                else
+                    magicRanges[i].magicRange.SetActive(false);
+            }
         }
 
     }
@@ -242,8 +252,11 @@ public class OrbGage : MonoBehaviour
 
         }
 
-        magicRanges[0].magicRange.transform.localScale = new Vector3(magicRanges[0].oriScale.x * levv[0], 1, magicRanges[0].oriScale.z * levv[0]);
-        magicRanges[3].magicRange.transform.localScale = new Vector3(magicRanges[3].oriScale.x * levv[3], 1, 1);
+        if (!magicOnlyMode)
+        {
+            magicRanges[0].magicRange.transform.localScale = new Vector3(magicRanges[0].oriScale.x * levv[0], 1, magicRanges[0].oriScale.z * levv[0]);
+            magicRanges[3].magicRange.transform.localScale = new Vector3(magicRanges[3].oriScale.x * levv[3], 1, 1);
+        }
     }
 
     //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
