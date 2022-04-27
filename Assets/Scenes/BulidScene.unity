@@ -1948,6 +1948,11 @@ PrefabInstance:
       objectReference: {fileID: 3820433668574415681}
     - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
         type: 3}
+      propertyPath: pc
+      value: 
+      objectReference: {fileID: 387063139}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
       propertyPath: sld
       value: 
       objectReference: {fileID: 18831304}
@@ -1963,21 +1968,6 @@ PrefabInstance:
       objectReference: {fileID: 18831302}
     - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
         type: 3}
-      propertyPath: s_OrbGage
-      value: 
-      objectReference: {fileID: 387063143}
-    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
-        type: 3}
-      propertyPath: puzzleOnlyMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
-        type: 3}
-      propertyPath: pc
-      value: 
-      objectReference: {fileID: 387063139}
-    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
-        type: 3}
       propertyPath: trunMgr
       value: 
       objectReference: {fileID: 1973512903}
@@ -1986,6 +1976,11 @@ PrefabInstance:
       propertyPath: sePlay
       value: 
       objectReference: {fileID: 1161136427}
+    - target: {fileID: 5631804627379576883, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: s_OrbGage
+      value: 
+      objectReference: {fileID: 387063143}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71726a981af5cd847a926dbd4ecb21ba, type: 3}
 --- !u!1 &518659483
