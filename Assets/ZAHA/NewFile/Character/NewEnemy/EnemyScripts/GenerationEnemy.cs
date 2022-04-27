@@ -47,7 +47,7 @@ public class GenerationEnemy : PseudoArray
     int enemy_kinds_max = 0;//敵種類
     [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
     [SerializeField] ParticleSystem[] enemy_particle = null;//敵の出現魔法陣
-    [SerializeField] int enemy_max = 50;//[1ゲーム]で生成出来る数
+    int enemy_max = 22;//[1ゲーム]で生成出来る数
     float enemy_count = 0;//[1ゲーム]敵をカウント
     [SerializeField] float interval_s = 5;//生成間隔(秒)
     float time = 0;//計測時間用
@@ -58,7 +58,7 @@ public class GenerationEnemy : PseudoArray
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
-    [SerializeField] int enemy_oneturn_max = 5;  //1ターンに出る敵の最大大数
+    //[SerializeField] int enemy_oneturn_max = 5;  //1ターンに出る敵の最大大数
 
     //mapの生成情報
     [HideInInspector] public int max_x = 0;//map横最大
@@ -141,10 +141,6 @@ public class GenerationEnemy : PseudoArray
 
     //    return g_pos;
     //}
-    void SetOneTurn(int enemy_oneturn_max)
-    {
-        this.enemy_oneturn_max = enemy_oneturn_max;
-    }
 
     private void FixedUpdate()
     {
@@ -152,26 +148,25 @@ public class GenerationEnemy : PseudoArray
         {
             enemy_base.DeleteListEnemy();//敵削除
 
-            if (enemy_max < enemy_oneturn_max)
-            {
-                enemy_oneturn_max = enemy_max;
-            }
+            //if (enemy_max < enemy_oneturn_max)
+            //{
+            //    enemy_oneturn_max = enemy_max;
+            //}
+            Debug.Log("現在のターン [" + (Nowturn + 1) + "]" + "エネミーリストターン [" + enemy_generation_info[Nowturn].One_turn + "]");
 
             if (init_generation_flg)
             {//最初のターン
-                SetOneTurn(enemy_generation_info[Nowturn].One_turn);//1ターンに生成出来る情報を格納
-                Debug.Log("現在のターン [" + Nowturn + "]" + "エネミーリストターン [" + enemy_generation_info[Nowturn].One_turn);
-                if (enemy_oneturn_count < enemy_oneturn_max)
+                if (enemy_generation_info[Nowturn].One_turn > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
-                    Generation(new Vector2Int(Random.Range(0, 20), Random.Range(0, 20)));//)//場所設定
+                    Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
 
                 }
                 else
                 {
                     if (EC.startFlag == false)
                     {
-                        //enemy_oneturn_count = 0;
+                        enemy_oneturn_count = 0;
                         init_generation_flg = false;
                         trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
                         Nowturn++;
@@ -184,20 +179,21 @@ public class GenerationEnemy : PseudoArray
                 {
                     if (generation_flg)
                     {//生成フラグがオンだったら生成
-                        while (enemy_oneturn_count < enemy_oneturn_max)
+                        while (enemy_generation_info[Nowturn].One_turn > 0)
                         {
-                            Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 19)));
+                            Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
                         }
-                        enemy_oneturn_count = 0;
+                        
                     }
-                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+                    enemy_oneturn_count = 0;
                     Nowturn++;
-
+                    trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
                 }
             }
         }
         else
         {
+            if (Nowturn == 21) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
             one_turn_search_flg = true;
         }
 
@@ -241,46 +237,56 @@ public class GenerationEnemy : PseudoArray
 
     void Generation(Vector2Int pos)
     {
-        time += Time.deltaTime;//カウント開始
-        if (time > interval_s)//スパンごと出現させる
+        if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
         {
-            int random_enem_kinds;//Random.Range(0, 2);//敵の種類ランダム生成
-            int random_magic = Random.Range(0, 2);
-
-            if (enemy_generation_info[Nowturn].Goblin > 0)//ゴブリン
-            {
-                enemy_generation_info[Nowturn].One_turn--;
-                random_enem_kinds = 0;
-            }
-            else if (enemy_generation_info[Nowturn].Bom > 0)//ボム
-            {
-                enemy_generation_info[Nowturn].One_turn--;
-                random_enem_kinds = 2;
-            }
-            else if (enemy_generation_info[Nowturn].Woman > 0)//女性敵
-            {
-                enemy_generation_info[Nowturn].One_turn--;
-                random_enem_kinds = 1;
-            }
-            else
-            {
-                random_enem_kinds = 0;//ゴブリン
-            }
 
 
-
-            if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
+            time += Time.deltaTime;//カウント開始
+            if (time > interval_s)//スパンごと出現させる
             {
+                int random_enem_kinds;//Random.Range(0, 2);//敵の種類ランダム生成
+                int random_magic = Random.Range(0, 2);
+
+                Debug.Log("エネミー選択");
+
+                if (enemy_generation_info[Nowturn].Goblin > 0)//ゴブリン
+                {
+                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].Goblin--;
+                    random_enem_kinds = 1;
+                }
+                else if (enemy_generation_info[Nowturn].Bom > 0)//ボム
+                {
+                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].Bom--;
+                    random_enem_kinds = 2;
+                }
+                else if (enemy_generation_info[Nowturn].Woman > 0)//女性敵
+                {
+                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].Woman--;
+                    random_enem_kinds = 0;
+                }
+                else
+                {
+                    random_enem_kinds = 0;//ゴブリン
+                }
+
+                Debug.Log("敵の種類 "+random_enem_kinds);
+
+
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
-                //Debug.Log("現在のターン" + Nowturn);
+                Debug.Log("生成インスタンスします。");
                 if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
-            }
-            time = 0;//タイム初期化
-        }
 
-        if (enemy_count >= enemy_max)//超えているかみる
-        {
-            generation_flg = false;
+
+                time = 0;//タイム初期化
+            }
+
+            if (enemy_count >= enemy_max)//超えているかみる
+            {
+                generation_flg = false;
+            }
         }
     }
 

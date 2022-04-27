@@ -86,7 +86,7 @@ public class Astar : MonoBehaviour
             close_list.Add(current_node);//クローズリストに追加
 
             //Debug.Log((a_count + 1) + "回目" + "選択された小さいノード + " + current_node.F + "[y] " + current_node.Pos.y + "[x] " + current_node.Pos.x);
-            Debug.Log(a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
+            //Debug.Log(a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]");
 
             //クローズの中身をみるデバッグ
             //for (int close = 0; close < close_list.Count; close++)
@@ -189,7 +189,7 @@ public class Astar : MonoBehaviour
 
             for (int open = 0; open < open_list.Count; open++)
             {
-                Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
+                //Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
             }
 
             foreach (var selectnode in open_list)
@@ -199,14 +199,14 @@ public class Astar : MonoBehaviour
                 if (selectnode.F < current_node.F && enemy.Abnormal_condition != EnemyBase.AbnormalCondition.Ice)
                 {
                     current_node = selectnode;//現在のノードを小さいノードに代入
-                    Debug.Log("小さかったノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]" + "合計コスト"+current_node.F);
+                    //Debug.Log("小さかったノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]" + "合計コスト"+current_node.F);
                 }
             }
 
 
         }
 
-        Debug.Log("返す時の現在値" + a_count + "回目 " + "次の地点移動" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]"+ current_node.F);
+        //Debug.Log("返す時の現在値" + a_count + "回目 " + "次の地点移動" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]"+ current_node.F);
         return current_node.Pos;
         //クローズの中身をみるデバッグ
     }
