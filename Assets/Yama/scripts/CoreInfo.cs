@@ -2,17 +2,25 @@
 //using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core
+namespace CoreBase
 {
     /// <summary>
-    /// コアの定数
+    /// コア
     /// </summary>
-    public class core/*:MonoBehaviour*/
+    public class Core_RequiredElement
     {
-        public const int max_hp = 150;
+        public  GameObject obj;
+        public int hp;
     }
 
-    // 敵によってコアへのダメージは変わる
+    public class Core/*:Core_RequiredElement*/
+    {
+        public readonly int max_hp = 150;
+
+        public GameObject obj;
+        public int hp;
+    }
+
     /// <summary>
     /// enemy attack power
     /// </summary>
@@ -25,12 +33,20 @@ namespace Core
     }
 
     /// <summary>
-    /// バリケードの定数
+    /// バリケード
     /// </summary>
-    public class barri/*:MonoBehaviour*/
+    public class Barricade_Class/*:Core_RequiredElement*/
     {
-        public const int max_hp = 1;
+        public readonly int max_hp = 1;
+
+        public GameObject obj;
+        public int hp;
     }
+
+    //public class Core_Slider
+    //{
+
+    //}
 }
 
 public class CoreInfo : MonoBehaviour

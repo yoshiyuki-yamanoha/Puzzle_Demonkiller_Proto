@@ -95,7 +95,7 @@ public class Enemy : EnemyBase
         {
             Abnormal_condition = AbnormalCondition.Ice;
             Debug.Log("アイス攻撃" + Abnormal_condition);
-            pentaIceEff = GameObject.Find("Cube");
+            pentaIceEff = GameObject.Find("BreakIce_honmono");
             Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             Ice_abnormality_turncount = 0;
             Destroy(other.gameObject);

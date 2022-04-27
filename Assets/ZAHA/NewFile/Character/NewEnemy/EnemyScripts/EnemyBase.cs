@@ -414,7 +414,7 @@ public class EnemyBase : MonoBehaviour
             Init_attack_search = false;
         }
 
-        if (Attackaria && Abnormal_condition == AbnormalCondition.Ice)
+        if (Attackaria && Abnormal_condition != AbnormalCondition.Ice)
         {
             Attacktime += Time.deltaTime;
             if (Attacktime > 2)
