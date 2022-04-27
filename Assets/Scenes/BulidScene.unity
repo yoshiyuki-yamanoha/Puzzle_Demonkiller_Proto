@@ -2530,15 +2530,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoreHPCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4415133351905433102, guid: a9988ee689fc72c448b700db2009095f,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4415133351952103572, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 371
+      value: 204
       objectReference: {fileID: 0}
     - target: {fileID: 4415133351952103572, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -627
+      value: -204.1
       objectReference: {fileID: 0}
     - target: {fileID: 4415133351952103573, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
@@ -2555,7 +2560,7 @@ PrefabInstance:
     - target: {fileID: 4415133351952103575, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_FontData.m_FontSize
-      value: 40
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4415133351952103575, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
@@ -2607,25 +2612,30 @@ PrefabInstance:
       propertyPath: m_Direction
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4415133352871274780, guid: a9988ee689fc72c448b700db2009095f,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4415133352871274781, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -506
+      value: -237.5
       objectReference: {fileID: 0}
     - target: {fileID: 4415133352871274781, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 318
+      value: 210.3
       objectReference: {fileID: 0}
     - target: {fileID: 4415133352871274781, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4415133352871274781, guid: a9988ee689fc72c448b700db2009095f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9988ee689fc72c448b700db2009095f, type: 3}
