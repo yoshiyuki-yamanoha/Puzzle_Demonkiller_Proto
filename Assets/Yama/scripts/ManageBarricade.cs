@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core;
+using CoreBase;
 
 public class ManageBarricade : TrunManager
 {
-    GameObject barriObj;
-    int barriHp;
-
     TrunManager turnMGR;
+
+    Barricade_Class barri = new Barricade_Class();
 
     void Start()
     {
-        barriObj = this.gameObject;
-        barriHp = core.max_hp;
+        barri.obj= this.gameObject;
+        barri.hp = barri.max_hp;
 
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
     }
@@ -32,9 +31,7 @@ public class ManageBarricade : TrunManager
 
     public void ReceiveDamage()
     {
-        barriHp -= EAP.knock;
-
-        Debug.Log("bHp" + barriHp);
+        barri.hp -= EAP.knock;
 
         CheckHP();
 
@@ -43,7 +40,7 @@ public class ManageBarricade : TrunManager
     public void CheckHP()
     {
         // ｈｐが零になっていなるか確認
-        if (barriHp <= 0)
+        if (barri.hp<= 0)
         {
             Destroy(this.gameObject);
         }

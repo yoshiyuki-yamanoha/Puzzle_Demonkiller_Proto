@@ -1,21 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core;
+using UnityEngine.UI;
+using CoreBase;
 
 public class ManageCoreState : TrunManager
 {
-    GameObject coreObj;
-    int coreHp;
-
     TrunManager turnMGR;
+
+    // コア
+    Core core = new Core();
+
+
+    // スライダー
+    [SerializeField] Slider slider = null;
 
     void Start()
     {
-        coreObj = this.gameObject;
-        coreHp = core.max_hp;
-
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+
+        core.obj = this.gameObject;
+        core.hp = core.max_hp;
+
+        slider = GameObject.Find("CoreHPCanvas/Slider").gameObject.GetComponent<Slider>();
+        slider.maxValue = core.max_hp;
+        slider.value = slider.maxValue;
     }
 
 
@@ -28,22 +37,31 @@ public class ManageCoreState : TrunManager
         {
             CheckHP();
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ReceiveDamage(EAP.knock);
+        }
+        CheckHP();
     }
 
     public void ReceiveDamage(int dmgtype = EAP.knock)
     {
-        coreHp -= dmgtype;
-
-        Debug.Log("cHp"+coreHp);
+        core.hp -= dmgtype;
+        if (core.hp < 0)
+            core.hp = 0;
 
         CheckHP();
-
     }
 
     public void CheckHP()
     {
         // ｈｐが零になっていなるか確認
-        if (coreHp <= 0)
+        if (core.hp < slider.value
+            && slider.value > 0)
+            slider.value--;
+
+        if (slider.value <= 0)
         {
             // ゲームオーバーシーンへ遷移する関数
             GameMgr.Instance.GotoGameOverScene();

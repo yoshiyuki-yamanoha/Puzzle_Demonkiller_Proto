@@ -1302,7 +1302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mynumber: 0
   map: {fileID: 0}
-  hp: 3
   max_hp: 3
   attack: 10
   speed: 1
@@ -1317,6 +1316,7 @@ MonoBehaviour:
   status: 0
   enemy_kinds: 0
   fire: {fileID: 3429713610370970621}
+  pentaIceEff: {fileID: 0}
 --- !u!114 &3707016405771858296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3136,7 +3136,7 @@ Animator:
   m_GameObject: {fileID: 8332320703949766658}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d3b617d4c5387004fa355973611faee7, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1ba03106e494e9445ad77eda9a18d882, type: 2}
+  m_Controller: {fileID: 9100000, guid: 420e2b2921b9ee242a5d41794187c962, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
