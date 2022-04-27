@@ -15,7 +15,7 @@ namespace CoreBase
 
     public class Core/*:Core_RequiredElement*/
     {
-        public readonly int max_hp = 150;
+        public readonly int max_hp = 15;
 
         public GameObject obj;
         public int hp;
@@ -27,9 +27,9 @@ namespace CoreBase
     public class EAP
     {
         //zahaコアのダメージ処理テストのため変更した-
-        public const int knock = 100;//10だった場所
-        public const int explosion = 50;
-        public const int beam = 30;
+        public const int knock = 10;//10だった場所
+        public const int explosion = 5;
+        public const int beam = 3;
     }
 
     /// <summary>
