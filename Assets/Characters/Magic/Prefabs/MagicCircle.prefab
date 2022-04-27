@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7439202838639495679}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.29, z: -10.04}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1381,9 +1381,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.74509805}
-        key1: {r: 1, g: 1, b: 1, a: 0.74509805}
-        key2: {r: 0, g: 0, b: 0, a: 1}
+        key0: {r: 1, g: 0.029372733, b: 0, a: 0.74509805}
+        key1: {r: 1, g: 0.043646663, b: 0.014705882, a: 0.74509805}
+        key2: {r: 1, g: 1, b: 1, a: 0.74509805}
         key3: {r: 0, g: 0, b: 0, a: 0.74509805}
         key4: {r: 0, g: 0, b: 0, a: 0.74509805}
         key5: {r: 0, g: 0, b: 0, a: 0.74509805}
@@ -1391,23 +1391,23 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0.8235294}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 19468
-        atime2: 21588
-        atime3: 46067
-        atime4: 51657
+        atime1: 15998
+        atime2: 46067
+        atime3: 51657
+        atime4: 65535
         atime5: 65535
         atime6: 65535
         atime7: 65535
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 6
+        m_NumAlphaKeys: 5
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
