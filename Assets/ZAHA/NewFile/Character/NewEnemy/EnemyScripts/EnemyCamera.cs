@@ -56,11 +56,11 @@ public class EnemyCamera : MonoBehaviour
                 //    startFlag = false;
                 //    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
                 //}
-                if(timer > 2)
+                if(timer > 3)
                 {
                     fadeout.fadeOutFlag = true;
                 }
-                if(timer > 5)
+                if(timer > 4)
                 {
                     startFlag = false;
                     fadeout.fadeInFlag = true;
