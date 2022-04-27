@@ -332,16 +332,24 @@ public class EnemyBase : MonoBehaviour
     public void Ice_Abnormal_Condition()
     {
         Debug.Log("凍結魔法だわよん");
-        Ice_abnormality_turncount++;//呼ばれたらカウント
+        if (!Is_action)
+        {
+            Ice_abnormality_turncount++;//呼ばれたらカウント
+            Debug.Log("凍結経過ターン" + Ice_abnormality_turncount);
+
+        }
 
         Debug.Log(ice_abnormality_turncount);
-        if (Ice_abnormality_turncount >= 2)//2ターン経過したら
+        if (Ice_abnormality_turncount >= 3)//2ターン経過したら
         {
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Damage(1);
+            Enemy enemy = transform.GetComponent<Enemy>();
+            Destroy(enemy.pentaIceEff);
         }
     }
+
 
     public void DeleteListEnemy()
     {
@@ -406,7 +414,7 @@ public class EnemyBase : MonoBehaviour
             Init_attack_search = false;
         }
 
-        if (Attackaria)
+        if (Attackaria && Abnormal_condition == AbnormalCondition.Ice)
         {
             Attacktime += Time.deltaTime;
             if (Attacktime > 2)
@@ -437,7 +445,7 @@ public class EnemyBase : MonoBehaviour
             }
 
             //移動している時
-            if (Ismove)
+            if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
                 Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;
             }
@@ -445,7 +453,7 @@ public class EnemyBase : MonoBehaviour
             Oldx = X;//位置を保存
             Oldy = Y;//位置を保存
 
-            if (Ismove)
+            if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
                 Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.Enemy;
                 MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
@@ -458,7 +466,7 @@ public class EnemyBase : MonoBehaviour
             //移動したらオン
 
             //目的値についているか?
-            if (Target_distance)//target.magnitude < Targetdistance
+            if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)//target.magnitude < Targetdistance
             {
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。

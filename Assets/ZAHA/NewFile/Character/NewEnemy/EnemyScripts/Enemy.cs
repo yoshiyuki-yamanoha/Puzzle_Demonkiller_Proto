@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
+    public GameObject pentaIceEff;
     Magichoming magichoming;
     float time = 0;
     private void Start()
@@ -14,8 +15,8 @@ public class Enemy : EnemyBase
 
     void FixedUpdate()
     {
-        if (Abnormal_condition != AbnormalCondition.Ice)
-        {
+        //if (Abnormal_condition != AbnormalCondition.Ice)
+        //{
 
 
             //自分(敵)のターンだったら
@@ -54,27 +55,27 @@ public class Enemy : EnemyBase
             EnemyDeath();//敵が死んだときの処理
             Enemy_anim.AnimStatus(status);//アニメーション更新
         }
-        else
-        {
-            Is_action = true;
+    //    else
+    //    {
+    //        Is_action = true;
 
-            if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
-            {
-                EnemyTurnStart();
-            }
-            else //ターンを終了する時
-            {
-                //魔法のターンの時に
-                if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
-                {
-                    AbnormalStatus();
-                }
-                EnemyTurnEnd();
-            }
+    //        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+    //        {
+    //            EnemyTurnStart();
+    //        }
+    //        else //ターンを終了する時
+    //        {
+    //            //魔法のターンの時に
+    //            if (Trun_manager.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+    //            {
+    //                AbnormalStatus();
+    //            }
+    //            EnemyTurnEnd();
+    //        }
 
-            HPber();//HPゲージ
-        }
-    }
+    //        HPber();//HPゲージ
+    //    }
+    //}
     //魔法陣の当たり判定
     private void OnTriggerEnter(Collider other)
     {
@@ -94,6 +95,8 @@ public class Enemy : EnemyBase
         {
             Abnormal_condition = AbnormalCondition.Ice;
             Debug.Log("アイス攻撃" + Abnormal_condition);
+            pentaIceEff = GameObject.Find("Cube");
+            Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             Ice_abnormality_turncount = 0;
             Destroy(other.gameObject);
         }
