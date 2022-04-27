@@ -454,7 +454,7 @@ public class MagicMassSelecter : MonoBehaviour
                     {
 
                         //選択上限
-                        if (typ == 2) selectsNumLimit = lev + 1;
+                        if (typ == 2) selectsNumLimit = 1;
                         //if (typ == 3) selectsNumLimit = lev;
 
                         selectTargets = new GameObject[selectsNumLimit];

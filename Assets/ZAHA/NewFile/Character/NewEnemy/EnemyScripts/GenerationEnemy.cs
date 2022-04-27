@@ -69,7 +69,7 @@ public class GenerationEnemy : PseudoArray
             {//最初のターン
                 if (enemy_oneturn_count < enemy_oneturn_max)
                 { //1ターンに生成出来る数が最大値を超えたら
-                    Generation(new Vector2Int(7, 12));//Random.Range(0,20), Random.Range(0, 20))
+                    Generation(new Vector2Int(Random.Range(0, 20), Random.Range(0, 20) ));
                 }
                 else
                 {
