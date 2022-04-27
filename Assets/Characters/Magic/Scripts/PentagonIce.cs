@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PentagonIce : MonoBehaviour
 {
+    [SerializeField] private GameObject iceWall;
+
     bool Is_once, afterOneTurn;
     int LifeTrun;
     TrunManager tm;
@@ -34,5 +36,10 @@ public class PentagonIce : MonoBehaviour
             if (LifeTrun <= 0) Destroy(this.gameObject);
             afterOneTurn = false;
         }
+    }
+    public void Tin(Vector3 _pos)
+    {
+        GameObject Eff = Instantiate(iceWall, _pos, Quaternion.identity);
+        Eff.transform.localScale = new Vector3 (2, 2, 2);
     }
 }
