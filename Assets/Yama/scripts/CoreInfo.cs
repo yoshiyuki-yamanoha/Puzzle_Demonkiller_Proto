@@ -27,7 +27,7 @@ namespace CoreBase
     public class EAP
     {
         //zahaコアのダメージ処理テストのため変更した-
-        public const int knock = 10;//10だった場所
+        public const int knock = 1;//10だった場所
         public const int explosion = 5;
         public const int beam = 3;
     }
