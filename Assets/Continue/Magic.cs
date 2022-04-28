@@ -31,22 +31,6 @@ public class Magic : MonoBehaviour
 
     private void Update()
     {
-        //デバッグ用
-
-        //吹き飛ばし
-        if (Input.GetKeyDown(KeyCode.F)) {
-            BlowOffEnemies(5);
-        }
-
-        //遅くする
-        if (Input.GetKeyDown(KeyCode.H)) {
-            SpeedDown(5);
-        }
-
-        //コンボ2倍
-        if (Input.GetKeyDown(KeyCode.N)) {
-            StartCoroutine(DoubleCombo(5));
-        }
     }
 
     //敵全員を吹き飛ばす

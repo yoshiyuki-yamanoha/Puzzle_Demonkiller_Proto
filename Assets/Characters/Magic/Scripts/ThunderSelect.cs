@@ -23,14 +23,6 @@ public class ThunderSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ThunderSelecter();
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ThunderSelecter_Add();
-        }
 
     }
     public void ThunderSelecter()

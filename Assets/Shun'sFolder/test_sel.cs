@@ -16,15 +16,15 @@ public class test_sel : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Vector3 pos = StartPos.transform.position;
-            GameObject mag = Instantiate(Magic, pos,Quaternion.identity);
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    Vector3 pos = StartPos.transform.position;
+        //    GameObject mag = Instantiate(Magic, pos,Quaternion.identity);
 
-            int targetNum = ((cre_X * 15) + (cre_Y % 15));
+        //    int targetNum = ((cre_X * 15) + (cre_Y % 15));
 
-            GameObject tage = Stage_mass.transform.GetChild(targetNum).gameObject;
-            mag.GetComponent<Shoot_The_at_Enemy_Magic>().Set_Ini(tage, test_Level, test_type);
-        }
+        //    GameObject tage = Stage_mass.transform.GetChild(targetNum).gameObject;
+        //    mag.GetComponent<Shoot_The_at_Enemy_Magic>().Set_Ini(tage, test_Level, test_type);
+        //}
     }
 }
