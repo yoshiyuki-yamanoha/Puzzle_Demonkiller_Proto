@@ -37,7 +37,7 @@ namespace CoreBase
     /// </summary>
     public class Barricade_Class/*:Core_RequiredElement*/
     {
-        public readonly int max_hp = 1;
+        public readonly int max_hp = 5;
 
         public GameObject obj;
         public int hp;
