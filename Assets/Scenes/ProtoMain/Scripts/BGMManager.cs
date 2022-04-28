@@ -57,7 +57,6 @@ public class BGMManager : MonoBehaviour
                 break;
             case "CLEARBGM":
                 audioSource.clip = audioClips[4];
-                audioSource.loop = true;
                 audioSource.volume = 0.04f;
                 audioSource.Play();
                 break;
