@@ -37,12 +37,6 @@ public class ManageCoreState : TrunManager
         {
             CheckHP();
         }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ReceiveDamage(EAP.knock);
-        }
-        CheckHP();
     }
 
     public void ReceiveDamage(int dmgtype = EAP.knock)
