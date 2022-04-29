@@ -64,6 +64,8 @@ public class EnemyCamera : MonoBehaviour
                 {
                     startFlag = false;
                     fadeout.fadeInFlag = true;
+                    x = 0;
+                    timer = 0;
                 }
             }
             else
@@ -97,9 +99,9 @@ public class EnemyCamera : MonoBehaviour
         return closeEnemy;
     }
 
-    void EnemyCameraMove()
+    void CloseEnemyCameraMove()//一番近い敵を見るカメラ
     {
-        //1ターンで一番近い敵
+        //敵の行動ターンの時に
         if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
         {
             enemy_camera.depth = 0;
@@ -145,6 +147,39 @@ public class EnemyCamera : MonoBehaviour
             //transform.position = new Vector3(25.22f, 3.7f, -80);
             initflg = true;
             moveflag = true;
+        }
+    }
+    void EnemyCameraMove()
+    {
+
+        //敵の行動ターンの時に
+        if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
+        {
+
+            enemy_camera.depth = 0;
+
+            //Debug.Log(timer);
+            //timer += Time.deltaTime;
+            enemy_camera.depth = 0;
+            if (x < 96)
+            {
+                x += 0.25f;
+            }
+            transform.position = new Vector3(x, 26, -107);
+            //if(x > 95)
+            //{
+            //    startFlag = false;
+            //    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
+            //}
+
+        }
+        else
+        {
+            enemy_camera.depth = -2;
+            //transform.position = new Vector3(25.22f, 3.7f, -80);
+            initflg = true;
+            moveflag = true;
+            x = 0;
         }
     }
 }
