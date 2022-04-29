@@ -205,7 +205,7 @@ public class EnemyBase : MonoBehaviour
 
     public float Damage(float damage)//damage処理
     {
-        
+
         hp -= damage;
         if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/  enemys_.Remove(this.gameObject); }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
@@ -227,20 +227,11 @@ public class EnemyBase : MonoBehaviour
     //    transform.position += target * Speed * Time.deltaTime;//移動
     //}
 
-    //public void LookTarget(bool ismove)
-    //{
-    //    Vector3 target;
-    //    if (ismove)
-    //    {
-    //        target = Vector3.back - this.gameObject.transform.position;
-    //    }
-    //    else
-    //    {
-    //        target = TargetDir(this.gameObject, Generation_enemy.rootpos[x].transform.GetChild(y).gameObject);
-    //    }
-
-    //    transform.rotation = Quaternion.LookRotation(target);
-    //}
+    public void LookTarget(Vector3 dif)//プレイヤーの位置と目的値を渡す
+    {
+        Vector3 dir = new Vector3(dif.x , 0, dif.z);
+        transform.rotation = Quaternion.LookRotation(dir);
+    }
 
     public int IndexCheckX(int index)
     {
@@ -411,7 +402,8 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum)
     {
-        if (Init_attack_search) {
+        if (Init_attack_search)
+        {
             AttackSearchMovement(massnum);
             Init_attack_search = false;
         }
@@ -632,13 +624,14 @@ public class EnemyBase : MonoBehaviour
     public void MassMove(int next_y, int next_x)
     {
         Vector3 next_pos = new Vector3(next_x * map.Tilemas_prefab.transform.localScale.x, 0, next_y * -map.Tilemas_prefab.transform.localScale.z);
-        Debug.DrawLine(transform.position, next_pos);
+        Debug.DrawRay(transform.position, next_pos - transform.position);
 
         Vector3 def = next_pos - transform.position;
         /*Vector3.MoveTowards(transform.position, next_pos, Speed * Time.deltaTime);*/
         //Debug.Log("目的値距離" + def.sqrMagnitude);
 
-        transform.position += def.normalized * Speed * Time.deltaTime;
+        LookTarget(def);//向き移動
+        transform.position += def.normalized * Speed * Time.deltaTime;//移動
 
         if (def.sqrMagnitude < 1f)
         {

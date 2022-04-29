@@ -24,11 +24,19 @@ public class EnemyGenerationInfo
     public int One_turn { get => one_turn; set => one_turn = value; }
 }
 
-public class GenerationEnemy : PseudoArray
+public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
 {
+    enum Mode
+    {
+        Debug,
+        Game,
+    }
+
+    [SerializeField] Mode game_mode = Mode.Game;
+
     EnemyGenerationInfo[] enemy_generation_info;
     int nowturn = 0;
-
+    
     //class 参照
     EnemyBase enemy_base = null;
     [SerializeField] MapMass map = null;
@@ -72,6 +80,8 @@ public class GenerationEnemy : PseudoArray
 
     public int Nowturn { get => nowturn; set => nowturn = value; }
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,30 +96,38 @@ public class GenerationEnemy : PseudoArray
     //エネミースポーン情報初期化
     private void InitEnemySpawnInfo()
     {
-        enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
+        if (game_mode == Mode.Game) {
+            enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
 
-        enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0);
-        enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[2] = new EnemyGenerationInfo(3, 3, 0, 0);
-        enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[4] = new EnemyGenerationInfo(2, 1, 1, 0);
-        enemy_generation_info[5] = new EnemyGenerationInfo(3, 2, 1, 0);
-        enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[7] = new EnemyGenerationInfo(2, 0, 2, 0);
-        enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[9] = new EnemyGenerationInfo(4, 3, 1, 0);
-        enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1);
-        enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0);
-        enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2);
-        enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0);
-        enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1);
-        enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0);
-        enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0);
-        enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4);
+            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[2] = new EnemyGenerationInfo(3, 3, 0, 0);
+            enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[4] = new EnemyGenerationInfo(2, 1, 1, 0);
+            enemy_generation_info[5] = new EnemyGenerationInfo(3, 2, 1, 0);
+            enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[7] = new EnemyGenerationInfo(2, 0, 2, 0);
+            enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[9] = new EnemyGenerationInfo(4, 3, 1, 0);
+            enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1);
+            enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0);
+            enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2);
+            enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0);
+            enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1);
+            enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0);
+            enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0);
+            enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4);
+
+        }
+        else
+        {
+            enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 1);
+        }
 
         //for (int i = 0; i < enemy_generation_info.Length; i++)
         //{
@@ -184,12 +202,15 @@ public class GenerationEnemy : PseudoArray
                 {
                     if (generation_flg)
                     {//生成フラグがオンだったら生成
+                        Debug.Log("生成中" + enemy_generation_info[Nowturn].One_turn);
+                        Debug.Log("1ターンの数 " + enemy_generation_info[Nowturn].One_turn);
                         while (enemy_generation_info[Nowturn].One_turn > 0)
                         {
                             Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
                         }
                         
                     }
+                    Debug.Log("敵のターン終了");
                     enemy_oneturn_count = 0;
                     Nowturn++;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
@@ -198,7 +219,7 @@ public class GenerationEnemy : PseudoArray
         }
         else
         {
-            if (Nowturn == 21) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
+            if (Nowturn >= enemy_generation_info.Length) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
             one_turn_search_flg = true;
         }
 
@@ -238,7 +259,6 @@ public class GenerationEnemy : PseudoArray
             //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
             search_flg = true;//検索終了
         }
-
         return search_flg;
     }
 
