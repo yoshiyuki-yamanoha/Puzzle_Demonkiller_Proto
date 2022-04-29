@@ -205,8 +205,10 @@ public class EnemyBase : MonoBehaviour
 
     public float Damage(float damage)//damage処理
     {
+        
         hp -= damage;
         if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/  enemys_.Remove(this.gameObject); }
+        else { Enemy_anim.TriggerAttack("HitDamage"); }
 
         return hp;
     }
@@ -298,12 +300,12 @@ public class EnemyBase : MonoBehaviour
     //火の魔法状態。
     public void Fire_Abnormal_Condition()
     {
-        Debug.Log("Im On fire");
+        //Debug.Log("Im On fire");
         Fire_abnormality_turncount++;
 
         if (Fire_abnormality_turncount <= 3)
         {
-            Debug.Log("ダメージアニメーション");
+            //Debug.Log("ダメージアニメーション");
             //2ダメージ減らす。
             Damage(2);
             enemy_anim.TriggerAttack("HitDamage");
@@ -331,15 +333,15 @@ public class EnemyBase : MonoBehaviour
     //凍結処理
     public void Ice_Abnormal_Condition()
     {
-        Debug.Log("凍結魔法だわよん");
+        //Debug.Log("凍結魔法だわよん");
         if (!Is_action)
         {
             Ice_abnormality_turncount++;//呼ばれたらカウント
-            Debug.Log("凍結経過ターン" + Ice_abnormality_turncount);
+            //Debug.Log("凍結経過ターン" + Ice_abnormality_turncount);
 
         }
 
-        Debug.Log(ice_abnormality_turncount);
+        //Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 3)//2ターン経過したら
         {
             Abnormal_condition = AbnormalCondition.NONE;
@@ -373,7 +375,7 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log(Abnormal_condition);
         if (Init_abnormal)//1回のみ入るフラグ
         {
-            Debug.Log("状態異常確認");
+            //Debug.Log("状態異常確認");
             switch (Abnormal_condition)//状態異常の中身見る
             {
                 case AbnormalCondition.NONE:

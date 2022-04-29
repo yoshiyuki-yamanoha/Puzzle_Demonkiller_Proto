@@ -152,10 +152,15 @@ public class GenerationEnemy : PseudoArray
             //{
             //    enemy_oneturn_max = enemy_max;
             //}
-            Debug.Log("現在のターン [" + (Nowturn + 1) + "]" + "エネミーリストターン [" + enemy_generation_info[Nowturn].One_turn + "]");
+            //Debug.Log("現在のターン [" + (Nowturn + 1) + "]" + "エネミーリストターン [" + enemy_generation_info[Nowturn].One_turn + "]");
 
             if (init_generation_flg)
             {//最初のターン
+                if (SearchMoveEnemy())
+                {
+                    Debug.Log("敵がいない");
+                }
+
                 if (enemy_generation_info[Nowturn].One_turn > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
@@ -199,7 +204,7 @@ public class GenerationEnemy : PseudoArray
 
     }
 
-    bool SearchMoveEnemy()//敵を検索
+    bool SearchMoveEnemy()//敵を検索 //敵がいないならtrueが帰ってくる。
     {
         bool search_flg = false;
         if (one_turn_search_flg)//1ターンに1回取得する
@@ -219,10 +224,12 @@ public class GenerationEnemy : PseudoArray
             {
                 search_list_enemys.Remove(search_enemy);//敵をリストから消す
             }
-
-            if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
+            else
             {
-                search_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
+                {
+                    search_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                }
             }
         }
 
@@ -247,7 +254,7 @@ public class GenerationEnemy : PseudoArray
                 int random_enem_kinds;//Random.Range(0, 2);//敵の種類ランダム生成
                 int random_magic = Random.Range(0, 2);
 
-                Debug.Log("エネミー選択");
+                //Debug.Log("エネミー選択");
 
                 if (enemy_generation_info[Nowturn].Goblin > 0)//ゴブリン
                 {
@@ -272,11 +279,11 @@ public class GenerationEnemy : PseudoArray
                     random_enem_kinds = 0;//ゴブリン
                 }
 
-                Debug.Log("敵の種類 "+random_enem_kinds);
+                //Debug.Log("敵の種類 "+random_enem_kinds);
 
 
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
-                Debug.Log("生成インスタンスします。");
+                //Debug.Log("生成インスタンスします。");
                 if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
 
 
