@@ -193,6 +193,9 @@ public class PointControl : MonoBehaviour
         ColorChange();
     }
 
+    public void SelectInit() { 
+        isSelect = false;
+    }
 
     public void RegisterCircles()
     {

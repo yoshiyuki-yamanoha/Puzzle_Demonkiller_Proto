@@ -202,6 +202,8 @@ public class ClearCheck : TrunManager
                 //コンボタイムが切れた時
                 if (attack == true && nowComboTime == 0)
                 {
+                    //初期化
+                    ppp.SelectInit();
 
                     //パズルを消す
                     gauge.SetActive(false);
