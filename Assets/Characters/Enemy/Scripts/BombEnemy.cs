@@ -4,28 +4,83 @@ using UnityEngine;
 
 public class BombEnemy : EnemyBase
 {
+    [SerializeField] Mode game_mode = Mode.Game;
+    new enum Mode
+    {
+        Game,
+        Debug,
+    }
+
     Magichoming magichoming;
     float time = 0;
 
     public bool IsDamege;
+
     private void Start()
     {
-        //InitFunction();
-        IsDamege = false;
+        if (game_mode == Mode.Game) {
+            InitFunction();
+        }
+        else
+        {
+            IsDamege = false;//ZAHAがコメントアウト
+        }
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (game_mode == Mode.Game)
         {
-            IsDamege = true;
+            MainGameBom();//ゲーム状態
         }
-        if (IsDamege)
+        else
         {
-            DamegeAnim();
-            return;
+            DebugBom();//デバッグ状態
+        }
+    }
+
+    //ゲーム状態
+    void MainGameBom()
+    {
+        //自分(敵)のターンだったら
+        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+        {
+
+            if (!AbnormalStatus())
+            {//ステータスダメージが喰らったらエネミーターンにする。
+
+                time += Time.deltaTime;
+                if (time > 2)
+                {
+                    EnemyTurnStart();
+                    time = 0;
+                }
+            }
+        }
+        else //ターンを終了する時
+        {
+            EnemyTurnEnd();//ターン終了 エネミーターン以外の時
         }
 
+        HPber();//HPゲージ
+
+        //攻撃地点
+        if (Istrun && !Is_action)
+        {//自分のターンかつ行動していない時
+            switch (Enemy_action)
+            {
+                case EnemyAction.Generation:
+                    break;
+                case EnemyAction.Movement:
+                    EnemyMovement(1);//動けるマス範囲
+                    break;
+            }
+        }
+
+        EnemyDeath();//敵が死んだときの処理
+        Enemy_anim.AnimStatus(status);//アニメーション更新
+
+        //エラーが出ているためコメントアウト
         //if (Abnormal_condition != AbnormalCondition.Ice)
         //{
         //    //自分(敵)のターンだったら
@@ -56,13 +111,14 @@ public class BombEnemy : EnemyBase
         //            case EnemyAction.Generation:
         //                break;
         //            case EnemyAction.Movement:
-        //                EnemyMovement(2);//動けるマス範囲
+        //                EnemyMovement(1);//動けるマス範囲
         //                break;
         //        }
         //    }
 
         //    EnemyDeath();//敵が死んだときの処理
-        //    if (Enemy_anim != null) {
+        //    if (Enemy_anim != null)
+        //    {
         //        Enemy_anim.AnimStatus(status);//アニメーション更新
         //    }
         //}
@@ -86,10 +142,22 @@ public class BombEnemy : EnemyBase
 
         //    HPber();//HPゲージ
         //}
-
-        
-
     }
+
+    //デバッグ状態処理
+    void DebugBom()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            IsDamege = true;
+        }
+        if (IsDamege)
+        {
+            DamegeAnim();
+            return;
+        }
+    }
+
     //魔法陣の当たり判定
     private void OnTriggerEnter(Collider other)
     {
@@ -120,7 +188,7 @@ public class BombEnemy : EnemyBase
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("attack01");
 
-        Core.ReceiveDamage();// コアのｈｐ減らす
+        Core.ReceiveDamage(Attack);// コアのｈｐ減らす
 
         Destroy(gameObject, 0.5f);
     }

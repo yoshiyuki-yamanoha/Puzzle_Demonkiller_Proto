@@ -39,7 +39,7 @@ public class ManageCoreState : TrunManager
         }
     }
 
-    public void ReceiveDamage(int dmgtype = EAP.knock)
+    public void ReceiveDamage(int dmgtype)// = EAP.knock)
     {
         core.hp -= dmgtype;
         if (core.hp < 0)

@@ -5,9 +5,9 @@ using UnityEngine;
 public class Astar : MonoBehaviour
 {
     MapMass map = null;
-    Enemy enemy = null;
+    EnemyBase enemy = null;
 
-    [SerializeField] bool init_turn = true;//1回のみ処理する変数
+    //[SerializeField] bool init_turn = true;//1回のみ処理する変数
 
     List<Node> adjacent_node_list = new List<Node>();//隣接ノード
     List<Node> open_list = new List<Node>();//オープンリスト 経路候補
@@ -37,7 +37,7 @@ public class Astar : MonoBehaviour
     void Start()
     {
         map = GameObject.Find("MapInstance").GetComponent<MapMass>();
-        enemy = transform.GetComponent<Enemy>();
+        enemy = transform.GetComponent<EnemyBase>();
     }
 
     //ゲットパス。

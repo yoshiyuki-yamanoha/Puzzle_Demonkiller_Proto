@@ -29,10 +29,10 @@ public class ManageBarricade : TrunManager
         }
     }
 
-    public void ReceiveDamage()
+    public void ReceiveDamage(int enemy_attack)
     {
-        barri.hp -= EAP.knock;
-
+        //barri.hp -= EAP.knock;
+        barri.hp -= enemy_attack;
         CheckHP();
 
     }

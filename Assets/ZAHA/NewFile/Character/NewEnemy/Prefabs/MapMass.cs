@@ -193,7 +193,6 @@ public class MapMass : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("MapMass");
         rootobj_ = new GameObject("MassRoot");//空のオブジェクトを作成-!
         InstanceMap();//インスタントmapを
         core_info.pos = new List<Vector2Int>();
@@ -245,7 +244,6 @@ public class MapMass : MonoBehaviour
 
     void SetCore(Vector2Int pos , GameObject obj)
     {
-        Debug.Log(core_info);
         core_info.pos.Add(pos);
         core_info.obj.Add(obj); 
     }

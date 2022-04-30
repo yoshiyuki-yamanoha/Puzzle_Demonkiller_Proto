@@ -25,7 +25,6 @@ public class AnimEvent : MonoBehaviour
 
     public void Destroy()
     {
-        Debug.Log("死亡しました");
         //GameObject.Find("Stage1Mgr").GetComponent<Stage1Mgr>().DieEnemyCount();
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除

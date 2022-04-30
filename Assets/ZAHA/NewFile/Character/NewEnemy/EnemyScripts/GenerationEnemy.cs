@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EnemyGenerationInfo
 {
-    public EnemyGenerationInfo(int one_turn, int goblin, int woman, int bom)
+    public EnemyGenerationInfo(Vector2Int pos, int one_turn, int goblin, int woman, int bom)
     {
-        this.One_turn = one_turn;
+        this.Pos = pos;
+        this.One_turn_Generation = one_turn;
         this.Goblin = goblin;
         this.Woman = woman;
         this.Bom = bom;
@@ -17,14 +18,16 @@ public class EnemyGenerationInfo
     int goblin;//ゴブリン
     int woman;//女性敵
     int bom;//ボム
+    Vector2Int pos;
 
     public int Goblin { get => goblin; set => goblin = value; }
     public int Woman { get => woman; set => woman = value; }
     public int Bom { get => bom; set => bom = value; }
-    public int One_turn { get => one_turn; set => one_turn = value; }
+    public int One_turn_Generation { get => one_turn; set => one_turn = value; }
+    public Vector2Int Pos { get => pos; set => pos = value; }
 }
 
-public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
+public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 {
     enum Mode
     {
@@ -36,7 +39,7 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
 
     EnemyGenerationInfo[] enemy_generation_info;
     int nowturn = 0;
-    
+
     //class 参照
     EnemyBase enemy_base = null;
     [SerializeField] MapMass map = null;
@@ -61,8 +64,12 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
     float time = 0;//計測時間用
 
     //ステージ敵検索用
-    List<GameObject> search_list_enemys = new List<GameObject>();
-    bool one_turn_search_flg = true;
+    List<GameObject> activ_list_enemys = new List<GameObject>();
+    List<GameObject> stage_list_enemys = new List<GameObject>();
+    bool set_list_activ_flg = true;
+    bool set_list_stage_flg = true;
+    //bool one_turn_search_flg = true;
+
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
@@ -96,37 +103,38 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
     //エネミースポーン情報初期化
     private void InitEnemySpawnInfo()
     {
-        if (game_mode == Mode.Game) {
+        if (game_mode == Mode.Game)
+        {
             enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[2] = new EnemyGenerationInfo(3, 3, 0, 0);
-            enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[4] = new EnemyGenerationInfo(2, 1, 1, 0);
-            enemy_generation_info[5] = new EnemyGenerationInfo(3, 2, 1, 0);
-            enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[7] = new EnemyGenerationInfo(2, 0, 2, 0);
-            enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[9] = new EnemyGenerationInfo(4, 3, 1, 0);
-            enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1);
-            enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0);
-            enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2);
-            enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0);
-            enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1);
-            enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0);
-            enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0);
-            enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4);
+            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(0, 0), 5, 5, 0, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[2] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 3, 0, 0);
+            enemy_generation_info[3] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[4] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 1, 1, 0);
+            enemy_generation_info[5] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 2, 1, 0);
+            enemy_generation_info[6] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[7] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 0, 2, 0);
+            enemy_generation_info[8] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[9] = new EnemyGenerationInfo(new Vector2Int(0, 0), 4, 3, 1, 0);
+            enemy_generation_info[10] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[11] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 1, 0, 1);
+            enemy_generation_info[12] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[13] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 3, 0, 0);
+            enemy_generation_info[14] = new EnemyGenerationInfo(new Vector2Int(0, 0), 4, 0, 2, 2);
+            enemy_generation_info[15] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[16] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 2, 0, 0);
+            enemy_generation_info[17] = new EnemyGenerationInfo(new Vector2Int(0, 0), 5, 2, 2, 1);
+            enemy_generation_info[18] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[19] = new EnemyGenerationInfo(new Vector2Int(0, 0), 1, 1, 0, 0);
+            enemy_generation_info[20] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
+            enemy_generation_info[21] = new EnemyGenerationInfo(new Vector2Int(0, 0), 9, 3, 2, 4);
 
         }
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 1);
+            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(7, 12), 1, 0, 0, 1);
         }
 
         //for (int i = 0; i < enemy_generation_info.Length; i++)
@@ -164,8 +172,10 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
     {
         if (trunmanager.GetTrunPhase() == TrunManager.TrunPhase.Enemy)//エネミーターン時
         {
-            enemy_base.DeleteListEnemy();//敵削除
+            //すぐ検索じゃなく
+            //魔法のターンで死んだ敵は以内か検索
 
+            enemy_base.DeleteListEnemy();//敵削除
             //if (enemy_max < enemy_oneturn_max)
             //{
             //    enemy_oneturn_max = enemy_max;
@@ -174,15 +184,15 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
 
             if (init_generation_flg)
             {//最初のターン
-                if (SearchMoveEnemy())
+                if (EnemyIsAction())
                 {
-                    Debug.Log("敵がいない");
                 }
 
-                if (enemy_generation_info[Nowturn].One_turn > 0) //  3 <   2
+                if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
                     Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
+                    //Generation(enemy_generation_info[Nowturn].Pos);//)//場所設定
 
                 }
                 else
@@ -198,19 +208,17 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
             }
             else
             {
-                if (SearchMoveEnemy())
+                if (EnemyIsAction())//敵が行動しているか確認。
                 {
                     if (generation_flg)
                     {//生成フラグがオンだったら生成
-                        Debug.Log("生成中" + enemy_generation_info[Nowturn].One_turn);
-                        Debug.Log("1ターンの数 " + enemy_generation_info[Nowturn].One_turn);
-                        while (enemy_generation_info[Nowturn].One_turn > 0)
+                        SkipEnemy();
+                        while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
                         {
                             Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
                         }
-                        
+
                     }
-                    Debug.Log("敵のターン終了");
                     enemy_oneturn_count = 0;
                     Nowturn++;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
@@ -220,41 +228,92 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
         else
         {
             if (Nowturn >= enemy_generation_info.Length) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
-            one_turn_search_flg = true;
+            set_list_activ_flg = true;
+            //set_list_stage_flg = true;
+            stage_list_enemys.Clear();//ステージ状リストclear
         }
 
     }
 
-    bool SearchMoveEnemy()//敵を検索 //敵がいないならtrueが帰ってくる。
+    void SetListSearchEnemy()
     {
-        bool search_flg = false;
-        if (one_turn_search_flg)//1ターンに1回取得する
+        if (set_list_activ_flg)//1ターンに1回取得する
         {
             GameObject[] search_enemys = null;//エネミータグで取得格納配列
             search_enemys = GameObject.FindGameObjectsWithTag("Enemy");//敵をタグで取得
             foreach (var search_enemy in search_enemys)
             {
-                search_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+                activ_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+                stage_list_enemys.Add(search_enemy);//ステージ状で取得
             }
-            one_turn_search_flg = false;
+            set_list_activ_flg = false;
         }
+    }
 
-        foreach (var search_enemy in search_list_enemys)//取得した敵分リストを回す
+    void SkipEnemy()
+    {
+        if (!init_generation_flg) {
+            if (stage_list_enemys.Count <= 0)//0以下なら存在しない
+            {
+                while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
+                {
+                    Nowturn++;
+                }
+            }
+        }
+    }
+
+
+    //SetListSearchEnemy(stage__list_enemys , set_list_stage_flg);
+    //if (one_turn_search_flg)//1ターンに1回取得する
+    //{
+    //    GameObject[] search_enemys = null;//エネミータグで取得格納配列
+    //    search_enemys = GameObject.FindGameObjectsWithTag("Enemy");//敵をタグで取得
+    //    Debug.Log("敵のリスト数" + search_enemys.Length);
+    //    foreach (var search_enemy in search_enemys)
+    //    {
+    //        search_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+    //    }
+    //    one_turn_search_flg = false;
+    //}
+
+    bool EnemyIsAction()
+    {
+        bool search_flg = false;
+
+        SetListSearchEnemy();
+
+        foreach (var search_enemy in activ_list_enemys)//取得した敵分リストを回す
         {
             if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
             {
-                search_list_enemys.Remove(search_enemy);//敵をリストから消す
+                activ_list_enemys.Remove(search_enemy);//敵をリストから消す
             }
             else
             {
                 if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
                 {
-                    search_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                    activ_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
                 }
             }
         }
 
-        if (search_list_enemys.Count <= 0)//リストが0になぅったら
+        foreach (var search_enemy in stage_list_enemys)//取得した敵分リストを回す
+        {
+            if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+            {
+                stage_list_enemys.Remove(search_enemy);//敵をリストから消す
+            }
+            else
+            {
+                if (search_enemy.GetComponent<EnemyBase>().Deathflg)//行動が終わったか確認
+                {
+                    stage_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                }
+            }
+        }
+
+        if (activ_list_enemys.Count <= 0)//リストが0になぅったら
         {
             //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
             search_flg = true;//検索終了
@@ -274,23 +333,22 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
                 int random_enem_kinds;//Random.Range(0, 2);//敵の種類ランダム生成
                 int random_magic = Random.Range(0, 2);
 
-                //Debug.Log("エネミー選択");
 
                 if (enemy_generation_info[Nowturn].Goblin > 0)//ゴブリン
                 {
-                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Goblin--;
                     random_enem_kinds = 1;
                 }
                 else if (enemy_generation_info[Nowturn].Bom > 0)//ボム
                 {
-                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Bom--;
                     random_enem_kinds = 2;
                 }
                 else if (enemy_generation_info[Nowturn].Woman > 0)//女性敵
                 {
-                    enemy_generation_info[Nowturn].One_turn--;
+                    enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Woman--;
                     random_enem_kinds = 0;
                 }
@@ -299,11 +357,8 @@ public class GenerationEnemy :MonoBehaviour /*PseudoArray*/
                     random_enem_kinds = 0;//ゴブリン
                 }
 
-                //Debug.Log("敵の種類 "+random_enem_kinds);
-
 
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
-                //Debug.Log("生成インスタンスします。");
                 if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
 
 

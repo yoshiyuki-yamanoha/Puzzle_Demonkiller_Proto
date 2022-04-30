@@ -32,7 +32,7 @@ public class EnemyBase : MonoBehaviour
     //変数
     float hp = 0; //hp
     [SerializeField] float max_hp = 0; //hp
-    [SerializeField] float attack = 0; //攻撃
+    [SerializeField] int attack = 0; //攻撃
     [SerializeField] float speed = 0; //速度
     float init_speed = 0;
     [SerializeField] bool deathflg = false; //死亡フラグ
@@ -115,7 +115,7 @@ public class EnemyBase : MonoBehaviour
 
     //参照用
     public float Hp { get => hp; set => hp = value; }
-    public float Attack { get => attack; }
+    public int Attack { get => attack; }
     public float Speed { get => speed; set => speed = value; }
     public bool Deathflg { get => deathflg; }
     public bool Init_animflg { get => init_animflg; set => init_animflg = value; }
@@ -229,7 +229,7 @@ public class EnemyBase : MonoBehaviour
 
     public void LookTarget(Vector3 dif)//プレイヤーの位置と目的値を渡す
     {
-        Vector3 dir = new Vector3(dif.x , 0, dif.z);
+        Vector3 dir = new Vector3(dif.x, 0, dif.z);
         transform.rotation = Quaternion.LookRotation(dir);
     }
 
@@ -374,12 +374,10 @@ public class EnemyBase : MonoBehaviour
                 case AbnormalCondition.Fire:
                     if (Fire.gameObject.activeInHierarchy)
                     {//
-                        Debug.Log("ファイヤ処理");
                         Fire_Abnormal_Condition();
                     }
                     break;
                 case AbnormalCondition.Ice:
-                    Debug.Log("アイス処理");
                     Ice_Abnormal_Condition();
                     break;
             }
@@ -402,6 +400,8 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum)
     {
+        UIFacing();
+
         if (Init_attack_search)
         {
             AttackSearchMovement(massnum);
@@ -425,7 +425,6 @@ public class EnemyBase : MonoBehaviour
                 if (init_goal)
                 {
                     goal = new Node(null, map.GetCore().pos[Random.Range(0, 4)]);
-                    Debug.Log("Goal位置" + "Y [" + goal.Pos.y + "X [" + goal.Pos.x);
                     init_goal = false;
                 }
 
@@ -530,18 +529,21 @@ public class EnemyBase : MonoBehaviour
         //}
         Vector2Int attackpos = Attackpos;
 
+        Vector3 attack_pos_dir = new Vector3(attackpos.x * map.Tilemas_prefab.transform.localScale.x, 0, attackpos.y * -map.Tilemas_prefab.transform.localScale.z) - transform.position;
+
         if (Init_anim_flg)
         {
-            Debug.Log("攻撃タイーむ");
             if (map.Core_bari_Data[attackpos.y, attackpos.x].gameObject != null)
             {
                 if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
                 {//バリケード
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage();//バリケードにダメージよーん
+                    LookTarget(attack_pos_dir);//向き移動
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(attack);//バリケードにダメージよーん
                 }
                 else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
                 {
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage();//コアにダメージよーん
+                    LookTarget(attack_pos_dir);//向き移動
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(attack);//コアにダメージよーん
                 }
             }
 
@@ -561,7 +563,6 @@ public class EnemyBase : MonoBehaviour
         {
             if (map.Core_bari_Data[IndexCheckY(Y + massnum), IndexCheckX(X)].gameObject != null)
             {
-                Debug.Log("下にバリケードかコア攻撃");
                 Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y + massnum));
                 Attackaria = true;
             }
@@ -576,7 +577,6 @@ public class EnemyBase : MonoBehaviour
         {
             if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + massnum)].gameObject != null))
             {
-                Debug.Log("右にコア攻撃");
                 Attackpos = new Vector2Int(IndexCheckX(X + massnum), IndexCheckY(Y));
                 Attackaria = true;
             }
@@ -590,7 +590,6 @@ public class EnemyBase : MonoBehaviour
         {
             if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - massnum)].gameObject != null))
             {
-                Debug.Log("左コア攻撃");
                 Attackpos = new Vector2Int(IndexCheckX(X - massnum), IndexCheckY(Y));
                 Attackaria = true;
             }
@@ -604,7 +603,6 @@ public class EnemyBase : MonoBehaviour
         {
             if ((map.Core_bari_Data[IndexCheckY(Y - massnum), IndexCheckX(X)].gameObject != null))
             {
-                Debug.Log("上コア攻撃");
                 Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y - massnum));
                 Attackaria = true;
             }
@@ -648,5 +646,11 @@ public class EnemyBase : MonoBehaviour
         //}
 
         //transform.position = targetPos;
+    }
+
+    private void UIFacing()
+    {
+        hpber.transform.forward = Camera.main.transform.forward;
+        Fire.transform.forward = Camera.main.transform.forward;
     }
 }
