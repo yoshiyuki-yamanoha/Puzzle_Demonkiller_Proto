@@ -194,10 +194,10 @@ public class EnemyCamera : MonoBehaviour
     {
         targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
 
-        HpNoneEnemy();
 
         if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax-1) && finalDieflag == false)
         {
+            HpNoneEnemy();
             enemy_camera.depth = 0;
             if (x < 96)
             {
@@ -226,10 +226,9 @@ public class EnemyCamera : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
         timer += Time.deltaTime;
-        gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
 
         enemy_camera.depth = 0;
-        targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+        //targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
         //HpNoneEnemy();
         if (initflg == true)
         {
@@ -258,7 +257,8 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
-                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());
+                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+                transform.LookAt(camera_targe.transform.position);
             }
         }
         if (timer > 3)
@@ -272,6 +272,11 @@ public class EnemyCamera : MonoBehaviour
         else
         {
             Time.timeScale = 1;
+        }
+        if(hpNoneEnemy == null)
+        {
+
+            gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
         }
 
         //if (Time.timeScale == 1)
