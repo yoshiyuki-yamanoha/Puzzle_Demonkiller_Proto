@@ -83,8 +83,10 @@ public class Ele_tur_Attack : MonoBehaviour
             Efe.GetComponent<LightningBoltScript>().StartPosition = start_pos;
             Efe.GetComponent<LightningBoltScript>().StartObject = null;
 
+            Vector3 end_pos = _tage.transform.position;
+            end_pos.y += 1.0f;
 
-            Efe.GetComponent<LightningBoltScript>().EndObject = _tage;
+            Efe.GetComponent<LightningBoltScript>().EndPosition = end_pos;
             Destroy(Efe, 1.0f);
         }
     }
