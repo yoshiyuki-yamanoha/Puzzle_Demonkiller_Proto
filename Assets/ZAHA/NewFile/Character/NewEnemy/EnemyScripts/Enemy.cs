@@ -85,7 +85,6 @@ public class Enemy : EnemyBase
 
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
-            Debug.Log("炎攻撃");
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
@@ -94,7 +93,6 @@ public class Enemy : EnemyBase
         if (other.CompareTag("Ice"))
         {
             Abnormal_condition = AbnormalCondition.Ice;
-            Debug.Log("アイス攻撃" + Abnormal_condition);
             other.GetComponent<PentagonIce>().Tin(transform.position);
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);

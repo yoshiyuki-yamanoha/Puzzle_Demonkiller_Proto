@@ -73,6 +73,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
+
+    bool init_skip = true;
     //[SerializeField] int enemy_oneturn_max = 5;  //1ターンに出る敵の最大大数
 
     //mapの生成情報
@@ -107,9 +109,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(0, 0), 5, 5, 0, 0);
+            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(0, 0), 1, 1, 0, 0);
             enemy_generation_info[1] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[2] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 3, 0, 0);
+            enemy_generation_info[2] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
             enemy_generation_info[3] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
             enemy_generation_info[4] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 1, 1, 0);
             enemy_generation_info[5] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 2, 1, 0);
@@ -208,17 +210,20 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             }
             else
             {
+                //ここで作業終了 あたまが
+                StageEnemy();
+
+                if (generation_flg)
+                {//生成フラグがオンだったら生成
+                    SkipEnemy();
+                    while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
+                    {
+                        Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
+                    }
+                }
+
                 if (EnemyIsAction())//敵が行動しているか確認。
                 {
-                    if (generation_flg)
-                    {//生成フラグがオンだったら生成
-                        SkipEnemy();
-                        while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
-                        {
-                            Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
-                        }
-
-                    }
                     enemy_oneturn_count = 0;
                     Nowturn++;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
@@ -227,10 +232,11 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         }
         else
         {
-            if (Nowturn >= enemy_generation_info.Length) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
             set_list_activ_flg = true;
+            set_list_stage_flg = true;
             //set_list_stage_flg = true;
             stage_list_enemys.Clear();//ステージ状リストclear
+            init_skip = true;
         }
 
     }
@@ -244,7 +250,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             foreach (var search_enemy in search_enemys)
             {
                 activ_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
-                stage_list_enemys.Add(search_enemy);//ステージ状で取得
             }
             set_list_activ_flg = false;
         }
@@ -252,13 +257,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void SkipEnemy()
     {
-        if (!init_generation_flg) {
+        if (!init_generation_flg && init_skip) {
             if (stage_list_enemys.Count <= 0)//0以下なら存在しない
             {
+                Debug.Log("ステージ状に0体しかいませーん");
                 while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
                 {
                     Nowturn++;
                 }
+
+                init_skip = false;
             }
         }
     }
@@ -277,6 +285,41 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     //    one_turn_search_flg = false;
     //}
 
+    void StageEnemy()
+    {
+        SetListStageEnemy();
+
+
+        foreach (var search_enemy in stage_list_enemys)//取得した敵分リストを回す
+        {
+            if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+            {
+                stage_list_enemys.Remove(search_enemy);//敵をリストから消す
+            }
+            else
+            {
+                if (search_enemy.GetComponent<EnemyBase>().Deathflg)//行動が終わったか確認
+                {
+                    stage_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                }
+            }
+        }
+    }
+
+    void SetListStageEnemy()
+    {
+        if (set_list_stage_flg)//1ターンに1回取得する
+        {
+            GameObject[] search_enemys = null;//エネミータグで取得格納配列
+            search_enemys = GameObject.FindGameObjectsWithTag("Enemy");//敵をタグで取得
+            foreach (var search_enemy in search_enemys)
+            {
+                stage_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+            }
+            set_list_stage_flg = false;
+        }
+    }
+
     bool EnemyIsAction()
     {
         bool search_flg = false;
@@ -294,21 +337,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
                 {
                     activ_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
-                }
-            }
-        }
-
-        foreach (var search_enemy in stage_list_enemys)//取得した敵分リストを回す
-        {
-            if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
-            {
-                stage_list_enemys.Remove(search_enemy);//敵をリストから消す
-            }
-            else
-            {
-                if (search_enemy.GetComponent<EnemyBase>().Deathflg)//行動が終わったか確認
-                {
-                    stage_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
                 }
             }
         }
@@ -369,6 +397,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             {
                 generation_flg = false;
             }
+
+            if (Nowturn >= enemy_generation_info.Length - 1) { generation_flg = false; } //現在のターンが21ターン以降は生成を止める
         }
     }
 
