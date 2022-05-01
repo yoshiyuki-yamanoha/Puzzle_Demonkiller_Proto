@@ -223,7 +223,7 @@ public class EnemyCamera : MonoBehaviour
     void EndEnemyCameraMove()//最後の敵が倒れた時に使う
     {
         finalDieflag = true;
-        transform.eulerAngles = new Vector3(0, 0, 0);
+        //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
         timer += Time.deltaTime;
 
