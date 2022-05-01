@@ -86,14 +86,14 @@ public class Star_Electric : MonoBehaviour
 
             GameObject _efe = Instantiate(e_Ele, transform);
             LightningBoltScript lb = _efe.GetComponent<LightningBoltScript>();
-            lb.StartPosition = targets[_num].transform.position;
-            lb.EndPosition = targets[_num + 1].transform.position;
+            lb.StartPosition = Correction_Pos(targets[_num].transform.position);
+            lb.EndPosition = Correction_Pos(targets[_num + 1].transform.position);
 
         }
         else
         {
             //次の敵を探しきれなくなったら終了
-            Destroy(this.gameObject, 50f);
+            Destroy(this.gameObject, 0.5f);
         }
 
     }
@@ -110,59 +110,6 @@ public class Star_Electric : MonoBehaviour
     {
         //Enemy全取得用
         EnemyBase enemyObjs = new EnemyBase();
-
-
-        ////まず周りの9マスを探索
-        //for(int x = (int)tar_ene_pos.x - 1; x < (int)tar_ene_pos.x + 1; x++)
-        //{
-        //    for (int y = (int)tar_ene_pos.y - 1; y < (int)tar_ene_pos.y + 1; y++)
-        //    {
-
-
-
-        //        foreach(GameObject ene in enemyObjs.GetEnemyList())
-        //        {
-        //            EnemyBase eb = ene.GetComponent<EnemyBase>();
-
-        //            if (x == eb.X && y == eb.Y)
-        //            {
-        //                //前にダメージを与えていないEnemyを返す
-        //                //foreach (GameObject tar in targets)
-        //                //{
-        //                //    if(tar != ene)
-        //                //    {
-        //                //        return ene;
-        //                //    }
-        //                //}
-
-        //                return ene;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //Vector2[] correction_Value = new Vector2[4]{ new Vector2(0, 2), new Vector2(2, 0), new Vector2(0, -2), new Vector2(-2, 0) };
-
-        //for(int i = 0; i < correction_Value.Length; i++)
-        //{
-        //    Vector2 tar_pos = new Vector2(tar_ene_pos.x + correction_Value[i].x, tar_ene_pos.y + correction_Value[i].y);
-        //    foreach (GameObject ene in enemyObjs.GetEnemyList())
-        //    {
-        //        EnemyBase eb = ene.GetComponent<EnemyBase>();
-        //        if (tar_pos.x == eb.X && tar_pos.y == eb.Y)
-        //        {
-        //            //前にダメージを与えていないEnemyを返す
-        //            foreach (GameObject tar in targets)
-        //            {
-        //                if (tar != ene)
-        //                {
-        //                    return ene;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
 
         //今いる位置から(x差分+y差分)が2以下の敵を判定
         foreach (GameObject ene in enemyObjs.GetEnemyList())
@@ -192,5 +139,13 @@ public class Star_Electric : MonoBehaviour
 
         Debug.Log("敵居なかったわ");
         return null;
+    }
+
+    //雷の位置を高くする
+    Vector3 Correction_Pos(Vector3 _pos)
+    {
+        _pos.y += 1.0f;
+
+        return _pos;
     }
 }
