@@ -9,9 +9,12 @@ public class MainMgr : MonoBehaviour
     // 敵が倒された数
     static private int enemyDieNum;
     const int enemyDieMax = 10;
+    // クリアしたフラグを取得
+    EnemyCamera eCamera;
     // Start is called before the first frame update
     void Start()
     {
+        eCamera = GameObject.Find("EnemyCamera").GetComponent<EnemyCamera>();
         enemyDieNum = 0;
     }
 
@@ -19,7 +22,10 @@ public class MainMgr : MonoBehaviour
     void Update()
     {
         if(enemyDieNum >= enemyDieMax) {
-            GameMgr.Instance.GotoGameClearScene();
+            if (eCamera.endFlag)
+            {
+                GameMgr.Instance.GotoGameClearScene();
+            }
         }
         if(Input.GetButtonDown("Start"))
         {
@@ -32,5 +38,9 @@ public class MainMgr : MonoBehaviour
     }
     public int GetEnemyDieCount() {
         return enemyDieNum;
+    }
+    public int GetEnemyDieCountMax()
+    {
+        return enemyDieMax;
     }
 }

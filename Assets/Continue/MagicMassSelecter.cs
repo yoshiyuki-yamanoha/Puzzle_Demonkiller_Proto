@@ -41,8 +41,12 @@ public class MagicMassSelecter : MonoBehaviour
     //SE用
     SEManager sePlay;
 
+    int defSelX, defSelY;//マスの座標用
+
     private void Start()
     {
+        defSelX = nowSelX;
+        defSelY = nowSelY;
         s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
         s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
@@ -63,6 +67,9 @@ public class MagicMassSelecter : MonoBehaviour
             if (selectType == 0) MoveSelecter();
             if (selectType == 1) MoveSelecterEnemy();
             ActivateMagic();//魔法を撃つ処理(本物)
+        }else
+        {
+            s_MapMass.SetMagicMassSelector(defSelX, defSelY);
         }
     }
 

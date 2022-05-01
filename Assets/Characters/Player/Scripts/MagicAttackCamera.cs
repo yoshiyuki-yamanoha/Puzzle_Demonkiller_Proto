@@ -23,7 +23,7 @@ public class MagicAttackCamera : TrunManager
     private float speed;//計算用のスピード
 
     public float JourneyLength = 10f;
-    bool moveflag = false;
+    public bool moveflag = false;//カメラが動くときのフラグ
     private int soeX, soeY; //添え字
 
     TrunManager trunMgr;
@@ -52,7 +52,7 @@ public class MagicAttackCamera : TrunManager
         (soeX, soeY) = selector.GetMAgicMassSelector();
         selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
         start = subCamera.transform.position;
-        target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 25, selepos.transform.position.z - 27);
+        target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 50/*25*/, selepos.transform.position.z - 57/*27*/);
         MagicCameraOn();
         MagicCameraMove();
 
@@ -87,7 +87,7 @@ public class MagicAttackCamera : TrunManager
             //mainCamera.SetActive(true);
             subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
 
-            speed = defSpeed;//魔法を撃つ時のカメラを止めるときにspeedをリセットする
+            //speed = defSpeed;//魔法を撃つ時のカメラを止めるときにspeedをリセットする
             //MSCameraflag = false;
         }
     }
@@ -97,12 +97,6 @@ public class MagicAttackCamera : TrunManager
         {
             if ((soeY <= 20 && soeY >= 0) || (soeX <= 20 && soeX >= 0))
             {
-                if (moveflag == true)
-                {
-                    startTime = Time.time;
-                    moveflag = false;
-                    speed = maAtakSelectSpeed;//計算用のスピードに魔法を撃つときのカーソルを追いかけるスピードを入れる
-                }
                 subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
                 if (subCamera.transform.position == target)
                 {
@@ -110,15 +104,28 @@ public class MagicAttackCamera : TrunManager
                 }
             }
         }
-        else
-        {
-            subCamera.transform.position = mainCamera.transform.position;
-            moveflag = true;
-        }
+        //else
+        //{
+        //    subCamera.transform.position = mainCamera.transform.position;
+        //    moveflag = true;
+        //}
 
     }
     public float CalcMoveRatio()
     {
+        if(moveflag == true)
+        {
+            startTime = Time.time;
+            if(trunMgr.GetTrunPhase() == TrunPhase.Enemy)
+            {
+                speed = maAtakSelectSpeed + 1;
+            }
+            else if(trunMgr.GetTrunPhase() == TrunPhase.MagicAttack)
+            {
+                speed = maAtakSelectSpeed;//計算用のスピードに魔法を撃つときのカーソルを追いかけるスピードを入れる
+            }
+            moveflag = false;
+        }
         float distCovered = 0;
         distCovered = (Time.time - startTime) * speed;
         return distCovered / JourneyLength;
