@@ -10,13 +10,9 @@ public class FadeOut : MonoBehaviour
     public bool fadeOutFlag = false;// Fadeoutのフラグ
     public bool fadeInFlag = false;//FadeInのフラグ
 
-    Text starttextsiro;
-    Text starttextkuro;
     // Start is called before the first frame update
     void Start()
     {
-        starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
-        starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
         red = 1;
         green = 1;
         blue = 1;
@@ -37,10 +33,6 @@ public class FadeOut : MonoBehaviour
 
         SetAlpha();
 
-        starttextsiro.text = "BattleStart";
-        starttextkuro.text = "BattleStart";
-        starttextsiro.color = new Color(red, green, blue, alpha);
-        starttextkuro.color = new Color(0, 0, 0, alpha);
         //gageColor
     }
 

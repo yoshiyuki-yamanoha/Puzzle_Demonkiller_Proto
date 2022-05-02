@@ -39,6 +39,13 @@ public class EnemyCamera : MonoBehaviour
     public bool endFlag = false;//最後の敵が倒れた時カメラの動きが終了したフラグ
     bool finalDieflag = false;//倒れた敵のカウントフラグ
     Text gameCleartext;
+
+    Text starttextsiro;
+    Text starttextkuro;
+
+    float fadeSpeed = 0.06f;//フェードスピード
+    float alpha;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +62,10 @@ public class EnemyCamera : MonoBehaviour
         //defaultCamerapos = new Vector3(25.22f, 3.7f, -80);
         defaultCamerapos = new Vector3(47.7f, 43.7f, -132.1f);
         transform.position = new Vector3(0, 26, -107);
+
+        starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
+        starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
+        alpha = 0;
     }
 
     // Update is called once per frame
@@ -128,13 +139,13 @@ public class EnemyCamera : MonoBehaviour
                 //dieEnemyCount++;
                 //dieFlagEnemy++;
                 hpNoneEnemy = target;
-                Debug.Log(hpNoneEnemy+"HPのない敵");
+                //Debug.Log(hpNoneEnemy+"HPのない敵");
             }
         }
 
         //dieCountflag = true;
-        Debug.Log("敵のカウントフラグ" + dieFlagEnemy + "");
-        Debug.Log("敵が" + dieEnemyCount + "体目倒れた");
+        //Debug.Log("敵のカウントフラグ" + dieFlagEnemy + "");
+        //Debug.Log("敵が" + dieEnemyCount + "体目倒れた");
 
 
         //return hpNoneEnemy;
@@ -288,6 +299,10 @@ public class EnemyCamera : MonoBehaviour
     }
     void StartEnemyCameraMove()
     {
+        starttextsiro.text = "BattleStart";
+        starttextkuro.text = "BattleStart";
+        starttextsiro.color = new Color(0, 0, 0, alpha);
+        starttextkuro.color = new Color(1, 1, 1, alpha);
 
         //Debug.Log(timer);
         timer += Time.deltaTime;
@@ -299,6 +314,15 @@ public class EnemyCamera : MonoBehaviour
         //    startFlag = false;
         //    //tr.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
         //}
+        if (timer > 0.5 && timer < 2)
+        {
+            alpha += fadeSpeed;
+        }
+        else
+        {
+
+            alpha -= fadeSpeed;
+        }
         if (timer > 3)
         {
             fadeout.fadeOutFlag = true;
