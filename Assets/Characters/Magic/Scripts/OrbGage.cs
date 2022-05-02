@@ -295,7 +295,7 @@ public class OrbGage : MonoBehaviour
         if (!OrbCheckExsistens())
         {
             delayTime = Times[num];
-            //s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
+            s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
             //if(num == 0)
             //{
             //    HandOverPhase();
