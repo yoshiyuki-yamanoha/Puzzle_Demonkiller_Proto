@@ -49,7 +49,7 @@ public class SelectUseOrb : TrunManager
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
             if (!notSwitchOrb)
             SelectOrb_Update();
