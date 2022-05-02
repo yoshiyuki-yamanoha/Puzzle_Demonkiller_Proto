@@ -8,13 +8,15 @@ public class bomb_anim : MonoBehaviour
     Animator anim;
     void Start()
     {
-        anim = GetComponent<Animator>();
-        anim.SetTrigger("Death");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim = GetComponent<Animator>();
+            anim.SetTrigger("HitDamage");
+        }
     }
 }

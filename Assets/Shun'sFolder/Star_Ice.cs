@@ -12,6 +12,8 @@ public class Star_Ice : MonoBehaviour
     private float upSpeed = 10.0f;
     private float Max_y = 0.8f;
 
+    [SerializeField] private float breakSpeed = 0.2f;
+
     [SerializeField]private List<GameObject> Ice_objs = new List<GameObject>();
     void Start()
     {
@@ -67,8 +69,8 @@ public class Star_Ice : MonoBehaviour
             IceChild.transform.localScale = new Vector3(2.5f, 1.0f, 2.5f);
             Iceefe.transform.localScale = new Vector3(1f, 1.5f, 1f);
 
-            Destroy(IceChild, 3.0f);
-            Destroy(Iceefe, 1.5f);
+            Destroy(IceChild, 4.0f);
+            Destroy(Iceefe, 1.0f);
         }
     }
 
@@ -87,7 +89,16 @@ public class Star_Ice : MonoBehaviour
                 }
                 else
                 {
-                    Ice_objs.Remove(Ice_objs[i]);
+                    Material material = Ice_objs[i].GetComponent<Renderer>().material;
+                    if (material.HasProperty("_Destruction"))
+                    {
+                        float Des = material.GetFloat("_Destruction");
+                        Des += breakSpeed * Time.deltaTime;
+                        if(Des > 1.0f) { Des = 1.0f; }
+
+                        material.SetFloat("_Destruction", Des);
+                        Debug.Log(Des);
+                    }
                 }
             }
             else
