@@ -67,7 +67,8 @@ public class MagicMassSelecter : MonoBehaviour
             if (selectType == 0) MoveSelecter();
             if (selectType == 1) MoveSelecterEnemy();
             ActivateMagic();//魔法を撃つ処理(本物)
-        }else
+        }
+        if(s_TrunManager.trunphase == TrunManager.TrunPhase.Puzzle)
         {
             s_MapMass.SetMagicMassSelector(defSelX, defSelY);
         }
