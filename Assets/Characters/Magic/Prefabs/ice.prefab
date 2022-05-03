@@ -109,8 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94cb70814229092448b7e20b66d61c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IceWall: {fileID: 8134288693290019878}
-  testIce: {fileID: 0}
+  iceWall: {fileID: 7000349767048154692, guid: dc9cd4820ac19fb41be5b9264f7028d0, type: 3}
 --- !u!65 &-190254680509069206
 BoxCollider:
   m_ObjectHideFlags: 0
