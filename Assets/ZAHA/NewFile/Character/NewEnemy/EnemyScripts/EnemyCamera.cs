@@ -24,6 +24,8 @@ public class EnemyCamera : MonoBehaviour
 
     Camera enemy_camera = null;
     Enemy enemyste; //敵のステータス読み取り用
+    FlameSwordMove enemysteFlame;
+    BombEnemy enemysteBomb;
     float timer = 0;
 
     public bool startFlag = true;
@@ -133,13 +135,38 @@ public class EnemyCamera : MonoBehaviour
         hpNoneEnemy = null;
         foreach (var target in targets)
         {
-            enemyste = target.GetComponent<Enemy>();
-            if (enemyste.Deathflg == true)
+            if (target.GetComponent<Enemy>() != null)
             {
-                //dieEnemyCount++;
-                //dieFlagEnemy++;
-                hpNoneEnemy = target;
-                //Debug.Log(hpNoneEnemy+"HPのない敵");
+                enemyste = target.GetComponent<Enemy>();
+                if (enemyste.Deathflg == true)
+                {
+                    //dieEnemyCount++;
+                    //dieFlagEnemy++;
+                    hpNoneEnemy = target;
+                    //Debug.Log(hpNoneEnemy+"HPのない敵");
+                }
+            }
+            else if (target.GetComponent<BombEnemy>() != null)
+            {
+                enemysteBomb = target.GetComponent<BombEnemy>();
+                if (enemysteBomb.Deathflg == true)
+                {
+                    //dieEnemyCount++;
+                    //dieFlagEnemy++;
+                    hpNoneEnemy = target;
+                    //Debug.Log(hpNoneEnemy+"HPのない敵");
+                }
+            }
+            else if (target.GetComponent<FlameSwordMove>() != null)
+            {
+                enemysteFlame = target.GetComponent<FlameSwordMove>();
+                if (enemysteFlame.Deathflg == true)
+                {
+                    //dieEnemyCount++;
+                    //dieFlagEnemy++;
+                    hpNoneEnemy = target;
+                    //Debug.Log(hpNoneEnemy+"HPのない敵");
+                }
             }
         }
 
@@ -164,7 +191,18 @@ public class EnemyCamera : MonoBehaviour
                 camera_targe = CloseEnemycamera();
                 if (camera_targe != null)
                 {
-                    enemyste = camera_targe.GetComponent<Enemy>();
+                    if (camera_targe.GetComponent<Enemy>() != null)
+                    {
+                        enemyste = camera_targe.GetComponent<Enemy>();
+                    }
+                    else if (camera_targe.GetComponent<BombEnemy>() != null)
+                    {
+                        enemysteBomb = camera_targe.GetComponent<BombEnemy>();
+                    }
+                    else if (camera_targe.GetComponent<FlameSwordMove>() != null)
+                    {
+                        enemysteFlame = camera_targe.GetComponent<FlameSwordMove>();
+                    }
 
                     //transform.position = MoveCamerapos;
                     if (camera_targe != null) distance = transform.position - camera_targe.transform.position;
@@ -182,6 +220,24 @@ public class EnemyCamera : MonoBehaviour
 
                 }
                 if (enemyste.Ismove != true)
+                {
+                    if (moveflag == true)
+                    {
+                        cameraMove.startTime = Time.time;
+                        moveflag = false;
+                    }
+                    transform.position = Vector3.Lerp(enemyLookCamepos, defaultCamerapos, cameraMove.CalcMoveRatio());
+                }
+                if(enemysteBomb.Ismove != true)
+                {
+                    if (moveflag == true)
+                    {
+                        cameraMove.startTime = Time.time;
+                        moveflag = false;
+                    }
+                    transform.position = Vector3.Lerp(enemyLookCamepos, defaultCamerapos, cameraMove.CalcMoveRatio());
+                }
+                if(enemysteFlame != true)
                 {
                     if (moveflag == true)
                     {
