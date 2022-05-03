@@ -125,27 +125,29 @@ public class PointControl : MonoBehaviour
     {
 
 
-        //魔方陣の色
-        magiccolor = new string[] { "赤", "水", "黄", "青", "緑", "なし" };
-        MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
-        //魔法の効果
-        magiceffect = new string[] { "コンボｎ倍", "減速", "攻撃", "攻撃", "攻撃", "なし" };
-        MagicEffect = GameObject.Find("MagicEffect").GetComponent<Text>();
-        //魔法の威力
-        magicpower = new string[] { "小", "中", "大", "特大", "極大", "なし" };//特大・極大はポコダンを参考
-        MagicPower = GameObject.Find("MagicPower").GetComponent<Text>();
-        //魔法の種類
-        magictype = new string[] { "炎", "水", "雷", "氷", "風", "なし" };
-        MagicType = GameObject.Find("MagicType").GetComponent<Text>();
-        //魔方陣の色の数
-        MagicColorNum = GameObject.Find("MagicColorNum").GetComponent<Text>();
-
-        CC = GameObject.Find("GameMana").GetComponent<ClearCheck>();
+        
 
         //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
         if (!puzzleOnlyMode)
         {
+            //魔方陣の色
+            magiccolor = new string[] { "赤", "水", "黄", "青", "緑", "なし" };
+            MagicColor = GameObject.Find("MagicColor").GetComponent<Text>();
+            //魔法の効果
+            magiceffect = new string[] { "コンボｎ倍", "減速", "攻撃", "攻撃", "攻撃", "なし" };
+            MagicEffect = GameObject.Find("MagicEffect").GetComponent<Text>();
+            //魔法の威力
+            magicpower = new string[] { "小", "中", "大", "特大", "極大", "なし" };//特大・極大はポコダンを参考
+            MagicPower = GameObject.Find("MagicPower").GetComponent<Text>();
+            //魔法の種類
+            magictype = new string[] { "炎", "水", "雷", "氷", "風", "なし" };
+            MagicType = GameObject.Find("MagicType").GetComponent<Text>();
+            //魔方陣の色の数
+            MagicColorNum = GameObject.Find("MagicColorNum").GetComponent<Text>();
+
+            CC = GameObject.Find("GameMana").GetComponent<ClearCheck>();
+
             sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
 
             oc = GameObject.Find("ColorOrbs").GetComponent<OrbCon>();
@@ -421,7 +423,7 @@ public class PointControl : MonoBehaviour
 
                 //orbs[orbNum].transform.GetChild(type).gameObject.SetActive(true);
                 //oc.CreateOrb(circleMats[i].mat, type);//OrbConのcreateオーブ
-                oGage.ChargeOrb(type);
+                if(!puzzleOnlyMode) oGage.ChargeOrb(type);
                 
 
                 orbNum++;
@@ -489,7 +491,7 @@ public class PointControl : MonoBehaviour
             for (int i = 0; i < circleMats.Length; i++)
             {
 
-                if (firstColor == circleMats[i].mat.color)
+                if (!puzzleOnlyMode && firstColor == circleMats[i].mat.color)
                 {
                     colorcom += magiccolor[i];
                     magiccolornow += magiccolor[i];
@@ -671,7 +673,7 @@ public class PointControl : MonoBehaviour
             changeCircleNum++;
             if (changeCircleNum > 5) changeCircleNum = 5;
         }
-        CC.changeColorLine = true;
+        if(!puzzleOnlyMode) CC.changeColorLine = true;
         //if (oldNum != changeCircleNum)
         //    RandomColorSet();
     }

@@ -50,6 +50,8 @@ public class OrbGage : MonoBehaviour
     [SerializeField] TrunManager s_TrunManager;
     [SerializeField] SelectUseOrb s_SelectUseOrb;
 
+    [SerializeField] MagicMassSelecter s_MagicMassSelecter;
+
     //魔法専用シーン
     [SerializeField] bool magicOnlyMode;
 
@@ -265,7 +267,8 @@ public class OrbGage : MonoBehaviour
     //使ったオーブのレベルを0にし、見た目をグレーアウトしたい関数
 
     float delayTime = 0.0f;
-    float[] Times = new float[5]{4.7f, 3.0f, 1.0f, 1.0f, 1.0f,};
+    //                     Times { 星炎, 星氷, 星雷, 五炎, 五氷, 五雷,};
+    float[] Times = new float[6] { 2.0f, 4.0f, 1.0f, 1.5f, 1.5f, 1.5f,};
     public void UseOrb(int num) {
 
         //オーブのレベルを0にする
@@ -274,18 +277,33 @@ public class OrbGage : MonoBehaviour
 
         //選択範囲を消す
         //magicRanges[num].magicRange.SetActive(false);
-
+        //numが何見てるのか見たかった
+        if(num == 0 || num == 3)
+        {
+            Debug.Log("UseOrb num " + num+" 炎 星:0 五:3");
+        }
+        if (num == 1 || num == 4)
+        {
+            Debug.Log("UseOrb num " + num + " 氷 星:1 五:4");
+        }
+        if (num == 2 || num == 5)
+        {
+            Debug.Log("UseOrb num " + num + " 雷 星:2 五:5");
+        }
+        //Debug.Log("UseOrb num "+num);
 
         if (!OrbCheckExsistens())
         {
-            if(num == 0)
-            {
-                HandOverPhase();
-            }
-            else
-            {
-                delayTime = Times[num - 1];
-            }
+            delayTime = Times[num];
+            s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
+            //if(num == 0)
+            //{
+            //    HandOverPhase();
+            //}
+            //else
+            //{
+            //  delayTime = Times[num - 1];
+            //}
             //s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
             //for (int i = 0; i < orb_Gage.Length; i++)
             //    orb_Gage[i].value = 0;

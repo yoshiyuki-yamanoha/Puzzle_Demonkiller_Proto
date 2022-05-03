@@ -40,7 +40,9 @@ public class SelectUseOrb : TrunManager
 
     //魔法専用シーン
     [SerializeField] bool magicMagicMode;
-
+    
+    [SerializeField] MapMass s_MapMass;
+    int defSelX = 10, defSelY = 10;//マスの座標用
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +51,7 @@ public class SelectUseOrb : TrunManager
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
             if (!notSwitchOrb)
             SelectOrb_Update();
@@ -137,6 +139,9 @@ public class SelectUseOrb : TrunManager
     /// <param name="num">プラスの場合前に、マイナスの場合後ろに進む</param>
     private void ChangeUseOrb(int num)
     {
+
+        s_MapMass.SetMagicMassSelector(defSelX, defSelY);//オーブが切り替わるときにカーソルを最初の位置へ移動
+
         // 現在選択しているオーブから一周する
         for (int oi = nowSelOrb + num; oi != nowSelOrb; oi+=num)
         {
