@@ -125,6 +125,7 @@ public class Enemy : EnemyBase
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             Ice_abnormality_turncount = 0;
+            IceObjSetActivOn();//オン
             Destroy(other.gameObject);
         }
     }

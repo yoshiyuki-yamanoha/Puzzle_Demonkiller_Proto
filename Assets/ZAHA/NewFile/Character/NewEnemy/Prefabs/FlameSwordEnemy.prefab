@@ -1258,6 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebba72e85e365f4c958538bbe965b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ice_obj: {fileID: 0}
   fire_effect:
   - {fileID: 3916020320939319588}
   - {fileID: 3916020320939319590}
@@ -1276,7 +1277,7 @@ MonoBehaviour:
   core: {fileID: 0}
   hpber: {fileID: 2982937460867839359}
   status: 0
-  enemy_kinds: 0
+  enemy_kinds: 3
   Noimage: {fileID: 6514701586256220388}
   effect_motion:
   - {fileID: 8771615697013766132}

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class EnemyBase : MonoBehaviour
 {
     //particleデス!
+    [SerializeField] GameObject ice_obj = null;
     [SerializeField] ParticleSystem[] fire_effect = null;//ファイヤーエフェクト
     [SerializeField] Image fire_image = null;
     //ParticleSystem chilled_fire_effect = null;
@@ -90,10 +91,10 @@ public class EnemyBase : MonoBehaviour
 
     public enum EnemyKinds //敵種類
     {
+        Goblin,
         Demon,
-        Demon1,
-        Boss,
         Bom,
+        Flame,
     }
 
     public enum Status
@@ -170,6 +171,11 @@ public class EnemyBase : MonoBehaviour
 
     public void InitFunction()
     {
+        if (enemy_kinds != EnemyKinds.Flame)
+        {
+            IceObjSetActivOff();//アイスオブジェクトオフ
+        }
+
         GetObject();
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;//MaxHP
@@ -347,6 +353,11 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 3)//2ターン経過したら
         {
+            if (enemy_kinds != EnemyKinds.Flame)
+            {
+                IceObjSetActivOff();//オフ
+            }
+
             Enemy_anim.SetFloat(1);//アニメーションスピードを1に戻す―
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
@@ -699,6 +710,16 @@ public class EnemyBase : MonoBehaviour
         //}
 
         //transform.position = targetPos;
+    }
+
+    public void IceObjSetActivOn()
+    {
+        ice_obj.SetActive(true);
+    }
+
+    public void IceObjSetActivOff()
+    {
+        ice_obj.SetActive(false);
     }
 
     private void UIFacing()

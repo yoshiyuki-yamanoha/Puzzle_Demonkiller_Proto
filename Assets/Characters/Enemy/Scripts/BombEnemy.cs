@@ -196,6 +196,7 @@ public class BombEnemy : EnemyBase
 
         if (other.CompareTag("Ice"))
         {
+            IceObjSetActivOn();
             Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
             Abnormal_condition = AbnormalCondition.Ice;
             other.GetComponent<PentagonIce>().Tin(transform.position);
