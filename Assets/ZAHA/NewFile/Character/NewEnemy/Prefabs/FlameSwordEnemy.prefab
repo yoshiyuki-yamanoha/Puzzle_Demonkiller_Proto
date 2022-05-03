@@ -659,7 +659,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1a94f44f0220f6e428e893ceab094e84, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -677,8 +677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wepon_boxcollider: {fileID: 0}
-  foot_boxcollider: {fileID: 0}
 --- !u!1 &2187081726733707839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,9 +1256,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mynumber: 0
   map: {fileID: 0}
-  hp: 6
   max_hp: 6
-  attack: 1
+  attack: 3
   speed: 1
   deathflg: 0
   generation_enemy: {fileID: 0}
@@ -1285,7 +1282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1e67fac2db56a4ba41eaf7b58e56b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  init_turn: 1
 --- !u!1 &5442458698568785934
 GameObject:
   m_ObjectHideFlags: 0

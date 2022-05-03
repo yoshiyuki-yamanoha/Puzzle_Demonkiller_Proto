@@ -394,14 +394,13 @@ public class EnemyBase : MonoBehaviour
         //死亡フラグが立った時。
         if (Deathflg)
         {
+            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
         }
     }
 
     public void EnemyMovement(int massnum)
     {
-        UIFacing();
-
         if (Init_attack_search)
         {
             AttackSearchMovement(massnum);
@@ -424,7 +423,7 @@ public class EnemyBase : MonoBehaviour
             {
                 if (init_goal)
                 {
-                    goal = new Node(null, map.GetCore().pos[Random.Range(0, 4)]);
+                    goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
                     init_goal = false;
                 }
 
@@ -448,7 +447,7 @@ public class EnemyBase : MonoBehaviour
 
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
-                Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.Enemy;
+                
                 MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
                 status = Status.Walk;//移動処理
 
@@ -461,6 +460,7 @@ public class EnemyBase : MonoBehaviour
             //目的値についているか?
             if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)//target.magnitude < Targetdistance
             {
+                Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
                 Hpber.gameObject.SetActive(true);
@@ -504,6 +504,8 @@ public class EnemyBase : MonoBehaviour
 
             }
         }
+
+        UIFacing();
         //}
         //攻撃
         //EnemyAttack();
@@ -538,12 +540,12 @@ public class EnemyBase : MonoBehaviour
                 if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
                 {//バリケード
                     LookTarget(attack_pos_dir);//向き移動
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(attack);//バリケードにダメージよーん
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
                 }
                 else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
                 {
                     LookTarget(attack_pos_dir);//向き移動
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(attack);//コアにダメージよーん
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(Attack);//コアにダメージよーん
                 }
             }
 
@@ -572,8 +574,7 @@ public class EnemyBase : MonoBehaviour
                 Attackaria = false;
             }
         }
-
-        if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.core)//右
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.core)//右
         {
             if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + massnum)].gameObject != null))
             {
@@ -633,6 +634,7 @@ public class EnemyBase : MonoBehaviour
 
         if (def.sqrMagnitude < 1f)
         {
+            LookTarget(Vector3.back);
             Target_distance = true;
             transform.position = next_pos;
         }
@@ -650,7 +652,7 @@ public class EnemyBase : MonoBehaviour
 
     private void UIFacing()
     {
-        hpber.transform.forward = Camera.main.transform.forward;
-        Fire.transform.forward = Camera.main.transform.forward;
+        hpber.transform.forward = Vector3.back;
+        Fire.transform.forward = Vector3.back;
     }
 }

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyGenerationInfo
 {
-    public EnemyGenerationInfo(Vector2Int pos, int one_turn, int goblin, int woman, int bom)
+    public EnemyGenerationInfo(int one_turn, int goblin, int woman, int bom, int flamesword)
     {
-        this.Pos = pos;
         this.One_turn_Generation = one_turn;
         this.Goblin = goblin;
         this.Woman = woman;
         this.Bom = bom;
+        this.flamesword = flamesword;
     }
 
     int one_turn;//1ターン湧く数
@@ -18,13 +18,13 @@ public class EnemyGenerationInfo
     int goblin;//ゴブリン
     int woman;//女性敵
     int bom;//ボム
-    Vector2Int pos;
+    int flamesword;
 
     public int Goblin { get => goblin; set => goblin = value; }
     public int Woman { get => woman; set => woman = value; }
     public int Bom { get => bom; set => bom = value; }
     public int One_turn_Generation { get => one_turn; set => one_turn = value; }
-    public Vector2Int Pos { get => pos; set => pos = value; }
+    public int Flamesword { get => flamesword; set => flamesword = value; }
 }
 
 public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
@@ -34,6 +34,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         Debug,
         Game,
     }
+
+    bool draw = true;
 
     [SerializeField] Mode game_mode = Mode.Game;
 
@@ -51,7 +53,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     BGMManager bgmPlay = null;
 
     //初期生成フラグ
-    bool init_generation_flg = true;
+    bool init_generation_flg = true;//ここオフにしてしまった
     bool generation_flg = true;
 
     //敵生成情報
@@ -70,6 +72,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     bool set_list_stage_flg = true;
     //bool one_turn_search_flg = true;
 
+    Vector2Int[] debug_pos = new Vector2Int[1];
+    int debug_pos_num = 0;
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
@@ -90,6 +94,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     public int Nowturn { get => nowturn; set => nowturn = value; }
 
 
+    bool testinit = true;
 
     // Start is called before the first frame update
     void Start()
@@ -109,34 +114,36 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(0, 0), 1, 1, 0, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[2] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[3] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[4] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 1, 1, 0);
-            enemy_generation_info[5] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 2, 1, 0);
-            enemy_generation_info[6] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[7] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 0, 2, 0);
-            enemy_generation_info[8] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[9] = new EnemyGenerationInfo(new Vector2Int(0, 0), 4, 3, 1, 0);
-            enemy_generation_info[10] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[11] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 1, 0, 1);
-            enemy_generation_info[12] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[13] = new EnemyGenerationInfo(new Vector2Int(0, 0), 3, 3, 0, 0);
-            enemy_generation_info[14] = new EnemyGenerationInfo(new Vector2Int(0, 0), 4, 0, 2, 2);
-            enemy_generation_info[15] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[16] = new EnemyGenerationInfo(new Vector2Int(0, 0), 2, 2, 0, 0);
-            enemy_generation_info[17] = new EnemyGenerationInfo(new Vector2Int(0, 0), 5, 2, 2, 1);
-            enemy_generation_info[18] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[19] = new EnemyGenerationInfo(new Vector2Int(0, 0), 1, 1, 0, 0);
-            enemy_generation_info[20] = new EnemyGenerationInfo(new Vector2Int(0, 0), 0, 0, 0, 0);
-            enemy_generation_info[21] = new EnemyGenerationInfo(new Vector2Int(0, 0), 9, 3, 2, 4);
+            enemy_generation_info[0] = new EnemyGenerationInfo(3, 2, 0, 1, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 0, 0, 3);
+            enemy_generation_info[2] = new EnemyGenerationInfo(2, 2, 0, 0, 0);
+            enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[4] = new EnemyGenerationInfo(2, 1, 1, 0, 0);
+            enemy_generation_info[5] = new EnemyGenerationInfo(3, 2, 1, 0, 0);
+            enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[7] = new EnemyGenerationInfo(2, 0, 2, 0, 0);
+            enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[9] = new EnemyGenerationInfo(4, 3, 1, 0, 0);
+            enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1, 0);
+            enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0, 0);
+            enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2, 0);
+            enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0, 0);
+            enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1, 0);
+            enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
+            enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4, 0);
 
         }
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(new Vector2Int(7, 12), 1, 0, 0, 1);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1);
+            //debug_pos[0] = new Vector2Int(10, 16);
+            //debug_pos[1] = new Vector2Int(12, 12);
         }
 
         //for (int i = 0; i < enemy_generation_info.Length; i++)
@@ -188,19 +195,34 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             {//最初のターン
                 if (EnemyIsAction())
                 {
+                    if (draw)
+                    {
+                        string print_array = "";
+                        for (int y = 0; y < map.Map.GetLength(0); y++)
+                        {
+                            for (int x = 0; x < map.Map.GetLength(1); x++)
+                            {
+                                print_array += map.Map[y, x].ToString() + ":";
+                            }
+                            print_array += "\n";
+                        }
+                        Debug.Log(print_array);
+                        draw = false;
+                    }
                 }
 
                 if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
-                    Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
-                    //Generation(enemy_generation_info[Nowturn].Pos);//)//場所設定
+                    //Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
+                    Generation(debug_pos[debug_pos_num]);//)//場所設定
 
                 }
                 else
                 {
                     if (EC.startFlag == false)
                     {
+                        draw = true;
                         enemy_oneturn_count = 0;
                         init_generation_flg = false;
                         trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
@@ -210,6 +232,10 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             }
             else
             {
+                //if ()
+                //{
+                //    testini
+                //}
                 //ここで作業終了 あたまが
                 StageEnemy();
 
@@ -224,8 +250,25 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
                 if (EnemyIsAction())//敵が行動しているか確認。
                 {
+                    if (draw)
+                    {
+                        string print_array = "";
+                        for (int y = 0; y < map.Map.GetLength(0); y++)
+                        {
+                            for (int x = 0; x < map.Map.GetLength(1); x++)
+                            {
+                                print_array += map.Map[y, x].ToString() + ":";
+                            }
+                            print_array += "\n";
+                        }
+                        Debug.Log(print_array);
+                        draw = false;
+                    }
+
+
                     enemy_oneturn_count = 0;
                     Nowturn++;
+                    draw = true;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
                 }
             }
@@ -257,7 +300,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void SkipEnemy()
     {
-        if (!init_generation_flg && init_skip) {
+        if (!init_generation_flg && init_skip)
+        {
             if (stage_list_enemys.Count <= 0)//0以下なら存在しない
             {
                 Debug.Log("ステージ状に0体しかいませーん");
@@ -353,8 +397,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     {
         if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
         {
-
-
             time += Time.deltaTime;//カウント開始
             if (time > interval_s)//スパンごと出現させる
             {
@@ -367,6 +409,13 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Goblin--;
                     random_enem_kinds = 1;
+
+                    //デバッグ座標の表示
+                    debug_pos_num++;
+                    if (debug_pos.Length < debug_pos_num)
+                    {
+                        debug_pos_num = debug_pos.Length;
+                    }
                 }
                 else if (enemy_generation_info[Nowturn].Bom > 0)//ボム
                 {
@@ -379,6 +428,12 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Woman--;
                     random_enem_kinds = 0;
+                }
+                else if (enemy_generation_info[Nowturn].Flamesword > 0)//女性敵
+                {
+                    enemy_generation_info[Nowturn].One_turn_Generation--;
+                    enemy_generation_info[Nowturn].Flamesword--;
+                    random_enem_kinds = 3;
                 }
                 else
                 {

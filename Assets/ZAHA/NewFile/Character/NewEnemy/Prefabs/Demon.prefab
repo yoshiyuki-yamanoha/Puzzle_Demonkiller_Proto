@@ -1303,7 +1303,7 @@ MonoBehaviour:
   mynumber: 0
   map: {fileID: 0}
   max_hp: 3
-  attack: 10
+  attack: 1
   speed: 1
   deathflg: 0
   generation_enemy: {fileID: 0}
@@ -1329,7 +1329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1e67fac2db56a4ba41eaf7b58e56b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  init_turn: 1
+  obj:
+  - {fileID: 6766406918204935255, guid: 773d3a1f11f12f448b034bd58bc6e4d9, type: 3}
+  - {fileID: 6181840206939642470, guid: d7956c526ca1efb49845a0940ad8fa44, type: 3}
+  - {fileID: 5073419459690496532, guid: 49ebe6510372a6845a9628a0c728b557, type: 3}
 --- !u!1 &3896980788920520742
 GameObject:
   m_ObjectHideFlags: 0
