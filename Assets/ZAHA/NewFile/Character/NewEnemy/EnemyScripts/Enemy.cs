@@ -76,15 +76,42 @@ public class Enemy : EnemyBase
     //        HPber();//HPゲージ
     //    }
     //}
-    //魔法陣の当たり判定
+    ////魔法陣の当たり判定
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Magic"))//当たった相手が魔法だったら
+    //    {
+    //    }
+
+    //    if (other.CompareTag("Fire"))//燃焼のタグ
+    //    {
+    //        Abnormal_condition = AbnormalCondition.Fire;
+    //        Fire_abnormality_turncount = 0;//持続リセット
+    //        Destroy(other.gameObject);
+    //    }
+
+    //    if (other.CompareTag("Ice"))
+    //    {
+    //        Abnormal_condition = AbnormalCondition.Ice;
+    //        other.GetComponent<PentagonIce>().Tin(transform.position);
+    //        //pentaIceEff = GameObject.Find("BreakIce_honmono");
+    //        //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
+    //        Ice_abnormality_turncount = 0;
+    //        Destroy(other.gameObject);
+    //    }
+    //}
+
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("魔法");
         if (other.CompareTag("Magic"))//当たった相手が魔法だったら
         {
         }
 
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
+            FireEffectPlay();
+            Fire_Abnormal_UI();
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
@@ -92,6 +119,7 @@ public class Enemy : EnemyBase
 
         if (other.CompareTag("Ice"))
         {
+            Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
             Abnormal_condition = AbnormalCondition.Ice;
             other.GetComponent<PentagonIce>().Tin(transform.position);
             //pentaIceEff = GameObject.Find("BreakIce_honmono");

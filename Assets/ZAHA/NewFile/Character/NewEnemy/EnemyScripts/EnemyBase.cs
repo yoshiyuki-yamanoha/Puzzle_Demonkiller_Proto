@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    //particleデス!
+    [SerializeField] ParticleSystem[] fire_effect = null;//ファイヤーエフェクト
+    [SerializeField] Image fire_image = null;
+    //ParticleSystem chilled_fire_effect = null;
+
     //攻撃エリア
     bool init_goal = true;
     Node goal;
@@ -68,7 +73,7 @@ public class EnemyBase : MonoBehaviour
     EnemyAction enemy_action;
 
     //状態異常UIで使用
-    [SerializeField] Image fire = null;
+    //[SerializeField] Image fire = null;
     int fire_abnormality_turncount = 0;//火異常カウント
     int ice_abnormality_turncount = 0;
 
@@ -147,7 +152,6 @@ public class EnemyBase : MonoBehaviour
     public int NextposY { get => next_y; set => next_y = value; }
     public bool Init_search_flg { get => init_search_flg; set => init_search_flg = value; }
     public bool Endflg { get => endflg; set => endflg = value; }
-    public Image Fire { get => fire; set => fire = value; }
     public bool Init_abnormal_ui { get => init_abnormal_ui; set => init_abnormal_ui = value; }
     public bool Init_abnormal { get => init_abnormal; set => init_abnormal = value; }
     public bool Init_anim_flg { get => init_anim_flg; set => init_anim_flg = value; }
@@ -156,6 +160,13 @@ public class EnemyBase : MonoBehaviour
     public bool Attackaria { get => attackaria; set => attackaria = value; }
     public Vector2Int Attackpos { get => attackpos; set => attackpos = value; }
     public bool Init_attack_search { get => init_attack_search; set => init_attack_search = value; }
+    public ParticleSystem[] Fire_effect { get => fire_effect; set => fire_effect = value; }
+    public Image Fire_image { get => fire_image; set => fire_image = value; }
+
+    void EffectInit()
+    {
+
+    }
 
     public void InitFunction()
     {
@@ -163,7 +174,7 @@ public class EnemyBase : MonoBehaviour
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;//MaxHP
         Hpber.maxValue = Max_hp;//HPゲージに反映
-        Fire.gameObject.SetActive(false);
+        fire_image.gameObject.SetActive(false);
         enemys_.Add(this.gameObject);//自分を追加
         mynumber = enemys_.Count;
     }
@@ -298,6 +309,7 @@ public class EnemyBase : MonoBehaviour
         {
             //Debug.Log("ダメージアニメーション");
             //2ダメージ減らす。
+            FireEffectPlay();
             Damage(2);
             enemy_anim.TriggerAttack("HitDamage");
         }
@@ -313,11 +325,11 @@ public class EnemyBase : MonoBehaviour
 
         if (Fire_abnormality_turncount < 3)
         {
-            Fire.gameObject.SetActive(true);
+            Fire_image.gameObject.SetActive(true);
         }
         else
         {
-            Fire.gameObject.SetActive(false);
+            Fire_image.gameObject.SetActive(false);
         }
     }
 
@@ -335,6 +347,7 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 3)//2ターン経過したら
         {
+            Enemy_anim.SetFloat(1);//アニメーションスピードを1に戻す―
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Damage(1);
@@ -361,6 +374,34 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    //魔法陣の当たり判定
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Debug.Log("魔法");
+    //    if (other.CompareTag("Magic"))//当たった相手が魔法だったら
+    //    {
+    //    }
+
+    //    if (other.CompareTag("Fire"))//燃焼のタグ
+    //    {
+    //        Fire_Abnormal_UI();
+    //        Abnormal_condition = AbnormalCondition.Fire;
+    //        Fire_abnormality_turncount = 0;//持続リセット
+    //        Destroy(other.gameObject);
+    //    }
+
+    //    if (other.CompareTag("Ice"))
+    //    {
+    //        Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
+    //        Abnormal_condition = AbnormalCondition.Ice;
+    //        other.GetComponent<PentagonIce>().Tin(transform.position);
+    //        //pentaIceEff = GameObject.Find("BreakIce_honmono");
+    //        //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
+    //        Ice_abnormality_turncount = 0;
+    //        Destroy(other.gameObject);
+    //    }
+    //}
+
     public bool AbnormalStatus()
     {
         //Debug.Log(Abnormal_condition);
@@ -372,8 +413,8 @@ public class EnemyBase : MonoBehaviour
                 case AbnormalCondition.NONE:
                     break;
                 case AbnormalCondition.Fire:
-                    if (Fire.gameObject.activeInHierarchy)
-                    {//
+                    if (Fire_image.gameObject.activeInHierarchy)
+                    {
                         Fire_Abnormal_Condition();
                     }
                     break;
@@ -452,6 +493,10 @@ public class EnemyBase : MonoBehaviour
                 status = Status.Walk;//移動処理
 
                 Hpber.gameObject.SetActive(false);
+                if (Abnormal_condition == AbnormalCondition.Fire)
+                {
+                    fire_image.gameObject.SetActive(false);
+                }
             }
 
 
@@ -463,7 +508,13 @@ public class EnemyBase : MonoBehaviour
                 Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
+
+                //UIオン
                 Hpber.gameObject.SetActive(true);
+                if (Abnormal_condition == AbnormalCondition.Fire)
+                {
+                    fire_image.gameObject.SetActive(true);
+                }
 
                 Y = IndexCheckY(NextposY);
                 X = IndexCheckX(NextposX);
@@ -475,29 +526,29 @@ public class EnemyBase : MonoBehaviour
 
 
                 //ここで状態異常確認
-                if (Init_abnormal_ui)//1回のみ入るフラグ
-                {
-                    //Debug.Log("状態異常の中身" + Abnormal_condition);
+                //if (Init_abnormal_ui)//1回のみ入るフラグ
+                //{
+                //    //Debug.Log("状態異常の中身" + Abnormal_condition);
 
-                    switch (Abnormal_condition)//状態異常の中身見る
-                    {
-                        case AbnormalCondition.NONE:
-                            //Debug.Log("状態異常じゃないです！！");
-                            break;
-                        case AbnormalCondition.Fire:
-                            //Debug.Log("炎ダメージ");
-                            //Fire_Abnormal_Condition();
-                            Fire_Abnormal_UI();
-                            break;
-                        case AbnormalCondition.Ice:
-                            //Debug.Log("氷ダメージ");
-                            //Ice_Abnormal_Condition();
-                            break;
-                    }
+                //    switch (Abnormal_condition)//状態異常の中身見る
+                //    {
+                //        case AbnormalCondition.NONE:
+                //            //Debug.Log("状態異常じゃないです！！");
+                //            break;
+                //        case AbnormalCondition.Fire:
+                //            //Debug.Log("炎ダメージ");
+                //            //Fire_Abnormal_Condition();
+                //            Fire_Abnormal_UI();
+                //            break;
+                //        case AbnormalCondition.Ice:
+                //            //Debug.Log("氷ダメージ");
+                //            //Ice_Abnormal_Condition();
+                //            break;
+                //    }
 
-                    //Debug.Log("ターン終了");
-                    Init_abnormal_ui = false;
-                }
+                //    //Debug.Log("ターン終了");
+                //    Init_abnormal_ui = false;
+                //}
 
                 Targetchangeflg = true;
                 Is_action = true;//行動した。
@@ -653,6 +704,14 @@ public class EnemyBase : MonoBehaviour
     private void UIFacing()
     {
         hpber.transform.forward = Vector3.back;
-        Fire.transform.forward = Vector3.back;
+        fire_image.transform.forward = Vector3.back;
+    }
+
+    public void FireEffectPlay()
+    {
+        foreach(var fire_effect in Fire_effect)
+        {
+            fire_effect.Play();
+        }
     }
 }

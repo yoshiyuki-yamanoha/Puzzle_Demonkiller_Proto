@@ -203,10 +203,10 @@ public class Astar : MonoBehaviour
             }
             //隣接ノード探索終了
 
-            for (int open = 0; open < open_list.Count; open++)
-            {
-                Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
-            }
+            //for (int open = 0; open < open_list.Count; open++)
+            //{
+            //    Debug.Log(a_count + "回目Openの中身 " + "[" + open_list[open].Pos.y + "]" + "[" + open_list[open].Pos.x + "]" + "コスト" + open_list[open].F + "合計オープンリスト" + open_list.Count);
+            //}
 
             foreach (var selectnode in open_list)
             {
@@ -221,7 +221,7 @@ public class Astar : MonoBehaviour
 
         }
 
-        Debug.Log("返す時の現在値" + a_count + "回目 " + "次の地点移動" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]" + current_node.F);
+        //Debug.Log("返す時の現在値" + a_count + "回目 " + "次の地点移動" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]" + current_node.F);
         //DrawMap();
         return current_node.Pos;
         //クローズの中身をみるデバッグ

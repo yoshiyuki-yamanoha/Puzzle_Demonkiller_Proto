@@ -35,6 +35,11 @@ public class EnemyAnimationBase : MonoBehaviour
         }
     }
 
+    public void SetFloat(int valu)
+    {
+        enemy_animator.SetFloat("Speed", valu);
+    }
+
     public bool AnimPlayBack(string state_name)//ステートが再生中か取得
     {
         return enemy_animator.GetCurrentAnimatorStateInfo(0).IsName(state_name);
