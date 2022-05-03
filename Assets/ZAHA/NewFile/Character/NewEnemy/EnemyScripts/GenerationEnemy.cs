@@ -214,8 +214,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
-                    //Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
-                    Generation(debug_pos[debug_pos_num]);//)//場所設定
+                    Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
+                    //Generation(debug_pos[debug_pos_num]);//)//場所設定
 
                 }
                 else
