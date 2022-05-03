@@ -107,13 +107,16 @@ public class ClearCheck : TrunManager
             gauge.SetActive(false);
         }
         ppp = GameObject.Find("Pointer").GetComponent<PointControl>();
-        
-        
 
-        
+
+
+
         //線の色を付ける
         foreach (GameObject o in playObjs)
+        {
             o.GetComponent<GoToParent>().LineSetColor();
+            o.GetComponent<GoToParent>().LineSetWidth();
+        }
 
         
     }

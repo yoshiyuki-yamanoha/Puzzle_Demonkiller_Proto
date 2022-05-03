@@ -80,6 +80,8 @@ public class GoToParent : MonoBehaviour
                 lr.SetPositions(positions);
             }
         }
+
+        LineMoveWidth();
     }
 
     //選択サークル表示
@@ -138,6 +140,42 @@ public class GoToParent : MonoBehaviour
         //線の色をオブジェクトに合わせる
         lr.startColor = a;
         lr.endColor = b;
+    }
+    public void LineSetWidth()
+    {
+        lr.startWidth = 0.2f;
+        lr.endWidth = 0.2f;
+        
+    }
+
+    bool sWidthSmallFlag = false;
+    bool eWidthSmallFlag = false;
+    float widthMax = 0.3f;
+    float widthMin = 0.1f;
+    float widthS = 0.2f;
+    float widthE = 0.2f;
+    public void LineMoveWidth()
+    {
+        if ((widthMax > widthS)&&sWidthSmallFlag == false)
+        {
+            widthS += 0.01f;
+            widthE -= 0.01f;
+            if (widthMax < widthS)
+            {
+                sWidthSmallFlag = true;
+            }
+        }else if ((widthMin < widthS)&&sWidthSmallFlag == true )
+        {
+            widthS -= 0.01f;
+            widthE += 0.01f;
+            if (widthMin > widthS)
+            {
+                sWidthSmallFlag = false;
+            }
+        }
+        lr.startWidth = widthS;
+        lr.endWidth = widthE;
+
     }
 
     public void LineColorWhite() {
