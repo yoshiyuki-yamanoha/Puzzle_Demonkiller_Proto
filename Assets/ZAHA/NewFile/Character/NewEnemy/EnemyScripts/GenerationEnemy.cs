@@ -112,30 +112,30 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     {
         if (game_mode == Mode.Game)
         {
-            enemy_generation_info = new EnemyGenerationInfo[22];//配列保存
+            enemy_generation_info = new EnemyGenerationInfo[10];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(3, 2, 0, 1, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 0, 0, 3);
-            enemy_generation_info[2] = new EnemyGenerationInfo(2, 2, 0, 0, 0);
+            enemy_generation_info[0] = new EnemyGenerationInfo(10, 5, 5, 0, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[2] = new EnemyGenerationInfo(20, 5, 5, 5, 5);
             enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[4] = new EnemyGenerationInfo(2, 1, 1, 0, 0);
-            enemy_generation_info[5] = new EnemyGenerationInfo(3, 2, 1, 0, 0);
+            enemy_generation_info[4] = new EnemyGenerationInfo(10, 5, 0, 0, 5);
+            enemy_generation_info[5] = new EnemyGenerationInfo(15, 0, 5, 10, 0);
             enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[7] = new EnemyGenerationInfo(2, 0, 2, 0, 0);
+            enemy_generation_info[7] = new EnemyGenerationInfo(8, 4, 2, 0, 2);
             enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[9] = new EnemyGenerationInfo(4, 3, 1, 0, 0);
-            enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1, 0);
-            enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0, 0);
-            enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2, 0);
-            enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0, 0);
-            enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1, 0);
-            enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
-            enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4, 0);
+            enemy_generation_info[9] = new EnemyGenerationInfo(20, 5, 5, 5, 0);
+            //enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1, 0);
+            //enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[13] = new EnemyGenerationInfo(3, 3, 0, 0, 0);
+            //enemy_generation_info[14] = new EnemyGenerationInfo(4, 0, 2, 2, 0);
+            //enemy_generation_info[15] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[16] = new EnemyGenerationInfo(2, 2, 0, 0, 0);
+            //enemy_generation_info[17] = new EnemyGenerationInfo(5, 2, 2, 1, 0);
+            //enemy_generation_info[18] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[19] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
+            //enemy_generation_info[20] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[21] = new EnemyGenerationInfo(9, 3, 2, 4, 0);
 
         }
         else
@@ -334,20 +334,35 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         SetListStageEnemy();
 
 
-        foreach (var search_enemy in stage_list_enemys)//取得した敵分リストを回す
+        for (int list_number = stage_list_enemys.Count - 1; list_number >= 0; list_number--)
         {
-            if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+            if (stage_list_enemys[list_number] == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
             {
-                stage_list_enemys.Remove(search_enemy);//敵をリストから消す
+                stage_list_enemys.Remove(stage_list_enemys[list_number]);//敵をリストから消す
             }
             else
             {
-                if (search_enemy.GetComponent<EnemyBase>().Deathflg)//行動が終わったか確認
+                if (stage_list_enemys[list_number].GetComponent<EnemyBase>().Deathflg)
                 {
-                    stage_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                    stage_list_enemys.Remove(stage_list_enemys[list_number]);//敵をリストから消す
                 }
             }
         }
+
+        //foreach (var search_enemy in stage_list_enemys)//取得した敵分リストを回す
+        //{
+        //    if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+        //    {
+        //        stage_list_enemys.Remove(search_enemy);//敵をリストから消す
+        //    }
+        //    else
+        //    {
+        //        if (search_enemy.GetComponent<EnemyBase>().Deathflg)//行動が終わったか確認
+        //        {
+        //            stage_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+        //        }
+        //    }
+        //}
     }
 
     void SetListStageEnemy()
@@ -370,20 +385,36 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         SetListSearchEnemy();
 
-        foreach (var search_enemy in activ_list_enemys)//取得した敵分リストを回す
+        //for分に変更する //これで変更されたはず
+        for (int list_number = activ_list_enemys.Count - 1; list_number >= 0; list_number--)
         {
-            if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+            if (activ_list_enemys[list_number] == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
             {
-                activ_list_enemys.Remove(search_enemy);//敵をリストから消す
+                activ_list_enemys.Remove(activ_list_enemys[list_number]);//敵をリストから消す
             }
             else
             {
-                if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
+                if (activ_list_enemys[list_number].GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
                 {
-                    activ_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+                    activ_list_enemys.Remove(activ_list_enemys[list_number]);//行動が終わった敵はリストから削除。
                 }
             }
         }
+
+        //foreach (var search_enemy in activ_list_enemys)//取得した敵分リストを回す
+        //{
+        //    if (search_enemy == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+        //    {
+        //        activ_list_enemys.Remove(search_enemy);//敵をリストから消す
+        //    }
+        //    else
+        //    {
+        //        if (search_enemy.GetComponent<EnemyBase>().Is_action)//行動が終わったか確認
+        //        {
+        //            activ_list_enemys.Remove(search_enemy);//行動が終わった敵はリストから削除。
+        //        }
+        //    }
+        //}
 
         if (activ_list_enemys.Count <= 0)//リストが0になぅったら
         {
