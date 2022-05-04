@@ -64,10 +64,13 @@ public class PuzzlePointerMover : TrunManager
             CalcAngle();
 
             //魔法陣間の移動を制御する
-            if (isStickMove) Mover();
+            if (isStickMove)
+            {
+                Mover();
 
-            //更新後の選択している魔法陣の情報を渡す
-            SetCurrentSelecterCircle();
+                //更新後の選択している魔法陣の情報を渡す
+                SetCurrentSelecterCircle();
+            }
         }
 
     }
