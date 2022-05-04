@@ -256,6 +256,7 @@ public class MapMass : MonoBehaviour
     void InstanceMap()
     {
         GameObject obj = null;
+        GameObject core = null;
         float fence_CorrectionX = 2.85f;
         var treeParent = new GameObject("Trees");
         var barriParent = new GameObject("Barricades");
@@ -275,10 +276,13 @@ public class MapMass : MonoBehaviour
                         obj.transform.parent = rootobj_.transform;
                         break;
                     case (int)Mapinfo.core:
-                        obj = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.y * 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
-                        //obj.transform.parent = rootobj_.transform;
-                        obj.gameObject.name = "Core";
-                        obj.gameObject.tag = "Core";
+                        if (core == null)
+                        {
+                            core = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + Tilemas_prefab.transform.localScale.x / 2, Tilemas_prefab.transform.localScale.y * 2, y * -Tilemas_prefab.transform.localScale.z - Tilemas_prefab.transform.localScale.z / 2), Quaternion.identity);
+                            //obj.transform.parent = rootobj_.transform;
+                            core.gameObject.name = "Core";
+                            core.gameObject.tag = "Core";
+                        }
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
                         break;
