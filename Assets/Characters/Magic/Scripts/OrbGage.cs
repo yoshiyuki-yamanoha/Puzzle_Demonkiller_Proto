@@ -336,6 +336,19 @@ public class OrbGage : MonoBehaviour
     //確認出来たらtrueを返す
     public bool OrbCheckExsistens() {
 
+        EnemyBase eb = new EnemyBase();
+        List<GameObject> enemies = eb.GetEnemyList();
+
+        //エネミーの数が０で
+        if (enemies.Count == 0)
+        {
+            //五角形の炎が使用不可能の場合true
+            if (Orb_Level[3] == 0 && Orb_Level[5] == 0)
+            {
+                return true;
+            }
+        }
+
         totalNum = 0;
         foreach (var n in Orb_Level)
             totalNum += n;
