@@ -42,7 +42,7 @@ public class PointControl : MonoBehaviour
     private GameObject[] circles;
 
     //前回選択してたオブジェクト(カーソル位置固定用)
-    [NonSerialized] public GameObject oldOverlapObject = null;
+    public GameObject oldOverlapObject = null;
 
     //ポジション移動インターバル
     [SerializeField, Range(0, 60)]
@@ -229,12 +229,15 @@ public class PointControl : MonoBehaviour
                 selB = obj;
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
+
                 //selA.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
                 selA = null;
                 selB = null;
                 selTf = null;
                 isSelect = false;
                 Destroy(circleA);
+
+                
             }
         }
     }
