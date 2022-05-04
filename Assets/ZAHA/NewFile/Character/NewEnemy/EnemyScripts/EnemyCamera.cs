@@ -107,8 +107,10 @@ public class EnemyCamera : MonoBehaviour
             //    EndEnemyCameraMove();
             //}
         }
-        if (dieEnemyCount >= dieEnemyMax)
+        if ((hpNoneEnemy != null || dieEnemyCount >= dieEnemyMax - 1) && finalDieflag == true)
         {
+            targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+            HpNoneEnemy();
             EndEnemyCameraMove();
         }
     }
