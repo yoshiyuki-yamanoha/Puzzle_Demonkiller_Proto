@@ -227,6 +227,10 @@ public class PointControl : MonoBehaviour
             {
                 if(!puzzleOnlyMode) sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
+                oldOverlapObject.GetComponent<GoToParent>().FadeSelectCircle();
+                oldOverlapObject = selA;
+                oldOverlapObject.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
 

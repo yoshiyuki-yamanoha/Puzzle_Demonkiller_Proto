@@ -6,14 +6,15 @@ using CoreBase;
 public class ManageBarricade : TrunManager
 {
     TrunManager turnMGR;
-
+    [SerializeField]private int myNumber;
+    static public List<GameObject> bariicades = new List<GameObject>();
     Barricade_Class barri = new Barricade_Class();
-
+    
     void Start()
     {
         barri.obj= this.gameObject;
         barri.hp = barri.max_hp;
-
+        //bariicades = new List<GameObject>();
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
     }
 
@@ -27,6 +28,13 @@ public class ManageBarricade : TrunManager
         {
             CheckHP();
         }
+
+    }
+
+    public void SetMyNumber(int num)
+    {
+        myNumber = num;
+        bariicades.Add(this.gameObject);
     }
 
     public void ReceiveDamage(int enemy_attack)
@@ -42,6 +50,13 @@ public class ManageBarricade : TrunManager
         // ｈｐが零になっていなるか確認
         if (barri.hp<= 0)
         {
+            foreach(GameObject o in bariicades)
+            {
+                if(o.GetComponent<ManageBarricade>().myNumber == this.myNumber)
+                {
+                    Destroy(o.gameObject);
+                }
+            }
             Destroy(this.gameObject);
         }
     }
