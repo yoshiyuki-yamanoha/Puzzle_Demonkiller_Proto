@@ -14180,7 +14180,7 @@ GameObject:
   - component: {fileID: 5678757170289237681}
   m_Layer: 0
   m_Name: War_Tower
-  m_TagString: Untagged
+  m_TagString: Core
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

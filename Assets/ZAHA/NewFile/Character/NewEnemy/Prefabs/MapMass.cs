@@ -87,7 +87,6 @@ public class MapMass : MonoBehaviour
     //}
     GameObject[,] core_bari_Data = new GameObject[20, 20];//コアとバリケードの位置保存
 
-    int i = 0;
     int j = 0;
 
     GameObject rootobj_;
@@ -204,6 +203,7 @@ public class MapMass : MonoBehaviour
     {
         GameObject[] bari_obj = GameObject.FindGameObjectsWithTag("Bari");
         GameObject[] core_obj = GameObject.FindGameObjectsWithTag("Core");
+        Debug.Log("コアの数" + core_obj.Length);
 
         //for (int core = 0; core < core_obj.Length; core++ )
         //{
@@ -219,15 +219,12 @@ public class MapMass : MonoBehaviour
         {
             for (int x = 0; x < Map.GetLength(1); x++)
             {
-                if (Map[y, x] == (int)MapMass.Mapinfo.core)
+                if (Map[y, x] == (int)MapMass.Mapinfo.core)//コア
                 {
-                    if (i > core_obj.Length)
-                        continue;
-                    Core_bari_Data[y, x] = core_obj[i];
-                    SetCore(new Vector2Int(x, y) , core_obj[i]);//コアの場所を追加
-                    i++;
+                    Core_bari_Data[y, x] = core_obj[0];
+                    SetCore(new Vector2Int(x, y), core_obj[0]);//コアの場所を追加
                 }
-                else if (Map[y, x] == (int)MapMass.Mapinfo.bari)
+                else if (Map[y, x] == (int)MapMass.Mapinfo.bari)//バリケード
                 {
                     if (j > bari_obj.Length)
                         continue;
@@ -242,10 +239,10 @@ public class MapMass : MonoBehaviour
         }
     }
 
-    void SetCore(Vector2Int pos , GameObject obj)
+    void SetCore(Vector2Int pos, GameObject obj)
     {
         core_info.pos.Add(pos);
-        core_info.obj.Add(obj); 
+        core_info.obj.Add(obj);
     }
 
     public Core GetCore()
