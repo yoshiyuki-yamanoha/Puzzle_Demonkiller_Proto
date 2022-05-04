@@ -278,7 +278,7 @@ public class MapMass : MonoBehaviour
                     case (int)Mapinfo.core:
                         if (core == null)
                         {
-                            core = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + Tilemas_prefab.transform.localScale.x / 2, Tilemas_prefab.transform.localScale.y * 2, y * -Tilemas_prefab.transform.localScale.z - Tilemas_prefab.transform.localScale.z / 2), Quaternion.identity);
+                            core = Instantiate(core_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + Tilemas_prefab.transform.localScale.x / 2, Tilemas_prefab.transform.localScale.y / 2, y * -Tilemas_prefab.transform.localScale.z - Tilemas_prefab.transform.localScale.z / 2), Quaternion.identity);
                             //obj.transform.parent = rootobj_.transform;
                             core.gameObject.name = "Core";
                             core.gameObject.tag = "Core";
@@ -295,7 +295,7 @@ public class MapMass : MonoBehaviour
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
                         break;
                     case (int)Mapinfo.bari:
-                        obj = Instantiate(bari_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + fence_CorrectionX, Tilemas_prefab.transform.localScale.y, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj = Instantiate(bari_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + fence_CorrectionX, Tilemas_prefab.transform.localScale.y / 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = barriParent.transform;
                         obj.gameObject.name = "Bari";
                         obj.gameObject.tag = "Bari";
