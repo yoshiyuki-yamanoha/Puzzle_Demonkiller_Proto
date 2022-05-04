@@ -42,6 +42,10 @@ public class PuzzlePointerMover : TrunManager
     //パズルのみのシーンで使うbool
     [SerializeField] private bool puzzleOnlyMode;
 
+    //ポインター移動インターバル
+    const float interval = 0.1f;
+    float interCount = interval;
+
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
@@ -63,8 +67,17 @@ public class PuzzlePointerMover : TrunManager
             //スティックの角度
             CalcAngle();
 
+            //インターバルを減らす
+            if (interCount != 0) {
+                interCount -= Time.deltaTime;
+
+                if (interCount <= 0f) {
+                    interCount = 0;
+                }
+            }
+
             //魔法陣間の移動を制御する
-            if (isStickMove)
+            if (isStickMove && interCount == 0)
             {
                 Mover();
 
@@ -111,7 +124,6 @@ public class PuzzlePointerMover : TrunManager
 
             if(soeji < 4) soeji++;
         }
-        //Debug.Log("そえじ：" + soeji);
 
         int cycleLimit = circlesArrays[soeji].goalPorts.Length;
         
@@ -125,7 +137,8 @@ public class PuzzlePointerMover : TrunManager
 
             if (leftStickAngle >= thisAng && leftStickAngle < nextAng)
             {
-                
+                if (goal.transform.GetChild(0).gameObject == currentSelectedCircle) return;
+
                 if (goal != null)
                 {
 
@@ -143,6 +156,9 @@ public class PuzzlePointerMover : TrunManager
 
                     //移動音を鳴らす
                     audioSource.PlayOneShot(moveSound);
+
+                    //インターバルをリセット
+                    interCount = interval;
 
                 }
             }
