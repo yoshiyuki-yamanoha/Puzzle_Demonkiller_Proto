@@ -181,6 +181,7 @@ public class MapMass : MonoBehaviour
         {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
     };
 
+    int barricadeNumber;    // バリケードの番号
 
     public int[,] Map { get => map; set => map = value; }
     public GameObject Tilemas_prefab { get => tilemas_prefab; }
@@ -197,6 +198,7 @@ public class MapMass : MonoBehaviour
         core_info.pos = new List<Vector2Int>();
         core_info.obj = new List<GameObject>();
         InitCore();//コア配列作成
+        barricadeNumber = 1;
     }
 
     void InitCore()
@@ -293,11 +295,26 @@ public class MapMass : MonoBehaviour
                         break;
                     case (int)Mapinfo.bari:
                         obj = Instantiate(bari_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x + fence_CorrectionX, Tilemas_prefab.transform.localScale.y / 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        
+                        // バリケードに独自の番号を付与
+                        obj.GetComponent<ManageBarricade>().SetMyNumber(barricadeNumber);
+                        if (x < Map.GetLength(1))
+                        {
+                            if (Map[y, x + 1] != (int)Mapinfo.bari)
+                            {
+                                barricadeNumber++;
+                            }
+                        }
+
                         obj.transform.parent = barriParent.transform;
                         obj.gameObject.name = "Bari";
                         obj.gameObject.tag = "Bari";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
+
+
+                       
+
                         break;
                 }
 
