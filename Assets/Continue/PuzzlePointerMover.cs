@@ -137,7 +137,7 @@ public class PuzzlePointerMover : TrunManager
 
             if (leftStickAngle >= thisAng && leftStickAngle < nextAng)
             {
-                //if (goal.transform.GetChild(0).gameObject == currentSelectedCircle) return;
+                if (goal.transform.GetChild(0).gameObject == currentSelectedCircle) return;
 
                 if (goal != null)
                 {
