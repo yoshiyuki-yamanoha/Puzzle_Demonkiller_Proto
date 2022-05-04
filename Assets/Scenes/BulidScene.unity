@@ -1349,6 +1349,11 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1161136428}
+    - target: {fileID: 5631804626010676059, guid: 71726a981af5cd847a926dbd4ecb21ba,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5631804626010676060, guid: 71726a981af5cd847a926dbd4ecb21ba,
         type: 3}
       propertyPath: s_MapMass
@@ -1520,7 +1525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -57, y: 220}
+  m_AnchoredPosition: {x: -57.000122, y: 220}
   m_SizeDelta: {x: 569.5, y: 138.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518659485
