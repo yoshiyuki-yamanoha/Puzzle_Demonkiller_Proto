@@ -2961,6 +2961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695c09d15f2f750439427d4acc5b487c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move_wait_time: 0.3
   ice_obj: {fileID: 6650706678482416503}
   fire_effect:
   - {fileID: 829042200356689764}
@@ -2970,7 +2971,7 @@ MonoBehaviour:
   map: {fileID: 0}
   max_hp: 3
   attack: 3
-  speed: 1
+  speed: 1.5
   deathflg: 0
   generation_enemy: {fileID: 0}
   enemy_anim: {fileID: 3191871338222945284}

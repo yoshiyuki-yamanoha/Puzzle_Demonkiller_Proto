@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    bool move_wait_flg = false;
+    [SerializeField] float move_wait_time = 0;
+    float movetime = 0;
     //particleデス!
     [SerializeField] GameObject ice_obj = null;
     [SerializeField] ParticleSystem[] fire_effect = null;//ファイヤーエフェクト
@@ -175,7 +178,7 @@ public class EnemyBase : MonoBehaviour
         {
             IceObjSetActivOff();//アイスオブジェクトオフ
         }
-
+        move_wait_time = Random.Range(0.0f, 1.0f);
         GetObject();
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;//MaxHP
@@ -200,6 +203,7 @@ public class EnemyBase : MonoBehaviour
         Istrun = false;//ターン終了
         Init_anim_flg = true;
         Is_action = false;//アクションをオフにする
+        move_wait_flg = false;
     }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
@@ -475,17 +479,19 @@ public class EnemyBase : MonoBehaviour
             {
                 if (init_goal)
                 {
-                    goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
+                    goal = new Node(null, map.GetCore().pos[0/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
                     init_goal = false;
                 }
 
                 //SearchMovement(massnum); //2マス。
+
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal);
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Ismove = true;
                 Target_distance = false;
                 Targetchangeflg = false;
+
             }
 
             //移動している時
@@ -499,9 +505,11 @@ public class EnemyBase : MonoBehaviour
 
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
-                
-                MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
-                status = Status.Walk;//移動処理
+                if (MoveTime(move_wait_time))
+                {
+                    MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
+                    status = Status.Walk;//移動処理
+                }
 
                 Hpber.gameObject.SetActive(false);
                 if (Abnormal_condition == AbnormalCondition.Fire)
@@ -730,9 +738,24 @@ public class EnemyBase : MonoBehaviour
 
     public void FireEffectPlay()
     {
-        foreach(var fire_effect in Fire_effect)
+        foreach (var fire_effect in Fire_effect)
         {
             fire_effect.Play();
         }
+    }
+
+    bool MoveTime(float time)
+    {
+        if (!move_wait_flg) {
+            movetime += Time.deltaTime;
+        }
+
+        if (movetime >= time)
+        {
+            move_wait_flg = true;
+            movetime = 0;
+        }
+
+        return move_wait_flg;
     }
 }
