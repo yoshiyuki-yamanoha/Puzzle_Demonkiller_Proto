@@ -19,8 +19,13 @@ public class MagicMassSelecter : MonoBehaviour
     int nowSelX = 10;
     int nowSelY = 10;
 
+    //セレクター移動のインターバル
     const int rit_Interval = 5;
     [SerializeField] int moveInterval = rit_Interval;
+
+    //魔法を撃つインターバル
+    const float reload_Interval = 0.5f;
+    float nextShotInterval = reload_Interval;
 
     //マテリアル
     [SerializeField] Material defMat;
@@ -68,7 +73,17 @@ public class MagicMassSelecter : MonoBehaviour
 
             if (selectType == 0) MoveSelecter();
             if (selectType == 1) MoveSelecterEnemy();
-            ActivateMagic();//魔法を撃つ処理(本物)
+
+            //インターバルを減らす処理
+            if (nextShotInterval != 0) {
+                nextShotInterval -= Time.deltaTime;
+
+                if (nextShotInterval <= 0f)
+                    nextShotInterval = 0;
+            }
+
+            if(nextShotInterval == 0)
+                ActivateMagic();//魔法を撃つ処理(本物)
         }
         if(s_TrunManager.trunphase == TrunManager.TrunPhase.Puzzle)
         {
@@ -636,6 +651,9 @@ public class MagicMassSelecter : MonoBehaviour
                         s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
                         sePlay.Play("MagicShot");
                     }
+
+                    //インターバルのリセット
+                    nextShotInterval = reload_Interval;
                 }
             }
             else
@@ -680,6 +698,9 @@ public class MagicMassSelecter : MonoBehaviour
 
                         selectsNum = 0;
                     }
+
+                    //インターバルのリセット
+                    nextShotInterval = reload_Interval;
                 }
             }
         }//オーブのレベルが0より上なら入る↑

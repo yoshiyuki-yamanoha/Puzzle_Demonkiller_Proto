@@ -1121,7 +1121,7 @@ MonoBehaviour:
   - magicRange: {fileID: 2000727677}
   s_TrunManager: {fileID: 1973512903}
   s_SelectUseOrb: {fileID: 387063147}
-  s_MagicMassSelecter: {fileID: 1324937678}
+  s_MagicMassSelecter: {fileID: 0}
   magicOnlyMode: 0
 --- !u!114 &387063147
 MonoBehaviour:
