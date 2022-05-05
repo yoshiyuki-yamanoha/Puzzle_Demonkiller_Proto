@@ -60,7 +60,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     int enemy_kinds_max = 0;//敵種類
     [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
     [SerializeField] ParticleSystem[] enemy_particle = null;//敵の出現魔法陣
-    int enemy_max = 22;//[1ゲーム]で生成出来る数
+    int enemy_max = 48;//[1ゲーム]で生成出来る数
     float enemy_count = 0;//[1ゲーム]敵をカウント
     [SerializeField] float interval_s = 5;//生成間隔(秒)
     float time = 0;//計測時間用
@@ -114,16 +114,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[10];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(10, 5, 5, 0, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[2] = new EnemyGenerationInfo(20, 5, 5, 5, 5);
+            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
+            enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
             enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[4] = new EnemyGenerationInfo(10, 5, 0, 0, 5);
-            enemy_generation_info[5] = new EnemyGenerationInfo(15, 0, 5, 10, 0);
-            enemy_generation_info[6] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[7] = new EnemyGenerationInfo(8, 4, 2, 0, 2);
+            enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
+            enemy_generation_info[5] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[6] = new EnemyGenerationInfo(10, 0, 5, 5, 0);
+            enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[9] = new EnemyGenerationInfo(20, 5, 5, 5, 0);
+            enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
             //enemy_generation_info[10] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             //enemy_generation_info[11] = new EnemyGenerationInfo(2, 1, 0, 1, 0);
             //enemy_generation_info[12] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
@@ -142,7 +142,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
             enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1);
-            //debug_pos[0] = new Vector2Int(10, 16);
+            debug_pos[0] = new Vector2Int(12, 15);
             //debug_pos[1] = new Vector2Int(12, 12);
         }
 
@@ -214,8 +214,14 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  3 <   2
                 { //1ターンに生成出来る数が最大値を超えたら
                     //SearchGeneration();
-                    Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));//)//場所設定
-                    //Generation(debug_pos[debug_pos_num]);//)//場所設定
+                    if (game_mode == Mode.Game)
+                    {
+                        Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
+                    }
+                    else
+                    {
+                        Generation(debug_pos[debug_pos_num]);//)//場所設定
+                    }
 
                 }
                 else
