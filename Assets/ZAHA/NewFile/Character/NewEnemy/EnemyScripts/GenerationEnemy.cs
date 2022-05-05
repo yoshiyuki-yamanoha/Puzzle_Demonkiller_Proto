@@ -118,9 +118,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     void InitSpawnPos()
     {
         spawn_pos[0] = new Vector2Int(5,2);
-        spawn_pos[1] = new Vector2Int(13,2);
-        spawn_pos[2] = new Vector2Int(3,16);
-        spawn_pos[3] = new Vector2Int(11,17);
+        spawn_pos[1] = new Vector2Int(15,2);
+        spawn_pos[2] = new Vector2Int(2,16);
+        spawn_pos[3] = new Vector2Int(12,16);
     }
 
     //エネミースポーン情報初期化
@@ -303,7 +303,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
                 if (generation_flg)
                 {//生成フラグがオンだったら生成
-                    SkipEnemy();
+                    //SkipEnemy();
                     while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
                     {
                         if (oneturn_spawnumber)
@@ -313,7 +313,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                         }
 
                         Debug.Log("ランダム番号 " + spawn_number);
-                        Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
+                        //Generation(new Vector2Int(spawn_pos[spawn_number].x, spawn_pos[spawn_number].y));
+                        Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 3), spawn_pos[spawn_number].y + Random.Range(-1, 3)));
                     }
                 }
 
@@ -336,7 +337,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
 
                     enemy_oneturn_count = 0;
-                    Nowturn++;
+                    if (stage_list_enemys.Count <= 32)
+                        Nowturn++;
                     draw = true;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
                 }
@@ -494,6 +496,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void Generation(Vector2Int pos)
     {
+        //var emptyMass = FindingEmptyMass(pos);
+
+        //if (map.Map[pos.y + Random.Range(-1, 2), pos.x + Random.Range(-1, 2)] == (int)MapMass.Mapinfo.NONE)
         if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
         {
             time += Time.deltaTime;//カウント開始
@@ -943,4 +948,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     //}
 
     //1ターン生成が終わったら抜ける。
+
+
+    // 敵が生成できるマスを探す
+    int[,] FindingEmptyMass(Vector2Int pos)
+    {
+        int[,] emptyMass = new int[1, 1];
+        // + Random.Range(-1, 2)
+        if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE)
+            emptyMass = map.Map;
+
+        return emptyMass;
+    }
 }
