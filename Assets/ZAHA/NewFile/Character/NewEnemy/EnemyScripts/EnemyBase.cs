@@ -709,7 +709,7 @@ public class EnemyBase : MonoBehaviour
 
         if (def.sqrMagnitude < 1f)
         {
-            LookTarget(Vector3.back);
+            //LookTarget(Vector3.back);
             Target_distance = true;
             transform.position = next_pos;
         }
