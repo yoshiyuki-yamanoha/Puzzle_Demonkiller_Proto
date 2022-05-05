@@ -488,7 +488,7 @@ public class EnemyBase : MonoBehaviour
 
                 //SearchMovement(massnum); //2マス。
 
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal);
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal,massnum);
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Ismove = true;
