@@ -1310,7 +1310,7 @@ MonoBehaviour:
   fire_image: {fileID: 3429713610370970621}
   mynumber: 0
   map: {fileID: 0}
-  max_hp: 3
+  max_hp: 5
   attack: 1
   speed: 1.2
   deathflg: 0

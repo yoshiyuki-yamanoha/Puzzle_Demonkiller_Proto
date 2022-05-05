@@ -117,10 +117,10 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void InitSpawnPos()
     {
-        spawn_pos[0] = new Vector2Int(2,2);
-        spawn_pos[1] = new Vector2Int(16,2);
+        spawn_pos[0] = new Vector2Int(5,2);
+        spawn_pos[1] = new Vector2Int(13,2);
         spawn_pos[2] = new Vector2Int(3,16);
-        spawn_pos[3] = new Vector2Int(15,17);
+        spawn_pos[3] = new Vector2Int(11,17);
     }
 
     //エネミースポーン情報初期化
