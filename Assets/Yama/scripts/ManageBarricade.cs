@@ -11,6 +11,8 @@ public class ManageBarricade : TrunManager
     Barricade_Class barri = new Barricade_Class();
     [SerializeField] GameObject barriBreakEffect = null;
 
+    SEManager sePlay = null;//SE
+
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class ManageBarricade : TrunManager
         barri.hp = barri.max_hp;
         //bariicades = new List<GameObject>();
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE
     }
 
 
@@ -72,6 +75,7 @@ public class ManageBarricade : TrunManager
             // バリケードが壊れる際のエフェクトを生成
             GeneratesBarricadesBreakedEffect(this.gameObject);
             Destroy(this.gameObject);
+            sePlay.Play("DestroyBarricade");
         }
     }
 

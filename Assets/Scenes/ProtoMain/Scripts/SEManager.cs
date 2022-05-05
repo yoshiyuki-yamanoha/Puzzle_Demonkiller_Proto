@@ -57,6 +57,12 @@ public class SEManager : MonoBehaviour
             case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
                 audioSource.PlayOneShot(audioClips[9], 0.4f);
                 break;
+            case "EnemyAtack":
+                audioSource.PlayOneShot(audioClips[10], 2.0f);
+                break;
+            case "DestroyBarricade":
+                audioSource.PlayOneShot(audioClips[11], 1.3f);
+                break;
 
         }
     }

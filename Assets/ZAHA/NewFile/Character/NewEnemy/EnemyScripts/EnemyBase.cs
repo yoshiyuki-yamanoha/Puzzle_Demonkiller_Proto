@@ -14,6 +14,8 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] Image fire_image = null;
     //ParticleSystem chilled_fire_effect = null;
 
+    SEManager sePlay = null;  //SE
+
     //攻撃エリア
     bool init_goal = true;
     Node goal;
@@ -190,6 +192,7 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyTurnStart()
     {
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
         Istrun = true;//自分のターン(敵)開始
     }
 
@@ -621,6 +624,7 @@ public class EnemyBase : MonoBehaviour
             }
 
             Enemy_anim.TriggerAttack("Attack");
+            sePlay.Play("EnemyAtack");
             Init_anim_flg = false;
         }
 
