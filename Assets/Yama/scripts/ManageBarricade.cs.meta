@@ -3,7 +3,9 @@ guid: 71250c994b5305242ad6eb2fd7ed0609
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - barriBreakEffect: {fileID: 1658855312181144465, guid: c48259a334e701f4a911af1fe3573974,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
