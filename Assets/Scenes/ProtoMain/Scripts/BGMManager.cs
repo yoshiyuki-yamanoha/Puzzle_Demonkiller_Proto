@@ -31,7 +31,7 @@ public class BGMManager : MonoBehaviour
                 
                 audioSource.clip = audioClips[0];
                 audioSource.loop = true;
-                audioSource.volume = 0.3f;
+                audioSource.volume = 0.05f;
                 audioSource.Play();
                 break;
 
@@ -52,12 +52,12 @@ public class BGMManager : MonoBehaviour
             case "SELECTBGM":
                 audioSource.clip = audioClips[3];
                 audioSource.loop = true;
-                audioSource.volume = 0.03f;
+                audioSource.volume = 0.05f;
                 audioSource.Play();
                 break;
             case "CLEARBGM":
                 audioSource.clip = audioClips[4];
-                audioSource.volume = 0.65f;
+                audioSource.volume = 0.08f;
                 audioSource.Play();
                 break;
             case "GAMEOVERBGM":
