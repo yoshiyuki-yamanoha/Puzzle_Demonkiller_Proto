@@ -50,6 +50,8 @@ public class MagicRangeDetector : TrunManager
     int magicLevel;
     int oldTyp, oldLev;
 
+    [SerializeField] bool isMagic;
+
     private void FixedUpdate()
     {
         //oldMagicType = magicType;
@@ -60,7 +62,7 @@ public class MagicRangeDetector : TrunManager
         //魔法の種類によって魔法の範囲を変える
 
         //ChangeMagicRange();
-        if (s_TrunManager.trunphase != TrunManager.TrunPhase.MagicAttack) {
+        if (isMagic || s_TrunManager.trunphase != TrunManager.TrunPhase.MagicAttack) {
             s_MagicMassSelecter.BeDefaultMatOldChangeedMasses();
         }
 

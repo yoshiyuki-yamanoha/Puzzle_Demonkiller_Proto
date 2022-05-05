@@ -128,3 +128,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunphase: 0
   myNumber: 0
+  barriBreakEffect: {fileID: 1658855312181144465, guid: c48259a334e701f4a911af1fe3573974,
+    type: 3}

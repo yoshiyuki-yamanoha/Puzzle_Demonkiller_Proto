@@ -9,7 +9,9 @@ public class ManageBarricade : TrunManager
     [SerializeField]private int myNumber;
     static public List<GameObject> bariicades = new List<GameObject>();
     Barricade_Class barri = new Barricade_Class();
-    
+    [SerializeField] GameObject barriBreakEffect = null;
+
+
     void Start()
     {
         barri.obj= this.gameObject;
@@ -61,11 +63,21 @@ public class ManageBarricade : TrunManager
 
             foreach(GameObject o in remove_obj)
             {
+                // バリケードが壊れる際のエフェクトを生成
+                GeneratesBarricadesBreakedEffect(o);
                 bariicades.Remove(o);
                 Destroy(o.gameObject);
             }
 
+            // バリケードが壊れる際のエフェクトを生成
+            GeneratesBarricadesBreakedEffect(this.gameObject);
             Destroy(this.gameObject);
         }
+    }
+
+    // バリケードが壊れる際のエフェクトを生成
+    private void GeneratesBarricadesBreakedEffect(GameObject obj)
+    {
+        Instantiate(barriBreakEffect, new Vector3(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z), Quaternion.identity);
     }
 }

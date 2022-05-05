@@ -29,6 +29,14 @@ public class EnemyGenerationInfo
 
 public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 {
+
+    //生成の位置
+    bool oneturn_spawnumber = true;
+    //bool is_spawn_pos = false;
+    Vector2Int[] spawn_pos = new Vector2Int[4];
+
+    int spawn_number = 0;//スポーン位置生成
+
     enum Mode
     {
         Debug,
@@ -99,12 +107,20 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     // Start is called before the first frame update
     void Start()
     {
+        InitSpawnPos();
         InitEnemySpawnInfo();
-
         GetInstance();
         GenerationEnemy_Init();
         GenerationEnemy_BGM();
 
+    }
+
+    void InitSpawnPos()
+    {
+        spawn_pos[0] = new Vector2Int(2,2);
+        spawn_pos[1] = new Vector2Int(16,2);
+        spawn_pos[2] = new Vector2Int(3,16);
+        spawn_pos[3] = new Vector2Int(15,17);
     }
 
     //エネミースポーン情報初期化
@@ -176,6 +192,28 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     //    return g_pos;
     //}
+    //void MapSpawnGeneration()//map位置生成
+    //{
+    //    spawn_number = Random.Range(6, 10);//int型なら 6~9を生成 valoooooooooooooooooooooooooo
+    //    is_spawn_pos = false;
+    //    Debug.Log("spawn_number" + spawn_number);
+
+    //    for (int y = 0; y < map.Map.GetLength(0); y++)
+    //    {
+    //        for (int x = 0; x < map.Map.GetLength(1); x++)
+    //        {
+    //            if (map.Spawn[y, x] == spawn_number && map.Map[y, x] != (int)MapMass.Mapinfo.NONE)
+    //            {
+    //                spawn_pos = new Vector2Int(x, y);
+    //                is_spawn_pos = true;
+    //                break;
+    //            }
+    //        }
+    //        if (is_spawn_pos) break;
+    //    }
+
+    //    //Debug.Log("抜けた数");
+    //}
 
     private void FixedUpdate()
     {
@@ -211,17 +249,35 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     }
                 }
 
-                if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  3 <   2
+                if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  5 > 0
                 { //1ターンに生成出来る数が最大値を超えたら
-                    //SearchGeneration();
-                    if (game_mode == Mode.Game)
-                    {
-                        Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
+                  //SearchGeneration();
+                  //if (game_mode == Mode.Game)
+                  //{
+
+                    if (oneturn_spawnumber) {
+                        spawn_number = Random.Range(0, 4);
+                        oneturn_spawnumber = false;
                     }
-                    else
-                    {
-                        Generation(debug_pos[debug_pos_num]);//)//場所設定
-                    }
+
+                    Debug.Log("ランダム番号 " + spawn_number);
+                    Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
+                    //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
+                    //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
+                                                                                         //}
+                                                                                         //else
+                                                                                         //{
+
+                    // 26回呼ばれている。
+                    //if (oneturn_spawnpos) {
+                    //    MapSpawnGeneration();
+                    //    oneturn_spawnpos = false;
+                    //}
+
+                    //Generation(spawn_pos);//)//場所設定
+                    //}
+
+
 
                 }
                 else
@@ -250,7 +306,14 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     SkipEnemy();
                     while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
                     {
-                        Generation(new Vector2Int(Random.Range(0, 13), Random.Range(0, 13)));
+                        if (oneturn_spawnumber)
+                        {
+                            spawn_number = Random.Range(0, 4);
+                            oneturn_spawnumber = false;
+                        }
+
+                        Debug.Log("ランダム番号 " + spawn_number);
+                        Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
                     }
                 }
 
@@ -310,7 +373,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             if (stage_list_enemys.Count <= 0)//0以下なら存在しない
             {
-                Debug.Log("ステージ状に0体しかいませーん");
                 while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
                 {
                     Nowturn++;
@@ -477,6 +539,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     random_enem_kinds = 0;//ゴブリン
                 }
 
+                //Debug.Log("Oneturn" + enemy_generation_info[Nowturn].One_turn_Generation);
 
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
                 if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
@@ -510,7 +573,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
 
         enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
-
+        oneturn_spawnumber = true;
 
         switch (enemy_kinds)
         {

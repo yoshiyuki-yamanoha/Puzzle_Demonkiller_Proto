@@ -50,7 +50,7 @@ public class Astar : MonoBehaviour
         }
     }
 
-    public Vector2Int astar(Node start, Node goal)//Astarアルゴリズム
+    public Vector2Int astar(Node start, Node goal,int num)//Astarアルゴリズム
     {
         //ゴール設定
         //Node goal_node = goal;
@@ -66,7 +66,7 @@ public class Astar : MonoBehaviour
             init_astar = false;
         }
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < num; i++)
         {
             //オープンリストから現在のノードを取得。
             //current_node = open_list[0];
