@@ -42,7 +42,7 @@ public class SelectUseOrb : TrunManager
     [SerializeField] bool magicMagicMode;
     
     [SerializeField] MapMass s_MapMass;
-    int defSelX = 10, defSelY = 10;//マスの座標用
+    int defSelX = 7, defSelY = 10;//マスの座標用
     // Start is called before the first frame update
     void Start()
     {
@@ -53,8 +53,10 @@ public class SelectUseOrb : TrunManager
     // Update is called once per frame
     void Update()
     {
-            if (!notSwitchOrb)
+        if (!notSwitchOrb || magicMagicMode)
+        {
             SelectOrb_Update();
+        }
 
         if (magicMagicMode || s_turnMGR.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack && s_orbGage.OrbCheckExsistens())//Player攻撃ターンか？
         {
@@ -62,8 +64,8 @@ public class SelectUseOrb : TrunManager
             selectOrb();
 
             //魔法の範囲を変える
-            if (!magicMagicMode) s_MagicRangeDetector.ChangeMagicRange();
-            else s_MagicRangeDetector2.ChangeMagicRange();
+            s_MagicRangeDetector.ChangeMagicRange();
+            
 
             //選択しているオーブのレベルが０ならずらす
             selectmoveOrb();
@@ -79,7 +81,7 @@ public class SelectUseOrb : TrunManager
     /// </summary>
     private void SelectOrb_Init()
     {
-        if(!magicMagicMode) s_turnMGR = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        s_turnMGR = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         s_orbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
 
         SetOrbType();
@@ -139,8 +141,8 @@ public class SelectUseOrb : TrunManager
     /// <param name="num">プラスの場合前に、マイナスの場合後ろに進む</param>
     private void ChangeUseOrb(int num)
     {
-
-        s_MapMass.SetMagicMassSelector(defSelX, defSelY);//オーブが切り替わるときにカーソルを最初の位置へ移動
+        
+        
 
         // 現在選択しているオーブから一周する
         for (int oi = nowSelOrb + num; oi != nowSelOrb; oi+=num)
@@ -156,6 +158,9 @@ public class SelectUseOrb : TrunManager
             }
         }
 
+        if(nowSelOrb != 2)
+            s_MapMass.SetMagicMassSelector(defSelX, defSelY);//オーブが切り替わるときにカーソルを最初の位置へ移動
+
         // クールタイムの追加
         waitTime = coolTimeMax;
 
@@ -166,8 +171,8 @@ public class SelectUseOrb : TrunManager
             else s_MagicMassSelecter.SwitchSelectType(0);
         }
         else {
-            if (nowSelOrb == 2) s_MagicMassSelecter2.SwitchSelectType(1);
-            else s_MagicMassSelecter2.SwitchSelectType(0);
+            if (nowSelOrb == 2) s_MagicMassSelecter.SwitchSelectType(1);
+            else s_MagicMassSelecter.SwitchSelectType(0);
         }
 
         //魔法の範囲を変える

@@ -25,6 +25,10 @@ public class EndlessSimulate : MonoBehaviour
 
             if (time <= 0f) {
                 var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                foreach (var e in enemies) {
+                    e.GetComponent<Enemy>().Hp = 100;
+                }
             }
         }
     }
