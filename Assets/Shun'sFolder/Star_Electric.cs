@@ -54,6 +54,7 @@ public class Star_Electric : MonoBehaviour
             Transmission_Attack(i);
 
         }
+        Destroy(this.gameObject, 0.5f);
     }
 
     GameObject Map_mass_EneSer(Vector2 pos)
