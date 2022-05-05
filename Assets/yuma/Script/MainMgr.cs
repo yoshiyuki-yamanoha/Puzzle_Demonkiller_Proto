@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMgr : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class MainMgr : MonoBehaviour
     // クリアしたフラグを取得
     EnemyCamera eCamera;
     // Start is called before the first frame update
+
+    //残り体数テキスト
+    [SerializeField] Text enemyNum;
+
     void Start()
     {
         eCamera = GameObject.Find("EnemyCamera").GetComponent<EnemyCamera>();
@@ -32,6 +37,9 @@ public class MainMgr : MonoBehaviour
         {
             GameMgr.Instance.Restart();
         }
+
+        //残り敵数の表示
+        enemyNum.text = "あと"+(enemyDieMax - enemyDieNum).ToString("00")+"体";
     }
 
     public void EnemiDieCount() {

@@ -74,6 +74,15 @@ public class SelectUseOrb : TrunManager
         {//攻撃ターンじゃない時にオーブの位置を元に戻す
             selectResetOrb();
         }
+
+        //敵が0体だった場合、設置系以外を使え無くする
+        var enes = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enes.Length <= 0) {
+            orbLevel[0] = 0;
+            orbLevel[1] = 0;
+            orbLevel[2] = 0;
+            orbLevel[4] = 0;
+        }
     }
 
     /// <summary>
