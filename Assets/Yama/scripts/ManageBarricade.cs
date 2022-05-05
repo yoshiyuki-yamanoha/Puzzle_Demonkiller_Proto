@@ -50,13 +50,21 @@ public class ManageBarricade : TrunManager
         // ｈｐが零になっていなるか確認
         if (barri.hp<= 0)
         {
+            List<GameObject> remove_obj = new List<GameObject>();
             foreach(GameObject o in bariicades)
             {
                 if(o.GetComponent<ManageBarricade>().myNumber == this.myNumber)
                 {
-                    Destroy(o.gameObject);
+                    remove_obj.Add(o);
                 }
             }
+
+            foreach(GameObject o in remove_obj)
+            {
+                bariicades.Remove(o);
+                Destroy(o.gameObject);
+            }
+
             Destroy(this.gameObject);
         }
     }
