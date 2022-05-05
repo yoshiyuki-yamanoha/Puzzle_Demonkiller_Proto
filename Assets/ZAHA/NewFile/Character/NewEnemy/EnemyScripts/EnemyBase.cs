@@ -450,20 +450,23 @@ public class EnemyBase : MonoBehaviour
         //死亡フラグが立った時。
         if (Deathflg)
         {
-            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除
+
+            Debug.Log("死亡したぜこの野郎!!" + gameObject.name + "座標" + "[Y] " + y + "[X]" + x);
+            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除ここも削除できていないなった
+
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
         }
     }
 
-    public void EnemyMovement(int massnum)
+    public void EnemyMovement(int massnum) //移動か攻撃か判定管理
     {
-        if (Init_attack_search)
+        if (Init_attack_search) //毎ターン一回のみ判定
         {
-            AttackSearchMovement(massnum);
+            AttackSearchMovement(massnum);//攻撃出来る場所か判定
             Init_attack_search = false;
         }
 
-        if (Attackaria && Abnormal_condition != AbnormalCondition.Ice)
+        if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
         {
             Attacktime += Time.deltaTime;
             if (Attacktime > 2)
@@ -473,13 +476,13 @@ public class EnemyBase : MonoBehaviour
             }
             EnemyAttack();
         }
-        else
+        else //移動処理
         {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 if (init_goal)
                 {
-                    goal = new Node(null, map.GetCore().pos[0/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
+                    goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
                     init_goal = false;
                 }
 
@@ -494,17 +497,14 @@ public class EnemyBase : MonoBehaviour
 
             }
 
+            Oldx = X;//位置を保存
+            Oldy = Y;//位置を保存
+
             //移動している時
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
                 Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;
-            }
 
-            Oldx = X;//位置を保存
-            Oldy = Y;//位置を保存
-
-            if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
-            {
                 if (MoveTime(move_wait_time))
                 {
                     MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
@@ -516,15 +516,16 @@ public class EnemyBase : MonoBehaviour
                 {
                     fire_image.gameObject.SetActive(false);
                 }
+
+                if (Status.Walk == status)//歩いていたら
+                {
+                    Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;//map情報を無くす
+                }
             }
-
-
-            //移動したらオン
 
             //目的値についているか?
             if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)//target.magnitude < Targetdistance
             {
-                Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;
                 status = Status.Idle;//アイドル状態         
                 Ismove = false;//動きを止める。
 
@@ -746,7 +747,8 @@ public class EnemyBase : MonoBehaviour
 
     bool MoveTime(float time)
     {
-        if (!move_wait_flg) {
+        if (!move_wait_flg)
+        {
             movetime += Time.deltaTime;
         }
 

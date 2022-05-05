@@ -72,7 +72,7 @@ public class BombEnemy : EnemyBase
                 case EnemyAction.Generation:
                     break;
                 case EnemyAction.Movement:
-                    EnemyMovement(1);//動けるマス範囲
+                    EnemyMovement(2);//動けるマス範囲
                     break;
             }
         }

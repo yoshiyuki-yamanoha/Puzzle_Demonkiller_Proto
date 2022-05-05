@@ -211,7 +211,7 @@ public class Astar : MonoBehaviour
             foreach (var selectnode in open_list)
             {
                 //オープンリストの中で一番小さいノードを選ぶ
-                if (selectnode.F < current_node.F && enemy.Abnormal_condition != EnemyBase.AbnormalCondition.Ice)
+                if (selectnode.F <= current_node.F /*&& enemy.Abnormal_condition != EnemyBase.AbnormalCondition.Ice*/)
                 {
                     current_node = selectnode;//現在のノードを小さいノードに代入
                     //Debug.Log("小さかったノード" + a_count + "回目 " + "現在地" + "[" + current_node.Pos.y + "]" + "[" + current_node.Pos.x + "]" + "合計コスト" + current_node.F);

@@ -6,9 +6,10 @@ using UnityEngine;
 public class MainMgr : MonoBehaviour
 {
 
+    EnemyBase enemy;
     // 敵が倒された数
     static private int enemyDieNum;
-    const int enemyDieMax = 10;
+    const int enemyDieMax = 48;
     // クリアしたフラグを取得
     EnemyCamera eCamera;
     // Start is called before the first frame update
