@@ -16,7 +16,7 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] OrbGage s_OrbGage;
 
     //移動用
-    int nowSelX = 10;
+    int nowSelX = 7;
     int nowSelY = 10;
 
     //セレクター移動のインターバル
@@ -50,6 +50,8 @@ public class MagicMassSelecter : MonoBehaviour
 
     int defSelX, defSelY;//マスの座標用
 
+    [SerializeField] bool isMagic;
+
     private void Start()
     {
         defSelX = nowSelX;
@@ -61,7 +63,7 @@ public class MagicMassSelecter : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
+        if (isMagic || s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
         {
 
             GetMassInfos();
