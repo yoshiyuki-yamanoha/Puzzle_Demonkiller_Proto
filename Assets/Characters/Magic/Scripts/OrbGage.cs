@@ -268,7 +268,7 @@ public class OrbGage : MonoBehaviour
 
     float delayTime = 0.0f;
     //                     Times { 星炎, 星氷, 星雷, 五炎, 五氷, 五雷,};
-    float[] Times = new float[6] { 2.0f, 4.0f, 1.0f, 1.5f, 1.5f, 1.5f,};
+    float[] Times = new float[6] { 2.0f, 4.0f, 1.5f, 3.0f, 1.5f, 2.0f, };
     public void UseOrb(int num) {
 
         //オーブのレベルを0にする
@@ -278,18 +278,18 @@ public class OrbGage : MonoBehaviour
         //選択範囲を消す
         //magicRanges[num].magicRange.SetActive(false);
         //numが何見てるのか見たかった
-        if(num == 0 || num == 3)
-        {
-            Debug.Log("UseOrb num " + num+" 炎 星:0 五:3");
-        }
-        if (num == 1 || num == 4)
-        {
-            Debug.Log("UseOrb num " + num + " 氷 星:1 五:4");
-        }
-        if (num == 2 || num == 5)
-        {
-            Debug.Log("UseOrb num " + num + " 雷 星:2 五:5");
-        }
+        //if(num == 0 || num == 3)
+        //{
+        //    Debug.Log("UseOrb num " + num+" 炎 星:0 五:3");
+        //}
+        //if (num == 1 || num == 4)
+        //{
+        //    Debug.Log("UseOrb num " + num + " 氷 星:1 五:4");
+        //}
+        //if (num == 2 || num == 5)
+        //{
+        //    Debug.Log("UseOrb num " + num + " 雷 星:2 五:5");
+        //}
         //Debug.Log("UseOrb num "+num);
 
         if (!OrbCheckExsistens())

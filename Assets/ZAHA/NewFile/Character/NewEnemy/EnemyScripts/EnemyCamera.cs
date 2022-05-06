@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyCamera : MonoBehaviour
 {
+    private GameObject[] nowtargets = null;//更新するターゲット
     private GameObject[] targets = null;//ターゲット
     GameObject closeEnemy = null;//一番近い敵を格納する変数
     GameObject hpNoneEnemy = null;//体力のない敵を格納する変数
@@ -37,9 +38,14 @@ public class EnemyCamera : MonoBehaviour
     MainMgr mManager;
     int dieEnemyCount;
     int dieEnemyMax;
-    int dieFlagEnemy;
+
+    int dieFlagEnemyCount;//倒れた敵の数を入れてみる
+    int dieEnemyMix;//死んだ敵と死んでいる途中の鉄器の合計
+    bool dieEnemyFlag = false;//倒れた敵の数を数える制限
+
     public bool endFlag = false;//最後の敵が倒れた時カメラの動きが終了したフラグ
     bool finalDieflag = false;//倒れた敵のカウントフラグ
+
     Text gameCleartext;
 
     Text starttextsiro;
@@ -47,6 +53,9 @@ public class EnemyCamera : MonoBehaviour
 
     float fadeSpeed = 0.06f;//フェードスピード
     float alpha;
+
+    //デバックログ用のフラグ(敵の芯だ数カウント)
+    bool dieEbenyCountCallFlag = true;
 
     // Start is called before the first frame update
     void Start()
@@ -73,11 +82,20 @@ public class EnemyCamera : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate() {
         dieEnemyCount = mManager.GetEnemyDieCount();
-        if (tr.GetTrunPhase() == TrunManager.TrunPhase.Puzzle)
+        if (tr.GetTrunPhase() == TrunManager.TrunPhase.Puzzle)//パズルターンなら
         {
-            dieFlagEnemy = 0;
+            dieFlagEnemyCount = 0;
+            dieEnemyFlag = false;//倒れている最中の敵の数をカウントしたフラグをおろす
+
         }
 
+        if (dieEbenyCountCallFlag == true)
+        {
+            Debug.Log("現在消えている敵の数" + dieEnemyCount);
+            Debug.Log("現在倒れている敵の数" + dieFlagEnemyCount);
+        }
+        
+        dieEnemyMix = dieEnemyCount + dieFlagEnemyCount;
         //敵の行動ターンの時に
         if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
         {
@@ -93,11 +111,16 @@ public class EnemyCamera : MonoBehaviour
         }
         else
         {
+            if (finalDieflag == false)
+            {
+                targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+                HpNoneEnemy();
+            }
             transform.position = defaultCamerapos;
             startFlag = false;
 
             enemy_camera.depth = -2;//カメラの優先度
-            initflg = true;// 
+            //initflg = true;// 
             moveflag = true;
             x = 0;
             //Time.timeScale = 1f;
@@ -107,10 +130,10 @@ public class EnemyCamera : MonoBehaviour
             //    EndEnemyCameraMove();
             //}
         }
-        if ((hpNoneEnemy != null || dieEnemyCount >= dieEnemyMax - 1) && finalDieflag == true)
+
+        if ( finalDieflag == true)//死んだフラグをカウントしてそれがマックスだったら入る
         {
-            targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
-            HpNoneEnemy();
+            //HpNoneEnemy();
             EndEnemyCameraMove();
         }
     }
@@ -134,51 +157,66 @@ public class EnemyCamera : MonoBehaviour
     }
     void HpNoneEnemy()
     {
-        hpNoneEnemy = null;
-        foreach (var target in targets)
+        //Debug.Log("近い敵探し～");
+        //hpNoneEnemy = null;
+        //hpNoneEnemy = CloseEnemycamera();
+        //foreach (var target in targets)
+        //{
+        //    //if(target.GetComponent<EnemyBase>() != null)
+        //    //{
+        //    //    if(enemyste.Deathflg == true)
+        //    //    {
+        //    //        hpNoneEnemy = target;
+        //    //    }
+        //    //}
+        //    //else 
+        //    if (target.GetComponent<Enemy>() != null)
+        //    {
+        //        enemyste = target.GetComponent<Enemy>();
+        //        if (enemyste.Deathflg == true)
+        //        {
+        //            //dieEnemyCount++;
+        //            hpNoneEnemy = target;
+        //            //Debug.Log(hpNoneEnemy+"HPのない敵");
+        //        }
+        //    }
+        //    else if (target.GetComponent<BombEnemy>() != null)
+        //    {
+        //        enemysteBomb = target.GetComponent<BombEnemy>();
+        //        if (enemysteBomb.Deathflg == true)
+        //        {
+        //            //dieEnemyCount++;
+        //            hpNoneEnemy = target;
+        //            //Debug.Log(hpNoneEnemy+"HPのない敵");
+        //        }
+        //    }
+        //    else if (target.GetComponent<FlameSwordMove>() != null)
+        //    {
+        //        enemysteFlame = target.GetComponent<FlameSwordMove>();
+        //        if (enemysteFlame.Deathflg == true)
+        //        {
+        //            //dieEnemyCount++;
+        //            hpNoneEnemy = target;
+        //            //Debug.Log(hpNoneEnemy+"HPのない敵");
+        //        }
+        //    }
+        //}
+        if (dieEnemyCount >= dieEnemyMax && hpNoneEnemy != null)
         {
-            if (target.GetComponent<Enemy>() != null)
-            {
-                enemyste = target.GetComponent<Enemy>();
-                if (enemyste.Deathflg == true)
-                {
-                    //dieEnemyCount++;
-                    //dieFlagEnemy++;
-                    hpNoneEnemy = target;
-                    //Debug.Log(hpNoneEnemy+"HPのない敵");
-                }
-            }
-            else if (target.GetComponent<BombEnemy>() != null)
-            {
-                enemysteBomb = target.GetComponent<BombEnemy>();
-                if (enemysteBomb.Deathflg == true)
-                {
-                    //dieEnemyCount++;
-                    //dieFlagEnemy++;
-                    hpNoneEnemy = target;
-                    //Debug.Log(hpNoneEnemy+"HPのない敵");
-                }
-            }
-            else if (target.GetComponent<FlameSwordMove>() != null)
-            {
-                enemysteFlame = target.GetComponent<FlameSwordMove>();
-                if (enemysteFlame.Deathflg == true)
-                {
-                    //dieEnemyCount++;
-                    //dieFlagEnemy++;
-                    hpNoneEnemy = target;
-                    //Debug.Log(hpNoneEnemy+"HPのない敵");
-                }
-            }
+            Debug.Log("近い敵探し～");
+            hpNoneEnemy = null;
+            hpNoneEnemy = CloseEnemycamera();
+            finalDieflag = true;
+            //        //Debug.Log("最後の敵が倒れたぞ　コラ");
         }
 
-        //dieCountflag = true;
-        //Debug.Log("敵のカウントフラグ" + dieFlagEnemy + "");
-        //Debug.Log("敵が" + dieEnemyCount + "体目倒れた");
+            //dieCountflag = true;
+            //Debug.Log("敵のカウントフラグ" + dieFlagEnemy + "");
+            //Debug.Log("敵が" + dieEnemyCount + "体目倒れた");
 
 
-        //return hpNoneEnemy;
-    }
+            //return hpNoneEnemy;
+        }
 
     void CloseEnemyCameraMove()//一番近い敵を見るカメラ
     {
@@ -264,7 +302,8 @@ public class EnemyCamera : MonoBehaviour
         targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
 
 
-        if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax-1) && finalDieflag == false)
+        //if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax - 1) && finalDieflag == false)
+        if (finalDieflag == false)
         {
             HpNoneEnemy();
             enemy_camera.depth = 0;
@@ -286,12 +325,11 @@ public class EnemyCamera : MonoBehaviour
             EndEnemyCameraMove();
         }
         //HpNoneEnemy();
-        Debug.Log(dieFlagEnemy + "たい倒れた");
+        //Debug.Log(dieFlagEnemy + "たい倒れた");
 
     }
     void EndEnemyCameraMove()//最後の敵が倒れた時に使う
     {
-        finalDieflag = true;
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
         timer += Time.deltaTime;
@@ -301,10 +339,11 @@ public class EnemyCamera : MonoBehaviour
         //HpNoneEnemy();
         if (initflg == true)
         {
+
             camera_targe = hpNoneEnemy;//CloseEnemycamera();
             if (camera_targe != null)
             {
-                enemyste = camera_targe.GetComponent<Enemy>();
+                //enemyste = camera_targe.GetComponent<Enemy>();
                 //enemyste.Hp;
                 //transform.position = MoveCamerapos;
                 if (camera_targe != null) distance = transform.position - camera_targe.transform.position;
@@ -326,15 +365,20 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
-                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
-                transform.LookAt(camera_targe.transform.position);
+                Debug.Log("敵を見ている camera_targeが入っている");
             }
+            else
+            {
+                Debug.Log("敵を見ている camera_targeが入っていない");
+            }
+            transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+            transform.LookAt(camera_targe.transform.position);
         }
         if (timer > 3)
         {
             endFlag = true;
         }
-        if(timer > 1 && timer < 2.5)
+        if(timer > 1 && timer < 2.5f)
         {
             Time.timeScale = 0.5f;
         }
@@ -342,7 +386,7 @@ public class EnemyCamera : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        if(hpNoneEnemy == null)
+        if(hpNoneEnemy == null || timer > 2.5f)
         {
 
             gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
@@ -398,4 +442,9 @@ public class EnemyCamera : MonoBehaviour
     //    startFlag = false;
     //    enemy_camera.depth = -2;
     //}
+
+    public void DieFlagEnemyCount()
+    {
+        dieEnemyCount++;
+    }
 }
