@@ -231,7 +231,16 @@ public class EnemyBase : MonoBehaviour
     {
 
         hp -= damage;
-        if (hp <= 0) { hp = 0; speed = 0; deathflg = true; /*死亡フラグ立てる 速度0 HP0*/  enemys_.Remove(this.gameObject); }
+        if (hp <= 0)
+        {
+            hp = 0; 
+            speed = 0; 
+            deathflg = true; 
+            MainMgr mg = new MainMgr();
+            mg.EnemiDieCount(); 
+            /*死亡フラグ立てる 速度0 HP0*/  
+            enemys_.Remove(this.gameObject);
+        }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
         return hp;
@@ -491,7 +500,7 @@ public class EnemyBase : MonoBehaviour
 
                 //SearchMovement(massnum); //2マス。
 
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal,massnum);
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum);
                 NextposX = move_pos.x;
                 NextposY = move_pos.y;
                 Ismove = true;
