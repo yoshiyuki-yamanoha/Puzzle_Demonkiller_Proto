@@ -60,13 +60,14 @@ public class GoToParent : MonoBehaviour
 
             transform.Rotate(new Vector3(0, curAngleY, 0));
         }
-            
+
 
         //選択サークルの位置を魔法陣に合わせる
         if (s_circle)
         {
             s_circle.transform.position = transform.parent.position;
             s_circle.transform.parent = transform.parent;
+            s_circle.GetComponent<Renderer>().sharedMaterial.color = endLinePos.GetComponent<Renderer>().material.color;
         }
 
         
@@ -88,9 +89,13 @@ public class GoToParent : MonoBehaviour
     }
 
     //選択サークル表示
-    public void ShowSelectCircle(GameObject cir) {
-        if(s_circle == null)
+    public void ShowSelectCircle(GameObject cir)
+    {
+        if (s_circle == null)
+        {
             s_circle = Instantiate(cir, transform.position, Quaternion.identity);
+            s_circle.name = "Selecter";
+        }
     }
 
     public void FadeSelectCircle() {
@@ -139,6 +144,9 @@ public class GoToParent : MonoBehaviour
         //自分のマテリアルの色と先のマテリアルの色を獲る
         Color a = GetComponent<Renderer>().material.color;
         Color b = endLinePos.GetComponent<Renderer>().material.color;
+
+        a.a = 0.5f;
+        b.a = 0.5f;
 
         //線の色をオブジェクトに合わせる
         lr.startColor = a;

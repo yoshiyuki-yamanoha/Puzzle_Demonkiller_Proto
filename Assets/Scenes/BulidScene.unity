@@ -751,7 +751,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222253781}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &222253783
 Camera:
   m_ObjectHideFlags: 0
@@ -1048,7 +1048,6 @@ MonoBehaviour:
   x_rotate: 4
   y_reverce: 0.1
   x_reverce: 0.1
-  cc: {fileID: 0}
   attackNum: 0
   s_OrbCon: {fileID: 839324178}
   s_OrbGage: {fileID: 387063143}
@@ -1620,7 +1619,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -57.000183, y: 220}
+  m_AnchoredPosition: {x: -57.000122, y: 220}
   m_SizeDelta: {x: 569.5, y: 138.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518659485
@@ -7615,7 +7614,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -9091,6 +9090,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1332830484628827221, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570543282871381748, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2145479092087621439, guid: 38ed15798ec88964194e4d3cfb231949,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -9226,10 +9235,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3225069329372071270, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237167632044865903, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286607894860604038, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3378687315738948280, guid: 38ed15798ec88964194e4d3cfb231949,
         type: 3}
       propertyPath: m_Name
       value: Orbinfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5023649449153047465, guid: 38ed15798ec88964194e4d3cfb231949,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6902170749049276850, guid: 38ed15798ec88964194e4d3cfb231949,
         type: 3}
