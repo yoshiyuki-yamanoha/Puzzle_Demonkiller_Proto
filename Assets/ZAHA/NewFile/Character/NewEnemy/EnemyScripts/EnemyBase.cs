@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [SerializeField] bool camera_target_core_flg;
+    [SerializeField] bool camera_target_bari_flg;
+
     bool move_wait_flg = false;
     [SerializeField] float move_wait_time = 0;
     float movetime = 0;
@@ -180,6 +183,7 @@ public class EnemyBase : MonoBehaviour
         {
             IceObjSetActivOff();//アイスオブジェクトオフ
         }
+        Camera_TargetInit();//カメラのターゲット格納初期化
         move_wait_time = Random.Range(0.0f, 1.0f);
         GetObject();
         Init_speed = Speed;//初期のスピード保存
@@ -217,6 +221,7 @@ public class EnemyBase : MonoBehaviour
         def.y = 0;//Y軸方向は見ない。
         return def;
     }
+
     public List<GameObject> GetEnemyList()
     {
         return enemys_;
@@ -233,12 +238,12 @@ public class EnemyBase : MonoBehaviour
         hp -= damage;
         if (hp <= 0)
         {
-            hp = 0; 
-            speed = 0; 
-            deathflg = true; 
+            hp = 0;
+            speed = 0;
+            deathflg = true;
             MainMgr mg = new MainMgr();
-            mg.EnemiDieCount(); 
-            /*死亡フラグ立てる 速度0 HP0*/  
+            mg.EnemiDieCount();
+            /*死亡フラグ立てる 速度0 HP0*/
             enemys_.Remove(this.gameObject);
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
@@ -253,12 +258,6 @@ public class EnemyBase : MonoBehaviour
             Core = GameObject.FindWithTag("Core").GetComponent<ManageCoreState>();
         }
     }
-
-    //public void Move(int startpos, int nextpos)//Move処理 //親(初期位置) //目的値
-    //{
-    //    Vector3 target = TargetDir(this.gameObject, Generation_enemy.rootpos[startpos].transform.GetChild(nextpos).gameObject).normalized;
-    //    transform.position += target * Speed * Time.deltaTime;//移動
-    //}
 
     public void LookTarget(Vector3 dif)//プレイヤーの位置と目的値を渡す
     {
@@ -474,8 +473,15 @@ public class EnemyBase : MonoBehaviour
     {
         if (Init_attack_search) //毎ターン一回のみ判定
         {
-            AttackSearchMovement(massnum);//攻撃出来る場所か判定
-            Init_attack_search = false;
+            if (!Deathflg)//死亡したのなら見なーい
+            {
+                AttackSearchMovement();//攻撃出来る場所か判定
+                Init_attack_search = false;
+            }
+            else
+            {
+                return;
+            }
         }
 
         if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
@@ -532,6 +538,7 @@ public class EnemyBase : MonoBehaviour
                 if (Status.Walk == status)//歩いていたら
                 {
                     Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;//map情報を無くす
+                    Debug.Log("移動した　map情報NONE");
                 }
             }
 
@@ -643,58 +650,101 @@ public class EnemyBase : MonoBehaviour
         //}
     }
 
-    public void AttackSearchMovement(int massnum)
+    public void AttackSearchMovement()
     {
-        if (Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//下方向
+        if (Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//下方向
         {
-            if (map.Core_bari_Data[IndexCheckY(Y + massnum), IndexCheckX(X)].gameObject != null)
+            if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject != null)
             {
-                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y + massnum));
+                //攻撃対象判別。
+                if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
+                {
+                    camera_target_core_flg = true;
+                }
+                else if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("Bari"))
+                {
+                    camera_target_bari_flg = true;
+                }
+
+                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y + 1));
                 Attackaria = true;
             }
             else
             {
-                Map.Map[IndexCheckY(Y + massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+                Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
                 Attackaria = false;
+
+                Camera_TargetInit();
             }
         }
-        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] == (int)MapMass.Mapinfo.core)//右
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.bari)//右
         {
-            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + massnum)].gameObject != null))
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject != null))
             {
-                Attackpos = new Vector2Int(IndexCheckX(X + massnum), IndexCheckY(Y));
+
+                if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("Core"))
+                {
+                    camera_target_core_flg = true;
+                }
+                else if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("Bari"))
+                {
+                    camera_target_bari_flg = true;
+                }
+
+                Attackpos = new Vector2Int(IndexCheckX(X + 1), IndexCheckY(Y));
                 Attackaria = true;
             }
             else
             {
+                Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y), IndexCheckX(X + massnum)] = (int)MapMass.Mapinfo.NONE;
+                Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
             }
         }
-        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - massnum)] == (int)MapMass.Mapinfo.core)//左
+        else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
         {
-            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - massnum)].gameObject != null))
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject != null))
             {
-                Attackpos = new Vector2Int(IndexCheckX(X - massnum), IndexCheckY(Y));
+                if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("Core"))
+                {
+                    camera_target_core_flg = true;
+                }
+                else if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("Bari"))
+                {
+                    camera_target_bari_flg = true;
+                }
+
+                Attackpos = new Vector2Int(IndexCheckX(X - 1), IndexCheckY(Y));
                 Attackaria = true;
             }
             else
             {
+                Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+                Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
             }
         }
-        else if (Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] == (int)MapMass.Mapinfo.core)//左
+        else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//
         {
-            if ((map.Core_bari_Data[IndexCheckY(Y - massnum), IndexCheckX(X)].gameObject != null))
+            if ((map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject != null))
             {
-                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y - massnum));
+                if (map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
+                {
+                    camera_target_core_flg = true;
+                }
+                else if (map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject.CompareTag("Bari"))
+                {
+                    camera_target_bari_flg = true;
+                }
+
+                Attackpos = new Vector2Int(IndexCheckX(X), IndexCheckY(Y - 1));
                 Attackaria = true;
             }
             else
             {
+                Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y - massnum), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE;
+                Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
             }
         }
         //else
@@ -776,5 +826,21 @@ public class EnemyBase : MonoBehaviour
         }
 
         return move_wait_flg;
+    }
+
+    public bool Camera_Target_Core_flg()
+    {
+        return camera_target_core_flg;
+    }
+
+    public bool Camera_Target_Bari_flg()
+    {
+        return camera_target_bari_flg;
+    }
+
+    void Camera_TargetInit()
+    {
+        camera_target_bari_flg = false;
+        camera_target_core_flg = false;
     }
 }

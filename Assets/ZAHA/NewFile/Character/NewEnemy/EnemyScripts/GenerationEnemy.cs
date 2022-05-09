@@ -160,7 +160,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
             enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1);
-            debug_pos[0] = new Vector2Int(12, 19);
+            debug_pos[0] = new Vector2Int(12, 9);
             //debug_pos[1] = new Vector2Int(12, 12);
         }
 
@@ -262,13 +262,14 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                         oneturn_spawnumber = false;
                     }
 
-                    Debug.Log("ランダム番号 " + spawn_number);
+                    //Debug.Log("ランダム番号 " + spawn_number);
                     Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
+                    //Generation(debug_pos[0]);
                     //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
                     //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
-                                                                                         //}
-                                                                                         //else
-                                                                                         //{
+                    //}
+                    //else
+                    //{
 
                     // 26回呼ばれている。
                     //if (oneturn_spawnpos) {
