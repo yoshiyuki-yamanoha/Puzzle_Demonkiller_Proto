@@ -583,6 +583,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         Quaternion quaternion = Quaternion.LookRotation(dir);
         enemy_instantiate.transform.rotation = quaternion;
 
+        enemy_instantiate.GetComponent<EnemyBase>().UIFacing();//UIが向くよーん
 
         enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
         oneturn_spawnumber = true;
