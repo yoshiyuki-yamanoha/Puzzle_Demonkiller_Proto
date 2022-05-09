@@ -7728,6 +7728,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 128c7b77c42b8464482473fd8e5242ad, type: 3}
   - {fileID: 8300000, guid: f2b43c6a248d6444088bc46a2de0df97, type: 3}
   - {fileID: 8300000, guid: 4a5f96fab4837fd4085cf2c63a19a288, type: 3}
+  - {fileID: 8300000, guid: 756a5347cacaa1a43bce8163e0311cd0, type: 3}
+  - {fileID: 8300000, guid: beb152d06e7d0dc4fad6081bba0914e7, type: 3}
+  - {fileID: 8300000, guid: 6b7ad6663ae94a7409583aae00a4e1f1, type: 3}
+  - {fileID: 8300000, guid: 6b7ad6663ae94a7409583aae00a4e1f1, type: 3}
 --- !u!82 &1161136428
 AudioSource:
   m_ObjectHideFlags: 0
