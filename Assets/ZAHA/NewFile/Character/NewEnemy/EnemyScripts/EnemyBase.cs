@@ -718,7 +718,11 @@ public class EnemyBase : MonoBehaviour
 
         if (def.sqrMagnitude < 1f)
         {
-            //LookTarget(Vector3.back);
+            Vector3 dir = map.GetCore().obj[0].transform.position - transform.position;
+            dir.y = 0;
+            Quaternion quaternion = Quaternion.LookRotation(dir);
+            transform.rotation = quaternion;
+
             Target_distance = true;
             transform.position = next_pos;
         }
@@ -744,7 +748,7 @@ public class EnemyBase : MonoBehaviour
         ice_obj.SetActive(false);
     }
 
-    private void UIFacing()
+    public void UIFacing()
     {
         hpber.transform.forward = Vector3.back;
         fire_image.transform.forward = Vector3.back;

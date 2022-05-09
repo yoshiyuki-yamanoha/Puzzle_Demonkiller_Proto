@@ -29,6 +29,8 @@ public class EnemyGenerationInfo
 
 public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 {
+    Vector3 tmppos;
+    Vector3 tmp_enemy_pos;
 
     //生成の位置
     bool oneturn_spawnumber = true;
@@ -158,7 +160,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
             enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1);
-            debug_pos[0] = new Vector2Int(12, 15);
+            debug_pos[0] = new Vector2Int(12, 19);
             //debug_pos[1] = new Vector2Int(12, 12);
         }
 
@@ -572,10 +574,15 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         ParticleSystem new_particle = Instantiate(enemy_particle[magic_num], enemypos, enemy_particle[magic_num].gameObject.transform.rotation);
         new_particle.Play();//再生
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
+        GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, Quaternion.identity);//敵を生成
 
-        GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, new Quaternion(0, 180.0f, 0, 1));//敵を生成
+
+        Vector3 dir = map.GetCore().obj[0].transform.position - enemy_instantiate.transform.position;
+        dir.y = 0;
+        Quaternion quaternion = Quaternion.LookRotation(dir);
+        enemy_instantiate.transform.rotation = quaternion;
+
 
         enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
         oneturn_spawnumber = true;
@@ -627,6 +634,12 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         enemy_count++;
         enemy_oneturn_count++;
+    }
+
+    void SetPos(Vector3 tmppos , Vector3 tmp_enemy_pos)
+    {
+        this.tmppos = tmppos;
+        this.tmp_enemy_pos = tmp_enemy_pos;
     }
 
     void SetFlameSwordInfo(GameObject enemy_instantiate, int x, int y)
