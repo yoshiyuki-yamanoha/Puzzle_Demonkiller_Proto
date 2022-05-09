@@ -42,7 +42,7 @@ public class SelectUseOrb : TrunManager
     [SerializeField] bool magicMagicMode;
     
     [SerializeField] MapMass s_MapMass;
-    int defSelX = 7, defSelY = 10;//マスの座標用
+    int defSelX = 9, defSelY = 10;//マスの座標用
     // Start is called before the first frame update
     void Start()
     {

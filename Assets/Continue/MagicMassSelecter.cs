@@ -16,7 +16,7 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] OrbGage s_OrbGage;
 
     //移動用
-    int nowSelX = 7;
+    int nowSelX = 9;
     int nowSelY = 10;
 
     //セレクター移動のインターバル

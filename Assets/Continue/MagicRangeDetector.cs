@@ -117,24 +117,35 @@ public class MagicRangeDetector : TrunManager
         Vector2Int rangeStart;
         int num;
 
+        //全範囲フラグ
+        bool isAllMass = false;
+
         switch (magicType) {
             case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
             case MagicType.ThunderPenta:
 
-                //左上
-                rangeStart = new Vector2Int();
-                rangeStart.x = selX - magicLevel;
-                rangeStart.y = selY - magicLevel;
-                
-                num = magicLevel * 2 + 1;
-                magicRange = new MagicMassStatus[num,num];
+                if (magicLevel <= 9)
+                {
+                    //左上
+                    rangeStart = new Vector2Int();
+                    rangeStart.x = selX - magicLevel;
+                    rangeStart.y = selY - magicLevel;
 
-                for (int i = 0; i < num; i++) {
-                    for (int j = 0; j < num; j++) {
-                        magicRange[i, j].y = rangeStart.y + i;
-                        magicRange[i, j].x = rangeStart.x + j;
-                        magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y + i);
+                    num = magicLevel * 2 + 1;
+                    magicRange = new MagicMassStatus[num, num];
+
+                    for (int i = 0; i < num; i++)
+                    {
+                        for (int j = 0; j < num; j++)
+                        {
+                            magicRange[i, j].y = rangeStart.y + i;
+                            magicRange[i, j].x = rangeStart.x + j;
+                            magicRange[i, j].obj = s_MapMass.GetGameObjectOfSpecifiedMass(rangeStart.x + j, rangeStart.y + i);
+                        }
                     }
+                }
+                else {
+                    isAllMass = true;
                 }
 
 
@@ -207,15 +218,28 @@ public class MagicRangeDetector : TrunManager
                 break;
         }
 
-        if (magicRange == null) return;
 
-        retRange = new GameObject[magicRange.Length];
-        int n = 0;
+        
+        if (magicRange == null && !isAllMass) return;
 
-        foreach (var g in magicRange) {
-            s_MagicMassSelecter.ChangeMatSpecifiedMass(g.obj, (int)magicType % 3);
-            retRange[n++] = g.obj;
+        if (isAllMass) {
+            retRange = s_MapMass.GetAllMassObjects();
+            foreach(var g in retRange)
+                s_MagicMassSelecter.ChangeMatSpecifiedMass(g, (int)magicType % 3);
         }
+        else
+        {
+            retRange = new GameObject[magicRange.Length];
+
+            int n = 0;
+
+            foreach (var g in magicRange)
+            {
+                s_MagicMassSelecter.ChangeMatSpecifiedMass(g.obj, (int)magicType % 3);
+                retRange[n++] = g.obj;
+            }
+        }
+        
     }
 
     public GameObject[] GetCurrentAttackRange() {
