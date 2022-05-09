@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 0
   pos: {x: 0, y: 0}
-  lightning_Efe: {fileID: 106988, guid: 1ef5181e63fe418438672359b2d47813, type: 3}
+  lightning_Efe: {fileID: 178460, guid: a84cb58ef7faa67488076810242453b9, type: 3}
   Stage_mass: {fileID: 0}
 --- !u!1 &4301717308855133471
 GameObject:

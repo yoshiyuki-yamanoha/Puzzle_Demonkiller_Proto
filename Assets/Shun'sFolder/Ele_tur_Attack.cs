@@ -12,7 +12,7 @@ public class Ele_tur_Attack : MonoBehaviour
     [SerializeField]private GameObject lightning_Efe;
     [SerializeField]private GameObject Stage_mass;
 
-    private int efe_Max = 3;
+    private int efe_Max = 1;
     private GameObject tage;
 
     private int LifeTrun;
@@ -63,7 +63,6 @@ public class Ele_tur_Attack : MonoBehaviour
                 if (0 < targetNum && targetNum < Stage_mass.transform.childCount - 1)
                 {
                     Ene_Damage(Stage_mass.transform.GetChild(targetNum).gameObject);
-                    create_Ele_Efe(Stage_mass.transform.GetChild(targetNum).gameObject);
                 }
             }
         }
@@ -104,6 +103,7 @@ public class Ele_tur_Attack : MonoBehaviour
             Vector2 ene_pos = new Vector2(ene.X, ene.Y);
             if(magic_pos == ene_pos)
             {
+                create_Ele_Efe(_tage);
                 ene.Damage(1);
             }
         }
