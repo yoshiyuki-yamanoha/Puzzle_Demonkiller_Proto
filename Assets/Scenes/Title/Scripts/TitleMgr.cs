@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Audio;
 
 public class TitleMgr : MonoBehaviour
@@ -25,14 +26,20 @@ public class TitleMgr : MonoBehaviour
 
     public AudioSource audioSource;
 
+    [SerializeField] Sprite[] startImg = new Sprite[2];    //　スタート文字の画像
+    [SerializeField] Sprite[] quitImg = new Sprite[2];     //　Quit文字の画像
+
+    [SerializeField] Image ui_Start;    // Start表示画像の情報
+    [SerializeField] Image ui_Quit;     // Quit表示画像の情報
+    [SerializeField] Image ui_Line;     // Line表示画像の情報
     // Start is called before the first frame update
     void Start()
     {
         
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(4.98f, -57.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(4.98f, -102.6f, 0.0f);
+        selectMenuPos[0] = new Vector3(370.55f, -87.0f, 0.0f);
+        selectMenuPos[1] = new Vector3(370.55f, -225.0f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
         GenerationTitle_BGM();
@@ -47,10 +54,16 @@ public class TitleMgr : MonoBehaviour
             if (selecter == Select.Start)
             {
                 selecter = Select.Quit;
+                ui_Start.sprite = startImg[0];
+                ui_Quit.sprite = quitImg[1];
             }
             else
             {
                 selecter = Select.Start;
+                ui_Start.sprite = startImg[1];
+                ui_Quit.sprite = quitImg[0];
+                
+
             }
         }
 
@@ -67,7 +80,7 @@ public class TitleMgr : MonoBehaviour
 
             switch (selecter)
             {
-                case Select.Start: GameMgr.Instance.GotoSelectScene(); break;
+                case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
                 case Select.Quit: GameMgr.Instance.GotoQuit(); break;
             }
         }
