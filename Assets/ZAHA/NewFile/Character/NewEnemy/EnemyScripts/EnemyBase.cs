@@ -246,6 +246,23 @@ public class EnemyBase : MonoBehaviour
             deathflg = true;
             MainMgr mg = new MainMgr();
             mg.EnemiDieCount();
+            if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
+            {
+                sePlay.Play("GoblinDeath");
+
+            }
+            else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
+            {
+                sePlay.Play("DemonDeath");
+            }
+            else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
+            {
+                sePlay.Play("BombDeath");
+            }
+            else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
+            {
+                sePlay.Play("FlameDeath");
+            }
             /*死亡フラグ立てる 速度0 HP0*/
             //if (this.gameObject == null)
             //{
@@ -660,7 +677,18 @@ public class EnemyBase : MonoBehaviour
             }
 
             Enemy_anim.TriggerAttack("Attack");
-            sePlay.Play("EnemyAtack");
+            if (enemy_kinds == EnemyKinds.Bom)  ////敵の種類のに応じて攻撃のSEを変える　　//爆弾敵/
+            {
+                sePlay.Play("BombEnemExplosion");
+            }
+            else if (enemy_kinds == EnemyKinds.Demon || enemy_kinds == EnemyKinds.Goblin) //ゴブリン、デーモン
+            {
+                sePlay.Play("EnemyAtack");
+            }
+            else if (enemy_kinds == EnemyKinds.Flame)//炎の剣
+            {
+                sePlay.Play("FlameAttack");
+            }
             Init_anim_flg = false;
         }
 
