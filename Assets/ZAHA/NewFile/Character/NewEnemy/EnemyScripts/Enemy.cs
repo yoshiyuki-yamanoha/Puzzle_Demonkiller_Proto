@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
-    public GameObject pentaIceEff;
+    //public GameObject pentaIceEff;
     Magichoming magichoming;
     float time = 0;
     private void Start()
@@ -115,20 +115,26 @@ public class Enemy : EnemyBase
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
+            IceObjSetActivOff();//アイスオブジェクトオフ
+            gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
         }
 
         if (other.CompareTag("Ice"))
         {
-            Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
-            Abnormal_condition = AbnormalCondition.Ice;
-            other.GetComponent<PentagonIce>().Tin(transform.position);
+            Abnormal_condition = AbnormalCondition.Ice;//状態異常をアイス状態
+            if (!Ice_instance_flg)
+            {
+                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject);
+                Ice_instance_flg = true;
+            }
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
-            Ice_abnormality_turncount = 0;
-            IceObjSetActivOn();//オン
-            Destroy(other.gameObject);
+            Ice_abnormality_turncount = 0; //状態異常カウントリセット
+            IceObjSetActivOn();//アイスオブジェクトオン
+            Destroy(other.gameObject);//当たった魔法を消すよーん
         }
     }
+
     public void Icerelease()
     {
         Abnormal_condition = AbnormalCondition.NONE;

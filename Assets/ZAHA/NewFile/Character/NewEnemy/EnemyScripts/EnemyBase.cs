@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    bool ice_instance_flg = false;//アイスオブジェクトを一回のみ生成
+
     [SerializeField] bool camera_target_core_flg;
     [SerializeField] bool camera_target_bari_flg;
 
@@ -171,6 +173,7 @@ public class EnemyBase : MonoBehaviour
     public bool Init_attack_search { get => init_attack_search; set => init_attack_search = value; }
     public ParticleSystem[] Fire_effect { get => fire_effect; set => fire_effect = value; }
     public Image Fire_image { get => fire_image; set => fire_image = value; }
+    public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
 
     void EffectInit()
     {
@@ -244,7 +247,10 @@ public class EnemyBase : MonoBehaviour
             MainMgr mg = new MainMgr();
             mg.EnemiDieCount();
             /*死亡フラグ立てる 速度0 HP0*/
-            enemys_.Remove(this.gameObject);
+            //if (this.gameObject == null)
+            //{
+            //enemys_.Remove(this.gameObject);
+            //}
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
@@ -326,6 +332,8 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log("Im On fire");
         Fire_abnormality_turncount++;
 
+        Enemy_anim.SetFloat(1);//アニメーションスピードを0にするー
+
         if (Fire_abnormality_turncount <= 3)
         {
             //Debug.Log("ダメージアニメーション");
@@ -365,6 +373,8 @@ public class EnemyBase : MonoBehaviour
 
         }
 
+        Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
+
         //Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 3)//2ターン経過したら
         {
@@ -378,7 +388,7 @@ public class EnemyBase : MonoBehaviour
             ice_abnormality_turncount = 0;
             Damage(1);
             Enemy enemy = transform.GetComponent<Enemy>();
-            Destroy(enemy.pentaIceEff);
+           // Destroy(enemy.pentaIceEff);
         }
     }
 
@@ -386,6 +396,7 @@ public class EnemyBase : MonoBehaviour
     public void DeleteListEnemy()
     {
         List<GameObject> g = new List<GameObject>();
+
         foreach (var enemy in enemys_)
         {
             if (enemy == null)
@@ -482,6 +493,12 @@ public class EnemyBase : MonoBehaviour
             {
                 return;
             }
+        }
+
+        //ボムが
+        if(enemy_kinds == EnemyKinds.Bom)
+        {
+            if (Attackaria) deathflg = true;
         }
 
         if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
@@ -595,7 +612,10 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        UIFacing();
+        if (!deathflg)
+        {
+            UIFacing();
+        }
         //}
         //攻撃
         //EnemyAttack();
@@ -724,7 +744,7 @@ public class EnemyBase : MonoBehaviour
                 Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
             }
         }
-        else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//
+        else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//上方向
         {
             if ((map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject != null))
             {

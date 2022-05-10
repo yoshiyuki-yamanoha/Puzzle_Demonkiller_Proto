@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class EnemyGenerationInfo
 {
     public EnemyGenerationInfo(int one_turn, int goblin, int woman, int bom, int flamesword)
@@ -18,7 +19,7 @@ public class EnemyGenerationInfo
     int goblin;//ゴブリン
     int woman;//女性敵
     int bom;//ボム
-    int flamesword;
+    int flamesword;//炎の剣を持った敵
 
     public int Goblin { get => goblin; set => goblin = value; }
     public int Woman { get => woman; set => woman = value; }
@@ -44,6 +45,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         Debug,
         Game,
     }
+    //炎で湧いた
+    GameObject flame_obj;
 
     bool draw = true;
 
@@ -159,9 +162,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1);
-            debug_pos[0] = new Vector2Int(12, 9);
-            //debug_pos[1] = new Vector2Int(12, 12);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
+            debug_pos[0] = new Vector2Int(15, 7);
+            //debug_pos[1] = new Vector2Int(10, 12);
         }
 
         //for (int i = 0; i < enemy_generation_info.Length; i++)
@@ -254,17 +257,23 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  5 > 0
                 { //1ターンに生成出来る数が最大値を超えたら
                   //SearchGeneration();
-                  //if (game_mode == Mode.Game)
-                  //{
-
-                    if (oneturn_spawnumber) {
-                        spawn_number = Random.Range(0, 4);
-                        oneturn_spawnumber = false;
+                    if (game_mode == Mode.Game)
+                    {
+                        if (oneturn_spawnumber)
+                        {
+                            spawn_number = Random.Range(0, 4);
+                            oneturn_spawnumber = false;
+                        }
+                        Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
+                    }
+                    else
+                    {
+                        Generation(debug_pos[0]);
                     }
 
                     //Debug.Log("ランダム番号 " + spawn_number);
-                    Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 2), spawn_pos[spawn_number].y + Random.Range(-1, 2)));
-                    //Generation(debug_pos[0]);
+
+                    //
                     //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
                     //Generation(new Vector2Int(Random.Range(0, 19), Random.Range(0, 13)));//)//場所設定
                     //}
@@ -306,7 +315,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
                 if (generation_flg)
                 {//生成フラグがオンだったら生成
-                    //SkipEnemy();
+                    SkipEnemy();
                     while (enemy_generation_info[Nowturn].One_turn_Generation > 0)
                     {
                         if (oneturn_spawnumber)
@@ -344,6 +353,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                         Nowturn++;
                     draw = true;
                     trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+
+                    flame_obj = null;
                 }
             }
         }
@@ -364,10 +375,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             GameObject[] search_enemys = null;//エネミータグで取得格納配列
             search_enemys = GameObject.FindGameObjectsWithTag("Enemy");//敵をタグで取得
-            foreach (var search_enemy in search_enemys)
+            //foreach (var search_enemy in search_enemys)
+            //{
+            //    activ_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+            //}
+
+            for (int enemy_num = 0; enemy_num < search_enemys.Length; enemy_num++)
             {
-                activ_list_enemys.Add(search_enemy);//タグで取得した敵をリストに追加
+                activ_list_enemys.Add(search_enemys[enemy_num]);
             }
+
             set_list_activ_flg = false;
         }
     }
@@ -536,7 +553,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     enemy_generation_info[Nowturn].Woman--;
                     random_enem_kinds = 0;
                 }
-                else if (enemy_generation_info[Nowturn].Flamesword > 0)//女性敵
+                else if (enemy_generation_info[Nowturn].Flamesword > 0)//フレーム敵
                 {
                     enemy_generation_info[Nowturn].One_turn_Generation--;
                     enemy_generation_info[Nowturn].Flamesword--;
@@ -578,6 +595,13 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
         GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, Quaternion.identity);//敵を生成
 
+        if (enemy_kinds == 3)//炎の敵だったら入る。
+        {
+            if (flame_obj == null)
+            {
+                flame_obj = enemy_instantiate;
+            }
+        }
 
         Vector3 dir = map.GetCore().obj[0].transform.position - enemy_instantiate.transform.position;
         dir.y = 0;
@@ -688,6 +712,11 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         max_x = map.Map.GetLength(1);//mapのx軸
         max_y = map.Map.GetLength(0);//mapのy軸
         enemy_kinds_max = enemy_prefab.Length;//敵の種類数
+    }
+
+    public GameObject FlameGameObject()
+    {
+        return flame_obj;
     }
 
     // Update is called once per frame
