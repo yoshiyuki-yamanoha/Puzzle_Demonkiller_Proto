@@ -30,10 +30,16 @@ public class PentaIceWall : MonoBehaviour
 
         if (afterOneTurn)
         {
-            Debug.Log("START" + LifeTrun);
-            LifeTrun--;
-            if (LifeTrun <= 0) Destroy(this.gameObject);
-            afterOneTurn = false;
+            DestroyIce();
         }
+    }
+
+    public void DestroyIce()
+    {
+        Debug.Log("START" + LifeTrun);
+        LifeTrun--;
+        if (LifeTrun <= 0) Destroy(this.gameObject);
+        afterOneTurn = false;
+        gameObject.transform.root.GetComponent<EnemyBase>().Ice_instance_flg = false;
     }
 }

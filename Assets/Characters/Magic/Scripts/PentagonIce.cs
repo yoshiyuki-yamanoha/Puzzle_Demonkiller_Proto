@@ -37,9 +37,11 @@ public class PentagonIce : MonoBehaviour
             afterOneTurn = false;
         }
     }
-    public void Tin(Vector3 _pos)
+    public void Tin(Vector3 _pos, GameObject obj)
     {
         GameObject Eff = Instantiate(iceWall, _pos, Quaternion.identity);
-        Eff.transform.localScale = new Vector3 (2, 2, 2);
+        Eff.transform.parent = obj.transform;
+        Eff.transform.localScale = new Vector3(2, 2, 2);
+
     }
 }

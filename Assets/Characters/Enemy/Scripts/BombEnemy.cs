@@ -187,19 +187,27 @@ public class BombEnemy : EnemyBase
 
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
+            IceObjSetActivOff();
             FireEffectPlay();
             Fire_Abnormal_UI();
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
+            gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
         }
 
         if (other.CompareTag("Ice"))
         {
             IceObjSetActivOn();
-            Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
             Abnormal_condition = AbnormalCondition.Ice;
-            other.GetComponent<PentagonIce>().Tin(transform.position);
+
+            if (!Ice_instance_flg)
+            {
+                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject);
+                Ice_instance_flg = true;
+            }
+
+            
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             Ice_abnormality_turncount = 0;
