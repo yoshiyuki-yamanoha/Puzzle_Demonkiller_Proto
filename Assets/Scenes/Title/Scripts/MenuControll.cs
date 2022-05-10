@@ -75,7 +75,7 @@ public class MenuControll : MonoBehaviour
         return ((int)UpDown.NO);
     }
 
-    void ResultMenuControll()
+    public void ResultMenuControll()
     {
         int inputnum = GetUpDown();
         if (inputnum == ((int)MenuControll.UpDown.DOWN))
