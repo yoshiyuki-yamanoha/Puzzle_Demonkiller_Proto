@@ -91,6 +91,7 @@ public class MagicRangeDetector : TrunManager
     }
 
     GameObject[] retRange;
+    Vector2Int[] retRangesPos;
 
     //魔法を撃つターンになった瞬間にセレクタを中心に魔法の範囲を求める。
     public void ChangeMagicRange() {
@@ -223,6 +224,7 @@ public class MagicRangeDetector : TrunManager
         if (magicRange == null && !isAllMass) return;
 
         if (isAllMass) {
+            retRange = new GameObject[s_MapMass.GetAllMassObjects().Length];
             retRange = s_MapMass.GetAllMassObjects();
             foreach(var g in retRange)
                 s_MagicMassSelecter.ChangeMatSpecifiedMass(g, (int)magicType % 3);
@@ -230,13 +232,17 @@ public class MagicRangeDetector : TrunManager
         else
         {
             retRange = new GameObject[magicRange.Length];
+            retRangesPos = new Vector2Int[magicRange.Length];
 
             int n = 0;
 
             foreach (var g in magicRange)
             {
                 s_MagicMassSelecter.ChangeMatSpecifiedMass(g.obj, (int)magicType % 3);
-                retRange[n++] = g.obj;
+                retRange[n] = g.obj;
+                retRangesPos[n].x = g.x;
+                retRangesPos[n].y = g.y;
+                n++;
             }
         }
         
@@ -245,6 +251,10 @@ public class MagicRangeDetector : TrunManager
     public GameObject[] GetCurrentAttackRange() {
 
         return retRange;
+    }
+
+    public Vector2Int[] GetCurrentAttackRangesPos() {
+        return retRangesPos;
     }
 
     //魔法の範囲がステージ外に出ないようにするゴリラ

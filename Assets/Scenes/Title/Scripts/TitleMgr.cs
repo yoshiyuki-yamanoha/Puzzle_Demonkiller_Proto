@@ -32,14 +32,17 @@ public class TitleMgr : MonoBehaviour
     [SerializeField] Image ui_Start;    // Start表示画像の情報
     [SerializeField] Image ui_Quit;     // Quit表示画像の情報
     [SerializeField] Image ui_Line;     // Line表示画像の情報
+
+
+    float line_width;
     // Start is called before the first frame update
     void Start()
     {
         
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(370.55f, -87.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(370.55f, -225.0f, 0.0f);
+        selectMenuPos[0] = new Vector3(755.54f, -11.0f, 0.0f);
+        selectMenuPos[1] = new Vector3(755.54f, -158.0f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
         GenerationTitle_BGM();
@@ -48,25 +51,39 @@ public class TitleMgr : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
-        if(menuControll.GetUpDown() != 99)
+
+        //if(menuControll.GetUpDown() != 99)
+        //{
+        //    if (selecter == Select.Start)
+        //    {
+        //        selecter = Select.Quit;
+        //        ui_Start.sprite = startImg[0];
+        //        ui_Quit.sprite = quitImg[1];
+        //    }
+        //    else
+        //    {
+        //        selecter = Select.Start;
+        //        ui_Start.sprite = startImg[1];
+        //        ui_Quit.sprite = quitImg[0];
+
+
+        //    }
+        //}
+        int inputnum = menuControll.GetUpDown();
+        if (inputnum == ((int)MenuControll.UpDown.DOWN))
         {
-            if (selecter == Select.Start)
-            {
-                selecter = Select.Quit;
-                ui_Start.sprite = startImg[0];
-                ui_Quit.sprite = quitImg[1];
-            }
-            else
-            {
-                selecter = Select.Start;
-                ui_Start.sprite = startImg[1];
-                ui_Quit.sprite = quitImg[0];
-                
-
-            }
+            selecter = Select.Quit;
+            ui_Start.sprite = startImg[0];
+            ui_Quit.sprite = quitImg[1];
         }
+        if(inputnum == ((int)MenuControll.UpDown.UP))
+        {
+            selecter = Select.Start;
+            ui_Start.sprite = startImg[1];
+            ui_Quit.sprite = quitImg[0];
 
+        }
+        
         switch (selecter)
         {
             case Select.Start: cursor.localPosition = selectMenuPos[0]; break;

@@ -27,6 +27,7 @@ public class GameOverMgr : MonoBehaviour
         } else if(coolTime <= 0.0f) {
             coolTime = 0.0f;
         }
+        this.GetComponent<MenuControll>().ResultMenuControll();
     }
     void GenerationGameOver_BGM()
     {

@@ -52,6 +52,8 @@ public class MagicMassSelecter : MonoBehaviour
 
     [SerializeField] bool isMagic;
 
+    int[,] masses;
+
     private void Start()
     {
         defSelX = nowSelX;
@@ -61,11 +63,11 @@ public class MagicMassSelecter : MonoBehaviour
         s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (isMagic || s_TrunManager.trunphase == TrunManager.TrunPhase.MagicAttack && s_OrbGage.OrbCheckExsistens())
         {
-
+            //マップ全体の情報をとってくう
             GetMassInfos();
 
             SubMoveInterval();
@@ -95,7 +97,8 @@ public class MagicMassSelecter : MonoBehaviour
 
     ///マス目全体の情報を取ってくる (敵の位置とか)
     void GetMassInfos() {
-        var masses = s_MapMass.Map;
+        masses = new int[20, 20];
+        masses = s_MapMass.Map;
     }
 
     //移動インターバルを減らす
@@ -630,6 +633,8 @@ public class MagicMassSelecter : MonoBehaviour
         if (lev > 0)//オーブのレベルが0より上なら入る↓
         {
             GameObject[] attackRange = s_MagicRangeDetector.GetCurrentAttackRange();
+            Vector2Int[] attackRangePos = s_MagicRangeDetector.GetCurrentAttackRangesPos();
+            int sum = 0;
 
             //五芒星雷魔法 と 五角形炎魔法 以外
             if (typ != 2)
@@ -638,15 +643,26 @@ public class MagicMassSelecter : MonoBehaviour
                 {
 
                     //全ます
-                    if (typ == 0 || typ == 1 || typ == 4 || typ == 3)
+                    if (typ == 1 || typ == 3 || typ == 4)
                     {
+                        //地雷と氷
+                        if (typ == 3 || typ == 4) {
+                            foreach (var rp in attackRangePos) {
+                                int pos = masses[rp.y, rp.x];
+                                if (pos == 4 || pos == 5)
+                                    sum++;
+                            }
+                        }
+
+                        //全ての範囲が障害物の中にあった場合、魔法を撃てなくする
+                        if (sum >= attackRange.Length) return;
 
                         s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
                         sePlay.Play("MagicShot");
                     }
 
                     //
-                    if (typ == 5)
+                    if (typ == 0 || typ == 5)
                     {
                         int center = attackRange.Length / 2;
 
@@ -728,6 +744,7 @@ public class MagicMassSelecter : MonoBehaviour
             FlameSwordMove s_flameEnemy = null;
             int xCost, yCost, eneCost = 0;
             //Enemy s_Enemy = e.GetComponent<Enemy>();
+            //いつかBaseに変える
             if (e.GetComponent<Enemy>() != null)
             {
                 s_Enemy = e.GetComponent<Enemy>();

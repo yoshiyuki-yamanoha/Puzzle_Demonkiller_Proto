@@ -57,12 +57,40 @@ public class SEManager : MonoBehaviour
             case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
                 audioSource.PlayOneShot(audioClips[9], 0.4f);
                 break;
-            case "EnemyAtack":
+            case "EnemyAtack"://11敵攻撃
                 audioSource.PlayOneShot(audioClips[10], 2.0f);
                 break;
-            case "DestroyBarricade":
+            case "DestroyBarricade"://12バリケード破壊
                 audioSource.PlayOneShot(audioClips[11], 1.3f);
                 break;
+            case "GoblinSpawn"://13　ゴブリン出現
+                audioSource.PlayOneShot(audioClips[12], 1.3f);
+                break;
+            case "GoblinDeath"://13ゴブリン死亡
+                audioSource.PlayOneShot(audioClips[13], 1.3f);
+                break;
+            case "DemonDeath"://14デモン死亡
+                audioSource.PlayOneShot(audioClips[14], 1.3f);
+                break;
+            case "BombSpawn"://15ボム兵出現
+                audioSource.PlayOneShot(audioClips[15], 1.3f);
+                break;
+            case "BombDeath"://16ボム兵死亡
+                audioSource.PlayOneShot(audioClips[16], 1.3f);
+                break;
+            case "BombEnemExplosion"://17ボム兵爆発
+                audioSource.PlayOneShot(audioClips[17], 1.3f);
+                break;
+            case "FlameSpawn"://18炎の剣のモンスター出現
+                audioSource.PlayOneShot(audioClips[18], 1.3f);
+                break;
+            case "FlameAttack":
+                audioSource.PlayOneShot(audioClips[19], 1.3f);
+                break;
+            case "FlameDeath"://18炎の剣のモンスター死亡
+                audioSource.PlayOneShot(audioClips[20], 1.3f);
+                break;
+
 
         }
     }

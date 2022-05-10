@@ -11,8 +11,23 @@ public class EnemyCamera : MonoBehaviour
     GameObject hpNoneEnemy = null;//体力のない敵を格納する変数
     TrunManager tr;
 
+
+    //敵のオブジェクトカメラ用
+    GameObject fireEnemySpone = null;//炎の剣を持った敵がわいた
+    GameObject coreAttackEnemy = null;//コアを攻撃する敵
+    GameObject fenceAttackEnemy = null;//フェンスを攻撃する敵
+    GameObject coreCloseEnemy = null;//コアに近い敵
+
+    //敵の出現種類確認用
+    GenerationEnemy GEnemy;
+
     //カメラ用
-    Vector3 distance;//距離
+    //
+    Vector3 vecDistance;//距離
+    Vector3 vecDistanceline;//どれだけ距離を取るか
+    //
+    float floDistance;//
+    float floDistanceline = 46;//
     bool initflg = true;
     Vector3 defaultCamerapos;//Cameraの初期位置
     Vector3 enemyLookCamepos;//敵を見ているときのCamera位置
@@ -57,6 +72,8 @@ public class EnemyCamera : MonoBehaviour
     //デバックログ用のフラグ(敵の芯だ数カウント)
     bool dieEbenyCountCallFlag = true;
 
+    Vector3 corePos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,10 +87,13 @@ public class EnemyCamera : MonoBehaviour
         cameraMove = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
         enemy_camera = this.gameObject.GetComponent<Camera>();
         enemy_camera.depth = -2;
-        //defaultCamerapos = new Vector3(25.22f, 3.7f, -80);
-        defaultCamerapos = new Vector3(47.7f, 43.7f, -132.1f);
-        transform.position = new Vector3(0, 26, -107);
-
+        defaultCamerapos = new Vector3(47.5f, 43.8f, -132);
+        //defaultCamerapos = new Vector3(47.5f, 8.5f, -47.5f);//コアの上の座標
+        //defaultCamerapos = this.gameObject.transform.position;
+        //transform.position = new Vector3(0, 26, -107);
+        corePos = new Vector3(47.5f, 0.5f, -47.5f);
+        GEnemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
+        vecDistanceline = new Vector3(5, 5, 5);
         starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
         starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
         alpha = 0;
@@ -95,7 +115,7 @@ public class EnemyCamera : MonoBehaviour
             Debug.Log("現在倒れている敵の数" + dieFlagEnemyCount);
         }
         
-        dieEnemyMix = dieEnemyCount + dieFlagEnemyCount;
+       // dieEnemyMix = dieEnemyCount + dieFlagEnemyCount;
         //敵の行動ターンの時に
         if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
         {
@@ -105,12 +125,14 @@ public class EnemyCamera : MonoBehaviour
             }
             else
             {
+                fireEnemySpone = GEnemy.FlameGameObject();
                 EnemyCameraMove();
                 //EndEnemyCameraMove();
             }
         }
         else
         {
+            fireEnemySpone = null;
             if (finalDieflag == false)
             {
                 targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
@@ -145,7 +167,8 @@ public class EnemyCamera : MonoBehaviour
 
         foreach (var target in targets)
         {
-            float targetDist = Vector3.Distance(transform.position, target.transform.position);
+            //float targetDist = Vector3.Distance(transform.position, target.transform.position);
+            float targetDist = Vector3.Distance(corePos, target.transform.position);
             if (closeDist > targetDist)
             {
                 closeDist = targetDist;
@@ -154,6 +177,52 @@ public class EnemyCamera : MonoBehaviour
         }
 
         return closeEnemy;
+    }
+
+    //優先度の高い敵を見つける
+    void HighPriorityEnemy()
+    {
+        //炎の剣を持った敵出現優先度１
+        //if (GEnemy.) { }
+
+        foreach (var target in targets)
+        {
+            coreAttackEnemy = null;
+            //コアを殴っている敵　優先度２
+            if (target.GetComponent<EnemyBase>().Camera_Target_Core_flg() == true)
+            {
+                Debug.Log("コアを攻撃している敵がいる");
+                coreAttackEnemy = target;
+            }
+            //else
+            //if (target.GetComponent<BombEnemy>().Camera_Target_Core_flg() == true)
+            //{
+            //    coreAttackEnemy = target;
+            //}
+            //else
+            //if (target.GetComponent<FlameSwordMove>().Camera_Target_Core_flg() == true)
+            //{
+            //    coreAttackEnemy = target;
+            //}
+
+            //フェンスを殴っている敵 優先度３
+            fenceAttackEnemy = null;
+            if (target.GetComponent<EnemyBase>().Camera_Target_Bari_flg() == true)
+            {
+                Debug.Log("フェンスに攻撃している敵がいる");
+                fenceAttackEnemy = target;
+            }
+            //else if (target.GetComponent<BombEnemy>().Camera_Target_Bari_flg() == true)
+            //{
+            //    fenceAttackEnemy = target;
+            //}
+            //else if (target.GetComponent<FlameSwordMove>().Camera_Target_Bari_flg() == true)
+            //{
+            //    fenceAttackEnemy = target;
+            //}
+            //コアに近い敵 優先度４
+
+        }
     }
     void HpNoneEnemy()
     {
@@ -201,10 +270,11 @@ public class EnemyCamera : MonoBehaviour
         //        }
         //    }
         //}
-        if (dieEnemyCount >= dieEnemyMax && hpNoneEnemy != null)
+
+        hpNoneEnemy = null;
+        if (dieEnemyCount >= dieEnemyMax && hpNoneEnemy == null)
         {
             Debug.Log("近い敵探し～");
-            hpNoneEnemy = null;
             hpNoneEnemy = CloseEnemycamera();
             finalDieflag = true;
             //        //Debug.Log("最後の敵が倒れたぞ　コラ");
@@ -245,7 +315,7 @@ public class EnemyCamera : MonoBehaviour
                     }
 
                     //transform.position = MoveCamerapos;
-                    if (camera_targe != null) distance = transform.position - camera_targe.transform.position;
+                    if (camera_targe != null) vecDistance = transform.position - camera_targe.transform.position;
 
                     initflg = false;
                 }
@@ -299,6 +369,7 @@ public class EnemyCamera : MonoBehaviour
     }
     void EnemyCameraMove()
     {
+        Vector3 camera_tage_pos = new Vector3(0,0,0);
         targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
 
 
@@ -307,12 +378,87 @@ public class EnemyCamera : MonoBehaviour
         {
             HpNoneEnemy();
             enemy_camera.depth = 0;
-            if (x < 96)
+            timer = 0;
+            HighPriorityEnemy();
+            if (initflg == true)
             {
-                x += 0.25f;
+                camera_targe = CloseEnemycamera();
+                coreCloseEnemy = CloseEnemycamera();
+                initflg = false;
             }
-            transform.position = new Vector3(x, 40, -110);
-            transform.eulerAngles = new Vector3(45, 0, 0);
+            else
+            {
+                if (coreAttackEnemy != null || fenceAttackEnemy != null || fireEnemySpone != null)
+                {
+                    timer += Time.deltaTime;
+
+                    //if (timer < 2)
+                    //{
+                    if(fireEnemySpone != null)
+                    {
+                        camera_targe = fireEnemySpone;
+                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                    }
+                    else
+                    if (coreAttackEnemy != null)
+                    {
+                        camera_targe = coreAttackEnemy;
+                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+
+                    }else
+                    //transform.position = Vector3.Lerp(defaultCamerapos, camera_targe.transform.position, cameraMove.CalcMoveRatio());
+
+                    //}
+                    //if (timer < 3 && timer > 2)
+                    //{
+                    if (fenceAttackEnemy != null)
+                    {
+                        camera_targe = fenceAttackEnemy;
+                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                        //distance = (transform.position - camera_tage_pos);
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                    }
+
+                    //}
+                }
+                else
+                {
+
+                    //左から右に移動する処理↓
+                    //if (x < 96)
+                    //{
+                    //    x += 0.25f;
+                    //    transform.position = new Vector3(x, 40, -110);
+                    //    transform.eulerAngles = new Vector3(45, 0, 0);
+                    //}
+                    //左から右に移動する処理↑
+                    camera_targe = coreCloseEnemy;
+                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                }
+
+                if (floDistance > floDistanceline)
+                {
+                    transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                }
+
+                transform.LookAt(camera_targe.transform.position);
+            }
+
+
+
+
+
+            //左から右に移動する処理↓
+            //if (x < 96)
+            //{
+            //    x += 0.25f;
+            //}
+            //transform.position = new Vector3(x, 40, -110);
+            //transform.eulerAngles = new Vector3(45, 0, 0);
+            //左から右に移動する処理↑
             //if(x > 95)
             //{
             //    startFlag = false;
@@ -332,7 +478,6 @@ public class EnemyCamera : MonoBehaviour
     {
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
-        timer += Time.deltaTime;
 
         enemy_camera.depth = 0;
         //targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
@@ -346,14 +491,17 @@ public class EnemyCamera : MonoBehaviour
                 //enemyste = camera_targe.GetComponent<Enemy>();
                 //enemyste.Hp;
                 //transform.position = MoveCamerapos;
-                if (camera_targe != null) distance = transform.position - camera_targe.transform.position;
+                if (camera_targe != null) vecDistance = transform.position - camera_targe.transform.position;
 
                 initflg = false;
             }
+            timer = 0;
             //if (camera_targe != null) this.transform.LookAt(camera_targe.transform);
         }
         else
         {
+
+            timer += Time.deltaTime;
             if (camera_targe != null)
             {
                 enemyLookCamepos = new Vector3(/*transform.position.x*/camera_targe.transform.position.x, 4, camera_targe.transform.position.z - 15);
@@ -443,8 +591,8 @@ public class EnemyCamera : MonoBehaviour
     //    enemy_camera.depth = -2;
     //}
 
-    public void DieFlagEnemyCount()
-    {
-        dieEnemyCount++;
-    }
+    //public void DieFlagEnemyCount()
+    //{
+    //    dieEnemyCount++;
+    //}
 }

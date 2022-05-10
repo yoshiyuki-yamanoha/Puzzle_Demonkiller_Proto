@@ -26,6 +26,9 @@ public class GameClearMgr : MonoBehaviour
         else if (coolTime <= 0.0f) {
             coolTime = 0.0f;
         }
+
+        this.GetComponent<MenuControll>().ResultMenuControll();
+
     }
     void GenerationClear_Jingle()
     {

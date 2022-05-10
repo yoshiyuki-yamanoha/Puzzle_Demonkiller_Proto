@@ -326,6 +326,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                         Debug.Log("ランダム番号 " + spawn_number);
                         //Generation(new Vector2Int(spawn_pos[spawn_number].x, spawn_pos[spawn_number].y));
                         Generation(new Vector2Int(spawn_pos[spawn_number].x + Random.Range(-1, 3), spawn_pos[spawn_number].y + Random.Range(-1, 3)));
+
                     }
                 }
 
@@ -567,7 +568,24 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 //Debug.Log("Oneturn" + enemy_generation_info[Nowturn].One_turn_Generation);
 
                 InstanceEnemy(random_magic, random_enem_kinds, pos.x, pos.y); // 生成種類 生成　X Y
-                if (sePlay != null) sePlay.Play("EnemySpawn");//SEを鳴らす //具志堅
+
+                if (random_enem_kinds == 1) //敵に応じて出現するSEの音を変える //1：ゴブリン
+                {
+                    sePlay.Play("GoblinSpawn");
+                }
+                else if (random_enem_kinds == 0) //2：デーモン
+                {
+                    sePlay.Play("EnemySpawn");//SEを鳴らす
+                }
+                else if (random_enem_kinds == 2) //3:ボム兵
+                {
+                    sePlay.Play("BombSpawn");//SEを鳴らす  //SE変更予定
+                }
+                else if (random_enem_kinds == 3)//4：炎の剣
+                {
+                    sePlay.Play("FlameSpawn");
+                }
+
 
 
                 time = 0;//タイム初期化
@@ -666,7 +684,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void GenerationEnemy_BGM()//BGM関係
     {
-        if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
         bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用
         /*if (bgmPlay != null)*/
         bgmPlay.Play("PLAYBGM");
