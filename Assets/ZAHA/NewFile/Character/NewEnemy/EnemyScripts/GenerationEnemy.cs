@@ -236,24 +236,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
             if (init_generation_flg)
             {//最初のターン
-                if (EnemyIsAction())
-                {
-                    if (draw)
-                    {
-                        string print_array = "";
-                        for (int y = 0; y < map.Map.GetLength(0); y++)
-                        {
-                            for (int x = 0; x < map.Map.GetLength(1); x++)
-                            {
-                                print_array += map.Map[y, x].ToString() + ":";
-                            }
-                            print_array += "\n";
-                        }
-                        Debug.Log(print_array);
-                        draw = false;
-                    }
-                }
-
+                
                 if (enemy_generation_info[Nowturn].One_turn_Generation > 0) //  5 > 0
                 { //1ターンに生成出来る数が最大値を超えたら
                   //SearchGeneration();
@@ -296,6 +279,22 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 {
                     if (EC.startFlag == false)
                     {
+                        if (draw)
+                        {
+                            Debug.Log("生成");
+                            string print_array = "";
+                            for (int y = 0; y < map.Map.GetLength(0); y++)
+                            {
+                                for (int x = 0; x < map.Map.GetLength(1); x++)
+                                {
+                                    print_array += map.Map[y, x].ToString() + ":";
+                                }
+                                print_array += "\n";
+                            }
+                            Debug.Log(print_array);
+                            draw = false;
+                        }
+
                         draw = true;
                         enemy_oneturn_count = 0;
                         init_generation_flg = false;
@@ -332,8 +331,10 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
                 if (EnemyIsAction())//敵が行動しているか確認。
                 {
+
                     if (draw)
                     {
+                        Debug.Log("生成");
                         string print_array = "";
                         for (int y = 0; y < map.Map.GetLength(0); y++)
                         {
@@ -346,7 +347,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                         Debug.Log(print_array);
                         draw = false;
                     }
-
 
                     enemy_oneturn_count = 0;
                     if (stage_list_enemys.Count <= 32)
@@ -584,6 +584,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void InstanceEnemy(int magic_num, int enemy_kinds, int x, int y)//生成
     {
+        Debug.Log("map情報代入");
         map.Map[y, x] = (int)MapMass.Mapinfo.Enemy;//mapに敵の情報を渡す。
 
         Vector3 enemypos = new Vector3(map.Tilemas_prefab.transform.localScale.x * x, 0, -map.Tilemas_prefab.transform.localScale.z * y);//敵の出現位置
@@ -628,35 +629,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 SetFlameSwordInfo(enemy_instantiate, x, y);
                 break;
         }
-        //switch (num)
-        //{
-        //    case 0:
-        //        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
-        //        break;
-        //    case 1:
-        //        BombEnemy enemy_info = enemy_instantiate.GetComponent<BombEnemy>();//敵情報取得
-        //        break;
-        //    case 2:
-        //        Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
-        //        break;
-        //}
-
-        //switch (enemy_info.enemy_kinds)//敵の生成した座標を渡す。
-        //{
-        //    case EnemyBase.EnemyKinds.Demon:
-        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
-        //        break;
-        //    case EnemyBase.EnemyKinds.Demon1:
-        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
-        //        break;
-        //    case EnemyBase.EnemyKinds.Boss:
-        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
-        //        break;
-        //    case EnemyBase.EnemyKinds.Bom:
-        //        Debug.Log("ボムちゃん情報");
-        //        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true;
-        //        break;
-        //}
 
         enemy_count++;
         enemy_oneturn_count++;

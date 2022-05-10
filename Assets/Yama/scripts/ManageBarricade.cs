@@ -5,6 +5,7 @@ using CoreBase;
 
 public class ManageBarricade : TrunManager
 {
+    [SerializeField] Vector2Int map_pos;
     TrunManager turnMGR;
     [SerializeField]private int myNumber;
     static public List<GameObject> bariicades = new List<GameObject>();
@@ -12,8 +13,7 @@ public class ManageBarricade : TrunManager
     [SerializeField] GameObject barriBreakEffect = null;
 
     SEManager sePlay = null;//SE
-
-
+    MapMass map_mass;
     void Start()
     {
         barri.obj= this.gameObject;
@@ -21,11 +21,22 @@ public class ManageBarricade : TrunManager
         //bariicades = new List<GameObject>();
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE
+        map_mass = GameObject.Find("MapInstance").GetComponent<MapMass>();
     }
 
+    public Vector2Int GetPos()
+    {
+        return map_pos;
+    }
+
+    public void SetMapPos(Vector2Int map_pos)
+    {
+        this.map_pos = map_pos;
+    }
 
     void FixedUpdate()
     {
+        
 
         TrunPhase currentPhase = turnMGR.GetTrunPhase();
 
@@ -69,6 +80,7 @@ public class ManageBarricade : TrunManager
                 // バリケードが壊れる際のエフェクトを生成
                 GeneratesBarricadesBreakedEffect(o);
                 bariicades.Remove(o);
+                map_mass.Map[o.GetComponent<ManageBarricade>().GetPos().y, o.GetComponent<ManageBarricade>().GetPos().x] = 0;
                 Destroy(o.gameObject);
             }
 

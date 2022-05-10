@@ -19,42 +19,44 @@ public class Enemy : EnemyBase
         //{
 
 
-            //自分(敵)のターンだったら
-            if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
-            {
+        //自分(敵)のターンだったら
+        if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
+        {
 
-                if (!AbnormalStatus()) {//ステータスダメージが喰らったらエネミーターンにする。
+            if (!AbnormalStatus())
+            {//ステータスダメージが喰らったらエネミーターンにする。
 
-                    time += Time.deltaTime;
-                    if (time > 2) {
-                        EnemyTurnStart();
-                        time = 0;
-                    }
-                }
-            }
-            else //ターンを終了する時
-            {
-                EnemyTurnEnd();//ターン終了 エネミーターン以外の時
-            }
-
-            HPber();//HPゲージ
-
-            //攻撃地点
-            if (Istrun && !Is_action)
-            {//自分のターンかつ行動していない時
-                switch (Enemy_action)
+                time += Time.deltaTime;
+                if (time > 2)
                 {
-                    case EnemyAction.Generation:
-                        break;
-                    case EnemyAction.Movement:
-                        EnemyMovement(1);//動けるマス範囲
-                        break;
+                    EnemyTurnStart();
+                    time = 0;
                 }
             }
-
-            EnemyDeath();//敵が死んだときの処理
-            Enemy_anim.AnimStatus(status);//アニメーション更新
         }
+        else //ターンを終了する時
+        {
+            EnemyTurnEnd();//ターン終了 エネミーターン以外の時
+        }
+
+        HPber();//HPゲージ
+
+        //攻撃地点
+        if (Istrun && !Is_action)
+        {//自分のターンかつ行動していない時
+            switch (Enemy_action)
+            {
+                case EnemyAction.Generation:
+                    break;
+                case EnemyAction.Movement:
+                    EnemyMovement(1);//動けるマス範囲
+                    break;
+            }
+        }
+
+        EnemyDeath();//敵が死んだときの処理
+        Enemy_anim.AnimStatus(status);//アニメーション更新
+    }
     //    else
     //    {
     //        Is_action = true;
@@ -116,7 +118,12 @@ public class Enemy : EnemyBase
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
             IceObjSetActivOff();//アイスオブジェクトオフ
-            gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
+            if (Ice_flg)
+            {
+                //ここは子供のオブジェクトが存在したら
+                gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
+                //Ice_flg = false;
+            }
         }
 
         if (other.CompareTag("Ice"))
@@ -129,6 +136,7 @@ public class Enemy : EnemyBase
             }
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
+            Ice_flg = true;
             Ice_abnormality_turncount = 0; //状態異常カウントリセット
             IceObjSetActivOn();//アイスオブジェクトオン
             Destroy(other.gameObject);//当たった魔法を消すよーん

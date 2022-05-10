@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    bool init_death_flg = true;
+    bool ice_flg = false;
     bool ice_instance_flg = false;//アイスオブジェクトを一回のみ生成
 
     [SerializeField] bool camera_target_core_flg;
@@ -174,6 +176,7 @@ public class EnemyBase : MonoBehaviour
     public ParticleSystem[] Fire_effect { get => fire_effect; set => fire_effect = value; }
     public Image Fire_image { get => fire_image; set => fire_image = value; }
     public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
+    public bool Ice_flg { get => ice_flg; set => ice_flg = value; }
 
     void EffectInit()
     {
@@ -241,16 +244,20 @@ public class EnemyBase : MonoBehaviour
         hp -= damage;
         if (hp <= 0)
         {
-            hp = 0;
-            speed = 0;
-            deathflg = true;
-            MainMgr mg = new MainMgr();
-            mg.EnemiDieCount();
-            /*死亡フラグ立てる 速度0 HP0*/
-            //if (this.gameObject == null)
-            //{
-            //enemys_.Remove(this.gameObject);
-            //}
+            if (init_death_flg)
+            {
+                hp = 0;
+                speed = 0;
+                deathflg = true;
+                MainMgr mg = new MainMgr();
+                mg.EnemiDieCount();
+                /*死亡フラグ立てる 速度0 HP0*/
+                //if (this.gameObject == null)
+                //{
+                //enemys_.Remove(this.gameObject);
+                //}
+                init_death_flg = false;
+            }
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
@@ -501,6 +508,7 @@ public class EnemyBase : MonoBehaviour
             if (Attackaria) deathflg = true;
         }
 
+
         if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
         {
             Attacktime += Time.deltaTime;
@@ -555,7 +563,6 @@ public class EnemyBase : MonoBehaviour
                 if (Status.Walk == status)//歩いていたら
                 {
                     Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;//map情報を無くす
-                    Debug.Log("移動した　map情報NONE");
                 }
             }
 
@@ -575,37 +582,6 @@ public class EnemyBase : MonoBehaviour
                 Y = IndexCheckY(NextposY);
                 X = IndexCheckX(NextposX);
 
-                //ここで前方が攻撃エリアか見る
-
-                //自分の回りの位置が攻撃エリアかをみて
-                //攻撃エリアなら攻撃するフラグをオン
-
-
-                //ここで状態異常確認
-                //if (Init_abnormal_ui)//1回のみ入るフラグ
-                //{
-                //    //Debug.Log("状態異常の中身" + Abnormal_condition);
-
-                //    switch (Abnormal_condition)//状態異常の中身見る
-                //    {
-                //        case AbnormalCondition.NONE:
-                //            //Debug.Log("状態異常じゃないです！！");
-                //            break;
-                //        case AbnormalCondition.Fire:
-                //            //Debug.Log("炎ダメージ");
-                //            //Fire_Abnormal_Condition();
-                //            Fire_Abnormal_UI();
-                //            break;
-                //        case AbnormalCondition.Ice:
-                //            //Debug.Log("氷ダメージ");
-                //            //Ice_Abnormal_Condition();
-                //            break;
-                //    }
-
-                //    //Debug.Log("ターン終了");
-                //    Init_abnormal_ui = false;
-                //}
-
                 Targetchangeflg = true;
                 Is_action = true;//行動した。
 
@@ -616,9 +592,6 @@ public class EnemyBase : MonoBehaviour
         {
             UIFacing();
         }
-        //}
-        //攻撃
-        //EnemyAttack();
     }
 
     //取得
@@ -676,6 +649,7 @@ public class EnemyBase : MonoBehaviour
         {
             if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject != null)
             {
+                Debug.Log("下攻撃");
                 //攻撃対象判別。
                 if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
                 {
@@ -691,7 +665,7 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
-                Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
+                //Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
                 Attackaria = false;
 
                 Camera_TargetInit();
@@ -701,7 +675,7 @@ public class EnemyBase : MonoBehaviour
         {
             if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject != null))
             {
-
+                Debug.Log("右攻撃");
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("Core"))
                 {
                     camera_target_core_flg = true;
@@ -718,13 +692,14 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
+                //Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
             }
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
         {
             if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject != null))
             {
+                Debug.Log("左攻撃");
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("Core"))
                 {
                     camera_target_core_flg = true;
@@ -741,11 +716,11 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
             }
         }
         else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//上方向
         {
+            Debug.Log("上攻撃");
             if ((map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject != null))
             {
                 if (map.Core_bari_Data[IndexCheckY(Y - 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
@@ -764,14 +739,14 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
+                //Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
             }
         }
-        //else
-        //{
-        //    Debug.Log("攻撃エリアなし!");
-        //    Attackaria = false;
-        //}
+        else
+        {
+            Debug.Log("攻撃エリアなし!");
+            Attackaria = false;
+        }
     }
 
     public void MassMove(int next_y, int next_x)

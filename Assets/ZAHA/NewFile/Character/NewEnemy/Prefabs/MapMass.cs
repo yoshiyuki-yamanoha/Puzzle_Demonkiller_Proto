@@ -114,13 +114,14 @@ public class MapMass : MonoBehaviour
 
     MassState[,] masses = new MassState[20, 20];
 
-    public struct Core
+    public struct MapObj
     {
         public List<Vector2Int> pos;
         public List<GameObject> obj;
     }
 
-    Core core_info = new Core();
+    MapObj core_info = new MapObj();
+    MapObj bari_info = new MapObj();
 
     int[,] map = new int[20, 20]{
         {0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0},
@@ -227,8 +228,18 @@ public class MapMass : MonoBehaviour
         InstanceMap();//インスタントmapを
         core_info.pos = new List<Vector2Int>();
         core_info.obj = new List<GameObject>();
+        bari_info.pos = new List<Vector2Int>();
+        bari_info.obj = new List<GameObject>();
         InitCore();//コア配列作成
         barricadeNumber = 1;
+    }
+
+    private void FixedUpdate()
+    {
+        //for (int i = 0; i < bari_info.pos.Count; i++)
+        //{
+        //    Debug.Log("バリケード name " + bari_info.obj[i].name + " Y 座標 " + bari_info.pos[i].y + "X 座標" + bari_info.pos[i].x);
+        //}
     }
 
     void InitCore()
@@ -254,13 +265,15 @@ public class MapMass : MonoBehaviour
                 if (Map[y, x] == (int)MapMass.Mapinfo.core)//コア
                 {
                     Core_bari_Data[y, x] = core_obj[0];
-                    SetCore(new Vector2Int(x, y), core_obj[0]);//コアの場所を追加
+                    SetCore(new Vector2Int(x, y), core_obj[0]);//コアのmap座標とコアオブジェクトを追加
                 }
                 else if (Map[y, x] == (int)MapMass.Mapinfo.bari)//バリケード
                 {
                     if (j > bari_obj.Length)
                         continue;
                     Core_bari_Data[y, x] = bari_obj[j];
+                    bari_obj[j].gameObject.GetComponent<ManageBarricade>().SetMapPos(new Vector2Int(x, y));
+                    SetBari(new Vector2Int(x, y) , bari_obj[j]);//バリケードのmap座標をSet
                     j++;
                 }
                 else
@@ -271,13 +284,24 @@ public class MapMass : MonoBehaviour
         }
     }
 
-    void SetCore(Vector2Int pos, GameObject obj)
+    void SetBari(Vector2Int pos, GameObject obj)//セットバリケード (位置のみ)
+    {
+        bari_info.pos.Add(pos);
+        bari_info.obj.Add(obj);
+    }
+
+    public MapObj GetBari()//ゲットバリケ―ド
+    {
+        return bari_info;
+    }
+
+    void SetCore(Vector2Int pos, GameObject obj)//コアは位置とオブジェクトのみ
     {
         core_info.pos.Add(pos);
         core_info.obj.Add(obj);
     }
 
-    public Core GetCore()
+    public MapObj GetCore()//ゲットコア
     {
         return core_info;
     }
@@ -345,10 +369,6 @@ public class MapMass : MonoBehaviour
                         obj.gameObject.tag = "Bari";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
-
-
-
-
                         break;
                 }
 
