@@ -180,11 +180,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor: {fileID: 2073651746}
   startImg:
-  - {fileID: 21300000, guid: 7d43c8c9a54094a4291570728200de1c, type: 3}
-  - {fileID: 21300000, guid: b68691c29589bf0449740d63abc1f2b7, type: 3}
+  - {fileID: 21300000, guid: b46c3a83dac93d44294a21cd8f13233c, type: 3}
+  - {fileID: 21300000, guid: 2e2e66ff3c7f63042b52f841f1002461, type: 3}
   quitImg:
-  - {fileID: 21300000, guid: f3089ca14524d544bab7ae24ecf6f6ad, type: 3}
-  - {fileID: 21300000, guid: 130a5bfa491fbf64f90a7d5dbc422a21, type: 3}
+  - {fileID: 21300000, guid: ef43a65c4623524408a6dcf79d4f6751, type: 3}
+  - {fileID: 21300000, guid: 0a956555f6b6d774382559c6400ab892, type: 3}
   ui_Start: {fileID: 1551155669}
   ui_Quit: {fileID: 2106252342}
   ui_Line: {fileID: 0}
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b68691c29589bf0449740d63abc1f2b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e2e66ff3c7f63042b52f841f1002461, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1441,7 +1441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f3089ca14524d544bab7ae24ecf6f6ad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef43a65c4623524408a6dcf79d4f6751, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
