@@ -137,16 +137,7 @@ public class Magichoming : MonoBehaviour
                         GameObject fire;
                         ////範囲により変わる爆発
                         fire = GenerationMagic(Exp, transform.position);
-                        Destroy(fire, 1.5f);
-                        //// レベルに応じてスケールの変更
-                        //float scalX = 1f;
-                        //if (magicLevel > 0)
-                        //    scalX = magicLevel * 2f - 1f;
-
-                        //fire.transform.localScale = new Vector3(scalX, scalX, scalX);
-                        //炎上するやつ
-                        //GameObject fire = GenerationMagic(fireEffe, transform.position);
-                        //fire.GetComponent<FireMagic>().SetMagicRange(magicLevel);
+                        fire.GetComponent<Star_Fire>().set_Init(magicLevel, TargetObject);
                     }
 
                     if (magicType == 3) {

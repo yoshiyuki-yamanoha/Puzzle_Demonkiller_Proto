@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         //オーブを消費する
         if(!magicOnlyMode) s_OrbGage.UseOrb(type);
 
-        if (type == 5 || type == 1)
+        if (type == 5 || type == 1 || type == 0)
         {
             //先頭のオーブ
             GameObject Magic = Instantiate(particleObject[type], mainCamera.transform.position, transform.rotation);
