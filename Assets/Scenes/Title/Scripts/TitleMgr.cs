@@ -32,14 +32,17 @@ public class TitleMgr : MonoBehaviour
     [SerializeField] Image ui_Start;    // Start表示画像の情報
     [SerializeField] Image ui_Quit;     // Quit表示画像の情報
     [SerializeField] Image ui_Line;     // Line表示画像の情報
+
+
+    float line_width;
     // Start is called before the first frame update
     void Start()
     {
         
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(370.55f, -87.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(370.55f, -225.0f, 0.0f);
+        selectMenuPos[0] = new Vector3(755.54f, -11.0f, 0.0f);
+        selectMenuPos[1] = new Vector3(755.54f, -158.0f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
         GenerationTitle_BGM();
