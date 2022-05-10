@@ -48,25 +48,39 @@ public class TitleMgr : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
-        if(menuControll.GetUpDown() != 99)
+
+        //if(menuControll.GetUpDown() != 99)
+        //{
+        //    if (selecter == Select.Start)
+        //    {
+        //        selecter = Select.Quit;
+        //        ui_Start.sprite = startImg[0];
+        //        ui_Quit.sprite = quitImg[1];
+        //    }
+        //    else
+        //    {
+        //        selecter = Select.Start;
+        //        ui_Start.sprite = startImg[1];
+        //        ui_Quit.sprite = quitImg[0];
+
+
+        //    }
+        //}
+        int inputnum = menuControll.GetUpDown();
+        if (inputnum == ((int)MenuControll.UpDown.DOWN))
         {
-            if (selecter == Select.Start)
-            {
-                selecter = Select.Quit;
-                ui_Start.sprite = startImg[0];
-                ui_Quit.sprite = quitImg[1];
-            }
-            else
-            {
-                selecter = Select.Start;
-                ui_Start.sprite = startImg[1];
-                ui_Quit.sprite = quitImg[0];
-                
-
-            }
+            selecter = Select.Quit;
+            ui_Start.sprite = startImg[0];
+            ui_Quit.sprite = quitImg[1];
         }
+        if(inputnum == ((int)MenuControll.UpDown.UP))
+        {
+            selecter = Select.Start;
+            ui_Start.sprite = startImg[1];
+            ui_Quit.sprite = quitImg[0];
 
+        }
+        
         switch (selecter)
         {
             case Select.Start: cursor.localPosition = selectMenuPos[0]; break;
