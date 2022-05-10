@@ -981,6 +981,7 @@ MonoBehaviour:
   x_rotate: 4
   y_reverce: 0.1
   x_reverce: 0.1
+  cc: {fileID: 0}
   attackNum: 0
   s_OrbCon: {fileID: 839324178}
   s_OrbGage: {fileID: 387063143}
@@ -7727,10 +7728,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 128c7b77c42b8464482473fd8e5242ad, type: 3}
   - {fileID: 8300000, guid: f2b43c6a248d6444088bc46a2de0df97, type: 3}
   - {fileID: 8300000, guid: 4a5f96fab4837fd4085cf2c63a19a288, type: 3}
+  - {fileID: 8300000, guid: 3d8c92154ca9bae45ad77a0771a42466, type: 3}
   - {fileID: 8300000, guid: 756a5347cacaa1a43bce8163e0311cd0, type: 3}
   - {fileID: 8300000, guid: beb152d06e7d0dc4fad6081bba0914e7, type: 3}
+  - {fileID: 8300000, guid: 89c70f5639973484781c064050ce419e, type: 3}
   - {fileID: 8300000, guid: 6b7ad6663ae94a7409583aae00a4e1f1, type: 3}
-  - {fileID: 8300000, guid: 6b7ad6663ae94a7409583aae00a4e1f1, type: 3}
+  - {fileID: 8300000, guid: 3cd9d12dd9052cf4bb513db4e4df2616, type: 3}
+  - {fileID: 8300000, guid: e08d399abe4f07640a5cdd48477f502f, type: 3}
+  - {fileID: 8300000, guid: c7ad149e93e0ab34193e2a5701fa94c2, type: 3}
+  - {fileID: 8300000, guid: 505f480039ed0f2489653c0c8d14074c, type: 3}
 --- !u!82 &1161136428
 AudioSource:
   m_ObjectHideFlags: 0
