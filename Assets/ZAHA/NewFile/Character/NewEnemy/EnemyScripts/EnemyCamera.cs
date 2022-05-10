@@ -27,7 +27,7 @@ public class EnemyCamera : MonoBehaviour
     Vector3 vecDistanceline;//どれだけ距離を取るか
     //
     float floDistance;//
-    float floDistanceline = 5;//
+    float floDistanceline = 46;//
     bool initflg = true;
     Vector3 defaultCamerapos;//Cameraの初期位置
     Vector3 enemyLookCamepos;//敵を見ているときのCamera位置
@@ -72,6 +72,8 @@ public class EnemyCamera : MonoBehaviour
     //デバックログ用のフラグ(敵の芯だ数カウント)
     bool dieEbenyCountCallFlag = true;
 
+    Vector3 corePos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,10 +87,11 @@ public class EnemyCamera : MonoBehaviour
         cameraMove = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
         enemy_camera = this.gameObject.GetComponent<Camera>();
         enemy_camera.depth = -2;
-        //defaultCamerapos = new Vector3(25.22f, 3.7f, -80);
-        //defaultCamerapos = nuw Vector3(47.5f, 8.5f, -47.5f);
-        defaultCamerapos = this.gameObject.transform.position;
+        defaultCamerapos = new Vector3(47.5f, 43.8f, -132);
+        //defaultCamerapos = new Vector3(47.5f, 8.5f, -47.5f);//コアの上の座標
+        //defaultCamerapos = this.gameObject.transform.position;
         //transform.position = new Vector3(0, 26, -107);
+        corePos = new Vector3(47.5f, 0.5f, -47.5f);
         GEnemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         vecDistanceline = new Vector3(5, 5, 5);
         starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
@@ -122,12 +125,14 @@ public class EnemyCamera : MonoBehaviour
             }
             else
             {
+                fireEnemySpone = GEnemy.FlameGameObject();
                 EnemyCameraMove();
                 //EndEnemyCameraMove();
             }
         }
         else
         {
+            fireEnemySpone = null;
             if (finalDieflag == false)
             {
                 targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
@@ -162,7 +167,8 @@ public class EnemyCamera : MonoBehaviour
 
         foreach (var target in targets)
         {
-            float targetDist = Vector3.Distance(transform.position, target.transform.position);
+            //float targetDist = Vector3.Distance(transform.position, target.transform.position);
+            float targetDist = Vector3.Distance(corePos, target.transform.position);
             if (closeDist > targetDist)
             {
                 closeDist = targetDist;
@@ -181,6 +187,7 @@ public class EnemyCamera : MonoBehaviour
 
         foreach (var target in targets)
         {
+            coreAttackEnemy = null;
             //コアを殴っている敵　優先度２
             if (target.GetComponent<EnemyBase>().Camera_Target_Core_flg() == true)
             {
@@ -199,6 +206,7 @@ public class EnemyCamera : MonoBehaviour
             //}
 
             //フェンスを殴っている敵 優先度３
+            fenceAttackEnemy = null;
             if (target.GetComponent<EnemyBase>().Camera_Target_Bari_flg() == true)
             {
                 Debug.Log("フェンスに攻撃している敵がいる");
@@ -375,55 +383,68 @@ public class EnemyCamera : MonoBehaviour
             if (initflg == true)
             {
                 camera_targe = CloseEnemycamera();
+                coreCloseEnemy = CloseEnemycamera();
                 initflg = false;
             }
             else
             {
-                if (coreAttackEnemy != null || fenceAttackEnemy != null)
+                if (coreAttackEnemy != null || fenceAttackEnemy != null || fireEnemySpone != null)
                 {
                     timer += Time.deltaTime;
 
                     //if (timer < 2)
                     //{
-                        if (coreAttackEnemy != null)
-                        {
-                            camera_targe = coreAttackEnemy;
+                    if(fireEnemySpone != null)
+                    {
+                        camera_targe = fireEnemySpone;
                         camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
-                        floDistance = Vector3.Distance(transform.position, camera_targe.transform.position);
-
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                     }
-                        //transform.position = Vector3.Lerp(defaultCamerapos, camera_targe.transform.position, cameraMove.CalcMoveRatio());
+                    else
+                    if (coreAttackEnemy != null)
+                    {
+                        camera_targe = coreAttackEnemy;
+                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+
+                    }else
+                    //transform.position = Vector3.Lerp(defaultCamerapos, camera_targe.transform.position, cameraMove.CalcMoveRatio());
 
                     //}
                     //if (timer < 3 && timer > 2)
                     //{
-                    //    if (fenceAttackEnemy != null)
-                    //    {
-                    //        camera_targe = fenceAttackEnemy;
-                    //    camera_tage_pos = new Vector3(camera_targe.transform.position.x, camera_targe.transform.position.y + 8, camera_targe.transform.position.z);
-                    //    //distance = (transform.position - camera_tage_pos);
-                    //    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
-                    //    }
-                    if (floDistance > floDistanceline)
+                    if (fenceAttackEnemy != null)
                     {
-                        transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                        camera_targe = fenceAttackEnemy;
+                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                        //distance = (transform.position - camera_tage_pos);
+                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                     }
 
-                    transform.LookAt(camera_targe.transform.position);
                     //}
                 }
                 else
                 {
 
                     //左から右に移動する処理↓
-                    if (x < 96)
-                    {
-                        x += 0.25f;
-                        transform.position = new Vector3(x, 40, -110);
-                        transform.eulerAngles = new Vector3(45, 0, 0);
-                    }
+                    //if (x < 96)
+                    //{
+                    //    x += 0.25f;
+                    //    transform.position = new Vector3(x, 40, -110);
+                    //    transform.eulerAngles = new Vector3(45, 0, 0);
+                    //}
                     //左から右に移動する処理↑
+                    camera_targe = coreCloseEnemy;
+                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                 }
+
+                if (floDistance > floDistanceline)
+                {
+                    transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                }
+
+                transform.LookAt(camera_targe.transform.position);
             }
 
 
@@ -570,8 +591,8 @@ public class EnemyCamera : MonoBehaviour
     //    enemy_camera.depth = -2;
     //}
 
-    public void DieFlagEnemyCount()
-    {
-        dieEnemyCount++;
-    }
+    //public void DieFlagEnemyCount()
+    //{
+    //    dieEnemyCount++;
+    //}
 }
