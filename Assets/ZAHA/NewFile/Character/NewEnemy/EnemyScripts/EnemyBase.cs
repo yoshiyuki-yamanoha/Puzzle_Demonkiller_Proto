@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    bool init_death_flg = true;
+    bool ice_flg = false;
     bool ice_instance_flg = false;//アイスオブジェクトを一回のみ生成
 
     [SerializeField] bool camera_target_core_flg;
@@ -174,6 +176,7 @@ public class EnemyBase : MonoBehaviour
     public ParticleSystem[] Fire_effect { get => fire_effect; set => fire_effect = value; }
     public Image Fire_image { get => fire_image; set => fire_image = value; }
     public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
+    public bool Ice_flg { get => ice_flg; set => ice_flg = value; }
 
     void EffectInit()
     {
@@ -241,33 +244,36 @@ public class EnemyBase : MonoBehaviour
         hp -= damage;
         if (hp <= 0)
         {
-            hp = 0;
-            speed = 0;
-            deathflg = true;
-            MainMgr mg = new MainMgr();
-            mg.EnemiDieCount();
-            if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
+            if (init_death_flg)
             {
-                sePlay.Play("GoblinDeath");
+                hp = 0;
+                speed = 0;
+                deathflg = true;
+                MainMgr mg = new MainMgr();
+                mg.EnemiDieCount();
+                if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
+                {
+                    sePlay.Play("GoblinDeath");
 
+                }
+                else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
+                {
+                    sePlay.Play("DemonDeath");
+                }
+                else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
+                {
+                    sePlay.Play("BombDeath");
+                }
+                else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
+                {
+                    sePlay.Play("FlameDeath");
+                }
+                /*死亡フラグ立てる 速度0 HP0*/
+                //if (this.gameObject == null)
+                //{
+                //enemys_.Remove(this.gameObject);
+                //}
             }
-            else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
-            {
-                sePlay.Play("DemonDeath");
-            }
-            else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
-            {
-                sePlay.Play("BombDeath");
-            }
-            else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
-            {
-                sePlay.Play("FlameDeath");
-            }
-            /*死亡フラグ立てる 速度0 HP0*/
-            //if (this.gameObject == null)
-            //{
-            //enemys_.Remove(this.gameObject);
-            //}
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
@@ -719,7 +725,7 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
-                Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
+                //Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
                 Attackaria = false;
 
                 Camera_TargetInit();
@@ -746,7 +752,7 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
+                //Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
             }
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
@@ -769,7 +775,7 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
+                //Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
             }
         }
         else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//上方向
@@ -792,14 +798,14 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
+                //Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
             }
         }
-        //else
-        //{
-        //    Debug.Log("攻撃エリアなし!");
-        //    Attackaria = false;
-        //}
+        else
+        {
+            Debug.Log("攻撃エリアなし!");
+            Attackaria = false;
+        }
     }
 
     public void MassMove(int next_y, int next_x)
