@@ -31,7 +31,8 @@ public class Star_Fire : MonoBehaviour
         for(int i = 1; i <= level; i++) //レベル分の魔法を放つ
         {
             //炎の五芒星の音を鳴らしますt
-            sePlay.Play("FireMagicStar");
+            //if (i % 2 == 0) sePlay.Play("FireMagicStar");
+            if (i % 2 == 0) StartCoroutine(FireSE(i));//SE
 
             for (int j = 0; j < Mathf.Pow((i * 2) + 1,2.0f) ; j++)
             {
@@ -67,6 +68,7 @@ public class Star_Fire : MonoBehaviour
         yield return new WaitForSeconds(delay);
         //sePlay.Play("BombDeath");
 
+
         GameObject Magic = Instantiate(Magic_Obj, _tage.transform.position, transform.rotation, transform);
         //Destroy(Magic, 1.5f);
     }
@@ -87,5 +89,16 @@ public class Star_Fire : MonoBehaviour
         pos.y = int.Parse(_tage.name) / 20;
 
         return pos;
+    }
+
+    IEnumerator FireSE(int num)
+    {
+        float delay = (num) * 0.2f;
+        yield return new WaitForSeconds(delay);
+
+        //氷の五芒星のSEを流す
+        sePlay.Play("FireMagicStar");
+
+
     }
 }
