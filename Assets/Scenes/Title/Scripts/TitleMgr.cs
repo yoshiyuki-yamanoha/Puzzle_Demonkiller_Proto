@@ -33,12 +33,14 @@ public class TitleMgr : MonoBehaviour
     [SerializeField] Image ui_Quit;     // Quit表示画像の情報
     [SerializeField] Image ui_Line;     // Line表示画像の情報
 
-
+    [SerializeField] Animator cycleAnim;
+    bool nextSceneFlg;
     float line_width;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        nextSceneFlg = false;
         selecter = Select.Start;
         selectCoolTime = 0.0f;
         selectMenuPos[0] = new Vector3(755.54f, -11.0f, 0.0f);
@@ -91,10 +93,8 @@ public class TitleMgr : MonoBehaviour
         }
 
         // 選択しているStageによって飛ばすシーンを変える
-        if (Input.GetButtonDown("Fire1"))
+        if (nextSceneFlg)
         {
-
-
             switch (selecter)
             {
                 case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
@@ -102,6 +102,11 @@ public class TitleMgr : MonoBehaviour
             }
         }
 
+        if(Input.GetButtonDown("Fire1"))
+        {
+            // 魔法陣のアニメーションの開始
+            cycleAnim.SetTrigger("Go2");
+        }
         //selectCoolTime--;// クールタイムを起動
         //if (Input.GetAxis("UPDOWN") <= 0.9f && Input.GetAxis("UPDOWN") >= 0.0f) {
         //    selectCoolTime = 0;
@@ -121,6 +126,10 @@ public class TitleMgr : MonoBehaviour
 
     }
 
+    public void GotoNextScene()
+    {
+        nextSceneFlg = true;
+    }
     void GenerationTitle_BGM()
     {
         if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
