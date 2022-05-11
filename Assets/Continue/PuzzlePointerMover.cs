@@ -50,7 +50,7 @@ public class PuzzlePointerMover : TrunManager
     {
         s_PointControl = GetComponent<PointControl>();
 
-        circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+        //circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
         if(!puzzleOnlyMode)
             s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
