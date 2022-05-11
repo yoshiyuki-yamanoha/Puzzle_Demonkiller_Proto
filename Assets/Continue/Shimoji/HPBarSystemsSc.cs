@@ -14,8 +14,13 @@ public class HPBarSystemsSc : MonoBehaviour
     int oldCoreHp;
 
     //インターバル
-    const float interval = 0.1f;
+    [SerializeField] float interval = 0.1f;
     float currentCount = 0;
+
+    //音
+    [SerializeField] AudioClip clip;
+    [SerializeField] AudioClip charge;
+    [SerializeField] AudioSource source;
 
     void FixedUpdate() {
 
@@ -27,6 +32,8 @@ public class HPBarSystemsSc : MonoBehaviour
                 partsList[i] = transform.GetChild(i).GetChild(1).GetComponent<Image>();
                 partsList[i].enabled = false;
             }
+
+            source.PlayOneShot(charge);
         }
 
         int hp = s_ManageCoreState.core.hp;
@@ -63,8 +70,13 @@ public class HPBarSystemsSc : MonoBehaviour
                 else partsList[i].enabled = false;
             }
 
+            //source.PlayOneShot(clip);
             currentCount = interval;
+
+            //if (nowHP == hp) source.PlayOneShot(clip);
         }
+
+        
 
         
     }
