@@ -74,15 +74,19 @@ public class TitleMgr : MonoBehaviour
         int inputnum = menuControll.GetUpDown();
         if (inputnum == ((int)MenuControll.UpDown.DOWN))
         {
+            if (selecter == Select.Start) sePlay.Play("MagicCursorSelect");
             selecter = Select.Quit;
             ui_Start.sprite = startImg[0];
             ui_Quit.sprite = quitImg[1];
+            
         }
         if(inputnum == ((int)MenuControll.UpDown.UP))
         {
+            if (selecter == Select.Quit) sePlay.Play("MagicCursorSelect");
             selecter = Select.Start;
             ui_Start.sprite = startImg[1];
             ui_Quit.sprite = quitImg[0];
+            ;
 
         }
         
@@ -104,8 +108,10 @@ public class TitleMgr : MonoBehaviour
 
         if(Input.GetButtonDown("Fire1"))
         {
+            
             // 魔法陣のアニメーションの開始
             cycleAnim.SetTrigger("Go2");
+            sePlay.Play("TitleDecision");
         }
         //selectCoolTime--;// クールタイムを起動
         //if (Input.GetAxis("UPDOWN") <= 0.9f && Input.GetAxis("UPDOWN") >= 0.0f) {
@@ -132,7 +138,7 @@ public class TitleMgr : MonoBehaviour
     }
     void GenerationTitle_BGM()
     {
-        if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
         bgmPlay = GameObject.Find("BGMAudio").GetComponent<BGMManager>();//Se再生用  
         bgmPlay.Play("TITLEBGM");
         

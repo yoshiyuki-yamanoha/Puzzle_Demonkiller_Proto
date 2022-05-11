@@ -105,6 +105,11 @@ public class SEManager : MonoBehaviour
             case "ThunderMagicStar":
                 audioSource.PlayOneShot(audioClips[25], 1.3f);
                 break;
+            case "TitleDecision":
+                audioSource.PlayOneShot(audioClips[26], 1.3f);
+                break;
+
+
 
 
 
