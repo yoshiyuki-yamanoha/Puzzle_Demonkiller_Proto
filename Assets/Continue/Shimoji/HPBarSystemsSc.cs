@@ -5,37 +5,67 @@ using UnityEngine.UI;
 
 public class HPBarSystemsSc : MonoBehaviour
 {
-    [SerializeField] Transform startPosObj;
-    [SerializeField] GameObject parts;
-    [SerializeField] CoreBase.Core _core;
+    [SerializeField] ManageCoreState s_ManageCoreState;
 
-    GameObject[] partsList;
+    Image[] partsList = new Image[15];
+    int nowHP = 0;
 
     //前フレームのコアのHP
     int oldCoreHp;
 
-    void Start() {
-        for (int i = 0; i < _core.max_hp; i++)
-        {
-            partsList[i] = Instantiate(parts, startPosObj.position, Quaternion.identity);
-        }
-    }
+    //インターバル
+    const float interval = 0.1f;
+    float currentCount = 0;
 
     void FixedUpdate() {
-        int max = _core.max_hp;
-        int hp = _core.hp;
 
-        if (oldCoreHp != hp) {
+        if (!s_ManageCoreState) {
+            s_ManageCoreState = GameObject.Find("Core").GetComponent<ManageCoreState>();
 
-            for (int i = 0; i < max; i++) {
-                Image img = partsList[i].transform.GetChild(1).GetComponent<Image>();
-                if (i < hp) img.enabled = true;
-                else img.enabled = false;
+            for (int i = 0; i < s_ManageCoreState.core.max_hp; i++)
+            {
+                partsList[i] = transform.GetChild(i).GetChild(1).GetComponent<Image>();
+                partsList[i].enabled = false;
             }
-
-            
         }
 
+        int hp = s_ManageCoreState.core.hp;
+
+        if(hp != oldCoreHp) currentCount = interval;
+
+        if (s_ManageCoreState) {
+            if (interval != 0)
+            {
+                currentCount -= Time.deltaTime;
+                if (currentCount <= 0)
+                {
+                    HPProccess();
+                }
+            }
+        }
+
+
         oldCoreHp = hp;
+    }
+
+    void HPProccess() {
+        int max = s_ManageCoreState.core.max_hp;
+        int hp = s_ManageCoreState.core.hp;
+
+        if (hp != nowHP)
+        {
+            if (nowHP > hp) nowHP--;
+            if (nowHP < hp) nowHP++;
+
+            for (int i = 0; i < max; i++)
+            {
+                if (i < nowHP) partsList[i].enabled = true;
+                else partsList[i].enabled = false;
+            }
+
+            currentCount = interval;
+        }
+
+        
     }
 }

@@ -9,7 +9,7 @@ public class ManageCoreState : TrunManager
     TrunManager turnMGR;
 
     // コア
-    Core core = new Core();
+    public Core core = new Core();
 
 
     // スライダー
