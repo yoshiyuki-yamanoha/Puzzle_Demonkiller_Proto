@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1265626615436865229}
   - component: {fileID: 8226324816471858710}
   - component: {fileID: 5288766472968888961}
+  - component: {fileID: 2017008737192623898}
   m_Layer: 0
   m_Name: BreakIceleft
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 144fe58df5202d54a9005ddd3f334d80, type: 2}
+  - {fileID: 2100000, guid: 34c9466898f092f4ebe43f5577a4a873, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,6 +97,19 @@ MonoBehaviour:
   right: 0
   front: 0
   back: 0
+--- !u!114 &2017008737192623898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3953176849062365533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0f53b6061937a4585baa79f08b3452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakSpeed: 0.2
 --- !u!1 &6018727308771260370
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +122,7 @@ GameObject:
   - component: {fileID: 4200040177438458437}
   - component: {fileID: 8817177373753353896}
   - component: {fileID: 7289256852261114054}
+  - component: {fileID: 472472656375379554}
   m_Layer: 0
   m_Name: BreakIceRight
   m_TagString: Untagged
@@ -155,7 +170,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 144fe58df5202d54a9005ddd3f334d80, type: 2}
+  - {fileID: 2100000, guid: 34c9466898f092f4ebe43f5577a4a873, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,6 +207,19 @@ MonoBehaviour:
   right: 1
   front: 0
   back: 0
+--- !u!114 &472472656375379554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6018727308771260370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0f53b6061937a4585baa79f08b3452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakSpeed: 0.2
 --- !u!1 &6067941383797522529
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +232,7 @@ GameObject:
   - component: {fileID: 6548860714839791642}
   - component: {fileID: 6141233932515975567}
   - component: {fileID: 3072022629271422584}
+  - component: {fileID: 4902169570939090868}
   m_Layer: 0
   m_Name: BreakIceFront
   m_TagString: Untagged
@@ -251,7 +280,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 144fe58df5202d54a9005ddd3f334d80, type: 2}
+  - {fileID: 2100000, guid: 34c9466898f092f4ebe43f5577a4a873, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -288,6 +317,19 @@ MonoBehaviour:
   right: 0
   front: 1
   back: 0
+--- !u!114 &4902169570939090868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6067941383797522529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0f53b6061937a4585baa79f08b3452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakSpeed: 0.2
 --- !u!1 &7000349767048154692
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +393,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 144fe58df5202d54a9005ddd3f334d80, type: 2}
+  - {fileID: 2100000, guid: 34c9466898f092f4ebe43f5577a4a873, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -379,11 +421,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7000349767048154692}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0f53b6061937a4585baa79f08b3452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakSpeed: 0.2
 --- !u!1 &7873618704607828062
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +439,7 @@ GameObject:
   - component: {fileID: 6149435553478270114}
   - component: {fileID: 662688981674221008}
   - component: {fileID: 9145112044952317104}
+  - component: {fileID: 8253652578960265375}
   m_Layer: 0
   m_Name: BreakIceBack
   m_TagString: Untagged
@@ -443,7 +487,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 144fe58df5202d54a9005ddd3f334d80, type: 2}
+  - {fileID: 2100000, guid: 34c9466898f092f4ebe43f5577a4a873, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -480,3 +524,16 @@ MonoBehaviour:
   right: 0
   front: 0
   back: 1
+--- !u!114 &8253652578960265375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7873618704607828062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0f53b6061937a4585baa79f08b3452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakSpeed: 0.2
