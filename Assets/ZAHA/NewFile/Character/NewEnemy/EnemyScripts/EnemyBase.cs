@@ -435,34 +435,6 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    //魔法陣の当たり判定
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Debug.Log("魔法");
-    //    if (other.CompareTag("Magic"))//当たった相手が魔法だったら
-    //    {
-    //    }
-
-    //    if (other.CompareTag("Fire"))//燃焼のタグ
-    //    {
-    //        Fire_Abnormal_UI();
-    //        Abnormal_condition = AbnormalCondition.Fire;
-    //        Fire_abnormality_turncount = 0;//持続リセット
-    //        Destroy(other.gameObject);
-    //    }
-
-    //    if (other.CompareTag("Ice"))
-    //    {
-    //        Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
-    //        Abnormal_condition = AbnormalCondition.Ice;
-    //        other.GetComponent<PentagonIce>().Tin(transform.position);
-    //        //pentaIceEff = GameObject.Find("BreakIce_honmono");
-    //        //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
-    //        Ice_abnormality_turncount = 0;
-    //        Destroy(other.gameObject);
-    //    }
-    //}
-
     public bool AbnormalStatus()
     {
         //Debug.Log(Abnormal_condition);
@@ -496,8 +468,6 @@ public class EnemyBase : MonoBehaviour
         //死亡フラグが立った時。
         if (Deathflg)
         {
-
-            Debug.Log("死亡したぜこの野郎!!" + gameObject.name + "座標" + "[Y] " + y + "[X]" + x);
             map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除ここも削除できていないなった
 
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
@@ -506,6 +476,7 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum) //移動か攻撃か判定管理
     {
+
         if (Init_attack_search) //毎ターン一回のみ判定
         {
             if (!Deathflg)//死亡したのなら見なーい
@@ -519,10 +490,10 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        //ボムが
+        //自分がボムだったら
         if(enemy_kinds == EnemyKinds.Bom)
         {
-            if (Attackaria) deathflg = true;
+            if (Attackaria) deathflg = true;//攻撃する時自滅するため、死亡フラグを立てる。
         }
 
         if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
@@ -547,102 +518,66 @@ public class EnemyBase : MonoBehaviour
 
                 //SearchMovement(massnum); //2マス。
 
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum);
-                NextposX = move_pos.x;
-                NextposY = move_pos.y;
-                Ismove = true;
-                Target_distance = false;
-                Targetchangeflg = false;
-
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum);//移動処理 取得は移動できる座標
+                NextposX = move_pos.x;//移動できる座標を設定
+                NextposY = move_pos.y;//移動できる座標を設定
+                Ismove = true;//ムーブフラグをオン
+                Target_distance = false;//ターゲット距離オフ
+                Targetchangeflg = false;//ターゲットチェンジオフ
             }
 
-            Oldx = X;//位置を保存
-            Oldy = Y;//位置を保存
+            Oldx = X;//今の位置を前回の位置として保存
+            Oldy = Y;//今の位置を前回の位置として保存
 
-            //移動している時
+
+            //移動フラグがオンになった時
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
-                Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;
+                Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;//移動先に敵情報を渡す。
 
-                if (MoveTime(move_wait_time))
+                if (MoveTime(move_wait_time))//移動するまで待機する時間
                 {
-                    MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));
-                    status = Status.Walk;//移動処理
+                    MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));//実移動
+                    status = Status.Walk;//歩くアニメーション
                 }
 
-                Hpber.gameObject.SetActive(false);
-                if (Abnormal_condition == AbnormalCondition.Fire)
+                Hpber.gameObject.SetActive(false);//HPバーをオフ
+                if (Abnormal_condition == AbnormalCondition.Fire)//炎の状態異常が掛かっていたら炎の状態異常をUIをオフ
                 {
                     fire_image.gameObject.SetActive(false);
                 }
 
                 if (Status.Walk == status)//歩いていたら
                 {
-                    Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;//map情報を無くす
-                    Debug.Log("移動した　map情報NONE");
+                    Map.Map[IndexCheckY(Oldy), IndexCheckX(Oldx)] = (int)MapMass.Mapinfo.NONE;//前回の位置をMap情報をなし。
                 }
             }
 
-            //目的値についているか?
-            if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)//target.magnitude < Targetdistance
+            //目的値についているかフラグがオンなら
+            if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)
             {
-                status = Status.Idle;//アイドル状態         
+                status = Status.Idle;//立ち止まっている状態         
                 Ismove = false;//動きを止める。
 
-                //UIオン
-                Hpber.gameObject.SetActive(true);
-                if (Abnormal_condition == AbnormalCondition.Fire)
+                Hpber.gameObject.SetActive(true);//HPバー再表示
+
+                if (Abnormal_condition == AbnormalCondition.Fire)//炎の状態異常をアクティブ状態オン
                 {
                     fire_image.gameObject.SetActive(true);
                 }
 
-                Y = IndexCheckY(NextposY);
-                X = IndexCheckX(NextposX);
+                Y = IndexCheckY(NextposY);//次の位置を現在位置にする
+                X = IndexCheckX(NextposX);//次の位置を現在位置にする
 
-                //ここで前方が攻撃エリアか見る
-
-                //自分の回りの位置が攻撃エリアかをみて
-                //攻撃エリアなら攻撃するフラグをオン
-
-
-                //ここで状態異常確認
-                //if (Init_abnormal_ui)//1回のみ入るフラグ
-                //{
-                //    //Debug.Log("状態異常の中身" + Abnormal_condition);
-
-                //    switch (Abnormal_condition)//状態異常の中身見る
-                //    {
-                //        case AbnormalCondition.NONE:
-                //            //Debug.Log("状態異常じゃないです！！");
-                //            break;
-                //        case AbnormalCondition.Fire:
-                //            //Debug.Log("炎ダメージ");
-                //            //Fire_Abnormal_Condition();
-                //            Fire_Abnormal_UI();
-                //            break;
-                //        case AbnormalCondition.Ice:
-                //            //Debug.Log("氷ダメージ");
-                //            //Ice_Abnormal_Condition();
-                //            break;
-                //    }
-
-                //    //Debug.Log("ターン終了");
-                //    Init_abnormal_ui = false;
-                //}
-
-                Targetchangeflg = true;
-                Is_action = true;//行動した。
-
+                Targetchangeflg = true;//ターゲットチェンジをオン
+                Is_action = true;//行動したフラグをオン
             }
         }
 
-        if (!deathflg)
+        if (!deathflg)//死亡したフラグがオフの時
         {
-            UIFacing();
+            UIFacing();//キャラが他の方向を見た時、UIを前に向ける処理
         }
-        //}
-        //攻撃
-        //EnemyAttack();
     }
 
     //取得
@@ -698,11 +633,6 @@ public class EnemyBase : MonoBehaviour
             }
             Init_anim_flg = false;
         }
-
-        //if (Attacktime > 1.5f)
-        //{
-        //    Attacktime = 0;
-        //}
     }
 
     public void AttackSearchMovement()
@@ -726,9 +656,7 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
-                //Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //下
                 Attackaria = false;
-
                 Camera_TargetInit();
             }
         }
@@ -753,7 +681,6 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                //Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] = (int)MapMass.Mapinfo.NONE;//右
             }
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
@@ -776,7 +703,6 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                //Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] = (int)MapMass.Mapinfo.NONE;//上
             }
         }
         else if (Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//上方向
@@ -799,7 +725,6 @@ public class EnemyBase : MonoBehaviour
             {
                 Camera_TargetInit();
                 Attackaria = false;
-                //Map.Map[IndexCheckY(Y - 1), IndexCheckX(X)] = (int)MapMass.Mapinfo.NONE; //上
             }
         }
         else
@@ -815,8 +740,6 @@ public class EnemyBase : MonoBehaviour
         Debug.DrawRay(transform.position, next_pos - transform.position);
 
         Vector3 def = next_pos - transform.position;
-        /*Vector3.MoveTowards(transform.position, next_pos, Speed * Time.deltaTime);*/
-        //Debug.Log("目的値距離" + def.sqrMagnitude);
 
         LookTarget(def);//向き移動
         transform.position += def.normalized * Speed * Time.deltaTime;//移動
@@ -831,16 +754,6 @@ public class EnemyBase : MonoBehaviour
             Target_distance = true;
             transform.position = next_pos;
         }
-
-        //目的値に着いたらflgを変える。
-        // if(){
-
-        //while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-        //{
-        //    transform.position = Vector3.MoveTowards(transform.position, targetPos, 5f * Time.deltaTime);
-        //}
-
-        //transform.position = targetPos;
     }
 
     public void IceObjSetActivOn()
