@@ -5,6 +5,9 @@ using System;
 
 public class PuzzlePointerMover : TrunManager
 {
+
+    SEManager sePlay = null;  //SE
+
     //角度と対象オブジェクト指定用の構造体
     [Serializable] struct GoalPorts {
         public float ang;
@@ -52,7 +55,9 @@ public class PuzzlePointerMover : TrunManager
 
         //circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
-        if(!puzzleOnlyMode)
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
+
+        if (!puzzleOnlyMode)
             s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
@@ -155,7 +160,8 @@ public class PuzzlePointerMover : TrunManager
                     }
 
                     //移動音を鳴らす
-                    audioSource.PlayOneShot(moveSound);
+                    //audioSource.PlayOneShot(moveSound);
+                    sePlay.Play("MagicCursorSelect");
 
                     //インターバルをリセット
                     interCount = interval;
