@@ -18,9 +18,12 @@ public class Star_Electric : MonoBehaviour
     //撃った敵を取得２回目の防止用
     List<GameObject> targets = new List<GameObject>();
 
+    SEManager sePlay = null;  //SE
+
     // Update is called once per frame
     void Start()
     {
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
         StartCoroutine(Ele_Attack());
     }
 
@@ -42,6 +45,8 @@ public class Star_Electric : MonoBehaviour
             targets.Add(first_Target);
             first_Target.GetComponent<EnemyBase>().Damage(4.0f);
         }
+
+        Destroy(this.gameObject, magic_Level * 0.8f);
 
     }
 
@@ -84,6 +89,9 @@ public class Star_Electric : MonoBehaviour
             tar_ene_pos.x = target.GetComponent<EnemyBase>().X;
             tar_ene_pos.y = target.GetComponent<EnemyBase>().Y;
             target.GetComponent<EnemyBase>().Damage(4.0f);
+
+            //雷の五芒星のSEを鳴らす
+            sePlay.Play("ThunderMagicStar");
 
             GameObject _efe = Instantiate(e_Ele, transform);
             LightningBoltScript lb = _efe.GetComponent<LightningBoltScript>();

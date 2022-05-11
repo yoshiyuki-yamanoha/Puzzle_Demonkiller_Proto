@@ -12,11 +12,14 @@ public class Star_Ice : MonoBehaviour
     private float upSpeed = 10.0f;
     private float Max_y = 0.8f;
 
+    SEManager sePlay = null;  //SE
+
     [SerializeField] private float breakSpeed = 0.2f;
 
     [SerializeField]private List<GameObject> Ice_objs = new List<GameObject>();
     void Start()
     {
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
         Destroy(gameObject, 5f);
     }
 
@@ -35,6 +38,7 @@ public class Star_Ice : MonoBehaviour
         Ice_objs.Clear();
         for (int i = 0; i < 20; i++)
         {
+           if(i%2==0) StartCoroutine(IceSE(i));//SE
             for (int j = 0; j < _lev; j++)
             {
                 StartCoroutine(cre_ice(num + j, i));
@@ -124,4 +128,16 @@ public class Star_Ice : MonoBehaviour
             }
         }
     }
+
+    IEnumerator IceSE(int num)
+    {
+        float delay = (num) * 0.1f;
+        yield return new WaitForSeconds(delay);
+
+        //氷の五芒星のSEを流す
+        sePlay.Play("IceMagicStar");
+
+
+    }
+
 }

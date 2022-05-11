@@ -21,8 +21,11 @@ public class Ele_tur_Attack : MonoBehaviour
 
     private TrunManager tm;
 
+    SEManager sePlay = null;  //SE
+
     public void Set_Init(int _lev, GameObject _tage)
     {
+
         Level = _lev;
         tage = _tage;
         Stage_mass = GameObject.Find("MassRoot");
@@ -31,6 +34,7 @@ public class Ele_tur_Attack : MonoBehaviour
         can_Attack = false;
         Is_once = true;
         tm = GameObject.Find("TrunManager").GetComponent<TrunManager>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
 
     }
     private void FixedUpdate()
@@ -49,7 +53,10 @@ public class Ele_tur_Attack : MonoBehaviour
         Vector2 Range_min = new Vector2((int)pos.x - Level, (int)pos.y - Level);
         Vector2 Range_Max = new Vector2((int)pos.x + Level, (int)pos.y + Level);
 
-        for(int i = (int)Range_min.x; i <= (int)Range_Max.x; i++)
+        //雷の五角形のSEを鳴らす
+        sePlay.Play("ThunderMagicStar");
+
+        for (int i = (int)Range_min.x; i <= (int)Range_Max.x; i++)
         {
             for(int j = (int)Range_min.y; j <= (int)Range_Max.y; j++)
             {

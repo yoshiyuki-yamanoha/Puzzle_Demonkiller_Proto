@@ -90,6 +90,22 @@ public class SEManager : MonoBehaviour
             case "FlameDeath"://18炎の剣のモンスター死亡
                 audioSource.PlayOneShot(audioClips[20], 1.3f);
                 break;
+            case "FireMagicStar":
+                audioSource.PlayOneShot(audioClips[21], 1.0f);
+                break;
+            case "IceMagicStar":
+                audioSource.PlayOneShot(audioClips[22], 1.3f);
+                break;
+            case "IceMagicPenta":
+                audioSource.PlayOneShot(audioClips[23], 1.3f);
+                break;
+            case"ThunderMagicFire":
+                audioSource.PlayOneShot(audioClips[24], 2.3f);
+                break;
+            case "ThunderMagicStar":
+                audioSource.PlayOneShot(audioClips[25], 1.3f);
+                break;
+
 
 
         }

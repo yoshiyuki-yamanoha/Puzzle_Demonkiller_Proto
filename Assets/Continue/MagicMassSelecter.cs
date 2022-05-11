@@ -645,6 +645,17 @@ public class MagicMassSelecter : MonoBehaviour
                     //全ます
                     if (typ == 1 || typ == 3 || typ == 4)
                     {
+
+                        if (typ == 4)///炎五芒星　　//魔法によって音を変える、typ1:氷五芒星 typ3:炎五角形 typ4:氷五角形  
+
+                        {
+                            sePlay.Play("IceMagicPenta");
+                        }else if (typ == 3){
+                            sePlay.Play("MagicShot");
+                        }
+
+
+
                         //地雷と氷
                         if (typ == 3 || typ == 4) {
                             foreach (var rp in attackRangePos) {
@@ -658,7 +669,15 @@ public class MagicMassSelecter : MonoBehaviour
                         if (sum >= attackRange.Length) return;
 
                         s_PlayerContoller.ShotMagic(attackRange[0], typ, lev, attackRange);
-                        sePlay.Play("MagicShot");
+
+
+                        //if (typ == 4)///炎五芒星　　//魔法によって音を変える、typ1:氷五芒星 typ3:炎五角形 typ4:氷五角形  
+
+                        //{
+                        //    sePlay.Play("MagicShot");
+                        //}
+
+                        //sePlay.Play("MagicShot");
                     }
 
                     //
@@ -667,7 +686,9 @@ public class MagicMassSelecter : MonoBehaviour
                         int center = attackRange.Length / 2;
 
                         s_PlayerContoller.ShotMagic(attackRange[center], typ, lev);
-                        sePlay.Play("MagicShot");
+                        if (typ==5||typ==0) {
+                            sePlay.Play("MagicShot");
+                        }
                     }
 
                     //インターバルのリセット
@@ -678,7 +699,7 @@ public class MagicMassSelecter : MonoBehaviour
             {  //複数設置型
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    sePlay.Play("MagicShot");
+                    //sePlay.Play("MagicShot");
                     //一番最初に選択した時
                     if (selectsNum == 0)
                     {
@@ -710,6 +731,10 @@ public class MagicMassSelecter : MonoBehaviour
                         //魔法を放つ
                         if (typ == 2 || typ == 3)
                         {
+                            if (typ == 2)
+                            {
+                                sePlay.Play("ThunderMagicFire");
+                            }
                             s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
                             foreach (var e in selectTargets) e.tag = "Enemy";
                         }

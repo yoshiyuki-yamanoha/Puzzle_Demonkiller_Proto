@@ -13,6 +13,7 @@ public class Star_Fire : MonoBehaviour
     private float damege_num = 2.0f;
 
     private Vector2Int tage_pos;
+    SEManager sePlay = null;  //SE
 
     public void set_Init(int _Level, GameObject _tage)
     {
@@ -20,6 +21,7 @@ public class Star_Fire : MonoBehaviour
         tage = _tage;
         tage_pos = Set_pos(tage);
         Stage_mass = GameObject.Find("MassRoot");
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
 
         Create_Chain_Explosion();
     }
@@ -28,7 +30,9 @@ public class Star_Fire : MonoBehaviour
     {
         for(int i = 1; i <= level; i++) //レベル分の魔法を放つ
         {
-            Debug.Log("i : " + i);
+            //炎の五芒星の音を鳴らしますt
+            sePlay.Play("FireMagicStar");
+
             for (int j = 0; j < Mathf.Pow((i * 2) + 1,2.0f) ; j++)
             {
                 //攻撃範囲の座標分
@@ -61,6 +65,7 @@ public class Star_Fire : MonoBehaviour
     {
         float delay = (num) * 0.3f;
         yield return new WaitForSeconds(delay);
+        //sePlay.Play("BombDeath");
 
         GameObject Magic = Instantiate(Magic_Obj, _tage.transform.position, transform.rotation, transform);
         //Destroy(Magic, 1.5f);
