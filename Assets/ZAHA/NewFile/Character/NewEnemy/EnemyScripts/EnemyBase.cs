@@ -244,37 +244,31 @@ public class EnemyBase : MonoBehaviour
         hp -= damage;
         if (hp <= 0)
         {
-            if (init_death_flg)
+            hp = 0;
+            speed = 0;
+            deathflg = true;
+            if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
             {
-                hp = 0;
-                speed = 0;
-                deathflg = true;
-                MainMgr mg = new MainMgr();
-                mg.EnemiDieCount();
-                if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
-                {
-                    sePlay.Play("GoblinDeath");
+                sePlay.Play("GoblinDeath");
 
-                }
-                else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
-                {
-                    sePlay.Play("DemonDeath");
-                }
-                else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
-                {
-                    sePlay.Play("BombDeath");
-                }
-                else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
-                {
-                    sePlay.Play("FlameDeath");
-                }
-                /*死亡フラグ立てる 速度0 HP0*/
-                //if (this.gameObject == null)
-                //{
-                //enemys_.Remove(this.gameObject);
-                //}
-                init_death_flg = false;
             }
+            else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
+            {
+                sePlay.Play("DemonDeath");
+            }
+            else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
+            {
+                sePlay.Play("BombDeath");
+            }
+            else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
+            {
+                sePlay.Play("FlameDeath");
+            }
+            /*死亡フラグ立てる 速度0 HP0*/
+            //if (this.gameObject == null)
+            //{
+            //enemys_.Remove(this.gameObject);
+            //}
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
@@ -474,7 +468,7 @@ public class EnemyBase : MonoBehaviour
                 mg.EnemiDieCount();
                 init_death_flg = false;
             }
-            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除ここも削除できていないなった
+            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; 
 
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
         }
