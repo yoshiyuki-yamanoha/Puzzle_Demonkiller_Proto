@@ -273,6 +273,7 @@ public class EnemyBase : MonoBehaviour
                 //{
                 //enemys_.Remove(this.gameObject);
                 //}
+                init_death_flg = false;
             }
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }

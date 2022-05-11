@@ -41,7 +41,6 @@ public class PentagonIce : MonoBehaviour
     {
         GameObject Eff = Instantiate(iceWall, _pos, Quaternion.identity);
         Eff.transform.parent = obj.transform;
-        Eff.transform.localScale = new Vector3(2, 2, 2);
-
+        Eff.transform.localScale = new Vector3(1, 1, 1);
     }
 }
