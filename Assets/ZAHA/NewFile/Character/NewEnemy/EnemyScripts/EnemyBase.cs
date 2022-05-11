@@ -468,6 +468,12 @@ public class EnemyBase : MonoBehaviour
         //死亡フラグが立った時。
         if (Deathflg)
         {
+            if (init_death_flg)
+            {
+                MainMgr mg = new MainMgr();
+                mg.EnemiDieCount();
+                init_death_flg = false;
+            }
             map.Map[y, x] = (int)MapMass.Mapinfo.NONE; //死亡した位置敵情報削除ここも削除できていないなった
 
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
