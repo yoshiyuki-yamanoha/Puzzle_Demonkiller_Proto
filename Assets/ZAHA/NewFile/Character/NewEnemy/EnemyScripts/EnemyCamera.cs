@@ -133,14 +133,10 @@ public class EnemyCamera : MonoBehaviour
         else
         {
             fireEnemySpone = null;
-            if (finalDieflag == false)
-            {
-                targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
-                HpNoneEnemy();
-            }
             transform.position = defaultCamerapos;
             startFlag = false;
 
+            initflg = true;
             enemy_camera.depth = -2;//カメラの優先度
             //initflg = true;// 
             moveflag = true;
@@ -153,6 +149,11 @@ public class EnemyCamera : MonoBehaviour
             //}
         }
 
+        if (finalDieflag == false)
+        {
+            targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+            HpNoneEnemy();
+        }
         if ( finalDieflag == true)//死んだフラグをカウントしてそれがマックスだったら入る
         {
             //HpNoneEnemy();
@@ -376,64 +377,53 @@ public class EnemyCamera : MonoBehaviour
         //if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax - 1) && finalDieflag == false)
         if (finalDieflag == false)
         {
-            HpNoneEnemy();
+            //HpNoneEnemy();
             enemy_camera.depth = 0;
             timer = 0;
             HighPriorityEnemy();
             if (initflg == true)
             {
-                camera_targe = CloseEnemycamera();
+                //camera_targe = CloseEnemycamera();
+                coreCloseEnemy = null;
                 coreCloseEnemy = CloseEnemycamera();
                 initflg = false;
             }
             else
             {
-                if (coreAttackEnemy != null || fenceAttackEnemy != null || fireEnemySpone != null)
+                timer += Time.deltaTime;
+
+                //if (timer < 2)
+                //{
+                if (fireEnemySpone != null)
                 {
-                    timer += Time.deltaTime;
+                    camera_targe = fireEnemySpone;
+                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                }
+                else
+                if (coreAttackEnemy != null)
+                {
+                    camera_targe = coreAttackEnemy;
+                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
 
-                    //if (timer < 2)
-                    //{
-                    if(fireEnemySpone != null)
-                    {
-                        camera_targe = fireEnemySpone;
-                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
-                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
-                    }
-                    else
-                    if (coreAttackEnemy != null)
-                    {
-                        camera_targe = coreAttackEnemy;
-                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
-                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                }
+                else
+                //transform.position = Vector3.Lerp(defaultCamerapos, camera_targe.transform.position, cameraMove.CalcMoveRatio());
 
-                    }else
-                    //transform.position = Vector3.Lerp(defaultCamerapos, camera_targe.transform.position, cameraMove.CalcMoveRatio());
-
-                    //}
-                    //if (timer < 3 && timer > 2)
-                    //{
-                    if (fenceAttackEnemy != null)
-                    {
-                        camera_targe = fenceAttackEnemy;
-                        camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
-                        //distance = (transform.position - camera_tage_pos);
-                        floDistance = Vector3.Distance(transform.position, camera_tage_pos);
-                    }
-
-                    //}
+                //}
+                //if (timer < 3 && timer > 2)
+                //{
+                if (fenceAttackEnemy != null)
+                {
+                    camera_targe = fenceAttackEnemy;
+                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    //distance = (transform.position - camera_tage_pos);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                 }
                 else
                 {
 
-                    //左から右に移動する処理↓
-                    //if (x < 96)
-                    //{
-                    //    x += 0.25f;
-                    //    transform.position = new Vector3(x, 40, -110);
-                    //    transform.eulerAngles = new Vector3(45, 0, 0);
-                    //}
-                    //左から右に移動する処理↑
                     camera_targe = coreCloseEnemy;
                     camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
                     floDistance = Vector3.Distance(transform.position, camera_tage_pos);
@@ -445,6 +435,17 @@ public class EnemyCamera : MonoBehaviour
                 }
 
                 transform.LookAt(camera_targe.transform.position);
+                //}
+
+
+                //左から右に移動する処理↓
+                //if (x < 96)
+                //{
+                //    x += 0.25f;
+                //    transform.position = new Vector3(x, 40, -110);
+                //    transform.eulerAngles = new Vector3(45, 0, 0);
+                //}
+                //左から右に移動する処理↑
             }
 
 
@@ -468,7 +469,7 @@ public class EnemyCamera : MonoBehaviour
         }
         else
         {
-            EndEnemyCameraMove();
+            //EndEnemyCameraMove();
         }
         //HpNoneEnemy();
         //Debug.Log(dieFlagEnemy + "たい倒れた");
