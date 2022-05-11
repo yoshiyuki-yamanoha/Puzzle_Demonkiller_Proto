@@ -193,7 +193,11 @@ public class BombEnemy : EnemyBase
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
             Destroy(other.gameObject);
-            gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
+
+            if (Ice_flg)
+            {
+                gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
+            }
         }
 
         if (other.CompareTag("Ice"))
@@ -207,7 +211,8 @@ public class BombEnemy : EnemyBase
                 Ice_instance_flg = true;
             }
 
-            
+            Ice_flg = true;
+
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             Ice_abnormality_turncount = 0;
