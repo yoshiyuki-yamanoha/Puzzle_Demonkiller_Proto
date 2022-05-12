@@ -87,7 +87,7 @@ public class EnemyCamera : MonoBehaviour
         cameraMove = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
         enemy_camera = this.gameObject.GetComponent<Camera>();
         enemy_camera.depth = -2;
-        defaultCamerapos = new Vector3(47.5f, 43.8f, -132);
+        defaultCamerapos = new Vector3(47.5f, 43.8f, -132);//ステージの真ん中(パズルするときのいる位置)
         //defaultCamerapos = new Vector3(47.5f, 8.5f, -47.5f);//コアの上の座標
         //defaultCamerapos = this.gameObject.transform.position;
         //transform.position = new Vector3(0, 26, -107);
@@ -125,7 +125,10 @@ public class EnemyCamera : MonoBehaviour
             }
             else
             {
-                fireEnemySpone = GEnemy.FlameGameObject();
+                if (GEnemy.FlameGameObject() != null)
+                {
+                    fireEnemySpone = GEnemy.FlameGameObject();
+                }
                 EnemyCameraMove();
                 //EndEnemyCameraMove();
             }
@@ -421,20 +424,27 @@ public class EnemyCamera : MonoBehaviour
                     //distance = (transform.position - camera_tage_pos);
                     floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                 }
-                else
+                else if(coreCloseEnemy != null)
                 {
 
                     camera_targe = coreCloseEnemy;
                     camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
                     floDistance = Vector3.Distance(transform.position, camera_tage_pos);
                 }
+                else
+                {
+                    coreCloseEnemy = null;
+                    coreCloseEnemy = CloseEnemycamera();
+                }
 
                 if (floDistance > floDistanceline)
                 {
                     transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
                 }
-
-                transform.LookAt(camera_targe.transform.position);
+                if (camera_targe != null)
+                {
+                    transform.LookAt(camera_targe.transform.position);
+                }
                 //}
 
 
@@ -480,6 +490,7 @@ public class EnemyCamera : MonoBehaviour
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
 
+        timer += Time.deltaTime;
         enemy_camera.depth = 0;
         //targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
         //HpNoneEnemy();
@@ -502,7 +513,6 @@ public class EnemyCamera : MonoBehaviour
         else
         {
 
-            timer += Time.deltaTime;
             if (camera_targe != null)
             {
                 enemyLookCamepos = new Vector3(/*transform.position.x*/camera_targe.transform.position.x, 4, camera_targe.transform.position.z - 15);
