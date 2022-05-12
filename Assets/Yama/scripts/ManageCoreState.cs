@@ -11,9 +11,11 @@ public class ManageCoreState : TrunManager
     // コア
     public Core core = new Core();
 
-
     // スライダー
     [SerializeField] Slider slider = null;
+    // フェイドマネージャー
+    FadeOut fadeMGR;
+    bool isCoreDeathAnim;
 
     void Start()
     {
@@ -25,6 +27,9 @@ public class ManageCoreState : TrunManager
         slider = GameObject.Find("CoreHPCanvas/Slider").gameObject.GetComponent<Slider>();
         slider.maxValue = core.max_hp;
         slider.value = slider.maxValue;
+
+        fadeMGR = GameObject.Find("FadeCanvas/FadeImage").gameObject.GetComponent<FadeOut>();
+        isCoreDeathAnim = false;
     }
 
 
@@ -36,6 +41,13 @@ public class ManageCoreState : TrunManager
         if (currentPhase == TrunPhase.Enemy)
         {
             CheckHP();
+        }
+
+        if(isCoreDeathAnim == true)
+        {
+
+            CheckFadeOut();
+            
         }
     }
 
@@ -57,8 +69,23 @@ public class ManageCoreState : TrunManager
 
         if (slider.value <= 0)
         {
+            isCoreDeathAnim = true;
+
+            fadeMGR.fadeOutFlag = true;
+            fadeMGR.SetColor_Black();
+        }
+    }
+
+    public void CheckFadeOut()
+    {
+        const float fadeOut = 1.0f;
+
+        float fadeAlpha = fadeMGR.GetAlpha();
+        if (fadeAlpha >= fadeOut)
+        {
             // ゲームオーバーシーンへ遷移する関数
             GameMgr.Instance.GotoGameOverScene();
+
         }
     }
 }

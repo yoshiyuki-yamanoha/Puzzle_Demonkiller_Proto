@@ -185,6 +185,17 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[10];//配列保存
 
+            //enemy_generation_info[0] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
+            //enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
+            //enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
+            //enemy_generation_info[5] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[6] = new EnemyGenerationInfo(10, 0, 5, 5, 0);
+            //enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            //enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
+
             enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
             enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
             enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
@@ -219,8 +230,14 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             //SearchGeneration();
             if (game_mode == Mode.Game) //ゲームモードがメインのみ
             {
-                //生成
-                InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
+                time += Time.deltaTime;//カウント開始
+
+                if (time > interval_s)//スパンごと出現させる
+                {
+                    //生成
+                    InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
+                    time = 0;//タイム初期化
+                }
             }
             else //ゲームモードがデバッグのみ
             {
@@ -230,14 +247,15 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         if (EC.startFlag == false)
         {
-            DebugDraw();
-
-            enemy_oneturn_count = 0;
-            enemys_pos.Clear();//一時的座標保存をclear
-            enemys_kinds.Clear();
-            init_turn_generation_flg = false;//初回ターンを終了
-            Nowturn++;
-            trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+            if (enemys_pos.Count <= enemy_oneturn_count) {
+                DebugDraw();
+                enemy_oneturn_count = 0;
+                enemys_pos.Clear();//一時的座標保存をclear
+                enemys_kinds.Clear();
+                init_turn_generation_flg = false;//初回ターンを終了
+                Nowturn++;
+                trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+            }
         }
 
     }
@@ -252,8 +270,18 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             SkipEnemy();//ターンをスキップする処理
 
+            if (!init_skip)
+            {//飛ばされたら登録する
+                while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
+                {
+                    Debug.Log("Nowturn" + Nowturn);
+                    GenerationEnemyPos();//座標登録
+                    GenerationEnemyKinds();//敵の種類登録/////
+                }
+            }
+
             //生成する
-            while(enemys_pos.Count > enemy_oneturn_count)
+            while (enemys_pos.Count > enemy_oneturn_count)
             {
                 //Debug.Log("生成フラグON" + "Nowturn" + Nowturn + "座標登録数 " + enemys_pos.Count);
                 InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
@@ -303,7 +331,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             map.Map[pos.y, pos.x] = (int)MapMass.Mapinfo.Enemy;//mapに敵の情報を渡す。
             enemys_pos.Add(pos);//エネミー座標を追加
             pos_entry_flg = true;
-            Debug.Log(/*"座標登録" + "Y[" + pos.y + "]" + " X[" + pos.x + "]" + */"Nowturn " + Nowturn +"登録されている数" + enemys_pos.Count);
+            Debug.Log(/*"座標登録" + "Y[" + pos.y + "]" + " X[" + pos.x + "]" + */"Nowturn " + Nowturn + "登録されている数" + enemys_pos.Count);
         }
 
         oneturn_flg_random_spawn = true;
@@ -354,7 +382,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 enemy_kinds = 0;//ゴブリン
             }
 
-            
+
 
             //if (enemy_kinds == 1) //敵に応じて出現するSEの音を変える //1：ゴブリン
             //{
@@ -414,9 +442,11 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             {
                 while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
                 {
+                    Debug.Log("ターンスキップ");
                     Nowturn++;
                 }
 
+                Debug.Log("飛ばしたターン" + Nowturn);
                 init_skip = false;
             }
         }
