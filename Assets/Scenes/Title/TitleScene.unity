@@ -5383,7 +5383,7 @@ RectTransform:
   m_GameObject: {fileID: 778748980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.4}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.4}
   m_Children: []
   m_Father: {fileID: 1305194394}
   m_RootOrder: 3
@@ -5411,7 +5411,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f3089ca14524d544bab7ae24ecf6f6ad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31e24b11882e46744be84027146344ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5572,11 +5572,11 @@ MonoBehaviour:
   bgmPlay: {fileID: 0}
   audioSource: {fileID: 0}
   startImg:
-  - {fileID: 21300000, guid: 7d43c8c9a54094a4291570728200de1c, type: 3}
-  - {fileID: 21300000, guid: b68691c29589bf0449740d63abc1f2b7, type: 3}
+  - {fileID: 21300000, guid: 86a2369e644caa84ea6ae3a4ad6451a7, type: 3}
+  - {fileID: 21300000, guid: 86a2369e644caa84ea6ae3a4ad6451a7, type: 3}
   quitImg:
-  - {fileID: 21300000, guid: f3089ca14524d544bab7ae24ecf6f6ad, type: 3}
-  - {fileID: 21300000, guid: 130a5bfa491fbf64f90a7d5dbc422a21, type: 3}
+  - {fileID: 21300000, guid: 31e24b11882e46744be84027146344ef, type: 3}
+  - {fileID: 21300000, guid: 31e24b11882e46744be84027146344ef, type: 3}
   ui_Start: {fileID: 1513475673}
   ui_Quit: {fileID: 778748982}
   ui_Line: {fileID: 553248887}
@@ -5870,7 +5870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305194393}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -498.34, y: -203.8, z: 0}
+  m_LocalPosition: {x: -368, y: -286, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1549270953}
@@ -6042,7 +6042,7 @@ RectTransform:
   m_GameObject: {fileID: 1513475671}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 1305194394}
   m_RootOrder: 2
@@ -6070,7 +6070,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b68691c29589bf0449740d63abc1f2b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86a2369e644caa84ea6ae3a4ad6451a7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
