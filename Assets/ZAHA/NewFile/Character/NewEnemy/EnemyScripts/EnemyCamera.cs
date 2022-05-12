@@ -28,6 +28,8 @@ public class EnemyCamera : MonoBehaviour
     //
     float floDistance;//
     float floDistanceline = 46;//
+    float slowlyDisStart = 25;
+    float slowltDisEnd = 17;
     bool initflg = true;
     Vector3 defaultCamerapos;//Cameraの初期位置
     Vector3 enemyLookCamepos;//敵を見ているときのCamera位置
@@ -279,7 +281,16 @@ public class EnemyCamera : MonoBehaviour
         if (dieEnemyCount >= dieEnemyMax && hpNoneEnemy == null)
         {
             Debug.Log("近い敵探し～");
-            hpNoneEnemy = CloseEnemycamera();
+            //hpNoneEnemy = CloseEnemycamera();
+            targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+            foreach (var target in targets)
+            {
+                if (target.GetComponent<EnemyBase>().Hp <= 0)
+                {
+                    hpNoneEnemy = target;
+                }
+            }
+
             finalDieflag = true;
             //        //Debug.Log("最後の敵が倒れたぞ　コラ");
         }
@@ -516,6 +527,7 @@ public class EnemyCamera : MonoBehaviour
             if (camera_targe != null)
             {
                 enemyLookCamepos = new Vector3(/*transform.position.x*/camera_targe.transform.position.x, 4, camera_targe.transform.position.z - 15);
+                floDistance = Vector3.Distance(transform.position, enemyLookCamepos);
                 //transform.position = enemyLookCamepos;
 
                 if (moveflag == true)
@@ -533,23 +545,24 @@ public class EnemyCamera : MonoBehaviour
             transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
             transform.LookAt(camera_targe.transform.position);
         }
-        if (timer > 3)
+        if (hpNoneEnemy == null)
         {
             endFlag = true;
         }
-        if(timer > 1 && timer < 2.5f)
+        if(floDistance > slowltDisEnd && floDistance < slowlyDisStart)
         {
+            gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
             Time.timeScale = 0.5f;
         }
         else
         {
             Time.timeScale = 1;
         }
-        if(hpNoneEnemy == null || timer > 2.5f)
-        {
+        //if(hpNoneEnemy == null || timer > 2.5f)
+        //{
 
-            gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
-        }
+        //    gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
+        //}
 
         //if (Time.timeScale == 1)
         //{
