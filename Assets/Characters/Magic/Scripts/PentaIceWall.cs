@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PentaIceWall : MonoBehaviour
 {
-    bool Is_once, afterOneTurn;
-    int LifeTrun;
+    bool Is_once, afterOneTurn,breakanim;
+    private int LifeTrun;
     TrunManager tm;
+
+    [SerializeField] private float breakSpeed = 0.2f;
+
     private void Start()
     {
         Is_once = true;
@@ -30,16 +33,35 @@ public class PentaIceWall : MonoBehaviour
 
         if (afterOneTurn)
         {
+            //Debug.Log("通ったよ");
             DestroyIce();
+            afterOneTurn = false;
+        }
+        if (breakanim)
+        {
+            Material material = this.gameObject.GetComponent<Renderer>().material;
+            if (material.HasProperty("_Destruction"))
+            {
+                float Des = material.GetFloat("_Destruction");
+                Des += breakSpeed * Time.deltaTime;
+                if (Des > 1.0f) { Des = 1.0f; }
+
+                material.SetFloat("_Destruction", Des);
+                Debug.Log(Des);
+            }
         }
     }
 
     public void DestroyIce()
     {
-        Debug.Log("僕は消えました。");
+        //Debug.Log("僕は消えました。");
         Debug.Log("START" + LifeTrun);
         LifeTrun--;
-        if (LifeTrun <= 0) { Destroy(this.gameObject); gameObject.transform.root.GetComponent<EnemyBase>().Ice_instance_flg = false;  gameObject.transform.root.GetComponent<EnemyBase>().Ice_flg = false; };
-        afterOneTurn = false;
+        if (LifeTrun <= 0)
+        {
+            breakanim = true;
+            gameObject.transform.root.GetComponent<EnemyBase>().Ice_instance_flg = false;
+            gameObject.transform.root.GetComponent<EnemyBase>().Ice_flg = false;
+        }
     }
 }

@@ -206,6 +206,8 @@ public class MagicMassSelecter : MonoBehaviour
         float hori = Input.GetAxis("Horizontal");//スティックの入力を取っている
         float vert = -Input.GetAxis("Vertical");//以下
 
+  
+
         int oldSelX = nowSelX;
         int oldSelY = nowSelY;
 
@@ -221,12 +223,17 @@ public class MagicMassSelecter : MonoBehaviour
 
         //範囲をはみ出るなら移動できない様にする。
         if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false){
+            sePlay.Play("Select3");
             nowSelX = oldSelX;
             nowSelY = oldSelY;
         }
 
         //セレクターが移動されたら
         if(oldSelX != nowSelX || oldSelY != nowSelY){
+
+  
+                //sePlay.Play("Select3");///////////////////////////////////////
+            
 
             //新選択マスのマテリアルを変える
             s_MagicRangeDetector.ChangeMagicRange();
@@ -609,6 +616,9 @@ public class MagicMassSelecter : MonoBehaviour
         obj.GetComponent<Renderer>().material = eleMats[colorType];
 
         obj.tag = "ChangedMass";
+        
+        //sePlay.Play("Select3");///////////////////////////////////////////////////////
+        
     }
 
     //セレクターの位置情報(添え字)をMapMassに渡す
