@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44982666, g: 0.44348451, b: 0.43643764, a: 1}
+  m_IndirectSpecularColor: {r: 0.09289036, g: 0.1182066, b: 0.15339512, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1468,7 +1468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -57.000183, y: 220}
+  m_AnchoredPosition: {x: -57.000244, y: 220}
   m_SizeDelta: {x: 569.5, y: 138.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518659485
@@ -9130,6 +9130,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
+      propertyPath: enemy_particle.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
       propertyPath: max_next
       value: 0
       objectReference: {fileID: 0}
@@ -9267,6 +9272,12 @@ PrefabInstance:
       propertyPath: EC
       value: 
       objectReference: {fileID: 222253785}
+    - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
+      propertyPath: enemy_particle.Array.data[0]
+      value: 
+      objectReference: {fileID: 9047106432237066001, guid: ef5eb2452caa3bc4b8e52818659c4cce,
+        type: 3}
     - target: {fileID: 5298066893699814274, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: m_LocalPosition.x
