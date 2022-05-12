@@ -95,7 +95,6 @@ public class MapMass : MonoBehaviour
     [SerializeField] GameObject core_prefab = null;
     [SerializeField] GameObject tree_prefab = null;
     [SerializeField] GameObject bari_prefab = null;
-    [SerializeField] GameObject log_prefab = null;
 
     struct MassState
     {
@@ -312,14 +311,10 @@ public class MapMass : MonoBehaviour
         GameObject obj = null;
         GameObject core = null;
         float fence_CorrectionX = 2.85f;
-        //GameObject treeParent = new GameObject("Trees");
-        GameObject barriParent = new GameObject("Barricades");
-        GameObject logParent = new GameObject("Log");
-        int[,] logPosArray = new int[4, 2] {{ 12, 4 }, {  4, 7}, { 15, 12 }, {  7, 15 } };
+        var treeParent = new GameObject("Trees");
+        var barriParent = new GameObject("Barricades");
 
-        Debug.Log("lPA.Length :" + logPosArray.GetLength(1));
-
-        for (int y = 0, logNum = 0; y < Map.GetLength(0); y++)
+        for (int y = 0; y < Map.GetLength(0); y++)
         {
             for (int x = 0; x < Map.GetLength(1); x++)
             {
@@ -345,28 +340,9 @@ public class MapMass : MonoBehaviour
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
                         break;
                     case (int)Mapinfo.tree:
-                        {
-                            if (y == logPosArray[logNum, 1])
-                            {
-                                if (x == logPosArray[logNum, 0])
-                                {
-                                    obj = Instantiate(log_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.x/2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.AngleAxis(-90.0f, Vector3.right));
-                                    obj.transform.SetParent(logParent.transform, false);
-                                    //obj.transform.localScale = new Vector3(10.0f, 20.0f, 10.0f);
-                                    obj.gameObject.name = "logs";
-                                    if ((x + y) % 2 != 0)
-                                    {
-                                        obj.transform.localRotation = Quaternion.AngleAxis(90.0f, Vector3.forward);
-                                    }
-                                    if (logNum < logPosArray.GetLength(0) - 1)
-                                        logNum++;
-                                }
-                            }
-                        }
-
-                        //obj = Instantiate(tree_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, /*Tilemas_prefab.transform.localScale.y*/0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
-                        //obj.transform.parent = treeParent.transform;
-                        //obj.gameObject.name = "tree";
+                        obj = Instantiate(tree_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, /*Tilemas_prefab.transform.localScale.y*/0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
+                        obj.transform.parent = treeParent.transform;
+                        obj.gameObject.name = "tree";
                         //obj.gameObject.tag = "Core";
                         obj = Instantiate(Tilemas_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, 0, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity);
                         obj.transform.parent = rootobj_.transform;//親にしたいオブジェクトを設定。
@@ -440,6 +416,4 @@ public class MapMass : MonoBehaviour
 
         return (selX, selY);
     }
-
-    //private void 
 }

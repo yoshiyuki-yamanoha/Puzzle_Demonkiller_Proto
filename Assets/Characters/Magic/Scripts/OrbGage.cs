@@ -308,6 +308,8 @@ public class OrbGage : MonoBehaviour
             //for (int i = 0; i < orb_Gage.Length; i++)
             //    orb_Gage[i].value = 0;
         }
+
+        s_SelectUseOrb.ChangeUseOrb(1);
     }
 
     void DelayPhase()
@@ -354,5 +356,9 @@ public class OrbGage : MonoBehaviour
             totalNum += n;
 
         return (totalNum == 0 ? false : true);
+    }
+
+    public void OrbLevelZero(int num) {
+        Orb_Level[num] = 0;
     }
  }
