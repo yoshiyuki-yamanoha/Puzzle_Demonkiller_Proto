@@ -7,6 +7,7 @@ public class Star_Fire : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] GameObject Magic_Obj;
+    [SerializeField] GameObject Magic_Obj2;
     private GameObject Stage_mass;
     private int level = 0;
     private GameObject tage;
@@ -15,6 +16,9 @@ public class Star_Fire : MonoBehaviour
     private Vector2Int tage_pos;
     SEManager sePlay = null;  //SE
 
+
+    public int tarNumBuf = 0;
+    
     public void set_Init(int _Level, GameObject _tage)
     {
         level = _Level;
@@ -23,7 +27,15 @@ public class Star_Fire : MonoBehaviour
         Stage_mass = GameObject.Find("MassRoot");
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
 
-        Create_Chain_Explosion();
+        if(level != 10)
+        {
+
+            Create_Chain_Explosion();
+        }
+        else
+        {
+            Meteo();
+        }
     }
 
     public void Create_Chain_Explosion()
@@ -44,13 +56,19 @@ public class Star_Fire : MonoBehaviour
                 {
                     //ターゲットの座標＋範囲
                     int targetNum = tage_pos.x + (tage_pos.y * 20) + at_pos.x - i + ((at_pos.y - i)  * 20);
+                    tarNumBuf = targetNum;
+                    
+                    if(targetNum >= 0 || targetNum < 400)
+                    {
+                        Vector2Int pos = Vector2Int.zero;
 
-                    Vector2Int pos = Vector2Int.zero;
+                        pos.x = targetNum % 20;
+                        pos.y = targetNum / 20;
 
-                    pos.x = targetNum % 20;
-                    pos.y = targetNum / 20;
+                        StartCoroutine(Create_Magic(Stage_mass.transform.GetChild(targetNum).gameObject, i));
 
-                    StartCoroutine(Create_Magic(Stage_mass.transform.GetChild(targetNum).gameObject, i));
+                    }
+                    
                 }
                 else
                 {
@@ -100,5 +118,25 @@ public class Star_Fire : MonoBehaviour
         sePlay.Play("FireMagicStar");
 
 
+    }
+
+    void Meteo()
+    {
+        GameObject Magic = Instantiate(Magic_Obj2, tage.transform.position, transform.rotation, transform);
+        Magic.transform.localScale = new Vector3(20, 20, 20);
+
+        
+        Invoke("DelayDamage", 1.0f);
+    }
+
+    void DelayDamage() {
+
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var e in enemies)
+        {
+            e.GetComponent<EnemyBase>().Damage(2.0f);
+
+        }
+        
     }
 }

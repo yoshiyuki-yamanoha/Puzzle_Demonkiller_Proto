@@ -46,14 +46,14 @@ public class PuzzlePointerMover : TrunManager
     [SerializeField] private bool puzzleOnlyMode;
 
     //ポインター移動インターバル
-    const float interval = 0.1f;
+    const float interval = 0.05f;
     float interCount = interval;
 
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
 
-        //circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+        circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
 
