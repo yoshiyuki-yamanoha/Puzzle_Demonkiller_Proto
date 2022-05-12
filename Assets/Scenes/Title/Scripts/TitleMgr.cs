@@ -35,11 +35,13 @@ public class TitleMgr : MonoBehaviour
 
     [SerializeField] Animator cycleAnim;
     bool nextSceneFlg;
+    bool buttonInputFlg;    // 一回しか押せないフラグ
     float line_width;
     
     // Start is called before the first frame update
     void Start()
     {
+        buttonInputFlg = false;
         nextSceneFlg = false;
         selecter = Select.Start;
         selectCoolTime = 0.0f;
@@ -106,11 +108,12 @@ public class TitleMgr : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") && !buttonInputFlg)
         {
             
             // 魔法陣のアニメーションの開始
             cycleAnim.SetTrigger("Go2");
+            buttonInputFlg = true;
             sePlay.Play("TitleDecision");
         }
         //selectCoolTime--;// クールタイムを起動
