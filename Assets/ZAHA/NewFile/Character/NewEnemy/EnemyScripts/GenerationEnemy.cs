@@ -185,8 +185,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[10];//配列保存
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
+            enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
             enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
             enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
@@ -195,17 +195,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
-
-            //enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
-            //enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
-            //enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
-            //enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            //enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
-            //enemy_generation_info[5] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            //enemy_generation_info[6] = new EnemyGenerationInfo(10, 0, 5, 5, 0);
-            //enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            //enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            //enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
         }
         else
         {
@@ -262,15 +251,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         if (generation_flg)
         {
             SkipEnemy();//ターンをスキップする処理
-
-            if(!init_skip){//飛ばされたら登録する
-                while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
-                {
-                    Debug.Log("Nowturn" + Nowturn);
-                    GenerationEnemyPos();//座標登録
-                    GenerationEnemyKinds();//敵の種類登録/////
-                }
-            }
 
             //生成する
             while(enemys_pos.Count > enemy_oneturn_count)
@@ -434,11 +414,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             {
                 while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
                 {
-                    Debug.Log("ターンスキップ");
                     Nowturn++;
                 }
 
-                Debug.Log("飛ばしたターン" + Nowturn);
                 init_skip = false;
             }
         }
