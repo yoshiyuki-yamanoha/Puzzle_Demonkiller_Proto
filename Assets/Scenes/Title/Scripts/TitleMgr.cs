@@ -45,8 +45,8 @@ public class TitleMgr : MonoBehaviour
         nextSceneFlg = false;
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(504.0f, -167.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(504.0f, -305.0f, 0.0f);
+        selectMenuPos[0] = new Vector3(868.0f, 122.0f, 0.0f);
+        selectMenuPos[1] = new Vector3(868.0f, -19.0f, 0.0f);
         this.gameObject.AddComponent<MenuControll>();
         menuControll = this.GetComponent<MenuControll>();
         GenerationTitle_BGM();
