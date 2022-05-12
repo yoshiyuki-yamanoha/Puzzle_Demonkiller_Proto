@@ -8,7 +8,7 @@ public class PentaIceWall : MonoBehaviour
     private int LifeTrun;
     TrunManager tm;
 
-    [SerializeField] private float breakSpeed = 0.2f;
+    [SerializeField] private float breakSpeed = 0.5f;
 
     private void Start()
     {
