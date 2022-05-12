@@ -51,8 +51,8 @@ public class MenuControll : MonoBehaviour
         selectCoolTime = SELECT_COOLTIME_MAX;
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(868.0f, 122.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(868.0f, -19.0f, 0.0f);
+        selectMenuPos[0] = new Vector3(877.4f, 128.9f, 0.0f);
+        selectMenuPos[1] = new Vector3(877.4f, -25.2f, 0.0f);
     }
 
     public int GetUpDown()
@@ -87,25 +87,28 @@ public class MenuControll : MonoBehaviour
 
     public void ResultMenuControll()
     {
-        int inputnum = GetUpDown();
-        if (inputnum == ((int)MenuControll.UpDown.DOWN))
+        if (!buttonInputFlg)
         {
-            selecter = Select.Quit;
-            ui_Start.sprite = startImg[0];
-            ui_Quit.sprite = quitImg[1];
-        }
-        if (inputnum == ((int)MenuControll.UpDown.UP))
-        {
-            selecter = Select.Start;
-            ui_Start.sprite = startImg[1];
-            ui_Quit.sprite = quitImg[0];
+            int inputnum = GetUpDown();
+            if (inputnum == ((int)MenuControll.UpDown.DOWN))
+            {
+                selecter = Select.Quit;
+                ui_Start.sprite = startImg[0];
+                ui_Quit.sprite = quitImg[1];
+            }
+            if (inputnum == ((int)MenuControll.UpDown.UP))
+            {
+                selecter = Select.Start;
+                ui_Start.sprite = startImg[1];
+                ui_Quit.sprite = quitImg[0];
 
+            }
         }
 
         switch (selecter)
         {
-            case Select.Start: cursor.localPosition = selectMenuPos[0]; break;
-            case Select.Quit: cursor.localPosition = selectMenuPos[1]; break;
+            case Select.Start: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[0], 0.45f); break;
+            case Select.Quit: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[1], 0.45f); break;
         }
 
         // 選択しているStageによって飛ばすシーンを変える
