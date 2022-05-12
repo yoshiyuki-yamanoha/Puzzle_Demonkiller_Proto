@@ -53,7 +53,7 @@ public class PuzzlePointerMover : TrunManager
     {
         s_PointControl = GetComponent<PointControl>();
 
-        circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+        //circlesArrays[1].goalPorts[0].goalPort.transform.GetChild(0).GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
 
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
 
