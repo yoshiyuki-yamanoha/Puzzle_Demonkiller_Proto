@@ -37,10 +37,17 @@ public class TitleMgr : MonoBehaviour
     bool nextSceneFlg;
     bool buttonInputFlg;    // 一回しか押せないフラグ
     float line_width;
-    
+
+    [SerializeField] Image grayOut; // グレーアウト用のオブジェクト情報
+    [SerializeField] float grayOutSpeed;    // グレーアウトの速度
+    float gray_alpha;   // グレーアウトの透明度
+    //[SerializeField]float gray_coolTime; // グレーアウトの開始する時のクールタイム
+    public bool grayOutFlg;
     // Start is called before the first frame update
     void Start()
     {
+        grayOutFlg = false;
+        gray_alpha = 0.0f;
         buttonInputFlg = false;
         nextSceneFlg = false;
         selecter = Select.Start;
@@ -116,6 +123,23 @@ public class TitleMgr : MonoBehaviour
             buttonInputFlg = true;
             sePlay.Play("TitleDecision");
         }
+
+        // 魔法陣のアニメーションが開始したら
+        if(buttonInputFlg)
+        {
+            
+            if (grayOutFlg)
+            {
+                gray_alpha += grayOutSpeed * Time.deltaTime;
+                if (gray_alpha >= 1)
+                {
+                    gray_alpha = 1;
+                }
+            }
+            
+
+            grayOut.color = new Color(grayOut.color.r, grayOut.color.g, grayOut.color.b, gray_alpha);
+        }
         //selectCoolTime--;// クールタイムを起動
         //if (Input.GetAxis("UPDOWN") <= 0.9f && Input.GetAxis("UPDOWN") >= 0.0f) {
         //    selectCoolTime = 0;
@@ -138,6 +162,11 @@ public class TitleMgr : MonoBehaviour
     public void GotoNextScene()
     {
         nextSceneFlg = true;
+    }
+
+    public void OnGrayOutFlg()
+    {
+        grayOutFlg = true;
     }
     void GenerationTitle_BGM()
     {

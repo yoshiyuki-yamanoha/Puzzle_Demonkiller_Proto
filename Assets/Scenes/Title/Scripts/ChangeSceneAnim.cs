@@ -15,5 +15,10 @@ public class ChangeSceneAnim : MonoBehaviour
     {
         tg.GotoNextScene();
     }
+
+    public void FadeOut()
+    {
+        tg.OnGrayOutFlg();
+    }
 }
 

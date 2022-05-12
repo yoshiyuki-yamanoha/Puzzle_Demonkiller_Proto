@@ -36,13 +36,23 @@ public class MenuControll : MonoBehaviour
     [SerializeField] Image ui_Quit;     // Quit表示画像の情報
     [SerializeField] Image ui_Line;     // Line表示画像の情報
     [SerializeField] private Select selecter;
+
+    [SerializeField] Image grayOut; // グレーアウト用のオブジェクト情報
+    [SerializeField] float grayOutSpeed;    // グレーアウトの速度
+    float gray_alpha;   // グレーアウトの透明度
+    //[SerializeField]float gray_coolTime; // グレーアウトの開始する時のクールタイム
+    public bool grayOutFlg;
+    bool buttonInputFlg;    // 一回しか押せないフラグ
     private void Start()
     {
+        gray_alpha = 0.0f;
+        grayOutFlg = false;
+        buttonInputFlg = false;
         selectCoolTime = SELECT_COOLTIME_MAX;
         selecter = Select.Start;
         selectCoolTime = 0.0f;
-        selectMenuPos[0] = new Vector3(370.55f, -87.0f, 0.0f);
-        selectMenuPos[1] = new Vector3(370.55f, -225.0f, 0.0f);
+        selectMenuPos[0] = new Vector3(868.0f, 122.0f, 0.0f);
+        selectMenuPos[1] = new Vector3(868.0f, -19.0f, 0.0f);
     }
 
     public int GetUpDown()
@@ -101,13 +111,29 @@ public class MenuControll : MonoBehaviour
         // 選択しているStageによって飛ばすシーンを変える
         if (Input.GetButtonDown("Fire1"))
         {
+            buttonInputFlg = true;
+        }
 
 
-            switch (selecter)
+        // 魔法陣のアニメーションが開始したら
+        if (buttonInputFlg)
+        {
+
+            
+            gray_alpha += grayOutSpeed * Time.deltaTime;
+            if (gray_alpha >= 1)
             {
-                case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
-                case Select.Quit: GameMgr.Instance.GotoTitleScene(); break;
+                gray_alpha = 1;
+                switch (selecter)
+                {
+                    case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
+                    case Select.Quit: GameMgr.Instance.GotoTitleScene(); break;
+                }
             }
+            
+
+
+            grayOut.color = new Color(grayOut.color.r, grayOut.color.g, grayOut.color.b, gray_alpha);
         }
     }
 }
