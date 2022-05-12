@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     //おーぶしゅとく
     [SerializeField] OrbCon s_OrbCon;
     [SerializeField] OrbGage s_OrbGage;
+    
 
     //魔法専用モード
     [SerializeField] bool magicOnlyMode;
@@ -134,5 +135,7 @@ public class PlayerController : MonoBehaviour
                 mh.magicLevel = lv;
             }
         }
+
+        
     }
 }

@@ -77,11 +77,16 @@ public class SelectUseOrb : TrunManager
 
         //敵が0体だった場合、設置系以外を使え無くする
         var enes = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enes.Length <= 0) {
+        if (s_turnMGR.GetTrunPhase() == TrunPhase.MagicAttack && enes.Length <= 0) {
             orbLevel[0] = 0;
             orbLevel[1] = 0;
             orbLevel[2] = 0;
             orbLevel[4] = 0;
+            s_orbGage.OrbLevelZero(0);
+            s_orbGage.OrbLevelZero(1);
+            s_orbGage.OrbLevelZero(2);
+            s_orbGage.OrbLevelZero(4);
+            ChangeUseOrb(1);
         }
     }
 
@@ -148,7 +153,7 @@ public class SelectUseOrb : TrunManager
     /// レベルが１以上のオーブを探す
     /// </summary>
     /// <param name="num">プラスの場合前に、マイナスの場合後ろに進む</param>
-    private void ChangeUseOrb(int num)
+    public void ChangeUseOrb(int num)
     {
         
         
