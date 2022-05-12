@@ -13,9 +13,7 @@ public class FadeOut : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        red = 1;
-        green = 1;
-        blue = 1;
+        SetColor_White();
         alpha = 0;
     }
 
@@ -48,5 +46,24 @@ public class FadeOut : MonoBehaviour
     {
         //fadeImage = new Color(red, green, blue, alpha);
         this.GetComponent<Image>().color = new Color(red, green, blue, alpha);
+    }
+
+    public void SetColor_Black()
+    {
+        red = Color.black.r;
+        green = Color.black.g;
+        blue = Color.black.b;
+    }
+
+    public void SetColor_White()
+    {
+        red = Color.white.r;
+        green = Color.white.g;
+        blue = Color.white.b;
+    }
+
+    public float GetAlpha()
+    {
+        return alpha;
     }
 }
