@@ -5158,7 +5158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &553248886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5568,7 +5568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selecter: 0
-  cursor: {fileID: 553248886}
+  cursor: {fileID: 2039103463}
   bgmPlay: {fileID: 0}
   audioSource: {fileID: 0}
   startImg:
@@ -6620,7 +6620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2039103463
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6630,14 +6630,14 @@ RectTransform:
   m_GameObject: {fileID: 2039103462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.03, y: 3.38, z: 1}
+  m_LocalScale: {x: 4.18, y: 2.18, z: 1}
   m_Children: []
   m_Father: {fileID: 1948756394}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370.55, y: -87}
+  m_AnchoredPosition: {x: 504, y: -305}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2039103464
