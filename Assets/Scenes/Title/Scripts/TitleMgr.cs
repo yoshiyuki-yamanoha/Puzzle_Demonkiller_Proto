@@ -43,14 +43,18 @@ public class TitleMgr : MonoBehaviour
     float gray_alpha;   // グレーアウトの透明度
     //[SerializeField]float gray_coolTime; // グレーアウトの開始する時のクールタイム
     public bool grayOutFlg;
+
+    
     // Start is called before the first frame update
     void Start()
     {
+        
         grayOutFlg = false;
         gray_alpha = 0.0f;
         buttonInputFlg = false;
         nextSceneFlg = false;
         selecter = Select.Start;
+        
         selectCoolTime = 0.0f;
         selectMenuPos[0] = new Vector3(868.0f, 122.0f, 0.0f);
         selectMenuPos[1] = new Vector3(868.0f, -19.0f, 0.0f);
@@ -80,29 +84,32 @@ public class TitleMgr : MonoBehaviour
 
         //    }
         //}
-        int inputnum = menuControll.GetUpDown();
-        if (inputnum == ((int)MenuControll.UpDown.DOWN))
-        {
-            if (selecter == Select.Start) sePlay.Play("MagicCursorSelect");
-            selecter = Select.Quit;
-            ui_Start.sprite = startImg[0];
-            ui_Quit.sprite = quitImg[1];
-            
-        }
-        if(inputnum == ((int)MenuControll.UpDown.UP))
-        {
-            if (selecter == Select.Quit) sePlay.Play("MagicCursorSelect");
-            selecter = Select.Start;
-            ui_Start.sprite = startImg[1];
-            ui_Quit.sprite = quitImg[0];
-            ;
 
+        if (!buttonInputFlg)
+        {
+            int inputnum = menuControll.GetUpDown();
+            if (inputnum == ((int)MenuControll.UpDown.DOWN))
+            {
+                if (selecter == Select.Start) sePlay.Play("MagicCursorSelect");
+                selecter = Select.Quit;
+                ui_Start.sprite = startImg[0];
+                ui_Quit.sprite = quitImg[1];
+
+            }
+            if (inputnum == ((int)MenuControll.UpDown.UP))
+            {
+                if (selecter == Select.Quit) sePlay.Play("MagicCursorSelect");
+                selecter = Select.Start;
+                ui_Start.sprite = startImg[1];
+                ui_Quit.sprite = quitImg[0];
+
+            }
         }
-        
+
         switch (selecter)
         {
-            case Select.Start: cursor.localPosition = selectMenuPos[0]; break;
-            case Select.Quit: cursor.localPosition = selectMenuPos[1]; break;
+            case Select.Start: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[0], 0.45f); break;
+            case Select.Quit: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[1], 0.45f); break;
         }
 
         // 選択しているStageによって飛ばすシーンを変える
