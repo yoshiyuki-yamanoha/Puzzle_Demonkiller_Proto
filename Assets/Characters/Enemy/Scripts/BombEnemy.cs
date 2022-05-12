@@ -207,7 +207,7 @@ public class BombEnemy : EnemyBase
 
             if (!Ice_instance_flg)
             {
-                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject);
+                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject, new Vector3(0.5f, 0.5f, 0.5f));
                 Ice_instance_flg = true;
             }
 

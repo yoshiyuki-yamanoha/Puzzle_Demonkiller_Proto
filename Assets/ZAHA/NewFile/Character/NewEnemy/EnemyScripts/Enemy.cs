@@ -131,7 +131,7 @@ public class Enemy : EnemyBase
             Abnormal_condition = AbnormalCondition.Ice;//状態異常をアイス状態
             if (!Ice_instance_flg)
             {
-                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject);
+                other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject, new Vector3(0.8f, 0.8f, 0.8f));
                 Ice_instance_flg = true;
             }
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
