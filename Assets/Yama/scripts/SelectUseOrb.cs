@@ -155,8 +155,8 @@ public class SelectUseOrb : TrunManager
     /// <param name="num">プラスの場合前に、マイナスの場合後ろに進む</param>
     public void ChangeUseOrb(int num)
     {
-        
-        
+
+        int numLim = 0;
 
         // 現在選択しているオーブから一周する
         for (int oi = nowSelOrb + num; oi != nowSelOrb; oi+=num)
@@ -170,9 +170,13 @@ public class SelectUseOrb : TrunManager
                 nowSelOrb = oi;
                 break;
             }
+
+            if (++numLim > 6) break;
         }
 
-        if(nowSelOrb != 2)
+        
+
+        if (nowSelOrb != 2)
             s_MapMass.SetMagicMassSelector(defSelX, defSelY);//オーブが切り替わるときにカーソルを最初の位置へ移動
 
         // クールタイムの追加
