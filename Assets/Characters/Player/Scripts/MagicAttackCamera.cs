@@ -49,12 +49,15 @@ public class MagicAttackCamera : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        (soeX, soeY) = selector.GetMAgicMassSelector();
-        selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
-        start = subCamera.transform.position;
-        target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 50/*25*/, selepos.transform.position.z - 57/*27*/);
-        MagicCameraOn();
-        MagicCameraMove();
+        if (trunMgr.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
+        {
+            (soeX, soeY) = selector.GetMAgicMassSelector();
+            selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
+            start = subCamera.transform.position;
+            target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 50/*25*/, selepos.transform.position.z - 57/*27*/);
+            MagicCameraOn();
+            MagicCameraMove();
+        }
 
 
 
