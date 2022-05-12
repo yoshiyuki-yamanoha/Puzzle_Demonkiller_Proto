@@ -599,12 +599,12 @@ public class EnemyCamera : MonoBehaviour
         }
         if (timer > 3)
         {
-            fadeout.fadeOutFlag = true;
+            fadeout.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
         }
         if (timer > 4)
         {
             startFlag = false;
-            fadeout.fadeInFlag = true;
+            fadeout.SetFadeMode(FadeOut.FadeMode.FADE_IN);
             x = 0;
             timer = 0;
         }

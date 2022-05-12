@@ -10,6 +10,13 @@ public class FadeOut : MonoBehaviour
     public bool fadeOutFlag = false;// Fadeoutのフラグ
     public bool fadeInFlag = false;//FadeInのフラグ
 
+    public enum FadeMode
+    {
+        OFF = 0,
+        FADE_IN,
+        FADE_OUT,
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +33,7 @@ public class FadeOut : MonoBehaviour
         }
         if(fadeInFlag == true)
         {
-            alpha -= fadeSpeed; 
+            StartFadeIn();
         }
 
         SetAlpha();
@@ -34,14 +41,26 @@ public class FadeOut : MonoBehaviour
         //gageColor
     }
 
+    void StartFadeIn()
+    {
+        alpha -= fadeSpeed;
+        if(alpha <= 0.0f)
+        {
+            alpha = 0.0f;
+            fadeInFlag = false;
+        }
+    }
+
     void StartFadeOut()
     {
         alpha += fadeSpeed;
-        if(alpha >= 1)
+        if (alpha >= 1.0f)
         {
+            alpha = 1.0f;
             fadeOutFlag = false;
         }
     }
+
     void SetAlpha()
     {
         //fadeImage = new Color(red, green, blue, alpha);
@@ -65,5 +84,24 @@ public class FadeOut : MonoBehaviour
     public float GetAlpha()
     {
         return alpha;
+    }
+
+    public void SetFadeMode(FadeMode fadeMode)
+    {
+        if(fadeMode == FadeMode.OFF)
+        {
+            fadeInFlag = false;
+            fadeOutFlag = false;
+        }
+        if (fadeMode == FadeMode.FADE_IN)
+        {
+            fadeInFlag = true;
+            fadeOutFlag = false;
+        }
+        if (fadeMode == FadeMode.FADE_OUT)
+        {
+            fadeInFlag = false;
+            fadeOutFlag = true;
+        }
     }
 }

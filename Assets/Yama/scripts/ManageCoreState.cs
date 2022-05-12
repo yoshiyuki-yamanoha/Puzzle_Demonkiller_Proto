@@ -71,7 +71,7 @@ public class ManageCoreState : TrunManager
         {
             isCoreDeathAnim = true;
 
-            fadeMGR.fadeOutFlag = true;
+            fadeMGR.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
             fadeMGR.SetColor_Black();
         }
     }
