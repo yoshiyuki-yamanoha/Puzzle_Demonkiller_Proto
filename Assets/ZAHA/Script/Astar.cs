@@ -50,7 +50,7 @@ public class Astar : MonoBehaviour
         }
     }
 
-    public Vector2Int astar(Node start, Node goal,int num)//Astarアルゴリズム
+    public Vector2Int astar(Node start, Node goal, int num)//Astarアルゴリズム
     {
         //ゴール設定
         //Node goal_node = goal;
@@ -121,44 +121,29 @@ public class Astar : MonoBehaviour
                 new Vector2Int(0, -1),//後ろ
                 new Vector2Int(-1, 0),//左
                 new Vector2Int(1, 0),//右
-
-
-                //new Vector2Int(1, 1),//右前
-                //new Vector2Int(-1, 1),//左前
-                //new Vector2Int(-1, -1),//左後ろ
-                //new Vector2Int(1, -1),//右後ろ
             };
-
-            //攻撃
-            //if (map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.bari || map.Map[dir[0].y + current_node.Pos.y, dir[0].x + current_node.Pos.x] == (int)MapMass.Mapinfo.core)
-            ////{
-            ////    Debug.Log("前方向にに攻撃エリアあった!");
-            ////    SetAttackAria(true);//攻撃エリア発見
-            ////    SetAttackPos(dir[0] + current_node.Pos);//攻撃エリア隣接ノード
-
-            ////    Debug.Log("Y [" + dir[0].y + current_node.Pos.y + "]" + "X [" + dir[0].x + current_node.Pos.x + "]" + map.Map[dir[0].y + current_node.Pos.y, +dir[0].x + current_node.Pos.x] + "があります");
-            ////    continue;
-            ////}
 
             for (int number = 0; number < 4; number++)//4方向分調べている。
             {
+                bool add_adjacent = true;
                 Vector2Int adjacent_node_pos = new Vector2Int(current_node.Pos.x + dir[number].x, current_node.Pos.y + dir[number].y);//隣接ノードの位置生成
 
                 //map範囲外はコンテニュー処理 //無限ループしてるかもー
                 if (adjacent_node_pos.y > (map.Map.GetLength(0) - 1) || adjacent_node_pos.y < 0 || adjacent_node_pos.x > (map.Map.GetLength(1) - 1) || adjacent_node_pos.x < 0)
                 {
-                    Debug.Log("範囲外デス。");
-                    continue; //個々より下は処理しない（スキップ）
+                    Debug.Log(this.gameObject + "範囲外デス。");
+                    add_adjacent = false;
                 }
 
-                if (map.Map[adjacent_node_pos.y, adjacent_node_pos.x] != 0) //mapの移動出来る範囲をみる。//0は移動可能
+                if (map.Map[adjacent_node_pos.y, adjacent_node_pos.x] != (int)MapMass.Mapinfo.NONE) //mapの移動出来る範囲をみる。//0は移動可能
                 {
-                    continue;//個々より下は処理しない（スキップ）
+                    Debug.Log(this.gameObject.name + "移動出来ない");
+                    add_adjacent = false;
                 }
-                else //移動ができるんだったら
+
+                if (add_adjacent)
                 {
                     Node adjacent_node = new Node(current_node, adjacent_node_pos);//現在のオブジェクトを親ノードにする。
-
                     adjacent_node_list.Add(adjacent_node); //隣接ノードを追加
                 }
             }
@@ -166,13 +151,18 @@ public class Astar : MonoBehaviour
             //隣接の計算 
             foreach (var adjacent in adjacent_node_list)
             {
-                adjacent.G = StartMoveCost(current_node.G);
+                //adjacent.G = StartMoveCost(current_node.G);
                 adjacent.H = HeuristicCost(goal.Pos, adjacent.Pos);
-                adjacent.F = adjacent.G + adjacent.H;
+                adjacent.F = /*adjacent.G + */adjacent.H;
 
                 bool list_open_add = true;
 
                 if (HeuristicCost(goal.Pos, current_node.Pos) < HeuristicCost(goal.Pos, adjacent.Pos))//隣接ノードのゴール距離が離れていれば追加しない。
+                {
+                    list_open_add = false;
+                }
+
+                if (map.Map[adjacent.Pos.y , adjacent.Pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
                     list_open_add = false;
                 }
@@ -190,7 +180,7 @@ public class Astar : MonoBehaviour
                 //オープンリストにすでに子がある時
                 foreach (var open in open_list)
                 {
-                    if (open.Pos == adjacent.Pos && adjacent.G > open.G)//同じノード
+                    if (open.Pos == adjacent.Pos/* && adjacent.G > open.G*/)//同じノード
                     {
                         //Debug.Log("Openlistに同じノードがあります。");
                         list_open_add = false;
@@ -198,9 +188,8 @@ public class Astar : MonoBehaviour
                 }
 
                 if (list_open_add) open_list.Add(adjacent);//オープンリストに追加
-
-
             }
+
             //隣接ノード探索終了
 
             //for (int open = 0; open < open_list.Count; open++)
@@ -227,26 +216,6 @@ public class Astar : MonoBehaviour
         //クローズの中身をみるデバッグ
     }
 
-    //void SetAttackPos(Vector2Int attackpos)
-    //{
-    //    this.attackpos = attackpos;
-    //}
-
-    //public Vector2Int GetAttackPos()
-    //{
-    //    return attackpos;
-    //}
-
-    //public void SetAttackAria(bool attackaria)
-    //{
-    //    this.attackaria = attackaria;
-    //}
-
-    //public bool GetAttackAria()
-    //{
-    //    return attackaria;
-    //}
-
     //ゴールをチェックしてくれる関数
     bool GoolCheck(Node current, Node goal)
     {
@@ -258,11 +227,11 @@ public class Astar : MonoBehaviour
     }
 
 
-    //スタートの移動コスト
-    int StartMoveCost(int g)
-    {
-        return g + 1;
-    }
+    ////スタートの移動コスト
+    //int StartMoveCost(int g)
+    //{
+    //    return g + 1;
+    //}
 
 
     //推定コスト
@@ -279,7 +248,7 @@ public class Node //ノードクラス
     //位置
     Vector2Int pos;//マスの要素数を入れる。X, Y
 
-    int g;//starとから移動コスト
+    //int g;//starとから移動コスト
     int h;//推定コスト
     int f;//スコア値
 
@@ -291,13 +260,13 @@ public class Node //ノードクラス
         ParentNode = node;//親ノードを入れる変数
         Pos = pos;
 
-        g = 0;
+        //g = 0;
         h = 0;
         f = 1000;
     }
 
     //プロパティ
-    public int G { get => g; set => g = value; }
+    //public int G { get => g; set => g = value; }
     public int H { get => h; set => h = value; }
     public int F { get => f; set => f = value; }
     public Vector2Int Pos { get => pos; set => pos = value; }//ノードgrid

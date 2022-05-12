@@ -519,11 +519,19 @@ public class EnemyBase : MonoBehaviour
                 //SearchMovement(massnum); //2マス。
 
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum);//移動処理 取得は移動できる座標
-                NextposX = move_pos.x;//移動できる座標を設定
-                NextposY = move_pos.y;//移動できる座標を設定
-                Ismove = true;//ムーブフラグをオン
-                Target_distance = false;//ターゲット距離オフ
-                Targetchangeflg = false;//ターゲットチェンジオフ
+                if (map.Map[move_pos.y , move_pos.x] != (int)MapMass.Mapinfo.NONE)
+                {
+                    Ismove = false;
+                    Target_distance = true;
+                }
+                else
+                {
+                    NextposX = move_pos.x;//移動できる座標を設定
+                    NextposY = move_pos.y;//移動できる座標を設定
+                    Ismove = true;//ムーブフラグをオン
+                    Target_distance = false;//ターゲット距離オフ
+                    Targetchangeflg = false;//ターゲットチェンジオフ
+                }
             }
 
             Oldx = X;//今の位置を前回の位置として保存
