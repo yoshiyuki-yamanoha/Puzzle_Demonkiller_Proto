@@ -149,7 +149,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             {
                 Debug.Log("Nowturn" + Nowturn);
                 GenerationEnemyPos();//座標登録
-                GenerationEnemyKinds();//敵の種類登録
+                GenerationEnemyKinds();//敵の種類登録/////
             }
         }
     }
@@ -354,23 +354,24 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 enemy_kinds = 0;//ゴブリン
             }
 
+            
 
-            if (enemy_kinds == 1) //敵に応じて出現するSEの音を変える //1：ゴブリン
-            {
-                sePlay.Play("GoblinSpawn");
-            }
-            else if (enemy_kinds == 0) //2：デーモン
-            {
-                sePlay.Play("EnemySpawn");//SEを鳴らす
-            }
-            else if (enemy_kinds == 2) //3:ボム兵
-            {
-                sePlay.Play("BombSpawn");//SEを鳴らす  //SE変更予定
-            }
-            else if (enemy_kinds == 3)//4：炎の剣
-            {
-                sePlay.Play("FlameSpawn");
-            }
+            //if (enemy_kinds == 1) //敵に応じて出現するSEの音を変える //1：ゴブリン
+            //{
+            //    sePlay.Play("GoblinSpawn");
+            //}
+            //else if (enemy_kinds == 0) //2：デーモン
+            //{
+            //    sePlay.Play("EnemySpawn");//SEを鳴らす
+            //}
+            //else if (enemy_kinds == 2) //3:ボム兵
+            //{
+            //    sePlay.Play("BombSpawn");//SEを鳴らす  //SE変更予定
+            //}
+            //else if (enemy_kinds == 3)//4：炎の剣
+            //{
+            //    sePlay.Play("FlameSpawn");
+            //}
 
             enemys_kinds.Add(enemy_kinds);
         }
@@ -514,6 +515,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
         GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, Quaternion.identity);//敵を生成
+        sePlay.Play("EnemySpawn");
 
         if (enemy_kinds == 3)//炎の敵だったら入る。
         {
