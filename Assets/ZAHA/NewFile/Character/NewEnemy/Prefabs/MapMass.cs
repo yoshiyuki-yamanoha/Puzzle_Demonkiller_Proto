@@ -1,90 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//サンプルコード下の方に移しました。 2022/05/13 ZAHA
 
 public class MapMass : MonoBehaviour
 {
-    //サンプルコード
-    //int width;//幅
-    //int height;//高さ
-    //int out_of_range = -1;
-    //int[] values = null;//mapデーター
-
-    //private void Start()
-    //{
-    //    //MapMass mapmass = new MapMass();
-    //    //mapmass.Create(8, 8);
-    //    //mapmass.Set(1, 2, 5);
-    //    //mapmass.Set(3, 7, 3);
-    //    //mapmass.Dump();
-    //}
-
-    //public int Width
-    //{
-    //    get{ return width; }
-    //}
-
-    //public int Height
-    //{
-    //    get { return height; }
-    //}
-
-    //public void Create(int width , int height)
-    //{
-    //    this.width = width;
-    //    this.height = height;
-
-    //    values = new int[Width * Height];
-    //    Debug.Log("配列値" + values);
-    //}
-
-    //public int ToIdx(int x, int y)
-    //{
-    //    return x + (y * Width);
-    //}
-
-    ////範囲内かチェック
-    //public bool IsOutOfRange(int x, int y)
-    //{
-    //    if (x < 0 || x >= Width) { return true; }
-    //    if(y < 0 || y >= Height) { return true; }
-
-    //    return false;
-    //}
-
-    //public int Get(int x , int y)
-    //{
-    //    if (IsOutOfRange(x, y))
-    //    {
-    //        return out_of_range;
-    //    }
-
-    //    return values[y * Width + x];
-    //}
-
-    //public void Set(int x, int y, int v)
-    //{
-    //    if (IsOutOfRange(x, y))
-    //    {
-    //        return;
-    //    }
-
-    //    values[y * Width + x] = v;
-    //}
-
-    //public void Dump()
-    //{
-    //    Debug.Log("[Array2D] (w,h)=(" + Width + " , " + Height + " ) ");
-    //    for (int y = 0; y < Height; y++)
-    //    {
-    //        string s = "";
-    //        for (int x = 0; x < Width; x++)
-    //        {
-    //            s += Get(x, y) + ",";
-    //        }
-    //        Debug.Log(s);
-    //    }
-    //}
     GameObject[,] core_bari_Data = new GameObject[20, 20];//コアとバリケードの位置保存
 
     int j = 0;
@@ -96,6 +16,7 @@ public class MapMass : MonoBehaviour
     [SerializeField] GameObject tree_prefab = null;
     [SerializeField] GameObject bari_prefab = null;
     [SerializeField] GameObject log_prefab = null;
+    [SerializeField] GameObject emp_prefab = null;
 
     struct MassState
     {
@@ -247,7 +168,6 @@ public class MapMass : MonoBehaviour
     {
         GameObject[] bari_obj = GameObject.FindGameObjectsWithTag("Bari");
         GameObject[] core_obj = GameObject.FindGameObjectsWithTag("Core");
-        Debug.Log("コアの数" + core_obj.Length);
 
         //for (int core = 0; core < core_obj.Length; core++ )
         //{
@@ -279,7 +199,7 @@ public class MapMass : MonoBehaviour
                 }
                 else
                 {
-                    Core_bari_Data[y, x] = null;
+                    Core_bari_Data[y, x] = emp_prefab.gameObject;
                 }
             }
         }
@@ -439,3 +359,84 @@ public class MapMass : MonoBehaviour
         return (selX, selY);
     }
 }
+//サンプルコード
+//int width;//幅
+//int height;//高さ
+//int out_of_range = -1;
+//int[] values = null;//mapデーター
+
+//private void Start()
+//{
+//    //MapMass mapmass = new MapMass();
+//    //mapmass.Create(8, 8);
+//    //mapmass.Set(1, 2, 5);
+//    //mapmass.Set(3, 7, 3);
+//    //mapmass.Dump();
+//}
+
+//public int Width
+//{
+//    get{ return width; }
+//}
+
+//public int Height
+//{
+//    get { return height; }
+//}
+
+//public void Create(int width , int height)
+//{
+//    this.width = width;
+//    this.height = height;
+
+//    values = new int[Width * Height];
+//    Debug.Log("配列値" + values);
+//}
+
+//public int ToIdx(int x, int y)
+//{
+//    return x + (y * Width);
+//}
+
+////範囲内かチェック
+//public bool IsOutOfRange(int x, int y)
+//{
+//    if (x < 0 || x >= Width) { return true; }
+//    if(y < 0 || y >= Height) { return true; }
+
+//    return false;
+//}
+
+//public int Get(int x , int y)
+//{
+//    if (IsOutOfRange(x, y))
+//    {
+//        return out_of_range;
+//    }
+
+//    return values[y * Width + x];
+//}
+
+//public void Set(int x, int y, int v)
+//{
+//    if (IsOutOfRange(x, y))
+//    {
+//        return;
+//    }
+
+//    values[y * Width + x] = v;
+//}
+
+//public void Dump()
+//{
+//    Debug.Log("[Array2D] (w,h)=(" + Width + " , " + Height + " ) ");
+//    for (int y = 0; y < Height; y++)
+//    {
+//        string s = "";
+//        for (int x = 0; x < Width; x++)
+//        {
+//            s += Get(x, y) + ",";
+//        }
+//        Debug.Log(s);
+//    }
+//}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Astar : MonoBehaviour
 {
+    bool init_clear = true;
     MapMass map = null;
     EnemyBase enemy = null;
 
@@ -48,10 +49,19 @@ public class Astar : MonoBehaviour
             //Debug.Log("追加時" + "["+current_root_node.Pos.y + "]"+ "[" + current_root_node.Pos.x + "]");
             Current_root_node = Current_root_node.ParentNode;
         }
-    }
+    } 
 
-    public Vector2Int astar(Node start, Node goal, int num)//Astarアルゴリズム
+    public Vector2Int astar(Node start, Node goal, int num, bool init_goal)//Astarアルゴリズム
     {
+
+        if (!init_goal && init_clear)
+        {
+            open_list.Clear();
+            close_list.Clear();
+            init_astar = true;
+            init_clear = false;
+        }
+
         //ゴール設定
         //Node goal_node = goal;
         //Node start_node = start;
@@ -83,7 +93,22 @@ public class Astar : MonoBehaviour
             //    }
             //}
             open_list.Remove(current_node);//オープンリストの取得した削除
-            close_list.Add(current_node);//クローズリストに追加
+
+            bool close_flg = true; 
+
+            foreach (var close in close_list)
+            {
+                if (close.Pos == current_node.Pos)//同じノード
+                {
+                    close_flg = false;
+                    //Debug.Log("クローズリストに同じノードがあります。" + " クローズリスト[" + close.Pos.y + "," + close.Pos.x + "]" + "隣接ノード位置 [" + adjacent.Pos.y + "," + adjacent.Pos.x + "]");
+                }
+            }
+
+            if (close_flg)
+            {
+                close_list.Add(current_node);//クローズリストに追加
+            }
             //追加する前に追加されているものは追加しない。
             //foreach (var close in close_list)
             //{
@@ -125,44 +150,41 @@ public class Astar : MonoBehaviour
 
             for (int number = 0; number < 4; number++)//4方向分調べている。
             {
-                bool add_adjacent = true;
                 Vector2Int adjacent_node_pos = new Vector2Int(current_node.Pos.x + dir[number].x, current_node.Pos.y + dir[number].y);//隣接ノードの位置生成
 
                 //map範囲外はコンテニュー処理 //無限ループしてるかもー
                 if (adjacent_node_pos.y > (map.Map.GetLength(0) - 1) || adjacent_node_pos.y < 0 || adjacent_node_pos.x > (map.Map.GetLength(1) - 1) || adjacent_node_pos.x < 0)
                 {
-                    Debug.Log(this.gameObject + "範囲外デス。");
-                    add_adjacent = false;
+                    //Debug.Log(this.gameObject + "範囲外デス。");
+                    continue;
                 }
 
                 if (map.Map[adjacent_node_pos.y, adjacent_node_pos.x] != (int)MapMass.Mapinfo.NONE) //mapの移動出来る範囲をみる。//0は移動可能
                 {
-                    Debug.Log(this.gameObject.name + "移動出来ない");
-                    add_adjacent = false;
+                    //Debug.Log(this.gameObject.name + "移動出来ない");
+                    continue;
                 }
 
-                if (add_adjacent)
-                {
-                    Node adjacent_node = new Node(current_node, adjacent_node_pos);//現在のオブジェクトを親ノードにする。
-                    adjacent_node_list.Add(adjacent_node); //隣接ノードを追加
-                }
+
+                Node adjacent_node = new Node(current_node, adjacent_node_pos);//現在のオブジェクトを親ノードにする。
+                adjacent_node_list.Add(adjacent_node); //隣接ノードを追加
             }
 
             //隣接の計算 
             foreach (var adjacent in adjacent_node_list)
             {
                 //adjacent.G = StartMoveCost(current_node.G);
-                adjacent.H = HeuristicCost(goal.Pos, adjacent.Pos);
+                adjacent.H = HeuristicCost(goal_node.Pos, adjacent.Pos);
                 adjacent.F = /*adjacent.G + */adjacent.H;
 
                 bool list_open_add = true;
 
-                if (HeuristicCost(goal.Pos, current_node.Pos) < HeuristicCost(goal.Pos, adjacent.Pos))//隣接ノードのゴール距離が離れていれば追加しない。
+                if (HeuristicCost(goal_node.Pos, current_node.Pos) < HeuristicCost(goal_node.Pos, adjacent.Pos))//隣接ノードのゴール距離が離れていれば追加しない。
                 {
                     list_open_add = false;
                 }
 
-                if (map.Map[adjacent.Pos.y , adjacent.Pos.x] != (int)MapMass.Mapinfo.NONE)
+                if (map.Map[adjacent.Pos.y, adjacent.Pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
                     list_open_add = false;
                 }

@@ -178,10 +178,6 @@ public class EnemyBase : MonoBehaviour
     public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
     public bool Ice_flg { get => ice_flg; set => ice_flg = value; }
 
-    void EffectInit()
-    {
-
-    }
 
     public void InitFunction()
     {
@@ -474,6 +470,21 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    void TargetChangeUpdate(Vector2Int pos)
+    {
+        //ターゲット座標からフェンスの存在を見る----
+        if(map.Map[pos.y , pos.x] != (int)MapMass.Mapinfo.bari)
+        {
+            goal = new Node(null, map.GetCore().pos[Random.Range(0, 4)]);//コアの座標を渡す
+            init_goal = false;
+        }
+    }
+
+    public void SetTargetPos(Vector2Int target)
+    {
+        goal = new Node(null, target);
+    }
+
     public void EnemyMovement(int massnum) //移動か攻撃か判定管理
     {
 
@@ -510,22 +521,18 @@ public class EnemyBase : MonoBehaviour
         {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
-                if (init_goal)
-                {
-                    goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
-                    init_goal = false;
-                }
-
                 //SearchMovement(massnum); //2マス。
 
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum);//移動処理 取得は移動できる座標
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum , init_goal);//移動処理 取得は移動できる座標
                 if (map.Map[move_pos.y , move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
+                    Debug.Log("移動出来る");
                     Ismove = false;
                     Target_distance = true;
                 }
                 else
                 {
+                    Debug.Log("移動できません");
                     NextposX = move_pos.x;//移動できる座標を設定
                     NextposY = move_pos.y;//移動できる座標を設定
                     Ismove = true;//ムーブフラグをオン
@@ -582,6 +589,13 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
+        if (init_goal)
+        {
+            //goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
+            //ターゲットチェンジ更新
+            TargetChangeUpdate(goal.Pos);//ターゲットチェンジ
+        }
+
         if (!deathflg)//死亡したフラグがオフの時
         {
             UIFacing();//キャラが他の方向を見た時、UIを前に向ける処理
@@ -612,7 +626,7 @@ public class EnemyBase : MonoBehaviour
 
         if (Init_anim_flg)
         {
-            if (map.Core_bari_Data[attackpos.y, attackpos.x].gameObject != null)
+            if (!map.Core_bari_Data[attackpos.y, attackpos.x].gameObject.CompareTag("EMP"))
             {
                 if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
                 {//バリケード
@@ -647,7 +661,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//下方向
         {
-            if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject != null)
+            if (!map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("EMP"))
             {
                 //攻撃対象判別。
                 if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
@@ -670,7 +684,7 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.bari)//右
         {
-            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject != null))
+            if ((!map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("EMP")))
             {
 
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("Core"))
@@ -693,7 +707,7 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
         {
-            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject != null))
+            if ((!map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("EMP")))
             {
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("Core"))
                 {

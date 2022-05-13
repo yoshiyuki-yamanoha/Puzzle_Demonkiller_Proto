@@ -516,6 +516,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6667659284807052407, guid: 7c28a5e990a2e57489218ba43651df64,
         type: 3}
+    - target: {fileID: 3899782639922948245, guid: 69afa9d1ce5a2ab48b4989615766be66,
+        type: 3}
+      propertyPath: emp_prefab
+      value: 
+      objectReference: {fileID: 388929986825813644, guid: 6126ae067d06a4c4cad14a99c8ad0074,
+        type: 3}
     - target: {fileID: 3899782639922948246, guid: 69afa9d1ce5a2ab48b4989615766be66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6897,7 +6903,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 2.1e-44}
+  m_BoundingSphereOverride: {x: 9.52e-42, y: 1.04e-43, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -9278,6 +9284,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9047106432237066001, guid: ef5eb2452caa3bc4b8e52818659c4cce,
         type: 3}
+    - target: {fileID: 5298066893699814273, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
+        type: 3}
+      propertyPath: game_mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5298066893699814274, guid: 64ac407d6fd9b6c42912c4d729e95bd3,
         type: 3}
       propertyPath: m_LocalPosition.x
