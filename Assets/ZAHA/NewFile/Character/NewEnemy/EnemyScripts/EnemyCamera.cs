@@ -84,6 +84,7 @@ public class EnemyCamera : MonoBehaviour
         mManager = GameObject.Find("MainMgr").GetComponent<MainMgr>();
         dieEnemyCount = 0;
         dieEnemyMax = mManager.GetEnemyDieCountMax();
+        Debug.Log("カメラの敵の最大数"+dieEnemyMax);
         fadeout = GameObject.Find("FadeImage").GetComponent<FadeOut>();
         tr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         cameraMove = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();

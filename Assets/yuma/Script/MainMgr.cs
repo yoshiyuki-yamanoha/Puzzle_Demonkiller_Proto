@@ -10,18 +10,26 @@ public class MainMgr : MonoBehaviour
     EnemyBase enemy;
     // 敵が倒された数
     static private int enemyDieNum;
-    const int enemyDieMax = 48;
+    int enemyDieMax;//定数はずしました。
     // クリアしたフラグを取得
     EnemyCamera eCamera;
     // Start is called before the first frame update
 
     //残り体数テキスト
     [SerializeField] Text enemyNum;
+    GenerationEnemy generation_enmy; //敵の最大数を取得するため
+
+    private void Awake()
+    {
+        generation_enmy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
+        enemyDieNum = 0;
+        enemyDieMax = generation_enmy.GetMaxEnemy();
+    }
 
     void Start()
     {
+        
         eCamera = GameObject.Find("EnemyCamera").GetComponent<EnemyCamera>();
-        enemyDieNum = 0;
     }
 
     // Update is called once per frame
