@@ -1269,7 +1269,7 @@ MonoBehaviour:
   mynumber: 0
   map: {fileID: 0}
   max_hp: 20
-  attack: 3
+  attack: 5
   speed: 1.5
   deathflg: 0
   generation_enemy: {fileID: 0}

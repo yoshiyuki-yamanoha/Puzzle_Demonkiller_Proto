@@ -234,7 +234,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0, true);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1, true);
             debug_pos[0] = new Vector2Int(15, 7);
         }
     }
