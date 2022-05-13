@@ -5,13 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyGenerationInfo
 {
-    public EnemyGenerationInfo(int one_turn, int goblin, int woman, int bom, int flamesword)
+    public EnemyGenerationInfo(int one_turn, int goblin, int woman, int bom, int flamesword, bool generationflg)
     {
         this.One_turn_Generation = one_turn;
         this.Goblin = goblin;
         this.Woman = woman;
         this.Bom = bom;
         this.flamesword = flamesword;
+        this.Generationflg = generationflg;
     }
 
     int one_turn;//1ターン湧く数
@@ -20,29 +21,27 @@ public class EnemyGenerationInfo
     int woman;//女性敵
     int bom;//ボム
     int flamesword;//炎の剣を持った敵
+    bool generationflg;
 
     public int Goblin { get => goblin; set => goblin = value; }
     public int Woman { get => woman; set => woman = value; }
     public int Bom { get => bom; set => bom = value; }
     public int One_turn_Generation { get => one_turn; set => one_turn = value; }
     public int Flamesword { get => flamesword; set => flamesword = value; }
+    public bool Generationflg { get => generationflg; set => generationflg = value; }
 }
 
 public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 {
+    //敵登録 座標種類
     List<Vector2Int> enemys_pos = new List<Vector2Int>();
     List<int> enemys_kinds = new List<int>();
-
     bool pos_entry_flg = false;//敵の登録フラグ
 
-    Vector3 tmppos;
-    Vector3 tmp_enemy_pos;
 
-    //生成の位置
     bool oneturn_flg_random_spawn = true;
     //bool is_spawn_pos = false;
     Vector2Int[] spawn_pos = new Vector2Int[4];
-
 
     bool init_enemys_tmpposflg = true;
 
@@ -53,38 +52,19 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         Debug,
         Game,
     }
-    //炎で湧いた
-    GameObject flame_obj;
-
-    bool draw = true;
 
     [SerializeField] Mode game_mode = Mode.Game;
-
-    EnemyGenerationInfo[] enemy_generation_info;
+    
     int nowturn = 0;
-
-    //class 参照
-    EnemyBase enemy_base = null;
-    [SerializeField] MapMass map = null;
-    TrunManager trunmanager = null;
-
-    //具志堅SE処理
-    SEManager sePlay = null;
-    //具志堅BGM処理取得
-    BGMManager bgmPlay = null;
+    EnemyGenerationInfo[] enemy_generation_info;
 
     //初期生成フラグ
     bool init_turn_generation_flg = true;//ここオフにしてしまった
     bool generation_flg = true;
 
     //敵生成情報
-    int enemy_kinds_max = 0;//敵種類
-    [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
-    [SerializeField] ParticleSystem[] enemy_particle = null;//敵の出現魔法陣
-    int enemy_max = 48;//[1ゲーム]で生成出来る数
+    int enemy_max = 0;//48 [1ゲーム]で生成出来る数
     float enemy_count = 0;//[1ゲーム]敵をカウント
-    [SerializeField] float interval_s = 5;//生成間隔(秒)
-    float time = 0;//計測時間用
 
     //ステージ敵検索用
     List<GameObject> activ_list_enemys = new List<GameObject>();
@@ -93,34 +73,56 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     bool set_list_stage_flg = true;
     //bool one_turn_search_flg = true;
 
+    //デバッグ用座標
+    Vector3 tmppos;
+    Vector3 tmp_enemy_pos;
     Vector2Int[] debug_pos = new Vector2Int[1];
     int debug_pos_num = 0;
+    //炎で湧いた
+    GameObject flame_obj;
+    bool draw = true;
 
     //[1ターン]生成情報
     int enemy_oneturn_count = 0;
 
+    //敵のターンスキップ
     bool init_skip = true;
     //[SerializeField] int enemy_oneturn_max = 5;  //1ターンに出る敵の最大大数
+
 
     //mapの生成情報
     [HideInInspector] public int max_x = 0;//map横最大
     [HideInInspector] public int max_y = 0;//map縦最大
 
-    //他のスクリプトから参照してた奴
-    public bool initflg = false;
+    //設定等
+    int enemy_kinds_max = 0;//敵種類
+    [SerializeField] GameObject[] enemy_prefab = null;//プレファブ格納変数
+    [SerializeField] ParticleSystem[] enemy_particle = null;//敵の出現魔法陣
+    [SerializeField] float interval_s = 5;//生成間隔(秒)
+    float time = 0;//計測時間用
+    //class 参照
+    EnemyBase enemy_base = null;
+    [SerializeField] MapMass map = null;
+    TrunManager trunmanager = null;
+    //具志堅SE処理
+    SEManager sePlay = null;
+    //具志堅BGM処理取得
+    BGMManager bgmPlay = null;
 
     //敵を映すCameraのScript情報
     [SerializeField] EnemyCamera EC;
 
+    //プロパティ
     public int Nowturn { get => nowturn; set => nowturn = value; }
 
     bool testinit = true;
+    //他のスクリプトから参照してた奴
+    public bool initflg = false;
 
     // Start is called before the first frame update
     void Start()
     {
         InitSpawnPos();
-        InitEnemySpawnInfo();
         GetInstance();
         GenerationEnemy_Init();
         GenerationEnemy_BGM();
@@ -147,9 +149,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
             {
-                Debug.Log("Nowturn" + Nowturn);
                 GenerationEnemyPos();//座標登録
-                GenerationEnemyKinds();//敵の種類登録/////
+                GenerationEnemyKinds();//敵の種類登録
             }
         }
     }
@@ -178,15 +179,49 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         spawn_pos[3] = new Vector2Int(12, 16);
     }
 
+    private void Awake()
+    {
+        InitEnemySpawnInfo();
+        MaxEnemy();
+    }
+
+    void MaxEnemy()
+    {
+        for (int i = 0; i< enemy_generation_info.Length; i++) {
+            enemy_max += enemy_generation_info[i].One_turn_Generation;
+        }
+
+        Debug.Log("敵の生成数" + enemy_max);
+    }
+
+    public int GetMaxEnemy()
+    {
+        return enemy_max;
+    }
+
     //エネミースポーン情報初期化
     private void InitEnemySpawnInfo()
     {
         if (game_mode == Mode.Game)
         {
-            enemy_generation_info = new EnemyGenerationInfo[10];//配列保存
+            enemy_generation_info = new EnemyGenerationInfo[6];//配列保存
 
-            //enemy_generation_info[0] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
-            //enemy_generation_info[1] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0, true);
+            enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 2, 0, 0, true);
+            enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
+            enemy_generation_info[3] = new EnemyGenerationInfo(4, 0, 2, 2, 0, true);
+            enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
+            enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
+
+            //enemy_generation_info[0] = new EnemyGenerationInfo(4, 1, 1, 1, 1, true);
+            //enemy_generation_info[1] = new EnemyGenerationInfo(8, 2, 2, 4, 0, true);
+            //enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
+            //enemy_generation_info[3] = new EnemyGenerationInfo(10, 5, 5, 0, 0, true);
+            //enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
+            //enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
+
+            //enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
+            //enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
             //enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
             //enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             //enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
@@ -195,22 +230,11 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             //enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             //enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
             //enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
-
-            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0);
-            enemy_generation_info[1] = new EnemyGenerationInfo(3, 0, 3, 0, 0);
-            enemy_generation_info[2] = new EnemyGenerationInfo(4, 2, 0, 2, 0);
-            enemy_generation_info[3] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[4] = new EnemyGenerationInfo(10, 10, 0, 0, 0);
-            enemy_generation_info[5] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[6] = new EnemyGenerationInfo(10, 0, 5, 5, 0);
-            enemy_generation_info[7] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[8] = new EnemyGenerationInfo(0, 0, 0, 0, 0);
-            enemy_generation_info[9] = new EnemyGenerationInfo(16, 5, 5, 5, 1);
         }
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0, true);
             debug_pos[0] = new Vector2Int(15, 7);
         }
     }
@@ -218,7 +242,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     //初回ターンに生成する処理
     void InitTurnGeneration()
     {
-
         while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
         {
             GenerationEnemyPos();//座標登録
@@ -230,13 +253,15 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             //SearchGeneration();
             if (game_mode == Mode.Game) //ゲームモードがメインのみ
             {
-                time += Time.deltaTime;//カウント開始
+                if (enemy_generation_info[Nowturn].Generationflg) {
+                    time += Time.deltaTime;//カウント開始
 
-                if (time > interval_s)//スパンごと出現させる
-                {
-                    //生成
-                    InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
-                    time = 0;//タイム初期化
+                    if (time > interval_s)//スパンごと出現させる
+                    {
+                        //生成
+                        InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
+                        time = 0;//タイム初期化
+                    }
                 }
             }
             else //ゲームモードがデバッグのみ
@@ -247,7 +272,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         if (EC.startFlag == false)
         {
-            if (enemys_pos.Count <= enemy_oneturn_count) {
+            if (enemys_pos.Count <= enemy_oneturn_count)
+            {
                 DebugDraw();
                 enemy_oneturn_count = 0;
                 enemys_pos.Clear();//一時的座標保存をclear
@@ -263,45 +289,59 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     //生成処理
     void Generation()
     {
-        SearchStageEnemy();//敵をステージリスト追加
-
         //生成フラグがオンなら
         if (generation_flg)
         {
-            SkipEnemy();//ターンをスキップする処理
+            //SkipEnemy();//ターンをスキップする処理
 
-            if (!init_skip)
-            {//飛ばされたら登録する
-                while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
-                {
-                    Debug.Log("Nowturn" + Nowturn);
-                    GenerationEnemyPos();//座標登録
-                    GenerationEnemyKinds();//敵の種類登録/////
-                }
-            }
+            //if (!init_skip)
+            //{//飛ばされたら登録する
+            //    while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
+            //    {
+            //        GenerationEnemyPos();//座標登録
+            //        GenerationEnemyKinds();//敵の種類登録/////
+            //    }
+            //}
 
             //生成する
             while (enemys_pos.Count > enemy_oneturn_count)
             {
-                //Debug.Log("生成フラグON" + "Nowturn" + Nowturn + "座標登録数 " + enemys_pos.Count);
-                InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
+                if (enemy_generation_info[Nowturn].Generationflg)//生成フラグがtrue
+                {
+                    //Debug.Log("生成フラグON" + "Nowturn" + Nowturn + "座標登録数 " + enemys_pos.Count);
+                    InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y);
+                }
             }
+
+            enemy_generation_info[Nowturn].Generationflg = false;
 
             if (enemy_count >= enemy_max)//超えているかみる
             {
-                generation_flg = false;
+                generation_flg = false;//生成フラグをオフにする
             }
-
-            if (Nowturn >= enemy_generation_info.Length - 1) { generation_flg = false; Nowturn = enemy_generation_info.Length - 1; } //現在のターンが21ターン以降は生成を止める
         }
+
+        SearchStageEnemy();//敵をステージリスト追加
 
         if (EnemyIsAction())//敵が全員行動していたら確認。
         {
             DebugDraw();
 
             enemy_oneturn_count = 0;
-            if (stage_list_enemys.Count <= 32)
+
+            Debug.Log("ステージ状の敵の数" + stage_list_enemys.Count);
+            if (stage_list_enemys.Count <= 10)
+            {
                 Nowturn++;
+                if (Nowturn >= enemy_generation_info.Length - 1)
+                {
+                    Nowturn = enemy_generation_info.Length - 1;
+                }
+            }
+            else
+            {
+                Debug.Log("敵がMax状態");
+            }
 
             enemys_pos.Clear();//一時的座標保存をclear
             enemys_kinds.Clear();
@@ -434,23 +474,20 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         }
     }
 
-    void SkipEnemy()
-    {
-        if (!init_turn_generation_flg && init_skip)
-        {
-            if (stage_list_enemys.Count <= 0)//0以下なら存在しない
-            {
-                while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
-                {
-                    Debug.Log("ターンスキップ");
-                    Nowturn++;
-                }
-
-                Debug.Log("飛ばしたターン" + Nowturn);
-                init_skip = false;
-            }
-        }
-    }
+    //void SkipEnemy()
+    //{
+    //    if (!init_turn_generation_flg && init_skip)
+    //    {
+    //        if (stage_list_enemys.Count <= 0)//0以下なら存在しない
+    //        {
+    //            while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
+    //            {
+    //                Nowturn++;
+    //            }
+    //            init_skip = false;
+    //        }
+    //    }
+    //}
 
     void SearchStageEnemy()
     {
@@ -511,28 +548,10 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         if (activ_list_enemys.Count <= 0)//リストが0になぅったら
         {
-            //trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);
             search_flg = true;//検索終了
         }
         return search_flg;
     }
-
-    //void Generation(Vector2Int pos)
-    //{
-    //    //var emptyMass = FindingEmptyMass(pos);
-
-    //    //if (map.Map[pos.y + Random.Range(-1, 2), pos.x + Random.Range(-1, 2)] == (int)MapMass.Mapinfo.NONE)
-    //    if (map.Map[pos.y, pos.x] == (int)MapMass.Mapinfo.NONE) //何もない場所だったら
-    //    {
-    //        time += Time.deltaTime;//カウント開始
-    //        if (time > interval_s)//スパンごと出現させる
-    //        {
-
-
-    //            time = 0;//タイム初期化
-    //        }
-    //    }
-    //}
 
     void InstanceEnemy(int magic_num, int enemy_kinds, int x, int y)//生成
     {
