@@ -282,11 +282,18 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             if (enemys_pos.Count <= enemy_oneturn_count)
             {
+                SearchStageEnemy();//ステージ状の敵検索
+                for (int num = 0; num < stage_list_enemys.Count; num++)
+                {
+                    stage_list_enemys[num].GetComponent<EnemyBase>().HPBar_On();
+                }
+
                 DebugDraw();
                 enemy_oneturn_count = 0;
                 enemys_pos.Clear();//一時的座標保存をclear
                 target_pos.Clear();
                 enemys_kinds.Clear();
+                Debug.Log("stageリスト数" + stage_list_enemys.Count);
                 init_turn_generation_flg = false;//初回ターンを終了
                 Nowturn++;
                 if (Nowturn >= enemy_generation_info.Length - 1)
@@ -339,6 +346,11 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         if (EnemyIsAction())//敵が全員行動していたら確認。
         {
+            for (int num = 0; num < stage_list_enemys.Count; num++)
+            {
+                stage_list_enemys[num].GetComponent<EnemyBase>().HPBar_On();
+            }
+
             DebugDraw();
 
             enemy_oneturn_count = 0;
@@ -351,12 +363,18 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                     Nowturn = enemy_generation_info.Length - 1;
                 }
             }
-
             enemys_pos.Clear();//一時的座標保存をclear
             target_pos.Clear();
             enemys_kinds.Clear();
             flame_obj = null;//これなに
             trunmanager.SetTrunPhase(TrunManager.TrunPhase.Puzzle);//ターンをパズルに変更
+        }
+        else
+        {
+            for (int num = 0; num < stage_list_enemys.Count; num++)
+            {
+                stage_list_enemys[num].GetComponent<EnemyBase>().HPBar_Off();
+            }
         }
     }
 
@@ -490,7 +508,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
         enemy_instantiate.transform.rotation = quaternion;
 
-        enemy_instantiate.GetComponent<EnemyBase>().UIFacing();//UIが向くよーん
+        enemy_instantiate.GetComponent<EnemyBase>().UIFacing();//UIが向く
 
         enemy_instantiate.name = enemy_prefab[enemy_kinds].name + enemy_count.ToString();//敵の名前を変更
         oneturn_flg_random_spawn = true;

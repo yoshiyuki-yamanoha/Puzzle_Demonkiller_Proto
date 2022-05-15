@@ -191,6 +191,7 @@ public class EnemyBase : MonoBehaviour
         Init_speed = Speed;//初期のスピード保存
         Hp = Max_hp;//MaxHP
         Hpber.maxValue = Max_hp;//HPゲージに反映
+        HPBar_Off();
         fire_image.gameObject.SetActive(false);
         enemys_.Add(this.gameObject);//自分を追加
         mynumber = enemys_.Count;
@@ -487,7 +488,6 @@ public class EnemyBase : MonoBehaviour
 
     public void EnemyMovement(int massnum) //移動か攻撃か判定管理
     {
-
         if (Init_attack_search) //毎ターン一回のみ判定
         {
             if (!Deathflg)//死亡したのなら見なーい
@@ -556,7 +556,6 @@ public class EnemyBase : MonoBehaviour
                     status = Status.Walk;//歩くアニメーション
                 }
 
-                Hpber.gameObject.SetActive(false);//HPバーをオフ
                 if (Abnormal_condition == AbnormalCondition.Fire)//炎の状態異常が掛かっていたら炎の状態異常をUIをオフ
                 {
                     fire_image.gameObject.SetActive(false);
@@ -574,7 +573,7 @@ public class EnemyBase : MonoBehaviour
                 status = Status.Idle;//立ち止まっている状態         
                 Ismove = false;//動きを止める。
 
-                Hpber.gameObject.SetActive(true);//HPバー再表示
+                //HPバー再表示
 
                 if (Abnormal_condition == AbnormalCondition.Fire)//炎の状態異常をアクティブ状態オン
                 {
@@ -600,6 +599,16 @@ public class EnemyBase : MonoBehaviour
         {
             UIFacing();//キャラが他の方向を見た時、UIを前に向ける処理
         }
+    }
+
+    public void HPBar_On()
+    {
+        Hpber.gameObject.SetActive(true);//HPバー再表示
+    }
+
+    public void HPBar_Off()
+    {
+        Hpber.gameObject.SetActive(false);//HPバー再表示
     }
 
     //取得
