@@ -343,7 +343,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
             enemy_oneturn_count = 0;
 
-            Debug.Log("ステージ状の敵の数" + stage_list_enemys.Count);
             if (stage_list_enemys.Count <= 10)
             {
                 Nowturn++;
@@ -351,10 +350,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 {
                     Nowturn = enemy_generation_info.Length - 1;
                 }
-            }
-            else
-            {
-                Debug.Log("敵がMax状態");
             }
 
             enemys_pos.Clear();//一時的座標保存をclear
@@ -401,7 +396,6 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void SetTarget()
     {
-        Debug.Log("spawn_number");
         switch (spawn_number)
         {
             case 0://左上 バリケード座標
@@ -476,6 +470,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         ParticleSystem new_particle = Instantiate(enemy_particle[magic_num], enemypos, enemy_particle[magic_num].gameObject.transform.rotation);
         new_particle.Play();//再生
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         Vector3 offset = new Vector3(0, 0.5f, 0);//キャラの高さ分調整用
         GameObject enemy_instantiate = Instantiate(enemy_prefab[enemy_kinds], enemypos + offset, Quaternion.identity);//敵を生成
         sePlay.Play("EnemySpawn");
@@ -487,10 +482,12 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 flame_obj = enemy_instantiate;
             }
         }
-
-        Vector3 dir = map.GetCore().obj[0].transform.position - enemy_instantiate.transform.position;
+        //生成時の方向
+        Vector3 v3_target_pos = new Vector3(target_pos.x * map.Tilemas_prefab.transform.localScale.x, 0, target_pos.y * -map.Tilemas_prefab.transform.localScale.z);
+        Vector3 dir = /*map.GetCore().obj[0].transform.position*/v3_target_pos - enemy_instantiate.transform.position;
         dir.y = 0;
         Quaternion quaternion = Quaternion.LookRotation(dir);
+
         enemy_instantiate.transform.rotation = quaternion;
 
         enemy_instantiate.GetComponent<EnemyBase>().UIFacing();//UIが向くよーん

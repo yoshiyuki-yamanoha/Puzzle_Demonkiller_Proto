@@ -768,9 +768,10 @@ public class EnemyBase : MonoBehaviour
 
         if (def.sqrMagnitude < 1f)
         {
-            Vector3 dir = map.GetCore().obj[0].transform.position - transform.position;
-            dir.y = 0;
-            Quaternion quaternion = Quaternion.LookRotation(dir);
+            Vector3 v3_target_pos = new Vector3(goal.Pos.x * map.Tilemas_prefab.transform.localScale.x, 0, goal.Pos.y * -map.Tilemas_prefab.transform.localScale.z);
+            Vector3 def_dir = v3_target_pos - this.transform.position;
+            def_dir.y = 0;
+            Quaternion quaternion = Quaternion.LookRotation(def_dir);
             transform.rotation = quaternion;
 
             Target_distance = true;
