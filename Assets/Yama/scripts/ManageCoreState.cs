@@ -17,6 +17,9 @@ public class ManageCoreState : TrunManager
     FadeOut fadeMGR;
     bool isCoreDeathAnim;
 
+    SEManager sePlay;
+    int CExpCount=0;
+
     void Start()
     {
         turnMGR = GameObject.Find("TrunManager").gameObject.GetComponent<TrunManager>();
@@ -27,6 +30,8 @@ public class ManageCoreState : TrunManager
         slider = GameObject.Find("CoreHPCanvas/Slider").gameObject.GetComponent<Slider>();
         slider.maxValue = core.max_hp;
         slider.value = slider.maxValue;
+
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
 
         fadeMGR = GameObject.Find("FadeCanvas/FadeImage").gameObject.GetComponent<FadeOut>();
         isCoreDeathAnim = false;
@@ -69,8 +74,11 @@ public class ManageCoreState : TrunManager
 
         if (slider.value <= 0)
         {
-            isCoreDeathAnim = true;
+            CExpCount++;
+            if (CExpCount==1)sePlay.Play("CoreExplosion");
+            Debug.Log(CExpCount);
 
+            isCoreDeathAnim = true;
             fadeMGR.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
             fadeMGR.SetColor_Black();
         }

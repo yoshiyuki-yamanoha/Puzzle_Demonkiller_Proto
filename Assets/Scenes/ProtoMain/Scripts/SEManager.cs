@@ -108,6 +108,9 @@ public class SEManager : MonoBehaviour
             case "TitleDecision":
                 audioSource.PlayOneShot(audioClips[26], 1.3f);
                 break;
+            case "CoreExplosion":
+                audioSource.PlayOneShot(audioClips[27], 1.3f);
+                break;
 
 
 
