@@ -161,6 +161,8 @@ public class OrbGage : MonoBehaviour
         {
             Orb_Level[0] = ORB_MAX_LEVEL;
         }
+
+        Orb_Level[0] = 9;
     }
     public void starLightBlueChage()
     {
@@ -270,6 +272,36 @@ public class OrbGage : MonoBehaviour
     //                     Times { 星炎, 星氷, 星雷, 五炎, 五氷, 五雷,};
     float[] Times = new float[6] { 2.0f, 4.0f, 1.5f, 3.0f, 1.5f, 2.0f, };
     public void UseOrb(int num) {
+
+        if (num == 0)
+        {
+            //オーブのレベルによってうつす時間を変える
+            if (Orb_Level[num] <= 3)
+            {
+                Times[num] = 2.0f;
+            }
+            else if (Orb_Level[num] <= 4)
+            {
+                Times[num] = 3.0f;
+
+            }
+            else if (Orb_Level[num] <= 6)
+            {
+                Times[num] = 4.0f;
+
+            }
+            else if (Orb_Level[num] <= 7 )
+            {
+                Times[num] = 5.0f;
+
+            }
+            else
+            {
+                Times[num] = 6.0f;
+            }
+        }
+        Debug.Log("たいむｓ" + Times[num]);
+
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;
