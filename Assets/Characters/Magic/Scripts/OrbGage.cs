@@ -309,8 +309,13 @@ public class OrbGage : MonoBehaviour
             //    orb_Gage[i].value = 0;
 
         }
+        else
+        {
+            delayTime = Times[num];
+            //s_SelectUseOrb.ChangeUseOrb(1);
+        }
 
-        s_SelectUseOrb.ChangeUseOrb(1);
+        //s_SelectUseOrb.ChangeUseOrb(1);
     }
 
     void DelayPhase()
@@ -320,7 +325,14 @@ public class OrbGage : MonoBehaviour
             delayTime -= Time.deltaTime;
             if(delayTime <= 0)
             {
-                HandOverPhase();
+                if (!OrbCheckExsistens())
+                {
+                    HandOverPhase();
+                }
+                else
+                {
+                    s_SelectUseOrb.ChangeUseOrb(1);
+                }
                 delayTime = -1.0f;
             }
         }
