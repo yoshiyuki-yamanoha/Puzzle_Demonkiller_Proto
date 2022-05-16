@@ -8,6 +8,7 @@ public class AnimEvent : MonoBehaviour
     //[SerializeField] BoxCollider foot_boxcollider = null;
 
     private SEManager sePlay = null;
+    [SerializeField] ParticleSystem[] destroy = null;
 
     private void Start()
     {
@@ -27,9 +28,21 @@ public class AnimEvent : MonoBehaviour
     {
         //GameObject.Find("Stage1Mgr").GetComponent<Stage1Mgr>().DieEnemyCount();
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
-        Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
         //敵が消える音を入れる//
+        if (destroy != null) DestroyEffect();
         if (sePlay != null) sePlay.Play("EnemyDead");
+        Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
+    }
+
+    public void DestroyEffect()
+    {
+        
+        Debug.Log("デストロイeffect");
+        for (int number = 0; number < destroy.Length; number++)
+        {
+            destroy[number].gameObject.SetActive(true);
+            destroy[number].Play();
+        }
     }
 
     //public void WeponShowAttack()

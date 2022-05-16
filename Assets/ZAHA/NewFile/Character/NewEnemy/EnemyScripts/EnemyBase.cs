@@ -808,6 +808,7 @@ public class EnemyBase : MonoBehaviour
     {
         foreach (var fire_effect in Fire_effect)
         {
+            fire_effect.gameObject.SetActive(true);
             fire_effect.Play();
         }
     }
