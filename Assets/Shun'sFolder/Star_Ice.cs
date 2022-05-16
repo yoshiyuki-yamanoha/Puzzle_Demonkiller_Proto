@@ -121,14 +121,12 @@ public class Star_Ice : MonoBehaviour
 
         for (int i = 0; i < enemies.Count; i++)
         {
+            if(enemies[i] == null) { continue; }
             EnemyBase ene = enemies[i].GetComponent<EnemyBase>();
             
-            if (ene != null)
+            if (_x == ene.X && _y == ene.Y)
             {
-                if (_x == ene.X && _y == ene.Y)
-                {
-                    ene.Damage(2);
-                }
+                ene.Damage(2);
             }
 
         }
