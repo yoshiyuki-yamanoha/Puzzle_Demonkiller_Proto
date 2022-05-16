@@ -90,7 +90,8 @@ public class EnemyCamera : MonoBehaviour
         cameraMove = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
         enemy_camera = this.gameObject.GetComponent<Camera>();
         enemy_camera.depth = -2;
-        defaultCamerapos = new Vector3(47.5f, 43.8f, -132);//ステージの真ん中(パズルするときのいる位置)
+        //defaultCamerapos = new Vector3(47.5f, 43.8f, -132);//ステージの真ん中(パズルするときのいる位置)
+        defaultCamerapos = new Vector3(47.5f, 29f, -132);//高さを手動で変えただいたいの場所は上のやつと一緒
         //defaultCamerapos = new Vector3(47.5f, 8.5f, -47.5f);//コアの上の座標
         //defaultCamerapos = this.gameObject.transform.position;
         //transform.position = new Vector3(0, 26, -107);
