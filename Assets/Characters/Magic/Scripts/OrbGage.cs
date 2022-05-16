@@ -314,18 +314,24 @@ public class OrbGage : MonoBehaviour
         else
         {
             delayTime = Times[num];
+            Changeflag = false;
             //s_SelectUseOrb.ChangeUseOrb(1);
         }
 
         //s_SelectUseOrb.ChangeUseOrb(1);
     }
-
+    bool Changeflag = false;
     void DelayPhase()
     {
         if(delayTime > 0)
         {
             delayTime -= Time.deltaTime;
-            if(delayTime <= 0)
+
+            if (Input.GetButtonDown("Cont_L1") || Input.GetButtonDown("Cont_R1"))
+            {
+                Changeflag = true;
+            }
+            if (delayTime <= 0)
             {
                 if (!OrbCheckExsistens())
                 {
@@ -333,7 +339,10 @@ public class OrbGage : MonoBehaviour
                 }
                 else
                 {
-                    s_SelectUseOrb.ChangeUseOrb(1);
+                    if (Changeflag == false)
+                    {
+                        s_SelectUseOrb.ChangeUseOrb(1);
+                    }
                 }
                 delayTime = -1.0f;
             }
