@@ -245,16 +245,15 @@ public class ClearCheck : TrunManager
                 }
             }
 
-            //撃ちたいときに打つ　
-            if (Input.GetButtonDown("Fire3"))
-            {
-                nowComboTime = 1;
-            }
-
         }
         else {
             if(!puzzleOnlyMode) isShuffle = true;
         }
+    }
+
+    public void SkipComboTime() {
+        if(trunMgr.GetTrunPhase() == TrunPhase.Puzzle)
+            nowComboTime = 1;
     }
 
 

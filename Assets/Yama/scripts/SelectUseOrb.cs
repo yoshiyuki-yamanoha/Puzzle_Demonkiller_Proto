@@ -68,7 +68,7 @@ public class SelectUseOrb : TrunManager
             
 
             //選択しているオーブのレベルが０ならずらす
-            selectmoveOrb();
+            //selectmoveOrb();
         }
         else
         {//攻撃ターンじゃない時にオーブの位置を元に戻す

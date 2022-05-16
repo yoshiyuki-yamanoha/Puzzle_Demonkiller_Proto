@@ -82,12 +82,18 @@ public class Star_Fire : MonoBehaviour
 
     IEnumerator Create_Magic(GameObject _tage,int num)
     {
-        float delay = (num) * 0.3f;
-        yield return new WaitForSeconds(delay);
+        float delay = (num) * (0.3f - 0.015f * level);
+        yield return new WaitForSeconds(delay / 1.5f);
         //sePlay.Play("BombDeath");
 
 
         GameObject Magic = Instantiate(Magic_Obj, _tage.transform.position, transform.rotation, transform);
+        float spdPow = 1f + 0.1f * level;
+        float scaPow = 1f - 0.05f * level;
+        var scr = Magic.GetComponent<EffectSpeedChanger>();
+        scr.SpeedChanger(spdPow);
+        scr.SizeChanger(scaPow);
+        
         //Destroy(Magic, 1.5f);
     }
 

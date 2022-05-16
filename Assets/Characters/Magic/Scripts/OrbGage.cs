@@ -161,6 +161,8 @@ public class OrbGage : MonoBehaviour
         {
             Orb_Level[0] = ORB_MAX_LEVEL;
         }
+
+        Orb_Level[0] = 10;
     }
     public void starLightBlueChage()
     {
@@ -309,18 +311,39 @@ public class OrbGage : MonoBehaviour
             //    orb_Gage[i].value = 0;
 
         }
+        else
+        {
+            delayTime = Times[num];
+            Changeflag = false;
+            //s_SelectUseOrb.ChangeUseOrb(1);
+        }
 
-        s_SelectUseOrb.ChangeUseOrb(1);
+        //s_SelectUseOrb.ChangeUseOrb(1);
     }
-
+    bool Changeflag = false;
     void DelayPhase()
     {
         if(delayTime > 0)
         {
             delayTime -= Time.deltaTime;
-            if(delayTime <= 0)
+
+            if (Input.GetButtonDown("Cont_L1") || Input.GetButtonDown("Cont_R1"))
             {
-                HandOverPhase();
+                Changeflag = true;
+            }
+            if (delayTime <= 0)
+            {
+                if (!OrbCheckExsistens())
+                {
+                    HandOverPhase();
+                }
+                else
+                {
+                    if (Changeflag == false)
+                    {
+                        s_SelectUseOrb.ChangeUseOrb(1);
+                    }
+                }
                 delayTime = -1.0f;
             }
         }
