@@ -162,7 +162,6 @@ public class OrbGage : MonoBehaviour
             Orb_Level[0] = ORB_MAX_LEVEL;
         }
 
-        Orb_Level[0] = 10;
     }
     public void starLightBlueChage()
     {
