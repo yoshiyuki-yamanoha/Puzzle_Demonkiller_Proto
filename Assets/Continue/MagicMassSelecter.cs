@@ -47,6 +47,8 @@ public class MagicMassSelecter : MonoBehaviour
 
     //SE用
     SEManager sePlay;
+    int SETime=30;
+    Magichoming magichoming;
 
     int defSelX, defSelY;//マスの座標用
 
@@ -59,6 +61,7 @@ public class MagicMassSelecter : MonoBehaviour
         defSelX = nowSelX;
         defSelY = nowSelY;
         s_MapMass.SetMagicMassSelector(nowSelX, nowSelY);
+        Magichoming mh = GetComponent<Magichoming>();
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
         s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
     }
@@ -223,9 +226,35 @@ public class MagicMassSelecter : MonoBehaviour
 
         //範囲をはみ出るなら移動できない様にする。
         if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false){
-            sePlay.Play("Select3");
+
+            int typ, lev;
+            (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
+
+            SETime++; //SETimeを加算していって値が30になるとSEが鳴る
+
+            if (hori!=0 && lev <= 9 || vert!=0 && lev<=9)
+            {
+                if (SETime>=30) {
+                    sePlay.Play("Select3");
+                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+                }
+            }else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
+            {
+                if (SETime >= 30)
+                {
+                    sePlay.Play("Select3");
+                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+                }
+            }
+
+
+
             nowSelX = oldSelX;
             nowSelY = oldSelY;
+        }
+        else
+        {
+            SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
         }
 
         //セレクターが移動されたら
