@@ -65,8 +65,9 @@ public class EnemyCamera : MonoBehaviour
 
     Text gameCleartext;
 
-    Text starttextsiro;
-    Text starttextkuro;
+    //Text starttextsiro;
+    //Text starttextkuro;
+    Image startText;    // GameStartの文字画像
 
     float fadeSpeed = 0.06f;//フェードスピード
     float alpha;
@@ -98,8 +99,9 @@ public class EnemyCamera : MonoBehaviour
         corePos = new Vector3(47.5f, 0.5f, -47.5f);
         GEnemy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         vecDistanceline = new Vector3(5, 5, 5);
-        starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
-        starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
+        //starttextsiro = GameObject.Find("GameStartSiro").GetComponent<Text>();
+        //starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
+        startText = GameObject.Find("StartImg").GetComponent<Image>();
         alpha = 0;
     }
 
@@ -575,10 +577,11 @@ public class EnemyCamera : MonoBehaviour
     }
     void StartEnemyCameraMove()
     {
-        starttextsiro.text = "BattleStart";
-        starttextkuro.text = "BattleStart";
-        starttextsiro.color = new Color(0, 0, 0, alpha);
-        starttextkuro.color = new Color(1, 1, 1, alpha);
+        //starttextsiro.text = "BattleStart";
+        //starttextkuro.text = "BattleStart";
+        //starttextsiro.color = new Color(0, 0, 0, alpha);
+        //starttextkuro.color = new Color(1, 1, 1, alpha);
+        startText.color = new Color(startText.color.r, startText.color.b, startText.color.g, alpha);
 
         //Debug.Log(timer);
         timer += Time.deltaTime;
