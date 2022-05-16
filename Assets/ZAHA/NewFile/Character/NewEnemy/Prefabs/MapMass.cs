@@ -268,13 +268,13 @@ public class MapMass : MonoBehaviour
                             {
                                 if (x == logPosArray[logNum, 0])
                                 {
-                                    obj = Instantiate(log_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.x / 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.AngleAxis(-90.0f, Vector3.right));
+                                    obj = Instantiate(log_prefab, new Vector3(x * Tilemas_prefab.transform.localScale.x, Tilemas_prefab.transform.localScale.x / 2, y * -Tilemas_prefab.transform.localScale.z), Quaternion.identity/*AngleAxis(-90.0f, Vector3.right)*/);
                                     obj.transform.SetParent(logParent.transform, false);
                                     //obj.transform.localScale = new Vector3(10.0f, 20.0f, 10.0f);
                                     obj.gameObject.name = "logs";
                                     if ((x + y) % 2 != 0)
                                     {
-                                        obj.transform.localRotation = Quaternion.AngleAxis(90.0f, Vector3.forward);
+                                        obj.transform.localRotation = Quaternion.AngleAxis(90.0f, Vector3.up);
                                     }
                                     if (logNum < logPosArray.GetLength(0) - 1)
                                         logNum++;
