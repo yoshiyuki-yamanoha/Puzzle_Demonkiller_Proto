@@ -292,12 +292,12 @@ public class OrbGage : MonoBehaviour
             }
             else if (Orb_Level[num] <= 7 )
             {
-                Times[num] = 5.0f;
+                Times[num] = 4.0f;
 
             }
             else
             {
-                Times[num] = 6.0f;
+                Times[num] = 4.0f;
             }
         }
         Debug.Log("たいむｓ" + Times[num]);
