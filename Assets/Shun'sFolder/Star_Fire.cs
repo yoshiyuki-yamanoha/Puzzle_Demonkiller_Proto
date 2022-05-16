@@ -32,6 +32,7 @@ public class Star_Fire : MonoBehaviour
 
             //Create_Chain_Explosion();
             StartCoroutine(CycronBurn());
+            Destroy(this.gameObject, level * 0.5f);
         }
         else
         {
@@ -116,7 +117,7 @@ public class Star_Fire : MonoBehaviour
             }
         }
 
-        //Destroy(this.gameObject, level * 0.5f);
+        Destroy(this.gameObject, level * 0.5f);
     }
 
     IEnumerator CycronBurn() {
