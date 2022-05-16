@@ -191,6 +191,7 @@ public class Star_Fire : MonoBehaviour
                     var scr = Magic.GetComponent<EffectSpeedChanger>();
                     scr.SpeedChanger(spdPow);
                     float scaPow = 0.2f;
+                    if (level == 10) scaPow = 2.5f;
                     scr.SizeChanger(scaPow);
                     Destroy(Magic, 0.2f);
 
@@ -201,14 +202,18 @@ public class Star_Fire : MonoBehaviour
                         if (eb.X == nextBurnPos[i].x && eb.Y == nextBurnPos[i].y)
                         {
                             eb.Damage(2.0f);
-                            Magic = Instantiate(Magic_Obj, taget.position, transform.rotation, transform);
 
-                            spdPow = 0.5f;
-                            scr = Magic.GetComponent<EffectSpeedChanger>();
-                            scr.SpeedChanger(spdPow);
+                            if (level <= 9)
+                            {
+                                Magic = Instantiate(Magic_Obj, taget.position, transform.rotation, transform);
 
-                            scaPow = 3.0f;
-                            scr.SizeChanger(scaPow);
+                                spdPow = 0.5f;
+                                scr = Magic.GetComponent<EffectSpeedChanger>();
+                                scr.SpeedChanger(spdPow);
+
+                                scaPow = 3.0f;
+                                scr.SizeChanger(scaPow);
+                            }
 
                             Destroy(Magic, 4.0f);
                         }
