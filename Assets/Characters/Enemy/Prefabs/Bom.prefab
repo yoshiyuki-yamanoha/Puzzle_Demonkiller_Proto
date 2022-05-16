@@ -30072,6 +30072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroy: []
 --- !u!1 &1846604720013428
 GameObject:
   m_ObjectHideFlags: 0
@@ -35573,6 +35574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroy: []
 --- !u!1 &1621900566287156064
 GameObject:
   m_ObjectHideFlags: 0
@@ -38507,6 +38509,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5239742892841913631, guid: a7163ada5b77690438cfad957a87ee2d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5239742892842406207, guid: a7163ada5b77690438cfad957a87ee2d,
         type: 3}

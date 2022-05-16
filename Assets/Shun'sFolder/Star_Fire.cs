@@ -27,17 +27,19 @@ public class Star_Fire : MonoBehaviour
         Stage_mass = GameObject.Find("MassRoot");
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
 
-        if(level != 10)
-        {
+        //if(level != 10)
+        //{
 
-            //Create_Chain_Explosion();
-            StartCoroutine(CycronBurn());
-            Destroy(this.gameObject, level * 0.5f);
-        }
-        else
-        {
-            Meteo();
-        }
+        //    //Create_Chain_Explosion();
+        //    StartCoroutine(CycronBurn());
+
+        //}
+        //else
+        //{
+        //    Meteo();
+        //}
+        StartCoroutine(CycronBurn());
+        Destroy(this.gameObject, level * 0.5f);
     }
 
     public void Create_Chain_Explosion()
@@ -131,9 +133,12 @@ public class Star_Fire : MonoBehaviour
         Vector2Int[] nextBurnPos = new Vector2Int[4]; //次の爆発座標
         Vector2Int[] nextVector = new Vector2Int[4];  //次の方向
 
+        var oP = tage_pos;
+
         //最初の位置 と ベクトルの初期化
+        if (level <= 9)
         {
-            var oP = tage_pos;
+            
 
             //初期位置をセット
             nextBurnPos[0] = new Vector2Int(oP.x - 1, oP.y); //←
@@ -147,36 +152,68 @@ public class Star_Fire : MonoBehaviour
             nextVector[2] = new Vector2Int(0, 1);   //↓
             nextVector[3] = new Vector2Int(-1, 0);  //←
         }
+        else {
 
+            //初期位置をセット
+            nextBurnPos[0] = new Vector2Int(0, 0); //←
+            nextBurnPos[1] = new Vector2Int(19, 0); //↑
+            nextBurnPos[2] = new Vector2Int(19, 19); //→
+            nextBurnPos[3] = new Vector2Int(0, 19); //↓
+
+            //初期方向をセット
+            nextVector[0] = new Vector2Int(0, -1);  //↑
+            nextVector[1] = new Vector2Int(1, 0);   //→
+            nextVector[2] = new Vector2Int(0, 1);   //↓
+            nextVector[3] = new Vector2Int(-1, 0);  //←
+        }
+
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        //時計回り広がリング
         while (totalTurnNum < level) {
 
             //爆発
             {
-                var enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
                 for (int i = 0; i < 4; i++)
                 {
+                    if (nextBurnPos[i].x < 0 || nextBurnPos[i].x >= 20 ||
+                        nextBurnPos[i].y < 0 || nextBurnPos[i].y >= 20)
+                        continue;
+
                     //座標オブジェクト求める
                     int num = nextBurnPos[i].y * 20 + nextBurnPos[i].x;
+                    if(level == 10) num = (19 - nextBurnPos[i].y) * 20 + ( 19 - nextBurnPos[i].x);
                     Transform taget = Stage_mass.transform.GetChild(num);
                     GameObject Magic = Instantiate(Magic_Obj, taget.position, transform.rotation, transform);
 
+                    float spdPow = 1f + 0.1f * level;
+                    var scr = Magic.GetComponent<EffectSpeedChanger>();
+                    scr.SpeedChanger(spdPow);
+                    float scaPow = 0.2f;
+                    scr.SizeChanger(scaPow);
+                    Destroy(Magic, 0.2f);
+
                     //爆破マスにいる敵にダメージを与える
-                    for (int j = 0; j < enemies.Length; j++) {
+                    for (int j = 0; j < enemies.Length; j++)
+                    {
                         var eb = enemies[j].GetComponent<EnemyBase>();
-                        if(eb.X == nextBurnPos[i].x && eb.Y == nextBurnPos[i].y)
+                        if (eb.X == nextBurnPos[i].x && eb.Y == nextBurnPos[i].y)
                         {
                             eb.Damage(2.0f);
+                            Magic = Instantiate(Magic_Obj, taget.position, transform.rotation, transform);
+
+                            spdPow = 0.5f;
+                            scr = Magic.GetComponent<EffectSpeedChanger>();
+                            scr.SpeedChanger(spdPow);
+
+                            scaPow = 3.0f;
+                            scr.SizeChanger(scaPow);
+
+                            Destroy(Magic, 4.0f);
                         }
 
                     }
-
-                    float spdPow = 1f + 0.1f * level;
-                    //float scaPow = 1f - 0.05f * level;
-                    var scr = Magic.GetComponent<EffectSpeedChanger>();
-                    scr.SpeedChanger(spdPow);
-                    //scr.SizeChanger(scaPow);
-                    Destroy(Magic, 0.5f);
                 }
 
                 
@@ -211,6 +248,10 @@ public class Star_Fire : MonoBehaviour
             //時間を開ける
             yield return new WaitForSeconds(burnInterval);
         }
+
+
+        //最後にどでかい爆発
+
 
     }
 
