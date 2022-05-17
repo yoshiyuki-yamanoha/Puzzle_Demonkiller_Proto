@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+
+    [SerializeField] AnimEvent anim_event = null;
     bool init_death_flg = true;
     bool ice_flg = false;
     bool ice_instance_flg = false;//アイスオブジェクトを一回のみ生成
@@ -246,6 +248,7 @@ public class EnemyBase : MonoBehaviour
             deathflg = true;
             if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
             {
+                Debug.Log("SEの中身" + sePlay);
                 sePlay.Play("GoblinDeath");
 
             }
@@ -403,7 +406,7 @@ public class EnemyBase : MonoBehaviour
             ice_abnormality_turncount = 0;
             Damage(1);
             Enemy enemy = transform.GetComponent<Enemy>();
-           // Destroy(enemy.pentaIceEff);
+            // Destroy(enemy.pentaIceEff);
         }
     }
 
@@ -465,7 +468,7 @@ public class EnemyBase : MonoBehaviour
                 mg.EnemiDieCount();
                 init_death_flg = false;
             }
-            map.Map[y, x] = (int)MapMass.Mapinfo.NONE; 
+            map.Map[y, x] = (int)MapMass.Mapinfo.NONE;
 
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
         }
@@ -474,7 +477,7 @@ public class EnemyBase : MonoBehaviour
     void TargetChangeUpdate(Vector2Int pos)
     {
         //ターゲット座標からフェンスの存在を見る----
-        if(map.Map[pos.y , pos.x] != (int)MapMass.Mapinfo.bari)
+        if (map.Map[pos.y, pos.x] != (int)MapMass.Mapinfo.bari)
         {
             goal = new Node(null, map.GetCore().pos[Random.Range(0, 4)]);//コアの座標を渡す
             init_goal = false;
@@ -502,20 +505,29 @@ public class EnemyBase : MonoBehaviour
         }
 
         //自分がボムだったら
-        if(enemy_kinds == EnemyKinds.Bom)
+        if (enemy_kinds == EnemyKinds.Bom)
         {
             if (Attackaria) deathflg = true;//攻撃する時自滅するため、死亡フラグを立てる。
         }
 
         if (Attackaria && Abnormal_condition != AbnormalCondition.Ice) //攻撃処理
         {
-            Attacktime += Time.deltaTime;
-            if (Attacktime > 2)
+            if (Init_anim_flg)
             {
-                Is_action = true;
-                Attacktime = 0;
+                Enemy_anim.TriggerAttack("Attack");
+                Init_anim_flg = false;
             }
-            EnemyAttack();
+            if (anim_event != null)
+                if (anim_event.IsAnimAttack())
+                {
+                    //Attacktime += Time.deltaTime;
+                    //if (Attacktime > 2)
+                    //{
+                    //    Attacktime = 0;
+                    //}
+                    Debug.Log("攻撃中");
+                    EnemyAttack();
+                }
         }
         else //移動処理
         {
@@ -523,8 +535,8 @@ public class EnemyBase : MonoBehaviour
             {
                 //SearchMovement(massnum); //2マス。
 
-                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum , init_goal);//移動処理 取得は移動できる座標
-                if (map.Map[move_pos.y , move_pos.x] != (int)MapMass.Mapinfo.NONE)
+                move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum, init_goal);//移動処理 取得は移動できる座標
+                if (map.Map[move_pos.y, move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
                     Debug.Log("移動出来る");
                     Ismove = false;
@@ -633,37 +645,35 @@ public class EnemyBase : MonoBehaviour
 
         Vector3 attack_pos_dir = new Vector3(attackpos.x * map.Tilemas_prefab.transform.localScale.x, 0, attackpos.y * -map.Tilemas_prefab.transform.localScale.z) - transform.position;
 
-        if (Init_anim_flg)
-        {
-            if (!map.Core_bari_Data[attackpos.y, attackpos.x].gameObject.CompareTag("EMP"))
-            {
-                if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
-                {//バリケード
-                    LookTarget(attack_pos_dir);//向き移動
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
-                }
-                else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
-                {
-                    LookTarget(attack_pos_dir);//向き移動
-                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(Attack);//コアにダメージよーん
-                }
-            }
 
-            Enemy_anim.TriggerAttack("Attack");
-            if (enemy_kinds == EnemyKinds.Bom)  ////敵の種類のに応じて攻撃のSEを変える　　//爆弾敵/
-            {
-                sePlay.Play("BombEnemExplosion");
+        if (!map.Core_bari_Data[attackpos.y, attackpos.x].gameObject.CompareTag("EMP"))
+        {
+            if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
+            {//バリケード
+                LookTarget(attack_pos_dir);//向き移動
+                map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
             }
-            else if (enemy_kinds == EnemyKinds.Demon || enemy_kinds == EnemyKinds.Goblin) //ゴブリン、デーモン
+            else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
             {
-                sePlay.Play("EnemyAtack");
+                LookTarget(attack_pos_dir);//向き移動
+                map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(Attack);//コアにダメージよーん
             }
-            else if (enemy_kinds == EnemyKinds.Flame)//炎の剣
-            {
-                sePlay.Play("FlameAttack");
-            }
-            Init_anim_flg = false;
         }
+
+        if (enemy_kinds == EnemyKinds.Bom)  ////敵の種類のに応じて攻撃のSEを変える　　//爆弾敵/
+        {
+            sePlay.Play("BombEnemExplosion");
+        }
+        else if (enemy_kinds == EnemyKinds.Demon || enemy_kinds == EnemyKinds.Goblin) //ゴブリン、デーモン
+        {
+            sePlay.Play("EnemyAtack");
+        }
+        else if (enemy_kinds == EnemyKinds.Flame)//炎の剣
+        {
+            sePlay.Play("FlameAttack");
+        }
+
+        Is_action = true;
     }
 
     public void AttackSearchMovement()
