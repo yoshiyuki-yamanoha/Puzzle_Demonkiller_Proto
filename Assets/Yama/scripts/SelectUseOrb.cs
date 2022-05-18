@@ -53,7 +53,7 @@ public class SelectUseOrb : TrunManager
     // Update is called once per frame
     void Update()
     {
-        if (!notSwitchOrb || magicMagicMode)
+        if ((!notSwitchOrb || magicMagicMode) && s_orbGage.orbChangeflag == true)
         {
             SelectOrb_Update();
         }

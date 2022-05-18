@@ -356,10 +356,10 @@ public class OrbGage : MonoBehaviour
         {
             delayTime -= Time.deltaTime;
 
-            if (Input.GetButtonDown("Cont_L1") || Input.GetButtonDown("Cont_R1"))
-            {
-                orbChangeflag = true;
-            }
+            //if (Input.GetButtonDown("Cont_L1") || Input.GetButtonDown("Cont_R1"))//魔法の切り替えを有効化する(魔法攻撃中の処理)
+            //{
+            //    orbChangeflag = true;
+            //}
             if (delayTime <= 0)
             {
                 if (!OrbCheckExsistens())
@@ -371,6 +371,7 @@ public class OrbGage : MonoBehaviour
                     if (orbChangeflag == false)
                     {
                         s_SelectUseOrb.ChangeUseOrb(1);
+                        orbChangeflag = true;
                     }
                 }
                 delayTime = -1.0f;
