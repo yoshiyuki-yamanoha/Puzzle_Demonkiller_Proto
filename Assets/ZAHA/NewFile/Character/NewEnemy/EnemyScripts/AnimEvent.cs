@@ -8,14 +8,15 @@ public class AnimEvent : MonoBehaviour
     //[SerializeField] BoxCollider foot_boxcollider = null;
 
     private SEManager sePlay = null;
-    [SerializeField] Transform destroy_effect = null;
 
-    //[SerializeField] GameObject hit_effect = null;
+    [SerializeField] Transform destroy_effect = null;
+    [SerializeField] ParticleSystem hit_effect = null;
 
 
     bool is_anim_attack = false;
     private void Start()
     {
+        hit_effect.gameObject.SetActive(false);
         //sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
         if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }
@@ -29,17 +30,27 @@ public class AnimEvent : MonoBehaviour
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
     }
 
+    public void SetAnimAttack(bool flg)
+    {
+        is_anim_attack = flg;
+    }
 
     public bool IsAnimAttack()
     {
         return is_anim_attack;
     }
 
-    public void SetAnimAttack()
+    public void AnimAttackOn()
     {
         is_anim_attack = true;
-        Debug.Log("攻撃呼ばれました。");
     }
+
+    public void AnimHitEffect()
+    {
+        hit_effect.gameObject.SetActive(true);
+        hit_effect.Play();
+    }
+
 
     public void DestroyEffect()
     {
