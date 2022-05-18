@@ -66,6 +66,7 @@ public class Astar : MonoBehaviour
         //Node goal_node = goal;
         //Node start_node = start;
         goal_node = goal;
+        Debug.Log("オブジェクト" + gameObject.name + "スタートPos" + start.Pos);
         start_node = start;
 
         ////スタートノード指定

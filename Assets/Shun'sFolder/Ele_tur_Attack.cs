@@ -102,16 +102,17 @@ public class Ele_tur_Attack : MonoBehaviour
         Vector2 magic_pos= new Vector2(int.Parse(_tage.name) % 20, int.Parse(_tage.name) / 20);
 
         EnemyBase eb = new EnemyBase();
-
-        List<GameObject> enemies = eb.GetEnemyList();
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            EnemyBase ene = enemies[i].GetComponent<EnemyBase>();
-            Vector2 ene_pos = new Vector2(ene.X, ene.Y);
-            if(magic_pos == ene_pos)
+        if (eb != null) {
+            List<GameObject> enemies = eb.GetEnemyList();
+            for (int i = 0; i < enemies.Count; i++)
             {
-                create_Ele_Efe(_tage);
-                ene.Damage(1);
+                EnemyBase ene = enemies[i].GetComponent<EnemyBase>();
+                Vector2 ene_pos = new Vector2(ene.X, ene.Y);
+                if (magic_pos == ene_pos)
+                {
+                    create_Ele_Efe(_tage);
+                    ene.Damage(1);
+                }
             }
         }
     }

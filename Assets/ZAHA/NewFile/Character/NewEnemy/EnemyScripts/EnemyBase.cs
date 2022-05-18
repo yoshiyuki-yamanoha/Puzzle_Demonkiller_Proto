@@ -563,9 +563,9 @@ public class EnemyBase : MonoBehaviour
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
-                //Debug.Log("更新前 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
+                Debug.Log("更新前 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum, init_goal);//移動処理 取得は移動できる座標
-                //Debug.Log("更新後 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
+                Debug.Log("更新後 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
                 if (map.Map[move_pos.y, move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
                     Debug.Log("移動出来る");
@@ -635,7 +635,6 @@ public class EnemyBase : MonoBehaviour
 
         if (init_goal)
         {
-            //goal = new Node(null, map.GetCore().pos[1/*Random.Range(0, 4)*/]);//ランダムをコメントアウト
             //ターゲットチェンジ更新
             TargetChangeUpdate(goal.Pos);//ターゲットチェンジ
         }
