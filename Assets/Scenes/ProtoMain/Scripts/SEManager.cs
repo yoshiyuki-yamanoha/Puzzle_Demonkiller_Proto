@@ -12,14 +12,25 @@ public class SEManager : MonoBehaviour
     AudioSource audioSource;
     private AudioSource sePlay;
 
+    private TrunManager Trun;
 
     // Start is called before the first frame update
     void Start()
     {
         //コンポーネントの取得
         audioSource = GetComponent<AudioSource>();
-        
+        Trun = GetComponent<TrunManager>();
     }
+
+
+    public void WalkSE()
+    {
+        
+
+    }
+
+
+
 
     //効果音を再生する
     public void Play(string seName)
@@ -29,7 +40,6 @@ public class SEManager : MonoBehaviour
             case "Select"://1　魔方陣時の決定音
                 audioSource.PlayOneShot(audioClips[0],2.0f);
                 break;
-
             case "MagicChange"://2　魔法を入れ替えた時の音 //廃止予定
                 audioSource.PlayOneShot(audioClips[1], 0.5f);
                 break;
@@ -84,38 +94,33 @@ public class SEManager : MonoBehaviour
             case "FlameSpawn"://18炎の剣のモンスター出現
                 audioSource.PlayOneShot(audioClips[18], 1.3f);
                 break;
-            case "FlameAttack":
+            case "FlameAttack"://20：炎の剣のモンスター攻撃
                 audioSource.PlayOneShot(audioClips[19], 1.3f);
                 break;
-            case "FlameDeath"://18炎の剣のモンスター死亡
+            case "FlameDeath"://21：炎の剣のモンスター死亡
                 audioSource.PlayOneShot(audioClips[20], 1.3f);
                 break;
-            case "FireMagicStar":
+            case "FireMagicStar"://22炎の五芒星の魔法
                 audioSource.PlayOneShot(audioClips[21], 1.0f);
                 break;
-            case "IceMagicStar":
+            case "IceMagicStar"://23:氷五芒星の魔法
                 audioSource.PlayOneShot(audioClips[22], 1.3f);
                 break;
-            case "IceMagicPenta":
+            case "IceMagicPenta"://24：氷五角形の魔法
                 audioSource.PlayOneShot(audioClips[23], 1.3f);
                 break;
-            case"ThunderMagicFire":
+            case"ThunderMagicFire"://25:雷五芒星の発射時の音
                 audioSource.PlayOneShot(audioClips[24], 2.3f);
                 break;
-            case "ThunderMagicStar":
+            case "ThunderMagicStar"://26:雷五芒星
                 audioSource.PlayOneShot(audioClips[25], 1.3f);
                 break;
-            case "TitleDecision":
+            case "TitleDecision"://27：タイトル、ゲームクリア、ゲームオーバー、決定音
                 audioSource.PlayOneShot(audioClips[26], 1.3f);
                 break;
-            case "CoreExplosion":
+            case "CoreExplosion"://28：コア爆発
                 audioSource.PlayOneShot(audioClips[27], 1.3f);
                 break;
-
-
-
-
-
         }
     }
 

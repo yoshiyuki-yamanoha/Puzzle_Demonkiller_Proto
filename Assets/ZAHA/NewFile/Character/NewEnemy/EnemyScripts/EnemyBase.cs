@@ -26,6 +26,7 @@ public class EnemyBase : MonoBehaviour
     //ParticleSystem chilled_fire_effect = null;
 
     SEManager sePlay = null;  //SE
+    FootSE footSEPlay;
 
     //攻撃エリア
     bool init_goal = true;
@@ -215,6 +216,7 @@ public class EnemyBase : MonoBehaviour
     public void EnemyTurnStart()
     {
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
+        footSEPlay = GameObject.Find("WalkSE").GetComponent<FootSE>();
         Istrun = true;//自分のターン(敵)開始
     }
 
@@ -575,6 +577,7 @@ public class EnemyBase : MonoBehaviour
                 else
                 {
                     Debug.Log("移動できません");
+                    footSEPlay.Play("FootSE");
                     NextposX = move_pos.x;//移動できる座標を設定
                     NextposY = move_pos.y;//移動できる座標を設定
                     Ismove = true;//ムーブフラグをオン
