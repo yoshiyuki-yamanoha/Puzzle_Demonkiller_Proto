@@ -8,11 +8,9 @@ public class AnimEvent : MonoBehaviour
     //[SerializeField] BoxCollider foot_boxcollider = null;
 
     private SEManager sePlay = null;
-    [SerializeField] ParticleSystem[] destroy = null;
-    [SerializeField] ParticleSystem[] hit_effect = null;
-    float time;
-    float particle_time = 1.5f;
-    bool is_particle_play = false;
+    [SerializeField] Transform destroy_effect = null;
+
+    //[SerializeField] GameObject hit_effect = null;
 
 
     bool is_anim_attack = false;
@@ -31,15 +29,6 @@ public class AnimEvent : MonoBehaviour
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
     }
 
-    public void IsParticlePlayOn()
-    {
-        is_particle_play = true;
-    }
-
-    bool IsParticlePlay()
-    {
-        return is_particle_play;
-    }
 
     public bool IsAnimAttack()
     {
@@ -52,34 +41,21 @@ public class AnimEvent : MonoBehaviour
         Debug.Log("攻撃呼ばれました。");
     }
 
-    private void FixedUpdate()
-    {
-        if (IsParticlePlay()) {
-            time += Time.deltaTime;
-            if (time > particle_time)
-            {
-                time = 0;
-                Destroy();
-            }
-        }
-    }
-
-    public void HitEffect()
-    {
-        for (int number = 0; number < hit_effect.Length; number++)
-        {
-            hit_effect[number].gameObject.SetActive(true);
-            hit_effect[number].Play();
-        }
-    }
-
     public void DestroyEffect()
     {
-        IsParticlePlayOn();
-        for (int number = 0; number < destroy.Length; number++)
+        Transform chilled;
+        List<ParticleSystem> destroy_effects = new List<ParticleSystem>();
+        chilled = destroy_effect.GetComponentInChildren<Transform>();//Transformを持っている子供を獲得
+
+        for (int number = 0; number < chilled.childCount; number++)
         {
-            destroy[number].gameObject.SetActive(true);
-            destroy[number].Play();
+            if (chilled.GetComponent<ParticleSystem>() != null)
+            {
+                destroy_effects.Add(chilled.GetComponent<ParticleSystem>());
+            }
         }
+
+        Instantiate(destroy_effects[0], transform.position, Quaternion.Euler(90, 0, 0));
+        Destroy();
     }
 }
