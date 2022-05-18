@@ -16,7 +16,7 @@ public class MapMass : MonoBehaviour
     [SerializeField] GameObject tree_prefab = null;
     [SerializeField] GameObject bari_prefab = null;
     [SerializeField] GameObject log_prefab = null;
-    [SerializeField] GameObject emp_prefab = null;
+    //[SerializeField] GameObject emp_prefab = null;
 
     struct MassState
     {
@@ -199,7 +199,7 @@ public class MapMass : MonoBehaviour
                 }
                 else
                 {
-                    Core_bari_Data[y, x] = emp_prefab.gameObject;
+                    Core_bari_Data[y, x] = null;
                 }
             }
         }

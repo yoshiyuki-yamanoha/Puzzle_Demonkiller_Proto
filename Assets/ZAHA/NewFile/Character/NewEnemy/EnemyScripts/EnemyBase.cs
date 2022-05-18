@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class EnemyBase : MonoBehaviour
 {
+    bool pos_register = false;
 
     [SerializeField] AnimEvent anim_event = null;
     bool init_death_flg = true;
@@ -80,7 +82,8 @@ public class EnemyBase : MonoBehaviour
     bool is_action = false;
     bool ismove = false;
 
-    [SerializeField] Slider hpber = null;
+    [SerializeField] Slider hpbar_green = null;
+    [SerializeField] Slider hpbar_red = null;
 
     AbnormalCondition abnormal_condition = AbnormalCondition.NONE; //初期状態は状態異常なし。
     public Status status;
@@ -132,6 +135,10 @@ public class EnemyBase : MonoBehaviour
         Attack,
     }
 
+    public void SetPos_Register()
+    {
+        pos_register = true;
+    }
 
     //参照用
     public float Hp { get => hp; set => hp = value; }
@@ -156,7 +163,6 @@ public class EnemyBase : MonoBehaviour
     public bool Ismove { get => ismove; set => ismove = value; }
     public float Init_speed { get => init_speed; set => init_speed = value; }
     public float Max_hp { get => max_hp; set => max_hp = value; }
-    public Slider Hpber { get => hpber; set => hpber = value; }
     public EnemyAction Enemy_action { get => enemy_action; set => enemy_action = value; }
     public int Oldx { get => old_x; set => old_x = value; }
     public int Oldy { get => old_y; set => old_y = value; }
@@ -179,7 +185,8 @@ public class EnemyBase : MonoBehaviour
     public Image Fire_image { get => fire_image; set => fire_image = value; }
     public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
     public bool Ice_flg { get => ice_flg; set => ice_flg = value; }
-
+    public Slider Hpbar_red { get => hpbar_red; set => hpbar_red = value; }
+    public Slider Hpbar_green { get => hpbar_green; set => hpbar_green = value; }
 
     public void InitFunction()
     {
@@ -191,12 +198,18 @@ public class EnemyBase : MonoBehaviour
         move_wait_time = Random.Range(0.0f, 1.0f);
         GetObject();
         Init_speed = Speed;//初期のスピード保存
-        Hp = Max_hp;//MaxHP
-        Hpber.maxValue = Max_hp;//HPゲージに反映
-        HPBar_Off();
+        HPBarInit();
         fire_image.gameObject.SetActive(false);
         enemys_.Add(this.gameObject);//自分を追加
         mynumber = enemys_.Count;
+    }
+
+    public void HPBarInit()
+    {
+        Hp = Max_hp;//MaxHP
+        HPBar_Off();
+        Hpbar_red.maxValue = Max_hp;//HPゲージに反映
+        Hpbar_green.maxValue = Max_hp;
     }
 
     public void EnemyTurnStart()
@@ -234,7 +247,8 @@ public class EnemyBase : MonoBehaviour
 
     public void HPber()
     {
-        Hpber.value = hp;
+        Hpbar_green.value = hp;
+        Hpbar_red.value = Mathf.Lerp(Hpbar_red.value, hp, Time.deltaTime);//HPbar更新
     }
 
     public float Damage(float damage)//damage処理
@@ -245,30 +259,34 @@ public class EnemyBase : MonoBehaviour
         {
             hp = 0;
             speed = 0;
-            deathflg = true;
-            if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
-            {
-                Debug.Log("SEの中身" + sePlay);
-                sePlay.Play("GoblinDeath");
 
-            }
-            else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
-            {
-                sePlay.Play("DemonDeath");
-            }
-            else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
-            {
-                sePlay.Play("BombDeath");
-            }
-            else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
-            {
-                sePlay.Play("FlameDeath");
-            }
-            /*死亡フラグ立てる 速度0 HP0*/
-            //if (this.gameObject == null)
+            //if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
             //{
-            //enemys_.Remove(this.gameObject);
+            //    Debug.Log("ゴブリンSEの中身" + sePlay);
+            //    sePlay.Play("GoblinDeath");
+
             //}
+            //else if (enemy_kinds == EnemyKinds.Demon)//2:デモンの死亡SE
+            //{
+            //    Debug.Log("デーモンSEの中身" + sePlay);
+            //    sePlay.Play("DemonDeath");
+            //}
+            //else if (enemy_kinds == EnemyKinds.Bom)//3:ボム兵の死亡SE
+            //{
+            //    Debug.Log("ボムSEの中身" + sePlay);
+            //    sePlay.Play("BombDeath");
+            //}
+            //else if (enemy_kinds == EnemyKinds.Flame) //炎の剣の死亡SE
+            //{
+            //    Debug.Log("炎の剣SEの中身" + sePlay);
+            //    sePlay.Play("FlameDeath");
+            //}
+            /*死亡フラグ立てる 速度0 HP0*/
+            if (this.gameObject == null)
+            {
+                enemys_.Remove(this.gameObject);
+            }
+            deathflg = true;
         }
         else { Enemy_anim.TriggerAttack("HitDamage"); }
 
@@ -427,6 +445,17 @@ public class EnemyBase : MonoBehaviour
         {
             enemys_.Remove(g[i]);
         }
+
+        Debug.Log("敵リストカウント" + enemys_.Count);
+
+        //for (int list_number = enemys_.Count - 1; list_number >= 0; list_number--)
+        //{
+        //    if (enemys_[list_number] == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
+        //    {
+        //        Debug.Log("敵死にましたー");
+        //        enemys_.Remove(enemys_[list_number]);//敵をリストから消す
+        //    }
+        //}
     }
 
     public bool AbnormalStatus()
@@ -534,8 +563,9 @@ public class EnemyBase : MonoBehaviour
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
                 //SearchMovement(massnum); //2マス。
-
+                //Debug.Log("更新前 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum, init_goal);//移動処理 取得は移動できる座標
+                //Debug.Log("更新後 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
                 if (map.Map[move_pos.y, move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
                     Debug.Log("移動出来る");
@@ -592,8 +622,11 @@ public class EnemyBase : MonoBehaviour
                     fire_image.gameObject.SetActive(true);
                 }
 
+                //Debug.Log("更新前 敵の名前" + this.gameObject.name + "Pos [" + X + "]" + "[" + Y + "]" + "Next [" + NextposX + "]" + "[" + NextposY + "]");
                 Y = IndexCheckY(NextposY);//次の位置を現在位置にする
                 X = IndexCheckX(NextposX);//次の位置を現在位置にする
+
+                //Debug.Log("更新後 敵の名前" + this.gameObject.name + "Pos [" + X + "]" + "[" + Y + "]" + "Next [" + NextposX + "]" + "[" + NextposY + "]");
 
                 Targetchangeflg = true;//ターゲットチェンジをオン
                 Is_action = true;//行動したフラグをオン
@@ -615,12 +648,14 @@ public class EnemyBase : MonoBehaviour
 
     public void HPBar_On()
     {
-        Hpber.gameObject.SetActive(true);//HPバー再表示
+        Hpbar_green.gameObject.SetActive(true);//HPバー再表示
+        Hpbar_red.gameObject.SetActive(true);//HPバー再表示
     }
 
     public void HPBar_Off()
     {
-        Hpber.gameObject.SetActive(false);//HPバー再表示
+        Hpbar_green.gameObject.SetActive(false);//HPバー再表示
+        Hpbar_red.gameObject.SetActive(false);//HPバー再表示
     }
 
     //取得
@@ -636,17 +671,12 @@ public class EnemyBase : MonoBehaviour
     //敵攻撃
     public void EnemyAttack()
     {
-        //if (!Enemy_anim.AnimPlayBack("EnemyAttack"))
-        //{//再生
-
-        //    Attacktime += Time.deltaTime; //3秒おきに攻撃
-        //}
         Vector2Int attackpos = Attackpos;
 
         Vector3 attack_pos_dir = new Vector3(attackpos.x * map.Tilemas_prefab.transform.localScale.x, 0, attackpos.y * -map.Tilemas_prefab.transform.localScale.z) - transform.position;
 
 
-        if (!map.Core_bari_Data[attackpos.y, attackpos.x].gameObject.CompareTag("EMP"))
+        if (map.Core_bari_Data[attackpos.y, attackpos.x].gameObject != null) //エラーアクセス使用としている。
         {
             if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
             {//バリケード
@@ -680,7 +710,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y + 1), IndexCheckX(X)] == (int)MapMass.Mapinfo.bari)//下方向
         {
-            if (!map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("EMP"))
+            if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject != null)
             {
                 //攻撃対象判別。
                 if (map.Core_bari_Data[IndexCheckY(Y + 1), IndexCheckX(X)].gameObject.CompareTag("Core"))
@@ -703,7 +733,7 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X + 1)] == (int)MapMass.Mapinfo.bari)//右
         {
-            if ((!map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("EMP")))
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject != null))
             {
 
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X + 1)].gameObject.CompareTag("Core"))
@@ -726,7 +756,7 @@ public class EnemyBase : MonoBehaviour
         }
         else if (Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.core || Map.Map[IndexCheckY(Y), IndexCheckX(X - 1)] == (int)MapMass.Mapinfo.bari)//左
         {
-            if ((!map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("EMP")))
+            if ((map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject != null))
             {
                 if (map.Core_bari_Data[IndexCheckY(Y), IndexCheckX(X - 1)].gameObject.CompareTag("Core"))
                 {
@@ -810,7 +840,8 @@ public class EnemyBase : MonoBehaviour
 
     public void UIFacing()
     {
-        hpber.transform.forward = Vector3.back;
+        Hpbar_green.transform.forward = Vector3.back;
+        Hpbar_red.transform.forward = Vector3.back;
         fire_image.transform.forward = Vector3.back;
     }
 

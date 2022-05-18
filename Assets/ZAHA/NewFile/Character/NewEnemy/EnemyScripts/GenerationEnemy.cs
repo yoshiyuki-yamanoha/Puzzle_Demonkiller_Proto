@@ -33,6 +33,8 @@ public class EnemyGenerationInfo
 
 public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 {
+    Vector2Int path;
+    Vector2Int flame_map_pos;
     //たーてっと座標
     List<Vector2Int> target_pos = new List<Vector2Int>();
     //敵登録 座標種類
@@ -144,7 +146,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         else
         {
             enemy_generation_info = new EnemyGenerationInfo[1];//配列保存
-            enemy_generation_info[0] = new EnemyGenerationInfo(1, 1, 0, 0, 0, true);
+            enemy_generation_info[0] = new EnemyGenerationInfo(1, 0, 0, 0, 1, true);
             debug_pos[0] = new Vector2Int(12, 19);
         }
     }
@@ -222,7 +224,9 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
 
     void EnemyTurn()
     {
-        enemy_base.DeleteListEnemy();//敵削除
+        if (enemy_base != null) {
+            enemy_base.DeleteListEnemy();//敵削除
+        }
 
         if (init_turn_generation_flg)//最初のターン
         {
@@ -274,7 +278,8 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             }
             else //ゲームモードがデバッグのみ
             {
-                InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], debug_pos[0].x, debug_pos[0].y, target_pos[enemy_oneturn_count]);
+                //InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], debug_pos[0].x, debug_pos[0].y, target_pos[enemy_oneturn_count]);
+                InstanceEnemy(0, enemys_kinds[enemy_oneturn_count], enemys_pos[enemy_oneturn_count].x, enemys_pos[enemy_oneturn_count].y, target_pos[enemy_oneturn_count]);
             }
         }
 
@@ -401,6 +406,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             map.Map[pos.y, pos.x] = (int)MapMass.Mapinfo.Enemy;//mapに敵の情報を渡す。
             enemys_pos.Add(pos);//エネミー座標を追加
             pos_entry_flg = true;
+            path = pos;//仮追加
             //Debug.Log(/*"座標登録" + "Y[" + pos.y + "]" + " X[" + pos.x + "]" + */"Nowturn " + Nowturn + "登録されている数" + enemys_pos.Count);
         }
 
@@ -470,6 +476,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
                 enemy_generation_info[Nowturn].One_turn_Generation--;
                 enemy_generation_info[Nowturn].Flamesword--;
                 enemy_kinds = 3;
+                SetFlame(path);
             }
             else
             {
@@ -536,25 +543,25 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     void SetFlameSwordInfo(GameObject enemy_instantiate, int x, int y, Vector2Int target_pos)
     {
         FlameSwordMove enemy_info = enemy_instantiate.GetComponent<FlameSwordMove>();//敵情報取得
-        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos);
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos); enemy_info.SetPos_Register();
     }
 
     void SetBomInfo(GameObject enemy_instantiate, int x, int y, Vector2Int target_pos)
     {
         BombEnemy enemy_info = enemy_instantiate.GetComponent<BombEnemy>();//敵情報取得
-        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos);
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos); enemy_info.SetPos_Register();
     }
 
     void SetGoblinInfo(GameObject enemy_instantiate, int x, int y, Vector2Int target_pos)
     {
         Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
-        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos);
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos); enemy_info.SetPos_Register();
     }
 
     void SetWoManEnemyInfo(GameObject enemy_instantiate, int x, int y, Vector2Int target_pos)
     {
         Enemy enemy_info = enemy_instantiate.GetComponent<Enemy>();//敵情報取得
-        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos);
+        enemy_info.X = x; enemy_info.Y = y; enemy_info.Enemy_action = EnemyBase.EnemyAction.Generation; enemy_info.Is_action = true; enemy_info.SetTargetPos(target_pos); enemy_info.SetPos_Register();
     }
 
     void SetListSearchEnemy()
@@ -656,29 +663,38 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         return search_flg;
     }
 
-    public GameObject FlameGameObject()
+    public bool fireEnemyGetFlag = false;//炎の剣を持った敵の座標を受け取ったフラグ
+    void SetFlame(Vector2Int pos)
     {
-        return flame_obj;
+        flame_map_pos = pos;
+        fireEnemyGetFlag = true;
+    }
+
+    public Vector3 FlameGameObject()
+    {
+        Vector3 pos = new Vector3(flame_map_pos.x * map.Tilemas_prefab.transform.localScale.x, 0, flame_map_pos.y * -map.Tilemas_prefab.transform.localScale.z);
+        return pos;
     }
 
     void DebugDraw()
     {
-        //if (draw)
-        //{
-        //    string print_array = "";
-        //    for (int y = 0; y < map.Map.GetLength(0); y++)
-        //    {
-        //        for (int x = 0; x < map.Map.GetLength(1); x++)
-        //        {
-        //            print_array += map.Map[y, x].ToString() + ":";
-        //        }
-        //        print_array += "\n";
-        //    }
-        //    Debug.Log(print_array);
-        //    draw = false;
-        //}
+        if (draw)
+        {
+            //string print_array = "";
+            //for (int y = 0; y < map.Map.GetLength(0); y++)
+            //{
+            //    for (int x = 0; x < map.Map.GetLength(1); x++)
+            //    {
+            //        print_array += map.Map[y, x].ToString() + ":";
+            //    }
+            //    print_array += "\n";
+            //}
+            //Debug.Log(print_array);
 
-        //draw = true;
+            draw = false;
+        }
+
+        draw = true;
     }
 
     void EnemyTurnExit()

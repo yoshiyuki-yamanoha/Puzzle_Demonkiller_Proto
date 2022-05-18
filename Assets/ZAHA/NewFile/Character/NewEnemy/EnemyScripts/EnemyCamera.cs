@@ -13,7 +13,8 @@ public class EnemyCamera : MonoBehaviour
 
 
     //敵のオブジェクトカメラ用
-    GameObject fireEnemySpone = null;//炎の剣を持った敵がわいた
+    Vector3 fireEnemySpone;//炎の剣を持った敵がわいた
+    bool closeFireEnemy = false;//炎の敵が湧いたフラグ
     GameObject coreAttackEnemy = null;//コアを攻撃する敵
     GameObject fenceAttackEnemy = null;//フェンスを攻撃する敵
     GameObject coreCloseEnemy = null;//コアに近い敵
@@ -131,9 +132,11 @@ public class EnemyCamera : MonoBehaviour
             }
             else
             {
-                if (GEnemy.FlameGameObject() != null)
+                if (GEnemy.fireEnemyGetFlag == true)
                 {
                     fireEnemySpone = GEnemy.FlameGameObject();
+                    //fireEnemyGetFlag = true;
+                    Debug.Log("炎の剣の情報とったっどー");
                 }
                 EnemyCameraMove();
                 //EndEnemyCameraMove();
@@ -141,7 +144,6 @@ public class EnemyCamera : MonoBehaviour
         }
         else
         {
-            fireEnemySpone = null;
             transform.position = defaultCamerapos;
             startFlag = false;
 
@@ -412,11 +414,17 @@ public class EnemyCamera : MonoBehaviour
 
                 //if (timer < 2)
                 //{
-                if (fireEnemySpone != null)
+                if (closeFireEnemy == false && GEnemy.fireEnemyGetFlag == true)
                 {
-                    camera_targe = fireEnemySpone;
-                    camera_tage_pos = new Vector3(camera_targe.transform.position.x, transform.position.y, camera_targe.transform.position.z);
+                    //camera_targe = fireEnemySpone;
+                    camera_tage_pos = new Vector3(fireEnemySpone.x, transform.position.y, fireEnemySpone.z);
                     floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                    timer = Time.deltaTime;
+                    transform.LookAt(fireEnemySpone);
+                    if (timer >= 1)
+                    {
+                        closeFireEnemy = true;
+                    }
                 }
                 else
                 if (coreAttackEnemy != null)
