@@ -78,8 +78,11 @@ public class MagicMassSelecter : MonoBehaviour
             if(selectsNum > 0 && bottomCost == 99)
                 CalcBottomCost();
 
-            if (selectType == 0) MoveSelecter();
-            if (selectType == 1) MoveSelecterEnemy();
+            if (s_OrbGage.orbChangeflag == true)
+            {
+                if (selectType == 0) MoveSelecter();
+                if (selectType == 1) MoveSelecterEnemy();
+            }
 
             //インターバルを減らす処理
             if (nextShotInterval != 0) {
