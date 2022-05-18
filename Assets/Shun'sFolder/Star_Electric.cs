@@ -123,21 +123,24 @@ public class Star_Electric : MonoBehaviour
         //今いる位置から(x差分+y差分)が2以下の敵を判定
         foreach (GameObject ene in enemyObjs.GetEnemyList())
         {
-            if (ene.tag == "Enemy2") continue;
-
-            EnemyBase eb = ene.GetComponent<EnemyBase>();
-
-            int eneX = Math.Abs(eb.X - (int)tar_ene_pos.x);
-            int eneY = Math.Abs(eb.Y - (int)tar_ene_pos.y);
-            int total = eneX + eneY;
-            
-            //中心との距離が2以下かつ0(自分ではない)以外の敵
-            if (total > 0 && total <= 2)
+            if (ene != null)
             {
-                //タグを変える
-                ene.tag = "Enemy2";
+                if (ene.tag == "Enemy2") continue;
 
-                return ene;
+                EnemyBase eb = ene.GetComponent<EnemyBase>();
+
+                int eneX = Math.Abs(eb.X - (int)tar_ene_pos.x);
+                int eneY = Math.Abs(eb.Y - (int)tar_ene_pos.y);
+                int total = eneX + eneY;
+
+                //中心との距離が2以下かつ0(自分ではない)以外の敵
+                if (total > 0 && total <= 2)
+                {
+                    //タグを変える
+                    ene.tag = "Enemy2";
+
+                    return ene;
+                }
             }
         }
 
