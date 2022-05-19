@@ -68,7 +68,7 @@ public class PuzzlePointerMover : TrunManager
             s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (puzzleOnlyMode || s_TrunManager.trunphase == TrunPhase.Puzzle)
         {
