@@ -38,6 +38,7 @@ public class FlameSwordMove : EnemyBase
         else //ターンを終了する時
         {
             EnemyTurnEnd();
+            time = 0;
         }
 
         HPber();//HPゲージ
