@@ -50,7 +50,7 @@ public class Star_Electric : MonoBehaviour
         //初撃用のエフェクトの場所の指定＋削除
         GameObject _efe = Instantiate(e_Ele, transform);
         LightningBoltScript lb = _efe.GetComponent<LightningBoltScript>();
-        Vector3 pos = new Vector3(target.transform.position.x, target.transform.position.y + 30.0f, target.transform.position.z);
+        Vector3 pos = new Vector3(target.transform.position.x, target.transform.position.y + 50.0f, target.transform.position.z);
         lb.StartPosition = Correction_Pos(pos);
         lb.EndPosition = Correction_Pos(target.transform.position);
         Destroy(_efe, 0.6f);
