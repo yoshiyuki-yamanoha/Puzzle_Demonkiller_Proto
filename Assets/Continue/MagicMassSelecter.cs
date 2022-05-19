@@ -381,41 +381,41 @@ public class MagicMassSelecter : MonoBehaviour
             if (vert <= -0.5f) nowSelY--;
         }
 
-        //範囲をはみ出るなら移動できない様にする。
-        if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false)
-        {
+        ////範囲をはみ出るなら移動できない様にする。
+        //if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false)
+        //{
 
-            int typ, lev;
-            (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
+        //    int typ, lev;
+        //    (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
 
-            SETime++; //SETimeを加算していって値が30になるとSEが鳴る
+        //    SETime++; //SETimeを加算していって値が30になるとSEが鳴る
 
-            if (hori != 0 && lev <= 9 || vert != 0 && lev <= 9)
-            {
-                if (SETime >= 30)
-                {
-                    sePlay.Play("Select3");
-                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
-                }
-            }
-            else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
-            {
-                if (SETime >= 30)
-                {
-                    sePlay.Play("Select3");
-                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
-                }
-            }
+        //    if (hori != 0 && lev <= 9 || vert != 0 && lev <= 9)
+        //    {
+        //        if (SETime >= 30)
+        //        {
+        //            sePlay.Play("Select3");
+        //            SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+        //        }
+        //    }
+        //    else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
+        //    {
+        //        if (SETime >= 30)
+        //        {
+        //            sePlay.Play("Select3");
+        //            SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+        //        }
+        //    }
 
 
 
-            nowSelX = oldSelX;
-            nowSelY = oldSelY;
-        }
-        else
-        {
-            SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
-        }
+        //    nowSelX = oldSelX;
+        //    nowSelY = oldSelY;
+        //}
+        //else
+        //{
+        //    SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
+        //}
 
         //セレクターが移動されたら
         if (oldSelX != nowSelX || oldSelY != nowSelY)
