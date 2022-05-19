@@ -44,7 +44,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[1], 1.5f);//0.5
                 break;
             case "MagicAreaSelect"://3　魔法陣の色の入れ替え
-                audioSource.PlayOneShot(audioClips[2], 1.8f);//0.1  0.8
+                audioSource.PlayOneShot(audioClips[2], 1.2f);//0.1  0.8
                 break;
             case "MagicCursorSelect"://4　魔法を打つ時のカーソル移動
                 audioSource.PlayOneShot(audioClips[3], 2.0f);
