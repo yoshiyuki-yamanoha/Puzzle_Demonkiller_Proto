@@ -130,7 +130,7 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
             enemy_generation_info = new EnemyGenerationInfo[6];//配列保存
 
             enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0, true);
-            enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 2, 0, 0, true);
+            enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 1, 0, 1, true);
             enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
             enemy_generation_info[3] = new EnemyGenerationInfo(4, 0, 2, 2, 0, true);
             enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);

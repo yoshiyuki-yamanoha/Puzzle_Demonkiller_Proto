@@ -16,7 +16,10 @@ public class AnimEvent : MonoBehaviour
     bool is_anim_attack = false;
     private void Start()
     {
-        hit_effect.gameObject.SetActive(false);
+        //Nullじゃない
+        if (hit_effect != null)
+            hit_effect.gameObject.SetActive(false);
+
         //sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
         if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }

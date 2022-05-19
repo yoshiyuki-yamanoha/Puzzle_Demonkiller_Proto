@@ -81412,14 +81412,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.7
-    functionName: HitEffect
+    functionName: AnimHitEffect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1
-    functionName: SetAnimAttack
+  - time: 0.96666664
+    functionName: AnimAttackOn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
