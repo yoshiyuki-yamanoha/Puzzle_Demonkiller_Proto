@@ -47,7 +47,7 @@ public class MainMgr : MonoBehaviour
         }
 
         //残り敵数の表示
-        enemyNum.text = "あと"+(enemyDieMax - enemyDieNum).ToString("00")+"体";
+        enemyNum.text = "×"+(enemyDieMax - enemyDieNum).ToString("00");
     }
 
     public void EnemiDieCount() {
