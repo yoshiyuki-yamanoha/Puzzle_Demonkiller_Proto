@@ -448,8 +448,6 @@ public class EnemyBase : MonoBehaviour
             enemys_.Remove(g[i]);
         }
 
-        Debug.Log("敵リストカウント" + enemys_.Count);
-
         //for (int list_number = enemys_.Count - 1; list_number >= 0; list_number--)
         //{
         //    if (enemys_[list_number] == null)//リストに入っていた死亡して敵が消えてた場合はリストから削除
@@ -535,7 +533,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
-        //自分がボムだったら
+        ////自分がボムだったら
         if (enemy_kinds == EnemyKinds.Bom)
         {
             if (Attackaria) deathflg = true;//攻撃する時自滅するため、死亡フラグを立てる。
@@ -548,36 +546,38 @@ public class EnemyBase : MonoBehaviour
                 Enemy_anim.TriggerAttack("Attack");
                 Init_anim_flg = false;
             }
+
             if (anim_event != null)
+            {
                 if (anim_event.IsAnimAttack())
                 {
-                    Debug.Log("攻撃中");
                     EnemyAttack();
                 }
+            }
+            else
+            {
+                Debug.Log("eventanimがenemyBaseに入っていません!!" + gameObject.name);
+            }
         }
         else //移動処理
         {
             if (Targetchangeflg)//一回のみ処理 行ける座標を取得
             {
-                //SearchMovement(massnum); //2マス。
-                Debug.Log("更新前 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
                 move_pos = astar.astar(new Node(null, new Vector2Int(X, Y)), goal, massnum, init_goal);//移動処理 取得は移動できる座標
-                Debug.Log("更新後 move_pos" + gameObject.name + "[" + move_pos.x + "]" + "[" + move_pos.y + "]");
-                //移動出来るかチェック
+
 
                 if (map.Map[move_pos.y, move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
-                    Debug.Log("移動出来る");
+                    Debug.Log("移動出来ない" + gameObject.name);
                     Ismove = false;
                     Target_distance = true;
                 }
                 else
                 {
-                    Debug.Log("移動できません");
                     footSEPlay.Play("FootSE");
                     NextposX = move_pos.x;//移動できる座標を設定
                     NextposY = move_pos.y;//移動できる座標を設定
-                    Ismove = true;//ムーブフラグをオン
+                    Ismove = true;//移動フラグをオン
                     Target_distance = false;//ターゲット距離オフ
                     Targetchangeflg = false;//ターゲットチェンジオフ
                 }
@@ -585,7 +585,6 @@ public class EnemyBase : MonoBehaviour
 
             Oldx = X;//今の位置を前回の位置として保存
             Oldy = Y;//今の位置を前回の位置として保存
-
 
             //移動フラグがオンになった時
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
@@ -612,6 +611,11 @@ public class EnemyBase : MonoBehaviour
             //目的値についているかフラグがオンなら
             if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)
             {
+                if (Ismove) {
+                    Y = IndexCheckY(NextposY);//次の位置を現在位置にする
+                    X = IndexCheckX(NextposX);//次の位置を現在位置にする
+                }
+
                 status = Status.Idle;//立ち止まっている状態         
                 Ismove = false;//動きを止める。
 
@@ -621,12 +625,6 @@ public class EnemyBase : MonoBehaviour
                 {
                     fire_image.gameObject.SetActive(true);
                 }
-
-                //Debug.Log("更新前 敵の名前" + this.gameObject.name + "Pos [" + X + "]" + "[" + Y + "]" + "Next [" + NextposX + "]" + "[" + NextposY + "]");
-                Y = IndexCheckY(NextposY);//次の位置を現在位置にする
-                X = IndexCheckX(NextposX);//次の位置を現在位置にする
-
-                //Debug.Log("更新後 敵の名前" + this.gameObject.name + "Pos [" + X + "]" + "[" + Y + "]" + "Next [" + NextposX + "]" + "[" + NextposY + "]");
 
                 Targetchangeflg = true;//ターゲットチェンジをオン
                 Is_action = true;//行動したフラグをオン

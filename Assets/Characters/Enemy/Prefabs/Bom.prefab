@@ -30010,7 +30010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6600cc73bdc41344a5f8de83d66952f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim_event: {fileID: 0}
+  anim_event: {fileID: 1530567963558668177}
   camera_target_core_flg: 0
   camera_target_bari_flg: 0
   move_wait_time: 0

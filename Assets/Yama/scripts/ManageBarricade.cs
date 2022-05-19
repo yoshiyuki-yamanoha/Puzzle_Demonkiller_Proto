@@ -69,6 +69,7 @@ public class ManageBarricade : TrunManager
             List<GameObject> remove_obj = new List<GameObject>();
             foreach(GameObject o in bariicades)
             {
+                if(o.GetComponent<ManageBarricade>() != null)//nullチェック
                 if(o.GetComponent<ManageBarricade>().myNumber == this.myNumber)
                 {
                     remove_obj.Add(o);
@@ -77,11 +78,14 @@ public class ManageBarricade : TrunManager
 
             foreach(GameObject o in remove_obj)
             {
-                // バリケードが壊れる際のエフェクトを生成
-                GeneratesBarricadesBreakedEffect(o);
-                bariicades.Remove(o);
-                map_mass.Map[o.GetComponent<ManageBarricade>().GetPos().y, o.GetComponent<ManageBarricade>().GetPos().x] = 0;
-                Destroy(o.gameObject);
+                if (o.GetComponent<ManageBarricade>() != null) //nullチェック
+                {
+                    // バリケードが壊れる際のエフェクトを生成
+                    GeneratesBarricadesBreakedEffect(o);
+                    bariicades.Remove(o);
+                    map_mass.Map[o.GetComponent<ManageBarricade>().GetPos().y, o.GetComponent<ManageBarricade>().GetPos().x] = 0;
+                    Destroy(o.gameObject);
+                }
             }
 
             // バリケードが壊れる際のエフェクトを生成

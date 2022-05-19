@@ -129,6 +129,14 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         {
             enemy_generation_info = new EnemyGenerationInfo[6];//配列保存
 
+
+            //enemy_generation_info[0] = new EnemyGenerationInfo(5, 0, 0, 5, 0, true);
+            //enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 1, 0, 1, true);
+            //enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
+            //enemy_generation_info[3] = new EnemyGenerationInfo(4, 0, 2, 2, 0, true);
+            //enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
+            //enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
+
             enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0, true);
             enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 2, 0, 0, true);
             enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
@@ -423,19 +431,35 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         switch (spawn_number)
         {
             case 0://左上 バリケード座標
-                target_pos.Add(map.GetBari().pos[Random.Range(0, 2)]);//0~1
+                //target_pos.Add(map.GetBari().pos[Random.Range(0, 2)]);//0~1
+                CheckBari(map.GetBari().pos[Random.Range(0, 2)]);
                 break;
             case 1://右上 バリケード座標 2~7
-                target_pos.Add(map.GetBari().pos[Random.Range(2, 8)]);//2~7
+                //target_pos.Add(map.GetBari().pos[Random.Range(2, 8)]);//2~7
+                CheckBari(map.GetBari().pos[Random.Range(2, 8)]);
                 break;
             case 2://左下 バリケード座標 8~13
-                target_pos.Add(map.GetBari().pos[Random.Range(8, 14)]);//0~1
+                //target_pos.Add(map.GetBari().pos[Random.Range(8, 14)]);//0~1
+                CheckBari(map.GetBari().pos[Random.Range(8, 14)]);
                 break;
             case 3://右下 コア座標
                 target_pos.Add(map.GetCore().pos[Random.Range(0, 1)]);
                 break;
         }
     }
+
+    void CheckBari(Vector2Int baripos)
+    {
+        if (map.Map[baripos.y, baripos.x] == (int)MapMass.Mapinfo.bari)
+        {
+            target_pos.Add(baripos);
+        }
+        else
+        {
+            target_pos.Add(map.GetCore().pos[Random.Range(0, 1)]);
+        }
+    }
+
 
     //敵の種類をきめて処理を返す
     //1ターンで制御出来る処理
@@ -680,16 +704,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     {
         if (draw)
         {
-            //string print_array = "";
-            //for (int y = 0; y < map.Map.GetLength(0); y++)
-            //{
-            //    for (int x = 0; x < map.Map.GetLength(1); x++)
-            //    {
-            //        print_array += map.Map[y, x].ToString() + ":";
-            //    }
-            //    print_array += "\n";
-            //}
-            //Debug.Log(print_array);
+            string print_array = "";
+            for (int y = 0; y < map.Map.GetLength(0); y++)
+            {
+                for (int x = 0; x < map.Map.GetLength(1); x++)
+                {
+                    print_array += map.Map[y, x].ToString() + ":";
+                }
+                print_array += "\n";
+            }
+            Debug.Log(print_array);
 
             draw = false;
         }
