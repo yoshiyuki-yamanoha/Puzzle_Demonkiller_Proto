@@ -14,7 +14,7 @@ public class EnemyCamera : MonoBehaviour
 
     //敵のオブジェクトカメラ用
     Vector3 fireEnemySpone;//炎の剣を持った敵がわいた
-    bool closeFireEnemy = false;//炎の敵が湧いたフラグ
+    bool closeFireEnemy;//炎の敵が湧いたフラグ
     GameObject coreAttackEnemy = null;//コアを攻撃する敵
     GameObject fenceAttackEnemy = null;//フェンスを攻撃する敵
     GameObject coreCloseEnemy = null;//コアに近い敵
@@ -105,6 +105,7 @@ public class EnemyCamera : MonoBehaviour
         //starttextkuro = GameObject.Find("GameStartKuro").GetComponent<Text>();
         startText = GameObject.Find("StartImg").GetComponent<Image>();
         alpha = 0;
+        closeFireEnemy = false;
     }
 
     // Update is called once per frame
@@ -406,29 +407,30 @@ public class EnemyCamera : MonoBehaviour
             {
                 enemy_camera.depth = 0;
             }
-            timer = 0;
             HighPriorityEnemy();
             if (initflg == true)
             {
                 //camera_targe = CloseEnemycamera();
                 coreCloseEnemy = null;
+                timer = 0;
                 coreCloseEnemy = CloseEnemycamera();
                 initflg = false;
             }
             else
             {
-                timer += Time.deltaTime;
+                //timer += Time.deltaTime;
 
                 //if (timer < 2)
                 //{
                 if (closeFireEnemy == false && GEnemy.fireEnemyGetFlag == true)
                 {
+                    Debug.Log("炎の敵");
                     //camera_targe = fireEnemySpone;
                     camera_tage_pos = new Vector3(fireEnemySpone.x, transform.position.y, fireEnemySpone.z);
                     floDistance = Vector3.Distance(transform.position, camera_tage_pos);
-                    timer = Time.deltaTime;
+                    timer += Time.deltaTime;
                     transform.LookAt(fireEnemySpone);
-                    if (timer >= 1)
+                    if (timer >= 3)
                     {
                         closeFireEnemy = true;
                     }
