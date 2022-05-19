@@ -21,7 +21,7 @@ public class GameClearMgr : MonoBehaviour
         coolTime -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && coolTime <= 0.0f) {
             coolTime = 0.5f;
-            GameMgr.Instance.GotoTitleScene();
+            //GameMgr.Instance.GotoTitleScene();
         }
         else if (coolTime <= 0.0f) {
             coolTime = 0.0f;

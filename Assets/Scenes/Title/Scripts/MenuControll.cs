@@ -53,6 +53,7 @@ public class MenuControll : MonoBehaviour
         selectCoolTime = 0.0f;
         selectMenuPos[0] = new Vector3(877.4f, 128.9f, 0.0f);
         selectMenuPos[1] = new Vector3(877.4f, -25.2f, 0.0f);
+        grayOut = GameObject.Find("GrayOut").GetComponent<Image>();
     }
 
     public int GetUpDown()
@@ -114,7 +115,11 @@ public class MenuControll : MonoBehaviour
         // 選択しているStageによって飛ばすシーンを変える
         if (Input.GetButtonDown("Fire1"))
         {
-            buttonInputFlg = true;
+            switch (selecter)
+            {
+                case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
+                case Select.Quit: GameMgr.Instance.GotoTitleScene(); break;
+            }
         }
 
 
@@ -127,11 +132,7 @@ public class MenuControll : MonoBehaviour
             if (gray_alpha >= 1)
             {
                 gray_alpha = 1;
-                switch (selecter)
-                {
-                    case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
-                    case Select.Quit: GameMgr.Instance.GotoTitleScene(); break;
-                }
+                
             }
             
 
