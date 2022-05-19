@@ -53,9 +53,12 @@ public class PuzzlePointerMover : TrunManager
     [SerializeField] private bool puzzleOnlyMode;
 
     //ポインター移動インターバル
-    const float interval = 0.05f;
+    const float interval = 0.00f;
     float interCount = interval;
 
+    //ほぼ同じ角度だったら連続で移動しない
+    float oldAngle = 0;
+    
     private void Start()
     {
         s_PointControl = GetComponent<PointControl>();
@@ -67,6 +70,8 @@ public class PuzzlePointerMover : TrunManager
         if (!puzzleOnlyMode)
             s_TrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
     }
+
+    float diff = 0;
 
     private void Update()
     {
@@ -88,15 +93,17 @@ public class PuzzlePointerMover : TrunManager
                 }
             }
 
+            diff = Mathf.Abs(oldAngle - leftStickAngle);
+
             //魔法陣間の移動を制御する
-            if (isStickMove && interCount == 0)
+            if (isStickMove && interCount == 0 && (diff >= 10.0f))
             {
                 Mover();
 
                 //更新後の選択している魔法陣の情報を渡す
                 SetCurrentSelecterCircle();
             }
-            if (isSecondStickMove && interCount == 0)
+            else if (isSecondStickMove && interCount == 0)
             {
                 SecondMover();
 
@@ -120,7 +127,7 @@ public class PuzzlePointerMover : TrunManager
         vert = Input.GetAxis("Vertical");
         horiB = Input.GetAxis("LEFTRIGHT");
         vertB = Input.GetAxis("UPDOWN");
-        if (hori + vert<= 0.1f && hori + vert >= -0.1f) isStickMove = false;
+        if (hori + vert<= 0.4f && hori + vert >= -0.4f) isStickMove = false;
         else isStickMove = true;
         if (horiB + vertB <= 0.1f && horiB + vertB >= -0.1f) isSecondStickMove = false;
         else isSecondStickMove = true;
@@ -189,6 +196,9 @@ public class PuzzlePointerMover : TrunManager
                     //インターバルをリセット
                     interCount = interval;
 
+                    //角度の保存
+                    oldAngle = leftStickAngle;
+
                 }
             }
         }
@@ -246,6 +256,7 @@ public class PuzzlePointerMover : TrunManager
 
                     //インターバルをリセット
                     interCount = interval;
+
 
                 }
             }
