@@ -75,6 +75,7 @@ public class EnemyCamera : MonoBehaviour
 
     //デバックログ用のフラグ(敵の芯だ数カウント)
     bool dieEbenyCountCallFlag = true;
+    public bool photFlag;//撮影用
 
     Vector3 corePos;
 
@@ -314,7 +315,10 @@ public class EnemyCamera : MonoBehaviour
         //敵の行動ターンの時に
         if (tr.GetTrunPhase() == TrunManager.TrunPhase.Enemy)
         {
-            enemy_camera.depth = 0;
+            if (photFlag == false)
+            {
+                enemy_camera.depth = 0;
+            }
             targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
 
             if (initflg == true)
@@ -398,7 +402,10 @@ public class EnemyCamera : MonoBehaviour
         if (finalDieflag == false)
         {
             //HpNoneEnemy();
-            enemy_camera.depth = 0;
+            if (photFlag == false)
+            {
+                enemy_camera.depth = 0;
+            }
             timer = 0;
             HighPriorityEnemy();
             if (initflg == true)
@@ -514,7 +521,10 @@ public class EnemyCamera : MonoBehaviour
         //Vector3 tagepos;//一番近くの敵の座標を入れる
 
         timer += Time.deltaTime;
-        enemy_camera.depth = 0;
+        if (photFlag == false)
+        {
+            enemy_camera.depth = 0;
+        }
         //targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
         //HpNoneEnemy();
         if (initflg == true)
@@ -593,7 +603,10 @@ public class EnemyCamera : MonoBehaviour
 
         //Debug.Log(timer);
         timer += Time.deltaTime;
-        enemy_camera.depth = 0;
+        if (photFlag == false)
+        {
+            enemy_camera.depth = 0;
+        }
         x += 0.5f;
         transform.position = new Vector3(x, 26, -107);
         //if(x > 95)

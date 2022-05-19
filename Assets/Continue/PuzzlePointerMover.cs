@@ -5,6 +5,9 @@ using System;
 
 public class PuzzlePointerMover : TrunManager
 {
+    //カーソルの基準点がずっと中央
+    float hori;// = Input.GetAxis("Horizontal");
+    float vert;//= Input.GetAxis("Vertical");
 
     SEManager sePlay = null;  //SE
 
@@ -102,18 +105,19 @@ public class PuzzlePointerMover : TrunManager
     void CalcAngle()
     {
 
-        //カーソルの基準点がずっと中央
-        float hori = Input.GetAxis("Horizontal");
-        float vert = Input.GetAxis("Vertical");
+        hori = Input.GetAxis("Horizontal");
+        vert = Input.GetAxis("Vertical");
 
-        if (hori + vert == 0) isStickMove = false;
+        if (hori + vert<= 0.1f && hori + vert >= -0.1f) isStickMove = false;
         else isStickMove = true;
 
         //スティックの角度を求める(今の所は角度は使ってない)
-        leftStickAngle = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
-        if (leftStickAngle < 0) leftStickAngle = 360.0f + leftStickAngle;
-        if (leftStickAngle > 360) leftStickAngle = -360.0f + leftStickAngle;
-
+        if (isStickMove == true)
+        {
+            leftStickAngle = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
+            if (leftStickAngle < 0) leftStickAngle = 360.0f + leftStickAngle;
+            if (leftStickAngle > 360) leftStickAngle = -360.0f + leftStickAngle;
+        }
 
     }
 
