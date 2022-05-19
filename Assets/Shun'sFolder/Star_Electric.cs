@@ -25,6 +25,7 @@ public class Star_Electric : MonoBehaviour
     {
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>(); //SE
         StartCoroutine(Ele_Attack());
+
     }
 
     public void Set_Ini(GameObject _target, int _level)
@@ -46,7 +47,15 @@ public class Star_Electric : MonoBehaviour
             first_Target.GetComponent<EnemyBase>().Damage(4.0f);
         }
 
-        Destroy(this.gameObject, magic_Level * 0.8f);
+        //初撃用のエフェクトの場所の指定＋削除
+        GameObject _efe = Instantiate(e_Ele, transform);
+        LightningBoltScript lb = _efe.GetComponent<LightningBoltScript>();
+        Vector3 pos = new Vector3(target.transform.position.x, target.transform.position.y + 30.0f, target.transform.position.z);
+        lb.StartPosition = Correction_Pos(pos);
+        lb.EndPosition = Correction_Pos(target.transform.position);
+        Destroy(_efe, 0.6f);
+
+        Destroy(this.gameObject, magic_Level * 0.7f);
 
     }
 
@@ -54,7 +63,7 @@ public class Star_Electric : MonoBehaviour
     {
         for(int i = 0; i < magic_Level; i++)
         {
-            yield return new WaitForSeconds(i * 0.5f);
+            yield return new WaitForSeconds(i * 0.2f);
             Debug.Log(i + "回目のジャンぴ");
             Transmission_Attack(i);
 
@@ -86,9 +95,10 @@ public class Star_Electric : MonoBehaviour
         if((target = SearchEnemy()) != null)
         {
             targets.Add(target);
-            tar_ene_pos.x = target.GetComponent<EnemyBase>().X;
-            tar_ene_pos.y = target.GetComponent<EnemyBase>().Y;
-            target.GetComponent<EnemyBase>().Damage(4.0f);
+            EnemyBase eb = target.GetComponent<EnemyBase>();
+            tar_ene_pos.x = eb.X;
+            tar_ene_pos.y = eb.Y;
+            eb.Damage(4.0f);
 
             //雷の五芒星のSEを鳴らす
             sePlay.Play("ThunderMagicStar");
