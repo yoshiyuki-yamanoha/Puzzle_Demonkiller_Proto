@@ -31,7 +31,7 @@ public class BGMManager : MonoBehaviour
                 
                 audioSource.clip = audioClips[0];
                 audioSource.loop = true;
-                audioSource.volume = 0.05f;
+                audioSource.volume = 0.1f;////もともと0.05
                 audioSource.Play();
                 break;
 
@@ -39,31 +39,31 @@ public class BGMManager : MonoBehaviour
  
                 audioSource.clip = audioClips[1];
                 audioSource.loop = true;
-                audioSource.volume = 0.02f; //音量の調整 //もともと0.02
+                audioSource.volume = 0.06f; //音量の調整 //もともと0.02
                 audioSource.Play();
                 break;
             case "ENDBGM"://3　エンドBGM
                 audioSource.clip = audioClips[2];
                 audioSource.loop = true;
-                audioSource.volume = 0.03f;
+                audioSource.volume = 0.06f; //0.03
                 audioSource.Play();
                 break;
 
             case "SELECTBGM":
                 audioSource.clip = audioClips[3];
                 audioSource.loop = true;
-                audioSource.volume = 0.05f;
+                audioSource.volume = 0.05f;//0.05
                 audioSource.Play();
                 break;
             case "CLEARBGM":
                 audioSource.clip = audioClips[4];
-                audioSource.volume = 0.08f;
+                audioSource.volume = 0.16f;//0.08
                 audioSource.Play();
                 break;
             case "GAMEOVERBGM":
                 audioSource.clip = audioClips[5];
                 audioSource.loop = true;
-                audioSource.volume = 0.16f;
+                audioSource.volume = 0.2f;//0.16
                 audioSource.Play();
                 break;
             case "BOSSBGM":

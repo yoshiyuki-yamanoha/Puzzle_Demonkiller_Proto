@@ -116,7 +116,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[25], 1.3f);
                 break;
             case "TitleDecision"://27：タイトル、ゲームクリア、ゲームオーバー、決定音
-                audioSource.PlayOneShot(audioClips[26], 1.3f);
+                audioSource.PlayOneShot(audioClips[26], 5.0f);
                 break;
             case "CoreExplosion"://28：コア爆発
                 audioSource.PlayOneShot(audioClips[27], 1.3f);
