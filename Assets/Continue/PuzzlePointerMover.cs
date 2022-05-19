@@ -8,6 +8,8 @@ public class PuzzlePointerMover : TrunManager
     //カーソルの基準点がずっと中央
     float hori;// = Input.GetAxis("Horizontal");
     float vert;//= Input.GetAxis("Vertical");
+    float horiB;
+    float vertB;
 
     SEManager sePlay = null;  //SE
 
@@ -34,9 +36,11 @@ public class PuzzlePointerMover : TrunManager
 
     //スティックの角度を獲る
     [SerializeField] float leftStickAngle = 0;
+    float leftSecondStoclAngle = 0;
 
     //スティックの入力があるか
     bool isStickMove;
+    bool isSecondStickMove;
 
     //選択魔法陣
     [SerializeField] GameObject selectCircle;
@@ -92,6 +96,13 @@ public class PuzzlePointerMover : TrunManager
                 //更新後の選択している魔法陣の情報を渡す
                 SetCurrentSelecterCircle();
             }
+            if (isSecondStickMove && interCount == 0)
+            {
+                SecondMover();
+
+                //更新後の選択している魔法陣の情報を渡す
+                SetCurrentSelecterCircle();
+            }
         }
 
     }
@@ -107,16 +118,24 @@ public class PuzzlePointerMover : TrunManager
 
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-
+        horiB = Input.GetAxis("LEFTRIGHT");
+        vertB = Input.GetAxis("UPDOWN");
         if (hori + vert<= 0.1f && hori + vert >= -0.1f) isStickMove = false;
         else isStickMove = true;
-
+        if (horiB + vertB <= 0.1f && horiB + vertB >= -0.1f) isSecondStickMove = false;
+        else isSecondStickMove = true;
         //スティックの角度を求める(今の所は角度は使ってない)
         if (isStickMove == true)
         {
             leftStickAngle = Mathf.Atan2(vert, hori) * 180 / Mathf.PI;
             if (leftStickAngle < 0) leftStickAngle = 360.0f + leftStickAngle;
             if (leftStickAngle > 360) leftStickAngle = -360.0f + leftStickAngle;
+        }
+        if(isSecondStickMove == true)
+        {
+            leftSecondStoclAngle = Mathf.Atan2(vertB, horiB) * 180 / Mathf.PI;
+            if (leftSecondStoclAngle < 0) leftSecondStoclAngle = 360.0f + leftSecondStoclAngle;
+            if (leftSecondStoclAngle > 360) leftSecondStoclAngle = -360.0f + leftSecondStoclAngle;
         }
 
     }
@@ -175,6 +194,62 @@ public class PuzzlePointerMover : TrunManager
         }
 
         
+    }
+    void SecondMover()
+    {
+        // leftSecondStoclAngle >= thisAng && leftSecondStoclAngle < nextAng
+
+        int soeji = 0;
+
+        //現在選んでいる魔法陣の添え字を調べる
+        foreach (var c in circlesArrays)
+        {
+
+            if (c.circle.transform.GetChild(0).gameObject == currentSelectedCircle) break;
+
+            if (soeji < 4) soeji++;
+        }
+
+        int cycleLimit = circlesArrays[soeji].goalPorts.Length;
+
+
+        //あらかじめ登録したやつの繰り返し
+        for (int i = 0; i < cycleLimit - 1; i++)
+        {
+
+            GameObject goal = circlesArrays[soeji].goalPorts[i].goalPort;   //指定オブジェクト
+            float thisAng = circlesArrays[soeji].goalPorts[i].ang;          //角度始点
+            float nextAng = circlesArrays[soeji].goalPorts[i + 1].ang;      //角度終点
+
+            if (leftSecondStoclAngle >= thisAng && leftSecondStoclAngle < nextAng)
+            {
+                if (goal.transform.GetChild(0).gameObject == currentSelectedCircle) return;
+
+                if (goal != null)
+                {
+
+                    //選択サークルを消す
+                    currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
+
+                    //ポインター移動
+                    if (goal.transform.childCount > 0)
+                    {
+                        currentSelectedCircle = goal.transform.GetChild(0).gameObject;
+
+                        //選択サークルを出す
+                        currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+                    }
+
+                    //移動音を鳴らす
+                    //audioSource.PlayOneShot(moveSound);
+                    sePlay.Play("MagicCursorSelect");
+
+                    //インターバルをリセット
+                    interCount = interval;
+
+                }
+            }
+        }
     }
 
     //更新後の選択している魔法陣の情報を渡す関数
