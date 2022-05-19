@@ -82,6 +82,8 @@ public class MagicMassSelecter : MonoBehaviour
             {
                 if (selectType == 0) MoveSelecter();
                 if (selectType == 1) MoveSelecterEnemy();
+                if (selectType == 0) SecondMoveSelecter();
+                if (selectType == 1) SecondMoveSelecterEnemy();
             }
 
             //インターバルを減らす処理
@@ -355,7 +357,161 @@ public class MagicMassSelecter : MonoBehaviour
         }
 
     }
+    void SecondMoveSelecter()
+    {
 
+        //現在の座標を取得
+        (nowSelX, nowSelY) = s_MapMass.GetMAgicMassSelector();
+
+        float hori = Input.GetAxis("LEFTRIGHT");//スティックの入力を取っている
+        float vert = -Input.GetAxis("UPDOWN");//以下
+
+
+
+        int oldSelX = nowSelX;
+        int oldSelY = nowSelY;
+
+        //インターバルが経過しきったら
+        if (moveInterval == 0)
+        {
+            //移動
+            if (hori >= 0.5f) nowSelX++;
+            if (hori <= -0.5f) nowSelX--;
+            if (vert >= 0.5f) nowSelY++;
+            if (vert <= -0.5f) nowSelY--;
+        }
+
+        //範囲をはみ出るなら移動できない様にする。
+        if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false)
+        {
+
+            int typ, lev;
+            (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
+
+            SETime++; //SETimeを加算していって値が30になるとSEが鳴る
+
+            if (hori != 0 && lev <= 9 || vert != 0 && lev <= 9)
+            {
+                if (SETime >= 30)
+                {
+                    sePlay.Play("Select3");
+                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+                }
+            }
+            else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
+            {
+                if (SETime >= 30)
+                {
+                    sePlay.Play("Select3");
+                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+                }
+            }
+
+
+
+            nowSelX = oldSelX;
+            nowSelY = oldSelY;
+        }
+        else
+        {
+            SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
+        }
+
+        //セレクターが移動されたら
+        if (oldSelX != nowSelX || oldSelY != nowSelY)
+        {
+
+
+            //sePlay.Play("Select3");///////////////////////////////////////
+
+
+            //新選択マスのマテリアルを変える
+            s_MagicRangeDetector.ChangeMagicRange();
+
+            //変更後のマス座標を渡す
+            PassSelecterPos();
+
+            //インターバルをリセット
+            moveInterval = rit_Interval;
+        }
+
+
+    }
+    void SecondMoveSelecterEnemy()
+    {
+
+        int x = 0;
+        int y = 0;
+        if (currentSelectEnemy != null)
+        {
+            //現在選んでいる敵の座標を取得
+            x = currentSelectEnemy.X;
+            y = currentSelectEnemy.Y;
+        }
+        else
+        if (currentSelectBombEnemy != null)
+        {
+            //現在選んでいる敵の座標を取得
+            x = currentSelectBombEnemy.X;
+            y = currentSelectBombEnemy.Y;
+        }
+        else
+        if (currentSelectFlameEnemy != null)
+        {
+            //現在選んでいる敵の座標を取得
+            x = currentSelectFlameEnemy.X;
+            y = currentSelectFlameEnemy.Y;
+        }
+
+        //コントローラーのあれ
+        float hori = Input.GetAxis("LEFTRIGHT");
+        float vert = -Input.GetAxis("UPDOWN");
+
+        //
+        int oldX = x;
+        int oldY = y;
+
+        //コントローラーで敵を変える
+        //インターバルが経過しきったら
+        if (moveInterval == 0)
+        {
+            //移動
+            if (hori >= 0.5f)
+                (x, y) = GetNearEnemyX(1);
+
+            if (hori <= -0.5f)
+                (x, y) = GetNearEnemyX(-1);
+
+            if (vert >= 0.5f)
+                (x, y) = GetNearEnemyY(1);
+
+            if (vert <= -0.5f)
+                (x, y) = GetNearEnemyY(-1);
+        }
+
+        //セレクターが移動されたら
+        if (oldX != x || oldY != y)
+        {
+
+
+            //座標の反映
+            nowSelX = x;
+            nowSelY = y;
+
+            //新選択マスのマテリアルを変える
+            s_MagicRangeDetector.ChangeMagicRange();
+
+            //
+            sePlay.Play("MagicCursorSelect");
+
+            //変更後のマス座標を渡す
+            PassSelecterPos();
+
+            //インターバルをリセット
+            moveInterval = rit_Interval;
+        }
+
+    }
     //x軸方向で一番近い敵を探して座標を返す (vecNum:1 右側 vecNum:-1 左側)
     (int, int) GetNearEnemyX(int vecNum) {
 
@@ -483,6 +639,7 @@ public class MagicMassSelecter : MonoBehaviour
 
         return (nearX, nearY);
     }
+
 
     //y軸方向で一番近い敵を探して座標を返す (vecNum:1 奥側 vecNum:-1 手前側)
     (int, int) GetNearEnemyY(int vecNum) {
