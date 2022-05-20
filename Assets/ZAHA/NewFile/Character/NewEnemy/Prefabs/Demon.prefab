@@ -1285,7 +1285,7 @@ MonoBehaviour:
   mynumber: 0
   map: {fileID: 0}
   max_hp: 5
-  attack: 3
+  attack: 4
   speed: 4
   deathflg: 0
   generation_enemy: {fileID: 0}

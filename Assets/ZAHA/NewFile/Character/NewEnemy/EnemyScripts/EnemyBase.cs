@@ -678,12 +678,25 @@ public class EnemyBase : MonoBehaviour
             if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
             {//バリケード
                 LookTarget(attack_pos_dir);//向き移動
-                map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
+                if (enemy_kinds != EnemyKinds.Flame) {//フレームじゃなければ
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
+                }
+                else
+                {
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(10);//バリケードにダメージよーん
+                }
             }
             else if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.core)
             {
                 LookTarget(attack_pos_dir);//向き移動
-                map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(Attack);//コアにダメージよーん
+                if (enemy_kinds != EnemyKinds.Flame)
+                {
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(Attack);//コアにダメージよーん
+                }
+                else
+                {
+                    map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageCoreState>().ReceiveDamage(5);//コアにダメージよーん
+                }
             }
         }
 

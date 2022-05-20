@@ -30022,7 +30022,7 @@ MonoBehaviour:
   mynumber: 0
   map: {fileID: 0}
   max_hp: 4
-  attack: 5
+  attack: 10
   speed: 5
   deathflg: 0
   generation_enemy: {fileID: 0}
