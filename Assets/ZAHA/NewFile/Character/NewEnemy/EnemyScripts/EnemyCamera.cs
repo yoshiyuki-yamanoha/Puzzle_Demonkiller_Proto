@@ -74,7 +74,7 @@ public class EnemyCamera : MonoBehaviour
     float alpha;
 
     //デバックログ用のフラグ(敵の芯だ数カウント)
-    bool dieEbenyCountCallFlag = true;
+    bool dieEbenyCountCallFlag = false;
     public bool photFlag;//撮影用
 
     Vector3 corePos;
@@ -472,6 +472,10 @@ public class EnemyCamera : MonoBehaviour
                 if (floDistance > floDistanceline)
                 {
                     transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                }
+                else{
+
+                    transform.position = Vector3.Lerp(camera_tage_pos, defaultCamerapos, cameraMove.CalcMoveRatio());
                 }
                 if (camera_targe != null)
                 {
