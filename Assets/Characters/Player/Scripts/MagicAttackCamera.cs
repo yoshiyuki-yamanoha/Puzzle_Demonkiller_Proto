@@ -28,6 +28,9 @@ public class MagicAttackCamera : TrunManager
 
     TrunManager trunMgr;
 
+    float cameraX, cameraY, cameraZ;//カメラの座標いじるよう
+    bool shakeCameraInit = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,12 +54,20 @@ public class MagicAttackCamera : TrunManager
     {
         if (trunMgr.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
         {
+
+            subCamera.SetActive(true);
             (soeX, soeY) = selector.GetMAgicMassSelector();
             selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
             start = subCamera.transform.position;
             target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 50/*25*/, selepos.transform.position.z - 57/*27*/);
             MagicCameraOn();
             MagicCameraMove();
+            ShakeCamera();
+        }
+        else
+        {
+
+            subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
         }
 
 
@@ -78,7 +89,6 @@ public class MagicAttackCamera : TrunManager
             //    mainCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
             //}
             //mainCamera.SetActive(false);
-            subCamera.SetActive(true);
             //MSCameraflag = true;
         }
         else if (/*(Input.GetButtonDown("Fire3") && MSCameraflag == true)||*/ trunMgr.GetTrunPhase() == TrunPhase.Enemy)
@@ -88,7 +98,7 @@ public class MagicAttackCamera : TrunManager
                 MSCameraflag = false;
             }
             //mainCamera.SetActive(true);
-            subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
+            //subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
 
             //speed = defSpeed;//魔法を撃つ時のカメラを止めるときにspeedをリセットする
             //MSCameraflag = false;
@@ -116,14 +126,14 @@ public class MagicAttackCamera : TrunManager
     }
     public float CalcMoveRatio()
     {
-        if(moveflag == true)
+        if (moveflag == true)
         {
             startTime = Time.time;
-            if(trunMgr.GetTrunPhase() == TrunPhase.Enemy)
+            if (trunMgr.GetTrunPhase() == TrunPhase.Enemy)
             {
                 speed = maAtakSelectSpeed + 1;
             }
-            else if(trunMgr.GetTrunPhase() == TrunPhase.MagicAttack)
+            else if (trunMgr.GetTrunPhase() == TrunPhase.MagicAttack)
             {
                 speed = maAtakSelectSpeed;//計算用のスピードに魔法を撃つときのカーソルを追いかけるスピードを入れる
             }
@@ -132,5 +142,48 @@ public class MagicAttackCamera : TrunManager
         float distCovered = 0;
         distCovered = (Time.time - startTime) * speed;
         return distCovered / JourneyLength;
+    }
+
+    Vector3 shakeCameraPos;//カメラを揺らす
+    bool shakePlasflag = false;
+    public void ShakeCamera()
+    {
+        if (shakeCameraInit == true)
+        {
+            cameraX = subCamera.transform.position.x;
+            cameraY = subCamera.transform.position.y;
+            cameraZ = subCamera.transform.position.z;
+            shakeCameraPos = new Vector3(cameraX, cameraY, cameraZ);
+            shakeCameraInit = false;
+        }
+
+        if (shakePlasflag == false)
+        {
+            if (cameraX <= (shakeCameraPos.x - 10))
+            {
+                subCamera.transform.position -= new Vector3(-3, 0, 0);
+            }
+            else
+            {
+                shakePlasflag = true;
+            }
+        }
+        else if (shakePlasflag == true)
+        { 
+
+            if (cameraX >= (shakeCameraPos.x + 10))
+            {
+                subCamera.transform.position += new Vector3(3, 0, 0);
+            }
+            else
+            {
+                shakePlasflag = false;
+            }
+        }
+
+
+
+
+
     }
 }
