@@ -243,14 +243,14 @@ public class MagicMassSelecter : MonoBehaviour
                     sePlay.Play("Select3");
                     SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
                 }
-            }else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
-            {
-                if (SETime >= 30)
-                {
-                    sePlay.Play("Select3");
-                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
-                }
-            }
+            }//else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
+            //{
+            //    if (SETime >= 30)
+            //    {
+            //        sePlay.Play("Select3");
+            //        SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+            //    }
+            //}
 
 
 
