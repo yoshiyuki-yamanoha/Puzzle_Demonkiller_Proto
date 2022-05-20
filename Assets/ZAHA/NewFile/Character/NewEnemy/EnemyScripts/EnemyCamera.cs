@@ -28,7 +28,7 @@ public class EnemyCamera : MonoBehaviour
     Vector3 vecDistanceline;//どれだけ距離を取るか
     //
     float floDistance;//
-    float floDistanceline = 46;//
+    float floDistanceline = 20;//
     float slowlyDisStart = 25;
     float slowltDisEnd = 17;
     bool initflg = true;
@@ -49,6 +49,10 @@ public class EnemyCamera : MonoBehaviour
 
     public bool startFlag = true;
     float x = 0, y = 0, z = 0;
+
+
+    bool enemyCloserCamera = true;
+
 
     FadeOut fadeout;
 
@@ -146,6 +150,8 @@ public class EnemyCamera : MonoBehaviour
         }
         else
         {
+
+            //enemy_camera.depth = -2;
             transform.position = defaultCamerapos;
             startFlag = false;
 
@@ -414,6 +420,7 @@ public class EnemyCamera : MonoBehaviour
                 coreCloseEnemy = null;
                 timer = 0;
                 coreCloseEnemy = CloseEnemycamera();
+                enemyCloserCamera = true;
                 initflg = false;
             }
             else
@@ -467,16 +474,39 @@ public class EnemyCamera : MonoBehaviour
                 {
                     coreCloseEnemy = null;
                     coreCloseEnemy = CloseEnemycamera();
+                    enemyCloserCamera = true;
                 }
 
-                if (floDistance > floDistanceline)
+                if ((floDistance >= floDistanceline) && enemyCloserCamera == true)
                 {
                     transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                    Debug.Log("敵に近づく");
+                    if ((floDistance < floDistanceline))
+                    {
+                        enemyCloserCamera = false;
+                    }
                 }
-                else{
+                if(floDistance < floDistanceline - 10)
+                {
+                    enemyCloserCamera = false;
+                    transform.position = defaultCamerapos;
 
-                    transform.position = Vector3.Lerp(camera_tage_pos, defaultCamerapos, cameraMove.CalcMoveRatio());
+                    Debug.Log("敵から離れる");
+                    if (floDistance >= floDistanceline-5)
+                    {
+                        enemyCloserCamera = true;
+                    }
                 }
+
+                //else
+                //{
+                //    transform.position = Vector3.Lerp(transform.position, defaultCamerapos, cameraMove.CalcMoveRatio());
+                //    if ((floDistance > floDistanceline) && enemyCloserCamera == false)
+                //    {
+
+                //        enemyCloserCamera = true;
+                //    }
+                //}
                 if (camera_targe != null)
                 {
                     transform.LookAt(camera_targe.transform.position);

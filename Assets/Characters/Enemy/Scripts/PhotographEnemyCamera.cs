@@ -22,7 +22,7 @@ public class PhotographEnemyCamera : MonoBehaviour
 
     float speed = 50;
 
-    bool cForward = false;
+    bool cTarget = false;
 
     private bool Rflag = false;
     private bool Lflag = false;
@@ -37,24 +37,31 @@ public class PhotographEnemyCamera : MonoBehaviour
     private void FixedUpdate()
     {
         tDistance = Vector3.Distance(transform.position, TargetObject.transform.position);
-        transform.LookAt(TargetObject.transform.position);
+        MoveSetting();
         Move();
         Rotation();
     }
+    void MoveSetting()
+    {
+        if (cTarget == true)
+        {
+            transform.LookAt(TargetObject.transform.position);
+        }
+    }
     void Move()
     {
-        //float hori = Input.GetAxis("Horizontal");//スティックの入力を取っている
-        //float vert = Input.GetAxis("Vertical");//以下
+        float hori = Input.GetAxis("Horizontal");//スティックの入力を取っている
+        float vert = Input.GetAxis("Vertical");//以下
 
 
         ////移動
-        //if (tDistance >= 1)
-        //{
-        //    if (vert >= 0.5f) transform.position += transform.forward * speed * Time.deltaTime;//↑
-        //}
-        //if (vert <= -0.5f) transform.position -= transform.forward * speed * Time.deltaTime;//↓
-        //if (hori >= 0.5f) transform.position += transform.right * speed * Time.deltaTime;//→
-        //if (hori <= -0.5f) transform.position -= transform.right * speed * Time.deltaTime;//←
+        if (tDistance >= 1)
+        {
+            if (vert >= 0.5f) transform.position += transform.forward * speed * Time.deltaTime;//↑
+        }
+        if (vert <= -0.5f) transform.position -= transform.forward * speed * Time.deltaTime;//↓
+        if (hori >= 0.5f) transform.position += transform.right * speed * Time.deltaTime;//→
+        if (hori <= -0.5f) transform.position -= transform.right * speed * Time.deltaTime;//←
 
         float horiR = Input.GetAxis("Horizontal2");
         float vertR = Input.GetAxis("Vertical2");
@@ -63,15 +70,17 @@ public class PhotographEnemyCamera : MonoBehaviour
         //Debug.Log(transform.forward + " FORWARD");
         //Debug.Log(transform.right + " RIGHT");
 
-        if (cForward == true)
-        {
-            if (tDistance >= 1)
-            {
-                if (vertR >= 0.5f) transform.position += transform.forward * speed * Time.deltaTime;//↑
-            }
-            if (vertR <= -0.5f) transform.position -= transform.forward * speed * Time.deltaTime;//↓
-        }
-        else
+        //if (cForward == true)
+        //{
+        //    if (tDistance >= 1)
+        //    {
+        //        if (vertR >= 0.5f) transform.position += transform.forward * speed * Time.deltaTime;//↑
+        //    }
+        //    if (vertR <= -0.5f) transform.position -= transform.forward * speed * Time.deltaTime;//↓
+        //}
+        //else
+        //{
+        if (cTarget == true)
         {
             if (transform.up.z < 0.9f && transform.up.y > 0.4f)
             {
@@ -81,26 +90,35 @@ public class PhotographEnemyCamera : MonoBehaviour
             {
                 if (vertR <= -0.5f) transform.position -= transform.up * speed * Time.deltaTime;//↓
             }
-
         }
-        if (horiR >= 0.5f) transform.position += transform.right * speed * Time.deltaTime;//→
-        if (horiR <= -0.5f) transform.position -= transform.right * speed * Time.deltaTime;//←
+        else
+        {
+            if (vertR >= 0.5f) transform.Rotate(new Vector3(5, 0, 0));
+            if (vertR <= -0.5f) transform.Rotate(new Vector3(-5, 0, 0));
+
+            if (horiR >= 0.5f) transform.Rotate(new Vector3(0, -5, 0));
+            if (horiR <= -0.5f) transform.Rotate(new Vector3(0, 5, 0));
+        }
+
+        //}
+        //if (horiR >= 0.5f) transform.position += transform.right * speed * Time.deltaTime;//→
+        //if (horiR <= -0.5f) transform.position -= transform.right * speed * Time.deltaTime;//←
     }
     void Rotation()
     {
         //if (TargetObject == null) return;
         if ((Input.GetButtonDown("Cont_L1")/* && Lflag == false) || Lflag == true*/))
         {
-            cForward = false;
+            cTarget = false;
             //Lflag = true;
-            //if (speed < 100)
-            //{
-            //    speed += 1f;
-            //}
-            //else
-            //{
-            //    speed = 100;
-            //}
+            if (speed < 100)
+            {
+                speed += 1f;
+            }
+            else
+            {
+                speed = 100;
+            }
             //// 指定オブジェクトを中心に回転する時計回り
             //this.transform.RotateAround(
             //    TargetObject.transform.position,
@@ -117,16 +135,16 @@ public class PhotographEnemyCamera : MonoBehaviour
         }
         if ((Input.GetButtonDown("Cont_R1")/* && Rflag == false) || Rflag == true*/))
         {
-            cForward = true;
+            cTarget = true;
             //Rflag = true;
-            //if (speed > 5)
-            //{
-            //    speed -= 1f;
-            //}
-            //else
-            //{
-            //    speed = 5;
-            //}
+            if (speed > 5)
+            {
+                speed -= 1f;
+            }
+            else
+            {
+                speed = 5;
+            }
             //// 指定オブジェクトを中心に回転する反時計回り
             //this.transform.RotateAround(
             //    TargetObject.transform.position,
