@@ -485,9 +485,16 @@ public class EnemyCamera : MonoBehaviour
                     //数値が変わらないと結果が変わらないため求めた座標が変わらずカメラが高速移動する
                     //transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
                     //transform.localPosition += new Vector3(0,0,1f);
-
-                    transform.localPosition += transform.forward * speed;//自分の前方に移動
-                    transform.position = new Vector3(transform.position.x, defaultCamerapos.y, transform.position.z);//高さを一定に保つために高さを固定している
+                    if (closeFireEnemy == true)
+                    {
+                        transform.localPosition += transform.forward * speed;//自分の前方に移動
+                        transform.position = new Vector3(transform.position.x, defaultCamerapos.y, transform.position.z);//高さを一定に保つために高さを固定している
+                    }
+                    else
+                    {
+                        transform.localPosition += transform.forward * (speed * 10);//自分の前方に移動
+                        transform.position = new Vector3(transform.position.x, defaultCamerapos.y, transform.position.z);//高さを一定に保つために高さを固定している
+                    }
                     Debug.Log("敵に近づく");
                     if (floDistance <= floDistanceline+2)
                     {
