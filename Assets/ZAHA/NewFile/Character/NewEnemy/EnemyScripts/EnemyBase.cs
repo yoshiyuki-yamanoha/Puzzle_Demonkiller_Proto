@@ -27,6 +27,9 @@ public class EnemyBase : MonoBehaviour
 
     SEManager sePlay = null;  //SE
     FootSE footSEPlay;
+    [SerializeField]GameObject EnemyDeadBox;
+    EnemySEBox SEdead;
+
 
     //攻撃エリア
     bool init_goal = true;
@@ -261,6 +264,12 @@ public class EnemyBase : MonoBehaviour
         {
             hp = 0;
             speed = 0;
+
+
+            GameObject EmpEnemy=Instantiate(EnemyDeadBox);
+            EmpEnemy.GetComponent<EnemySEBox>().SetEnemyTyp((int)enemy_kinds);
+            
+            //SEdead.SetEnemyTyp((int)enemy_kinds);
 
             //if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
             //{

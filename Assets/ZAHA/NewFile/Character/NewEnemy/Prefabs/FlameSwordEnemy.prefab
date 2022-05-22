@@ -683,7 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroy_effect: {fileID: 4850539349599040, guid: aa8d6482d70a23445b4b2a928ed1b845,
+  destroy_effect: {fileID: 4850539349599040, guid: 1265e2337d72070429d4209555aaf046,
     type: 3}
   hit_effect: {fileID: 286962273539758307}
   trail_renderer: {fileID: 8368747002500506907}
@@ -1276,6 +1276,8 @@ MonoBehaviour:
   - {fileID: 3916020320939319588}
   - {fileID: 3916020320939319590}
   fire_image: {fileID: 2490821249386296094}
+  EnemyDeadBox: {fileID: 1704355006002073169, guid: ab2ef76d0e41aab44a0cc8d0f7fc58b2,
+    type: 3}
   mynumber: 0
   map: {fileID: 0}
   max_hp: 20

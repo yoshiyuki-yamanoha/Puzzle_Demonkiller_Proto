@@ -30019,6 +30019,8 @@ MonoBehaviour:
   - {fileID: 354636630037437794}
   - {fileID: 354636630037437792}
   fire_image: {fileID: 5389697293556779439}
+  EnemyDeadBox: {fileID: 1704355006002073169, guid: ab2ef76d0e41aab44a0cc8d0f7fc58b2,
+    type: 3}
   mynumber: 0
   map: {fileID: 0}
   max_hp: 4
@@ -30077,6 +30079,7 @@ MonoBehaviour:
   destroy_effect: {fileID: 4850539349599040, guid: aa8d6482d70a23445b4b2a928ed1b845,
     type: 3}
   hit_effect: {fileID: 0}
+  trail_renderer: {fileID: 0}
 --- !u!1 &1846604720013428
 GameObject:
   m_ObjectHideFlags: 0
@@ -35580,6 +35583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroy_effect: {fileID: 0}
   hit_effect: {fileID: 0}
+  trail_renderer: {fileID: 0}
 --- !u!1 &1621900566287156064
 GameObject:
   m_ObjectHideFlags: 0
