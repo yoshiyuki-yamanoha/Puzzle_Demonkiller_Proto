@@ -11,7 +11,7 @@ public class AnimEvent : MonoBehaviour
 
     [SerializeField] Transform destroy_effect = null;
     [SerializeField] ParticleSystem hit_effect = null;
-
+    [SerializeField] TrailRenderer trail_renderer = null;
 
     bool is_anim_attack = false;
     private void Start()
@@ -54,6 +54,17 @@ public class AnimEvent : MonoBehaviour
         hit_effect.Play();
     }
 
+    public void EmittingOn()
+    {
+        trail_renderer.gameObject.SetActive(true);
+        trail_renderer.emitting = true;
+    }
+
+    public void EmittingOff()
+    {
+        trail_renderer.gameObject.SetActive(false);
+        trail_renderer.emitting = false;
+    }
 
     public void DestroyEffect()
     {
