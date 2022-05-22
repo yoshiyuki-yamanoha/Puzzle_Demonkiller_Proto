@@ -15,6 +15,8 @@ public class MagicMassSelecter : MonoBehaviour
     [SerializeField] SelectUseOrb s_SelectUseOrb;
     [SerializeField] OrbGage s_OrbGage;
 
+    MagicAttackCamera mACame;
+
     //移動用
     int nowSelX = 9;
     int nowSelY = 10;
@@ -38,6 +40,7 @@ public class MagicMassSelecter : MonoBehaviour
     FlameSwordMove currentSelectFlameEnemy = null;
     BombEnemy currentSelectBombEnemy = null;
     GameObject currentSelectEnemyObj = null;
+    EnemyBase currentSelectEnemyBase = null;
 
     //複数選択用
     int selectsNum = 0;
@@ -64,6 +67,7 @@ public class MagicMassSelecter : MonoBehaviour
         Magichoming mh = GetComponent<Magichoming>();
         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//SE用
         s_OrbGage = GameObject.Find("GameObject").GetComponent<OrbGage>();
+        mACame = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
     }
 
     private void Update()
@@ -140,25 +144,14 @@ public class MagicMassSelecter : MonoBehaviour
                 //    int xBuf = e.GetComponent<Enemy>().X;
                 //    int yBuf = e.GetComponent<Enemy>().Y;
 
-                int xBuf = 0, yBuf = 0, difX = 0, difY = 0;
-                if (e.GetComponent<Enemy>() != null)
+                int xBuf = 0, yBuf = 0, difX = 0, difY = 0; 
+                if (e.GetComponent<EnemyBase>() != null)
                 {
-                    yBuf = e.GetComponent<Enemy>().Y;
-                    xBuf = e.GetComponent<Enemy>().X;
+                    yBuf = e.GetComponent<EnemyBase>().Y;
+                    xBuf = e.GetComponent<EnemyBase>().X;
 
                 }
-                if (e.GetComponent<BombEnemy>() != null)
-                {
-                    yBuf = e.GetComponent<BombEnemy>().Y;
-                    xBuf = e.GetComponent<BombEnemy>().X;
 
-                }
-                if (e.GetComponent<FlameSwordMove>() != null)
-                {
-                    yBuf = e.GetComponent<FlameSwordMove>().Y;
-                    xBuf = e.GetComponent<FlameSwordMove>().X;
-
-                }
                 //今いる位置からの差分を求める
                 //int difX = Mathf.Abs(xBuf - nowSelX);
                 //int difY = Mathf.Abs(yBuf - nowSelY);
@@ -176,16 +169,11 @@ public class MagicMassSelecter : MonoBehaviour
 
                     nearX = xBuf;
                     nearY = yBuf;
-                    if (e.GetComponent<Enemy>() != null)
+                    if (e.GetComponent<EnemyBase>() != null)
                     {
-                        currentSelectEnemy = e.GetComponent<Enemy>();
-                    }else if(e.GetComponent<BombEnemy>() != null)
-                    {
-                        currentSelectBombEnemy = e.GetComponent<BombEnemy>();
-                    }else if(e.GetComponent<FlameSwordMove>() != null)
-                    {
-                        currentSelectFlameEnemy = e.GetComponent<FlameSwordMove>();
+                        currentSelectEnemyBase = e.GetComponent<EnemyBase>();
                     }
+
                 }
             }
 
@@ -287,25 +275,11 @@ public class MagicMassSelecter : MonoBehaviour
 
         int x = 0;
         int y = 0;
-        if (currentSelectEnemy != null)
+        if (currentSelectEnemyBase != null)
         {
             //現在選んでいる敵の座標を取得
-            x = currentSelectEnemy.X;
-            y = currentSelectEnemy.Y;
-        }
-        else
-        if (currentSelectBombEnemy != null)
-        {
-            //現在選んでいる敵の座標を取得
-            x = currentSelectBombEnemy.X;
-            y = currentSelectBombEnemy.Y;
-        }
-        else
-        if (currentSelectFlameEnemy != null)
-        {
-            //現在選んでいる敵の座標を取得
-            x = currentSelectFlameEnemy.X;
-            y = currentSelectFlameEnemy.Y;
+            x = currentSelectEnemyBase.X;
+            y = currentSelectEnemyBase.Y;
         }
 
         //コントローラーのあれ
@@ -381,41 +355,41 @@ public class MagicMassSelecter : MonoBehaviour
             if (vert <= -0.5f) nowSelY--;
         }
 
-        ////範囲をはみ出るなら移動できない様にする。
-        //if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false)
-        //{
+        //範囲をはみ出るなら移動できない様にする。
+        if (s_MagicRangeDetector.MagicRangeOverhangStageMap(nowSelX, nowSelY) == false)
+        {
 
-        //    int typ, lev;
-        //    (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
+            int typ, lev;
+            (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
 
-        //    SETime++; //SETimeを加算していって値が30になるとSEが鳴る
+            SETime++; //SETimeを加算していって値が30になるとSEが鳴る
 
-        //    if (hori != 0 && lev <= 9 || vert != 0 && lev <= 9)
-        //    {
-        //        if (SETime >= 30)
-        //        {
-        //            sePlay.Play("Select3");
-        //            SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
-        //        }
-        //    }
-        //    else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
-        //    {
-        //        if (SETime >= 30)
-        //        {
-        //            sePlay.Play("Select3");
-        //            SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
-        //        }
-        //    }
+            if (hori != 0 && lev <= 9 || vert != 0 && lev <= 9)
+            {
+                if (SETime >= 30)
+                {
+                    sePlay.Play("Select3");
+                    SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+                }
+            }
+            //    else if (hori != 0 && lev >= 10 || vert != 0 && lev >= 10)
+            //    {
+            //        if (SETime >= 30)
+            //        {
+            //            sePlay.Play("Select3");
+            //            SETime = 0;//長押ししていた場合等間隔になるように値を0に戻して繰り返す
+            //        }
+            //    }
 
 
 
-        //    nowSelX = oldSelX;
-        //    nowSelY = oldSelY;
-        //}
-        //else
-        //{
-        //    SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
-        //}
+            nowSelX = oldSelX;
+            nowSelY = oldSelY;
+        }
+        else
+        {
+            SETime = 30;//キーを離したとき、他のキーの操作をしたときに、値を初期値に戻して次の範囲外の音が鳴るようにする
+        }
 
         //セレクターが移動されたら
         if (oldSelX != nowSelX || oldSelY != nowSelY)
@@ -442,25 +416,11 @@ public class MagicMassSelecter : MonoBehaviour
 
         int x = 0;
         int y = 0;
-        if (currentSelectEnemy != null)
+        if (currentSelectEnemyBase != null)
         {
             //現在選んでいる敵の座標を取得
-            x = currentSelectEnemy.X;
-            y = currentSelectEnemy.Y;
-        }
-        else
-        if (currentSelectBombEnemy != null)
-        {
-            //現在選んでいる敵の座標を取得
-            x = currentSelectBombEnemy.X;
-            y = currentSelectBombEnemy.Y;
-        }
-        else
-        if (currentSelectFlameEnemy != null)
-        {
-            //現在選んでいる敵の座標を取得
-            x = currentSelectFlameEnemy.X;
-            y = currentSelectFlameEnemy.Y;
+            x = currentSelectEnemyBase.X;
+            y = currentSelectEnemyBase.Y;
         }
 
         //コントローラーのあれ
@@ -523,15 +483,11 @@ public class MagicMassSelecter : MonoBehaviour
 
         int xLine = nowSelX + vecNum;
 
-        //var oldSelectedEnemy = currentSelectEnemy;
-        Enemy oldSelectedEnemy = currentSelectEnemy;
-        currentSelectEnemy = null;
-        BombEnemy oldSelectedBombEnemy = currentSelectBombEnemy;
-        currentSelectBombEnemy = null;
-        FlameSwordMove oldSelectFlameEnemy = currentSelectFlameEnemy;
-        currentSelectFlameEnemy = null;
 
-        while (currentSelectEnemy == null && currentSelectBombEnemy == null && currentSelectFlameEnemy == null) {
+        EnemyBase oldSelectedEnemyBase = currentSelectEnemyBase;
+        currentSelectEnemyBase = null;
+
+        while(currentSelectEnemyBase == null){//////while (currentSelectEnemy == null && currentSelectBombEnemy == null && currentSelectFlameEnemy == null) {//Base以外で求めていた
 
             int oldDifY = 99;
 
@@ -548,46 +504,21 @@ public class MagicMassSelecter : MonoBehaviour
                 int xBuf = 0;
                 int yBuf = 0;
 
-                Enemy s_Enemy = null;
-                BombEnemy s_bombEnemy = null;
-                FlameSwordMove s_flameEnemy = null;
+                //Enemy s_Enemy = null;
+                EnemyBase s_EnemyBase = null;
 
                 int xCost;
                 int yCost;
                 int eneCost = 0;
-
-                if (e.GetComponent<Enemy>() != null)
+                if (e.GetComponent<EnemyBase>() != null)
                 {
-                    xBuf = e.GetComponent<Enemy>().X;
-                    yBuf = e.GetComponent<Enemy>().Y;
+                    xBuf = e.GetComponent<EnemyBase>().X;
+                    yBuf = e.GetComponent<EnemyBase>().Y;
 
-                    s_Enemy = e.GetComponent<Enemy>();
+                    s_EnemyBase = e.GetComponent<EnemyBase>();
 
-                    xCost = Mathf.Abs(osepX - s_Enemy.X);
-                    yCost = Mathf.Abs(osepY - s_Enemy.Y);
-                    eneCost = xCost + yCost;
-                }
-                else
-                if (e.GetComponent<BombEnemy>() != null)
-                {
-                    xBuf = e.GetComponent<BombEnemy>().X;
-                    yBuf = e.GetComponent<BombEnemy>().Y;
-
-                    s_bombEnemy = e.GetComponent<BombEnemy>();
-                    xCost = Mathf.Abs(osepX - s_bombEnemy.X);
-                    yCost = Mathf.Abs(osepY - s_bombEnemy.Y);
-                    eneCost = xCost + yCost;
-                }
-                else
-                if (e.GetComponent<FlameSwordMove>() != null)
-                {
-                    xBuf = e.GetComponent<FlameSwordMove>().X;
-                    yBuf = e.GetComponent<FlameSwordMove>().Y;
-
-                    s_flameEnemy = e.GetComponent<FlameSwordMove>();
-
-                    xCost = Mathf.Abs(osepX - s_flameEnemy.X);
-                    yCost = Mathf.Abs(osepY - s_flameEnemy.Y);
+                    xCost = Mathf.Abs(osepX - s_EnemyBase.X);
+                    yCost = Mathf.Abs(osepY - s_EnemyBase.Y);
                     eneCost = xCost + yCost;
                 }
 
@@ -608,17 +539,11 @@ public class MagicMassSelecter : MonoBehaviour
                     if (selectsNum > 0 && eneCost != bottomCost) continue;
                     nearX = xBuf;
                     nearY = yBuf;
-                    oldDifY = difY;
-                    //currentSelectEnemy = e.GetComponent<Enemy>();
+                    oldDifY = difY;//
+                                   //currentSelectEnemy = e.GetComponent<Enemy>();
                     if (e.GetComponent<Enemy>() != null)
                     {
-                        currentSelectEnemy = e.GetComponent<Enemy>();
-                    }else if(e.GetComponent<BombEnemy>() != null)
-                    {
-                        currentSelectBombEnemy = e.GetComponent<BombEnemy>();
-                    }else if(e.GetComponent<FlameSwordMove>() != null)
-                    {
-                        currentSelectFlameEnemy = e.GetComponent<FlameSwordMove>();
+                        currentSelectEnemyBase = e.GetComponent<EnemyBase>();
                     }
                     currentSelectEnemyObj = e;
                 }
@@ -630,9 +555,10 @@ public class MagicMassSelecter : MonoBehaviour
             //ステージ範囲外に出たら戻る
             if (xLine < -1 || xLine > stageWidth)
             {
-                currentSelectEnemy = oldSelectedEnemy;
-                currentSelectBombEnemy = oldSelectedBombEnemy;
-                currentSelectFlameEnemy = oldSelectFlameEnemy;
+                //currentSelectEnemy = oldSelectedEnemy;
+                //currentSelectBombEnemy = oldSelectedBombEnemy;
+                //currentSelectFlameEnemy = oldSelectFlameEnemy;
+                currentSelectEnemyBase = oldSelectedEnemyBase;
                 return (nowSelX, nowSelY);
             }
         }
@@ -652,10 +578,13 @@ public class MagicMassSelecter : MonoBehaviour
 
         int yLine = nowSelY + vecNum;
 
-        var oldSelectedEnemy = currentSelectEnemy;
-        currentSelectEnemy = null;
+        //var oldSelectedEnemy = currentSelectEnemy;
+        //currentSelectEnemy = null;
 
-        while (currentSelectEnemy == null)
+        var oldSelectedEnemyBase = currentSelectEnemyBase;
+        currentSelectEnemyBase = null;
+
+        while(currentSelectEnemyBase == null)//EnemyBaseスクリプトを持った者がいるかどうか////while (currentSelectEnemy == null)//Enemyスクリプトを持った者がいるかどうか
         {
 
             int oldDifX = 99;
@@ -671,46 +600,20 @@ public class MagicMassSelecter : MonoBehaviour
                 int xBuf = 0;
                 int yBuf = 0;
 
-                Enemy s_Enemy = null;
-                BombEnemy s_bombEnemy = null;
-                FlameSwordMove s_flameEnemy = null;
+                EnemyBase s_EnemyBase = null;
 
                 int xCost;
                 int yCost;
                 int eneCost = 0;
-
-                if (e.GetComponent<Enemy>() != null)
+                if (e.GetComponent<EnemyBase>() != null)
                 {
-                    xBuf = e.GetComponent<Enemy>().X;
-                    yBuf = e.GetComponent<Enemy>().Y;
+                    xBuf = e.GetComponent<EnemyBase>().X;
+                    yBuf = e.GetComponent<EnemyBase>().Y;
 
-                    s_Enemy = e.GetComponent<Enemy>();
+                    s_EnemyBase = e.GetComponent<EnemyBase>();
 
-                    xCost = Mathf.Abs(osepX - s_Enemy.X);
-                    yCost = Mathf.Abs(osepY - s_Enemy.Y);
-                    eneCost = xCost + yCost;
-                }
-                else
-                if (e.GetComponent<BombEnemy>() != null)
-                {
-                    xBuf = e.GetComponent<BombEnemy>().X;
-                    yBuf = e.GetComponent<BombEnemy>().Y;
-
-                    s_bombEnemy = e.GetComponent<BombEnemy>();
-                    xCost = Mathf.Abs(osepX - s_bombEnemy.X);
-                    yCost = Mathf.Abs(osepY - s_bombEnemy.Y);
-                    eneCost = xCost + yCost;
-                }
-                else
-                if (e.GetComponent<FlameSwordMove>() != null)
-                {
-                    xBuf = e.GetComponent<FlameSwordMove>().X;
-                    yBuf = e.GetComponent<FlameSwordMove>().Y;
-
-                    s_flameEnemy = e.GetComponent<FlameSwordMove>();
-
-                    xCost = Mathf.Abs(osepX - s_flameEnemy.X);
-                    yCost = Mathf.Abs(osepY - s_flameEnemy.Y);
+                    xCost = Mathf.Abs(osepX - s_EnemyBase.X);
+                    yCost = Mathf.Abs(osepY - s_EnemyBase.Y);
                     eneCost = xCost + yCost;
                 }
                 //int xBuf = e.GetComponent<Enemy>().X;
@@ -732,17 +635,9 @@ public class MagicMassSelecter : MonoBehaviour
                     nearY = yBuf;
                     oldDifX = difX;
                     //currentSelectEnemy = e.GetComponent<Enemy>();
-                    if (e.GetComponent<Enemy>() != null)
+                    if (e.GetComponent<EnemyBase>() != null)
                     {
-                        currentSelectEnemy = e.GetComponent<Enemy>();
-                    }
-                    else if (e.GetComponent<BombEnemy>() != null)
-                    {
-                        currentSelectBombEnemy = e.GetComponent<BombEnemy>();
-                    }
-                    else if (e.GetComponent<FlameSwordMove>() != null)
-                    {
-                        currentSelectFlameEnemy = e.GetComponent<FlameSwordMove>();
+                        currentSelectEnemyBase = e.GetComponent<EnemyBase>();
                     }
                     currentSelectEnemyObj = e;
                 }
@@ -754,7 +649,8 @@ public class MagicMassSelecter : MonoBehaviour
             //ステージ範囲外に出たら戻る
             if (yLine < -1 || yLine > stageHeight)
             {
-                currentSelectEnemy = oldSelectedEnemy;
+                //currentSelectEnemy = oldSelectedEnemy;
+                currentSelectEnemyBase = oldSelectedEnemyBase;
                 return (nowSelX, nowSelY);
             }
         }
@@ -768,18 +664,9 @@ public class MagicMassSelecter : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (var e in enemies)
-            if (e.GetComponent<Enemy>() != null)
+            if (e.GetComponent<EnemyBase>() != null)
             {
-                if (e.GetComponent<Enemy>().X == nowSelX && e.GetComponent<Enemy>().Y == nowSelY) return e;
-            }
-            else if (e.GetComponent<BombEnemy>() != null)
-            {
-                if (e.GetComponent<BombEnemy>().X == nowSelX && e.GetComponent<BombEnemy>().Y == nowSelY) return e;
-            }
-            else if (e.GetComponent<FlameSwordMove>() != null)
-            {
-
-                if (e.GetComponent<FlameSwordMove>().X == nowSelX && e.GetComponent<FlameSwordMove>().Y == nowSelY) return e;
+                if (e.GetComponent<EnemyBase>().X == nowSelX && e.GetComponent<EnemyBase>().Y == nowSelY) return e;
             }
 
         return null;
@@ -826,7 +713,6 @@ public class MagicMassSelecter : MonoBehaviour
 
     //Aボタンで魔法を撃つ /////////ここ
     void ActivateMagic() {
-
         int typ, lev;
         (typ, lev) = s_MagicRangeDetector.GetOrbInfo();
         if (lev > 0)//オーブのレベルが0より上なら入る↓
@@ -840,6 +726,8 @@ public class MagicMassSelecter : MonoBehaviour
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    
+                    mACame.SetAttackMagicTrueFlag();
 
                     //全ます
                     if (typ == 1 || typ == 3 || typ == 4)
@@ -899,6 +787,9 @@ public class MagicMassSelecter : MonoBehaviour
             {  //複数設置型
                 if (Input.GetButtonDown("Fire1"))
                 {
+
+                    mACame.SetAttackMagicTrueFlag();
+
                     //sePlay.Play("MagicShot");
                     //一番最初に選択した時
                     if (selectsNum == 0)
@@ -952,7 +843,7 @@ public class MagicMassSelecter : MonoBehaviour
     //複数選択魔法で2体目以降選択時に、最低コストを求める
     void CalcBottomCost() {
 
-        if (selectTargets[0].GetComponent<Enemy>() == null && selectTargets[0].GetComponent<BombEnemy>() == null && selectTargets[0].GetComponent<FlameSwordMove>() == null) return;
+        if (selectTargets[0].GetComponent<EnemyBase>() == null) return;
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
@@ -964,34 +855,16 @@ public class MagicMassSelecter : MonoBehaviour
             (oldSelectEnemyX, oldSelectEnemyY) = GetOldSelectedEnemyPos();
 
             //敵との距離コスト
-            Enemy s_Enemy = null;
-            BombEnemy s_bombEnemy = null;
-            FlameSwordMove s_flameEnemy = null;
+            EnemyBase s_EnemyBase = null;
             int xCost, yCost, eneCost = 0;
             //Enemy s_Enemy = e.GetComponent<Enemy>();
             //いつかBaseに変える
-            if (e.GetComponent<Enemy>() != null)
+            if (e.GetComponent<EnemyBase>() != null)
             {
-                s_Enemy = e.GetComponent<Enemy>();
+                s_EnemyBase = e.GetComponent<EnemyBase>();
 
-                xCost = Mathf.Abs(oldSelectEnemyX - s_Enemy.X);
-                yCost = Mathf.Abs(oldSelectEnemyY - s_Enemy.Y);
-                eneCost = xCost + yCost;
-            }
-            else
-                if (e.GetComponent<BombEnemy>() != null)
-            {
-                s_bombEnemy = e.GetComponent<BombEnemy>();
-                xCost = Mathf.Abs(oldSelectEnemyX - s_bombEnemy.X);
-                yCost = Mathf.Abs(oldSelectEnemyY - s_bombEnemy.Y);
-                eneCost = xCost + yCost;
-            }
-            else
-                if (e.GetComponent<FlameSwordMove>() != null)
-            {
-                s_flameEnemy = e.GetComponent<FlameSwordMove>();
-                xCost = Mathf.Abs(oldSelectEnemyX - s_flameEnemy.X);
-                yCost = Mathf.Abs(oldSelectEnemyY - s_flameEnemy.Y);
+                xCost = Mathf.Abs(oldSelectEnemyX - s_EnemyBase.X);
+                yCost = Mathf.Abs(oldSelectEnemyY - s_EnemyBase.Y);
                 eneCost = xCost + yCost;
             }
             //int xCost = Mathf.Abs(oldSelectEnemyX - s_Enemy.X);
@@ -1010,27 +883,35 @@ public class MagicMassSelecter : MonoBehaviour
     //直近選択した敵の座標を返す
     (int, int) GetOldSelectedEnemyPos() {
         int x = 0, y = 0;
+
         //直近選択した敵の座標
-        if (selectTargets[selectsNum - 1].GetComponent<Enemy>() != null)
+        if (selectTargets[selectsNum - 1].GetComponent<EnemyBase>() != null)
         {
-            Enemy s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<Enemy>();
+            EnemyBase s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<EnemyBase>();
             x = s_EnemyOld.X;
             y = s_EnemyOld.Y;
         }
-        else
-        if (selectTargets[selectsNum - 1].GetComponent<BombEnemy>() != null)
-        {
-            BombEnemy s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<BombEnemy>();
-            x = s_EnemyOld.X;
-            y = s_EnemyOld.Y;
-        }
-        else
-        if (selectTargets[selectsNum - 1].GetComponent<FlameSwordMove>() != null)
-        {
-            FlameSwordMove s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<FlameSwordMove>();
-            x = s_EnemyOld.X;
-            y = s_EnemyOld.Y;
-        }
+        ////直近選択した敵の座標
+        //if (selectTargets[selectsNum - 1].GetComponent<Enemy>() != null)
+        //{
+        //    Enemy s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<Enemy>();
+        //    x = s_EnemyOld.X;
+        //    y = s_EnemyOld.Y;
+        //}
+        //else
+        //if (selectTargets[selectsNum - 1].GetComponent<BombEnemy>() != null)
+        //{
+        //    BombEnemy s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<BombEnemy>();
+        //    x = s_EnemyOld.X;
+        //    y = s_EnemyOld.Y;
+        //}
+        //else
+        //if (selectTargets[selectsNum - 1].GetComponent<FlameSwordMove>() != null)
+        //{
+        //    FlameSwordMove s_EnemyOld = selectTargets[selectsNum - 1].GetComponent<FlameSwordMove>();
+        //    x = s_EnemyOld.X;
+        //    y = s_EnemyOld.Y;
+        //}
         return (x, y);
     }
 
