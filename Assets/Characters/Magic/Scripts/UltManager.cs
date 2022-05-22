@@ -21,7 +21,7 @@ public class UltManager : MonoBehaviour
             ultslider.value -= 10;
             Debug.Log("必殺技の予定だよ");
         }
-        Debug.Log(ultslider.value);
+        //Debug.Log(ultslider.value);
     }
 
     public void ultChage()

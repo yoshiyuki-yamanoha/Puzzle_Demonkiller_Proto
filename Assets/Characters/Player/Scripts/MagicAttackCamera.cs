@@ -5,8 +5,11 @@ using UnityEngine;
 public class MagicAttackCamera : TrunManager
 {
     //public
-    private GameObject mainCamera;
-    private GameObject subCamera;
+    private GameObject mainCamera;//パズルのカメラ
+    private GameObject subCamera;//魔法攻撃のカメラ
+    Camera subCame;//うつす優先度変更用
+    private GameObject shakeCamera;//揺らすカメラ
+    Camera shakeCame;//うつす優先度変更用
     private bool MSCameraflag;
     private GameObject selepos;//セレクターの位置情報
     private MapMass selector;
@@ -31,11 +34,17 @@ public class MagicAttackCamera : TrunManager
     float cameraX, cameraY, cameraZ;//カメラの座標いじるよう
     bool shakeCameraInit = true;
 
+    bool attackMagickFlag = false;//魔法攻撃をしたか
+    float shakeTime;//揺らす時間
+
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = GameObject.Find("Main Camera");
         subCamera = GameObject.Find("SubCamera");
+        subCame = subCamera.GetComponent<Camera>();
+        shakeCamera = GameObject.Find("ShakeCamera");
+        shakeCame = shakeCamera.GetComponent<Camera>();
 
         MSCameraflag = false;
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
@@ -46,7 +55,8 @@ public class MagicAttackCamera : TrunManager
 
         startTime = Time.time;
 
-        subCamera.SetActive(false);
+        subCame.depth = -2;
+        shakeCame.depth = -2;
     }
 
     // Update is called once per frame
@@ -54,20 +64,33 @@ public class MagicAttackCamera : TrunManager
     {
         if (trunMgr.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
         {
+            if (attackMagickFlag == false)
+            {
+                subCame.depth = 0;
+            }
 
-            subCamera.SetActive(true);
             (soeX, soeY) = selector.GetMAgicMassSelector();
             selepos = selector.GetGameObjectOfSpecifiedMass(soeX, soeY);
             start = subCamera.transform.position;
             target = new Vector3(selepos.transform.position.x, selepos.transform.position.y + 50/*25*/, selepos.transform.position.z - 57/*27*/);
             MagicCameraOn();
             MagicCameraMove();
-            ShakeCamera();
         }
         else
         {
 
-            subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
+            shakeCameraInit = true;
+            //subCamera.SetActive(false);//魔法を撃つときのカメラをカメラを見えなくする
+            subCame.depth = -2;
+        }
+        if(attackMagickFlag == true)
+        {
+            ShakeCamera();
+        }
+        else
+        {
+            shakeTimer = 0;
+            shakeCamera.transform.position = subCamera.transform.position;
         }
 
 
@@ -110,7 +133,10 @@ public class MagicAttackCamera : TrunManager
         {
             if ((soeY <= 20 && soeY >= 0) || (soeX <= 20 && soeX >= 0))
             {
-                subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());
+                subCamera.transform.position = Vector3.Lerp(start, target, CalcMoveRatio());//
+
+
+
                 if (subCamera.transform.position == target)
                 {
                     moveflag = true;
@@ -146,44 +172,102 @@ public class MagicAttackCamera : TrunManager
 
     Vector3 shakeCameraPos;//カメラを揺らす
     bool shakePlasflag = false;
+
+    float shakeTimer = 0;
     public void ShakeCamera()
     {
         if (shakeCameraInit == true)
         {
-            cameraX = subCamera.transform.position.x;
-            cameraY = subCamera.transform.position.y;
-            cameraZ = subCamera.transform.position.z;
-            shakeCameraPos = new Vector3(cameraX, cameraY, cameraZ);
+            shakeCame.depth = 0;
+            subCame.depth = -2;
+            shakeTimer = 0;
             shakeCameraInit = false;
         }
 
-        if (shakePlasflag == false)
+        //if(subCamera.transform != shakeCamera.transform)
+        //{
+        //    cameraX = subCamera.transform.position.x;
+        //    cameraY = subCamera.transform.position.y;
+        //    cameraZ = subCamera.transform.position.z;
+        //    shakeCameraPos = new Vector3(cameraX, cameraY, cameraZ);
+        //}
+
+        //if (shakePlasflag == false)
+        //{
+        //    if (cameraX <= (shakeCameraPos.x - 10))
+        //    {
+        //        subCamera.transform.position -= new Vector3(-3, 0, 0);
+        //    }
+        //    else
+        //    {
+        //        shakePlasflag = true;
+        //    }
+        //}
+        //else if (shakePlasflag == true)
+        //{ 
+
+        //    if (cameraX >= (shakeCameraPos.x + 10))
+        //    {
+        //        subCamera.transform.position += new Vector3(3, 0, 0);
+        //    }
+        //    else
+        //    {
+        //        shakePlasflag = false;
+        //    }
+        //}
+
+
+        if (attackMagickFlag == true)
         {
-            if (cameraX <= (shakeCameraPos.x - 10))
+            Shake(0.25f, 0.1f);
+            shakeTimer += Time.deltaTime;
+            if(shakeTimer > shakeTime)
             {
-                subCamera.transform.position -= new Vector3(-3, 0, 0);
-            }
-            else
-            {
-                shakePlasflag = true;
-            }
-        }
-        else if (shakePlasflag == true)
-        { 
-
-            if (cameraX >= (shakeCameraPos.x + 10))
-            {
-                subCamera.transform.position += new Vector3(3, 0, 0);
-            }
-            else
-            {
-                shakePlasflag = false;
+                subCame.depth = 0;
+                shakeCame.depth = -2;
+                shakeCameraInit = true;
+                attackMagickFlag = false;
             }
         }
 
 
 
 
+    }
 
+    public void Shake(float duration, float magnitude)
+    {
+        StartCoroutine(DoShake(duration, magnitude));
+    }
+
+    private IEnumerator DoShake(float duration, float magnitude)
+    {
+        var pos = shakeCamera.transform.localPosition;
+
+        var elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            var x = pos.x + Random.Range(-1f, 1f) * magnitude;
+            var y = pos.y + Random.Range(-1f, 1f) * magnitude;
+
+            shakeCamera.transform.localPosition = new Vector3(x, y, pos.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        shakeCamera.transform.localPosition = pos;
+    }
+    public void SetAttackMagicTrueFlag()
+    {
+        Debug.Log("はいった？");
+        attackMagickFlag = true;
+    }
+
+    public void SetShakeTime(float shake_time)
+    {
+        shakeTime = shake_time;
     }
 }

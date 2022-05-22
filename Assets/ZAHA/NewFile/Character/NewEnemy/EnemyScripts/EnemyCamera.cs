@@ -156,7 +156,10 @@ public class EnemyCamera : MonoBehaviour
             startFlag = false;
 
             initflg = true;
-            enemy_camera.depth = -2;//カメラの優先度
+            if (finalDieflag == false)
+            {
+                enemy_camera.depth = -2;//カメラの優先度
+            }
             //initflg = true;// 
             moveflag = true;
             x = 0;
@@ -403,7 +406,7 @@ public class EnemyCamera : MonoBehaviour
     {
         Vector3 camera_tage_pos = new Vector3(0,0,0);
         targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
-
+        float speed = 1;
 
         //if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax - 1) && finalDieflag == false)
         if (finalDieflag == false)
@@ -477,25 +480,38 @@ public class EnemyCamera : MonoBehaviour
                     enemyCloserCamera = true;
                 }
 
-                if ((floDistance >= floDistanceline) && enemyCloserCamera == true)
+                if ((floDistance > floDistanceline) && enemyCloserCamera == true)
                 {
-                    transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                    //数値が変わらないと結果が変わらないため求めた座標が変わらずカメラが高速移動する
+                    //transform.position = Vector3.Lerp(defaultCamerapos, camera_tage_pos, cameraMove.CalcMoveRatio());
+                    //transform.localPosition += new Vector3(0,0,1f);
+                    if (closeFireEnemy == true)
+                    {
+                        transform.localPosition += transform.forward * speed;//自分の前方に移動
+                        transform.position = new Vector3(transform.position.x, defaultCamerapos.y, transform.position.z);//高さを一定に保つために高さを固定している
+                    }
+                    else
+                    {
+                        transform.localPosition += transform.forward * (speed * 10);//自分の前方に移動
+                        transform.position = new Vector3(transform.position.x, defaultCamerapos.y, transform.position.z);//高さを一定に保つために高さを固定している
+                    }
                     Debug.Log("敵に近づく");
-                    if ((floDistance < floDistanceline))
+                    if (floDistance <= floDistanceline+2)
                     {
                         enemyCloserCamera = false;
                     }
                 }
-                if(floDistance < floDistanceline - 10)
+                if(floDistance < floDistanceline - 10)//敵のほぼ真上に来たらPositionを元居た場所に戻す
                 {
-                    enemyCloserCamera = false;
+                    //enemyCloserCamera = false;
                     transform.position = defaultCamerapos;
 
                     Debug.Log("敵から離れる");
-                    if (floDistance >= floDistanceline-5)
-                    {
-                        enemyCloserCamera = true;
-                    }
+                }
+
+                if (floDistance >= floDistanceline + 10)//敵から離れたらまた近づく
+                {
+                    enemyCloserCamera = true;
                 }
 
                 //else

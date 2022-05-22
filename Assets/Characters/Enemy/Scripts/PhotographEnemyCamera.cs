@@ -8,7 +8,7 @@ public class PhotographEnemyCamera : MonoBehaviour
     Vector3 corePos = new Vector3(47.5f, 8.5f, -47.5f);//コアの上の座標
     Vector3 puzzlePos = new Vector3(47.5f, 43.8f, -132);//ステージの真ん中(パズルするときのいる位置)
 
-
+    Camera photoCame;//優先度変更用
     [SerializeField, Tooltip("ターゲットオブジェクト")]
     private GameObject TargetObject;
 
@@ -31,7 +31,8 @@ public class PhotographEnemyCamera : MonoBehaviour
     private float nowRotationY;
     private void Start()
     {
-
+        photoCame = this.gameObject.GetComponent<Camera>();
+        photoCame.depth = 1;
     }
 
     private void FixedUpdate()
@@ -50,6 +51,7 @@ public class PhotographEnemyCamera : MonoBehaviour
     }
     void Move()
     {
+        //左スティック
         float hori = Input.GetAxis("Horizontal");//スティックの入力を取っている
         float vert = Input.GetAxis("Vertical");//以下
 
@@ -63,6 +65,7 @@ public class PhotographEnemyCamera : MonoBehaviour
         if (hori >= 0.5f) transform.position += transform.right * speed * Time.deltaTime;//→
         if (hori <= -0.5f) transform.position -= transform.right * speed * Time.deltaTime;//←
 
+        //右スティック
         float horiR = Input.GetAxis("Horizontal2");
         float vertR = Input.GetAxis("Vertical2");
 
@@ -93,11 +96,17 @@ public class PhotographEnemyCamera : MonoBehaviour
         }
         else
         {
-            if (vertR >= 0.5f) transform.Rotate(new Vector3(5, 0, 0));
-            if (vertR <= -0.5f) transform.Rotate(new Vector3(-5, 0, 0));
+            //if (vertR >= 0.5f) transform.Rotate(new Vector3(-5, 0, 0));
+            //if (vertR <= -0.5f) transform.Rotate(new Vector3(5, 0, 0));
 
-            if (horiR >= 0.5f) transform.Rotate(new Vector3(0, -5, 0));
-            if (horiR <= -0.5f) transform.Rotate(new Vector3(0, 5, 0));
+            //if (horiR >= 0.5f) transform.Rotate(new Vector3(0, 5, 0));
+            //if (horiR <= -0.5f) transform.Rotate(new Vector3(0, -5, 0));
+
+            if (vertR >= 0.5f) transform.eulerAngles += new Vector3(-5, 0, 0);
+            if (vertR <= -0.5f) transform.eulerAngles += new Vector3( 5, 0, 0);
+
+            if (horiR >= 0.5f) transform.eulerAngles += new Vector3( 0, 5, 0);
+            if (horiR <= -0.5f) transform.eulerAngles += new Vector3( 0, -5, 0);
         }
 
         //}
