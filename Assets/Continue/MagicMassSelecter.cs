@@ -689,13 +689,17 @@ public class MagicMassSelecter : MonoBehaviour
     }
 
     //指定したマスのマテリアルを指定のものに変える  //ここ？
-    public void ChangeMatSpecifiedMass(GameObject obj,int colorType=0) {
+    public void ChangeMatSpecifiedMass(GameObject obj, int colorType = 0)
+    {
 
         //GameObject speci = s_MapMass.GetGameObjectOfSpecifiedMass(x, y);
 
-        obj.GetComponent<Renderer>().material = eleMats[colorType];
+        if (obj != null)
+        {
+            obj.GetComponent<Renderer>().material = eleMats[colorType];
 
-        obj.tag = "ChangedMass";
+            obj.tag = "ChangedMass";
+        }
         
         //sePlay.Play("Select3");///////////////////////////////////////////////////////
         

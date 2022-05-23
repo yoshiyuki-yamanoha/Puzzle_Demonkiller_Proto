@@ -193,14 +193,16 @@ public class PuzzlePointerMover : TrunManager
 
                 if (goal != null)
                 {
-
                     //選択サークルを消す
                     currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
 
                     //ポインター移動
                     if (goal.transform.childCount > 0)
                     {
-                        currentSelectedCircle = goal.transform.GetChild(0).gameObject;
+                        if (goal.transform.GetChild(0).gameObject.tag != "Selecter")
+                            currentSelectedCircle = goal.transform.GetChild(0).gameObject;
+                        else
+                            currentSelectedCircle = goal.transform.GetChild(1).gameObject;
 
                         //選択サークルを出す
                         currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
