@@ -209,7 +209,7 @@ public class PointControl : MonoBehaviour
         //されてない状態
         if (!isSelect)
         {
-            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if(!puzzleOnlyMode) sePlay.Play("Select");//SEを鳴らす（魔方陣を選択した音）
                 selA = obj;                                 //選択したオブジェ保存
@@ -223,7 +223,7 @@ public class PointControl : MonoBehaviour
         }
         else //されてる状態
         {
-            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 if(!puzzleOnlyMode) sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
