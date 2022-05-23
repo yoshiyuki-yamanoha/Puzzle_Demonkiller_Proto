@@ -145,8 +145,8 @@ public class GoToParent : MonoBehaviour
         Color a = GetComponent<Renderer>().material.color;
         Color b = endLinePos.GetComponent<Renderer>().material.color;
 
-        a.a = 0.5f;
-        b.a = 0.5f;
+        a.a = 1f;
+        b.a = 1f;
 
         //線の色をオブジェクトに合わせる
         lr.startColor = a;
