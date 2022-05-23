@@ -304,8 +304,10 @@ public class OrbGage : MonoBehaviour
             }
         }
         Debug.Log("たいむｓ" + Times[num]);
-
-        mACame.SetShakeTime(Times[num]);
+        if (num == 0 || num == 1 || num == 2)
+        {
+            mACame.SetShakeTime(Times[num]);
+        }
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;
