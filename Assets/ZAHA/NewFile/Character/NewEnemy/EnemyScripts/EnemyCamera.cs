@@ -622,10 +622,11 @@ public class EnemyCamera : MonoBehaviour
         if (hpNoneEnemy == null)
         {
             endFlag = true;
+            Time.timeScale = 1;
         }
         if(floDistance > slowltDisEnd && floDistance < slowlyDisStart)
         {
-            gameCleartext.text = "GameClear";//ゲームクリアの文字を出す(入れる)
+            gameCleartext.text = "";//ゲームクリアの文字を出す(入れる)
             Time.timeScale = 0.5f;
         }
         else

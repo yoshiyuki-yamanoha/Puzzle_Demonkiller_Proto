@@ -25,14 +25,20 @@ public class EnemySEBox : MonoBehaviour
         }
         else if (typ==2)  //ボム兵の場合
         {
-            sePlay.Play("BombDeath");
+            StartCoroutine(BombDestroySE(2));
         }
         else if (typ == 3)  //炎の剣の場合
         {
-            sePlay.Play("FlameDeath");
+            //sePlay.Play("FlameDeath");
+            StartCoroutine(BoneDeathSE(2));
+        }
+
+        if (typ==0||typ==1)
+        {
+            Destroy(this.gameObject);
         }
  
-        Destroy(this.gameObject);
+        
     }
 
     // Update is called once per frame
@@ -45,4 +51,26 @@ public class EnemySEBox : MonoBehaviour
        
         this.typ = typ; 
     }
+
+
+    IEnumerator BombDestroySE(int num)
+    {
+        float delay = (num) * 0.7f;
+        yield return new WaitForSeconds(delay);
+
+        //ボム破壊
+        sePlay.Play("BombDeath");
+        Destroy(this.gameObject);
+    }
+
+    IEnumerator BoneDeathSE(int num)
+    {
+        float delay = (num) * 0.89f;
+        yield return new WaitForSeconds(delay);
+
+        //ボム破壊
+        sePlay.Play("FlameDeath");
+        Destroy(this.gameObject);
+    }
+
 }

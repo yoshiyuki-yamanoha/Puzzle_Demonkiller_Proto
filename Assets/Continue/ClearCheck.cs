@@ -72,6 +72,9 @@ public class ClearCheck : TrunManager
 
     //オーブぐるぐるアニメーション用
     [SerializeField] private Animator orbAnimator;
+    [SerializeField] private Animator puzzleAnimator;
+
+    bool magicCircleAnimOn = false;
 
     // Puzzleターンが終了する時に使用する変数
     PuzzleTurnEndAnim puzzleTurnEndAnim;
@@ -124,12 +127,13 @@ public class ClearCheck : TrunManager
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (puzzleOnlyMode || trunMgr.trunphase == TrunPhase.Puzzle)
+
+        if (/*puzzleOnlyMode || */trunMgr.trunphase == TrunPhase.Puzzle)
         {
             //1回だけシャッフル
-            if (isShuffle) { Shuffle(); isShuffle = false; }
-
-
+            if (isShuffle) { Shuffle(); isShuffle = false;  }
+            if (magicCircleAnimOn == true) { puzzleAnimator.SetTrigger("Go1"); magicCircleAnimOn = false; }
+            else { puzzleAnimator.SetTrigger(""); }
             if (!cleared)
             {
                 //線が被らなければクリア (グルっと一周)↓２つのif文でチェック
@@ -189,6 +193,7 @@ public class ClearCheck : TrunManager
                     //コンボタイムが0になったらコンボ数を0に
                     if (nowComboTime <= 0)
                     {
+                        puzzleAnimator.SetTrigger("Go2");
                         //AttackV.attackvar();
                         //bgCircle.SetActive(false);
                         MaxCombo = comboNum;
@@ -248,6 +253,8 @@ public class ClearCheck : TrunManager
         }
         else {
             if(!puzzleOnlyMode) isShuffle = true;
+            puzzleAnimator.SetTrigger("");
+            magicCircleAnimOn = true;
         }
     }
 

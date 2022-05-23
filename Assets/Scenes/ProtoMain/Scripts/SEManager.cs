@@ -50,7 +50,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[3], 2.0f);
                 break;
             case "MagicShot"://5　魔法を打つ時
-                audioSource.PlayOneShot(audioClips[4],0.3f);
+                audioSource.PlayOneShot(audioClips[4],0.8f);
                 break;
             case "TurnChange"://6　ターンが変わる時
                 audioSource.PlayOneShot(audioClips[5],4.0f);//1.0f
@@ -68,58 +68,58 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[9], 3.4f);//0.4
                 break;
             case "EnemyAtack"://11敵攻撃
-                audioSource.PlayOneShot(audioClips[10], 2.0f);
+                audioSource.PlayOneShot(audioClips[10], 4.0f);  //2.0
                 break;
             case "DestroyBarricade"://12バリケード破壊
-                audioSource.PlayOneShot(audioClips[11], 1.3f);
+                audioSource.PlayOneShot(audioClips[11], 1.5f);
                 break;
             case "GoblinSpawn"://13　ゴブリン出現
                 audioSource.PlayOneShot(audioClips[12], 1.3f);
                 break;
             case "GoblinDeath"://13ゴブリン死亡
-                audioSource.PlayOneShot(audioClips[13], 1.3f);
+                audioSource.PlayOneShot(audioClips[13], 3.3f);   //1.3
                 break;
             case "DemonDeath"://14デモン死亡
-                audioSource.PlayOneShot(audioClips[14], 1.3f);
+                audioSource.PlayOneShot(audioClips[14], 3.3f);  //1.3
                 break;
             case "BombSpawn"://15ボム兵出現
                 audioSource.PlayOneShot(audioClips[15], 1.3f);
                 break;
             case "BombDeath"://16ボム兵死亡
-                audioSource.PlayOneShot(audioClips[16], 1.3f);
+                audioSource.PlayOneShot(audioClips[16], 9.0f); //1.3
                 break;
             case "BombEnemExplosion"://17ボム兵爆発
-                audioSource.PlayOneShot(audioClips[17], 1.3f);
+                audioSource.PlayOneShot(audioClips[17], 5.0f);  //1.3
                 break;
             case "FlameSpawn"://18炎の剣のモンスター出現
                 audioSource.PlayOneShot(audioClips[18], 1.3f);
                 break;
             case "FlameAttack"://20：炎の剣のモンスター攻撃
-                audioSource.PlayOneShot(audioClips[19], 1.3f);
+                audioSource.PlayOneShot(audioClips[19], 3.3f); //1.3
                 break;
             case "FlameDeath"://21：炎の剣のモンスター死亡
-                audioSource.PlayOneShot(audioClips[20], 1.3f);
+                audioSource.PlayOneShot(audioClips[20], 5.3f);  //1.3
                 break;
             case "FireMagicStar"://22炎の五芒星の魔法
-                audioSource.PlayOneShot(audioClips[21], 1.0f);
+                audioSource.PlayOneShot(audioClips[21], 1.8f);
                 break;
             case "IceMagicStar"://23:氷五芒星の魔法
-                audioSource.PlayOneShot(audioClips[22], 1.3f);
+                audioSource.PlayOneShot(audioClips[22], 1.8f);
                 break;
             case "IceMagicPenta"://24：氷五角形の魔法
-                audioSource.PlayOneShot(audioClips[23], 1.3f);
+                audioSource.PlayOneShot(audioClips[23], 4.5f);
                 break;
             case"ThunderMagicFire"://25:雷五芒星の発射時の音
-                audioSource.PlayOneShot(audioClips[24], 2.3f);
+                audioSource.PlayOneShot(audioClips[24], 2.5f);
                 break;
             case "ThunderMagicStar"://26:雷五芒星
-                audioSource.PlayOneShot(audioClips[25], 1.3f);
+                audioSource.PlayOneShot(audioClips[25], 2.3f);
                 break;
             case "TitleDecision"://27：タイトル、ゲームクリア、ゲームオーバー、決定音
                 audioSource.PlayOneShot(audioClips[26], 5.0f);
                 break;
             case "CoreExplosion"://28：コア爆発
-                audioSource.PlayOneShot(audioClips[27], 1.3f);
+                audioSource.PlayOneShot(audioClips[27], 2.3f);
                 break;
         }
     }
