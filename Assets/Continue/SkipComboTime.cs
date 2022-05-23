@@ -12,5 +12,10 @@ public class SkipComboTime : MonoBehaviour
             if (Input.GetButtonDown("Fire3"))
                 s_ClearCheck.SkipComboTime();
 
+        if (Input.GetButtonDown("Start"))
+        {
+            GameMgr.Instance.Restart();
+        }
+
     }
 }

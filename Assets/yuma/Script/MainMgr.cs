@@ -41,10 +41,7 @@ public class MainMgr : MonoBehaviour
                 GameMgr.Instance.GotoGameClearScene();
             }
         }
-        if(Input.GetButtonDown("Start"))
-        {
-            GameMgr.Instance.Restart();
-        }
+
 
         //残り敵数の表示
         enemyNum.text = "×"+(enemyDieMax - enemyDieNum).ToString("00");
@@ -60,4 +57,7 @@ public class MainMgr : MonoBehaviour
     {
         return enemyDieMax;
     }
+
+
+    
 }
