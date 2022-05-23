@@ -50,7 +50,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[3], 2.0f);
                 break;
             case "MagicShot"://5　魔法を打つ時
-                audioSource.PlayOneShot(audioClips[4],0.3f);
+                audioSource.PlayOneShot(audioClips[4],0.8f);
                 break;
             case "TurnChange"://6　ターンが変わる時
                 audioSource.PlayOneShot(audioClips[5],4.0f);//1.0f
@@ -101,19 +101,19 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[20], 1.3f);
                 break;
             case "FireMagicStar"://22炎の五芒星の魔法
-                audioSource.PlayOneShot(audioClips[21], 1.0f);
+                audioSource.PlayOneShot(audioClips[21], 1.8f);
                 break;
             case "IceMagicStar"://23:氷五芒星の魔法
-                audioSource.PlayOneShot(audioClips[22], 1.3f);
+                audioSource.PlayOneShot(audioClips[22], 1.8f);
                 break;
             case "IceMagicPenta"://24：氷五角形の魔法
-                audioSource.PlayOneShot(audioClips[23], 1.3f);
+                audioSource.PlayOneShot(audioClips[23], 4.5f);
                 break;
             case"ThunderMagicFire"://25:雷五芒星の発射時の音
-                audioSource.PlayOneShot(audioClips[24], 2.3f);
+                audioSource.PlayOneShot(audioClips[24], 2.5f);
                 break;
             case "ThunderMagicStar"://26:雷五芒星
-                audioSource.PlayOneShot(audioClips[25], 1.3f);
+                audioSource.PlayOneShot(audioClips[25], 2.3f);
                 break;
             case "TitleDecision"://27：タイトル、ゲームクリア、ゲームオーバー、決定音
                 audioSource.PlayOneShot(audioClips[26], 5.0f);
