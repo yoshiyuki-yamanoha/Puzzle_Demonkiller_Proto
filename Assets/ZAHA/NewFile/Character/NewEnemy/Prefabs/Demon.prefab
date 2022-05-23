@@ -3117,7 +3117,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroy_effect: {fileID: 4850539349599040, guid: 1265e2337d72070429d4209555aaf046,
+  fire: []
+  ice_star: []
+  destroy_effect: {fileID: 8431859601392237109, guid: 9267ef7b85bd64646be449e4e6806029,
     type: 3}
   hit_effect: {fileID: 3322091978191790665}
   trail_renderer: {fileID: 1330019325997481699}
