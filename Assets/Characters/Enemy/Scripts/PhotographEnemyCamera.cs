@@ -67,7 +67,7 @@ public class PhotographEnemyCamera : MonoBehaviour
 
         //右スティック
         float horiR = Input.GetAxis("Horizontal2");
-        float vertR = Input.GetAxis("Vertical2");
+        float vertR = -Input.GetAxis("Vertical2");
 
         //Debug.Log(transform.up + " UP");
         //Debug.Log(transform.forward + " FORWARD");
@@ -102,11 +102,11 @@ public class PhotographEnemyCamera : MonoBehaviour
             //if (horiR >= 0.5f) transform.Rotate(new Vector3(0, 5, 0));
             //if (horiR <= -0.5f) transform.Rotate(new Vector3(0, -5, 0));
 
-            if (vertR >= 0.5f) transform.eulerAngles += new Vector3(-5, 0, 0);
-            if (vertR <= -0.5f) transform.eulerAngles += new Vector3( 5, 0, 0);
+            if (vertR >= 0.5f) transform.eulerAngles += new Vector3(vertR, 0, 0);
+            if (vertR <= -0.5f) transform.eulerAngles += new Vector3(vertR, 0, 0);
 
-            if (horiR >= 0.5f) transform.eulerAngles += new Vector3( 0, 5, 0);
-            if (horiR <= -0.5f) transform.eulerAngles += new Vector3( 0, -5, 0);
+            if (horiR >= 0.5f) transform.eulerAngles += new Vector3( 0, horiR, 0);
+            if (horiR <= -0.5f) transform.eulerAngles += new Vector3( 0, horiR, 0);
         }
 
         //}
