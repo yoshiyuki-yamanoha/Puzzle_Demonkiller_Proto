@@ -30024,7 +30024,7 @@ MonoBehaviour:
   mynumber: 0
   map: {fileID: 0}
   max_hp: 4
-  attack: 10
+  attack: 7
   speed: 5
   deathflg: 0
   generation_enemy: {fileID: 0}
@@ -30076,6 +30076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fire: []
+  ice_star: []
   destroy_effect: {fileID: 4850539349599040, guid: 1265e2337d72070429d4209555aaf046,
     type: 3}
   hit_effect: {fileID: 0}
@@ -35581,6 +35583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba13a16d4ece9948a1001ae5ba248af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fire: []
+  ice_star: []
   destroy_effect: {fileID: 0}
   hit_effect: {fileID: 0}
   trail_renderer: {fileID: 0}
