@@ -89,25 +89,25 @@ public class PuzzlePointerMover : TrunManager
             //スティックの角度
             CalcAngle();
 
-            //インターバルを減らす
-            if (interCount != 0)
-            {
-                interCount -= Time.deltaTime;
+            ////インターバルを減らす
+            //if (interCount != 0)
+            //{
+            //    interCount -= Time.deltaTime;
 
-                if (interCount <= 0f)
-                {
-                    interCount = 0;
-                    moveOk = true;
-                }
-            }
-            if ((seconddiff >= 10.0f))
-            {
-                moveOk = true;
-            }
-            if ((diff >= 10.0f))
-            {
-                moveOk = true;
-            }
+            //    if (interCount <= 0f)
+            //    {
+            //        interCount = 0;
+            //        moveOk = true;
+            //    }
+            //}
+            //if ((seconddiff >= 10.0f))
+            //{
+            //    moveOk = true;
+            //}
+            //if ((diff >= 10.0f))
+            //{
+            //    moveOk = true;
+            //}
 
             diff = Mathf.Abs(oldAngle - leftStickAngle);
             seconddiff = Mathf.Abs(oldSecondAngle - leftSecondStoclAngle);
