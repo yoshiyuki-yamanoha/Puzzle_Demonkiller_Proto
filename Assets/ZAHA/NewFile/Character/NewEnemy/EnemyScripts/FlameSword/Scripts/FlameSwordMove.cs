@@ -5,8 +5,11 @@ using UnityEngine.UI;
 public class FlameSwordMove : EnemyBase
 {
     [SerializeField] Image Noimage = null; 
-    [SerializeField]　ParticleSystem[] effect_motion = null;
+    [SerializeField] ParticleSystem[] effect_motion = null;
+    [SerializeField] MaterialChange material_change;
     float time = 0;
+
+    bool icebreak_flg = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,14 +83,16 @@ public class FlameSwordMove : EnemyBase
 
         if (other.CompareTag("Ice"))
         {
+            material_change.SetMaterial(material_change.change_material);
+            Enemy_anim.SetFloat(0);
             Enemy_anim.TriggerAttack("NoIceAttack");
-            Noimage.gameObject.SetActive(true);
+            //Noimage.gameObject.SetActive(true);
             //ここでエフェクトを出す。
-            foreach(var effect in effect_motion)
-            {
-                Debug.Log("氷きかないeffect");
-                effect.Play();
-            }
+            //foreach(var effect in effect_motion)
+            //{
+            //    Debug.Log("氷きかないeffect");
+            //    effect.Play();
+            //}
             //Abnormal_condition = AbnormalCondition.Ice;
             //other.GetComponent<PentagonIce>().Tin(transform.position);
             //pentaIceEff = GameObject.Find("BreakIce_honmono");

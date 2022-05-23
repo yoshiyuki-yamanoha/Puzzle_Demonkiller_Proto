@@ -9,11 +9,14 @@ public class AnimEvent : MonoBehaviour
 
     private SEManager sePlay = null;
 
+    [SerializeField] ParticleSystem[] fire = null;
+    [SerializeField] ParticleSystem[] ice_star = null;
     [SerializeField] Transform destroy_effect = null;
     [SerializeField] ParticleSystem hit_effect = null;
     [SerializeField] TrailRenderer trail_renderer = null;
 
     bool is_anim_attack = false;
+    bool is_flame_ice_break;
     private void Start()
     {
         //Nullじゃない
@@ -82,5 +85,46 @@ public class AnimEvent : MonoBehaviour
 
         Instantiate(destroy_effects[0], transform.position, Quaternion.Euler(90, 0, 0));
         Destroy();
+    }
+
+    public void Fire()
+    {
+        fire[0].gameObject.SetActive(true); //アクティブオン
+
+        if (fire != null)
+        {
+            for (int i = 0; i < fire.Length; i++)
+            {
+                fire[i].Play();
+            }
+        }
+    }
+
+    public void Ice_star()
+    {
+        ice_star[0].gameObject.SetActive(true); //アクティブオン
+
+        if (ice_star != null)
+        {
+            for (int i = 0; i< ice_star.Length; i++)
+            {
+                ice_star[i].Play();
+            }
+        }
+    }
+
+    public bool GetFlameIcebreak()
+    {
+        return is_flame_ice_break;
+    }
+
+    public void FlameBreakIceOn()
+    {
+        is_flame_ice_break = true;
+    }
+
+    public void FlameBreakIceOff()
+    {
+        is_flame_ice_break = false;
     }
 }

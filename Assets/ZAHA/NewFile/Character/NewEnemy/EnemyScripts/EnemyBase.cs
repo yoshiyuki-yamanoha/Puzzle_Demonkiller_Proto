@@ -434,7 +434,7 @@ public class EnemyBase : MonoBehaviour
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Damage(1);
-            Enemy enemy = transform.GetComponent<Enemy>();
+            //Enemy enemy = transform.GetComponent<Enemy>();
             // Destroy(enemy.pentaIceEff);
         }
     }
