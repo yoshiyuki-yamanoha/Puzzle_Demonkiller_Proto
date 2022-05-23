@@ -89,7 +89,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[16], 9.0f); //1.3
                 break;
             case "BombEnemExplosion"://17ボム兵爆発
-                audioSource.PlayOneShot(audioClips[17], 5.3f);  //1.3
+                audioSource.PlayOneShot(audioClips[17], 5.0f);  //1.3
                 break;
             case "FlameSpawn"://18炎の剣のモンスター出現
                 audioSource.PlayOneShot(audioClips[18], 1.3f);
@@ -98,7 +98,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[19], 3.3f); //1.3
                 break;
             case "FlameDeath"://21：炎の剣のモンスター死亡
-                audioSource.PlayOneShot(audioClips[20], 3.3f);  //1.3
+                audioSource.PlayOneShot(audioClips[20], 5.3f);  //1.3
                 break;
             case "FireMagicStar"://22炎の五芒星の魔法
                 audioSource.PlayOneShot(audioClips[21], 1.8f);
