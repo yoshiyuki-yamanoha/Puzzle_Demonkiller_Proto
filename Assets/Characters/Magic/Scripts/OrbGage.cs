@@ -308,6 +308,10 @@ public class OrbGage : MonoBehaviour
         {
             mACame.SetShakeTime(Times[num]);
         }
+        else
+        {
+            mACame.SetShakeTime(0);
+        }
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;
