@@ -52,6 +52,9 @@ public class OrbGage : MonoBehaviour
 
     [SerializeField] MagicMassSelecter s_MagicMassSelecter;
 
+
+    MagicAttackCamera mACame;
+
     //魔法専用シーン
     [SerializeField] bool magicOnlyMode;
 
@@ -77,6 +80,7 @@ public class OrbGage : MonoBehaviour
             magicRanges[4].magicRange.SetActive(false);
             magicRanges[5].magicRange.SetActive(false);
         }
+        mACame = GameObject.Find("GameObject").GetComponent<MagicAttackCamera>();
     }
 
     // Update is called once per frame
@@ -269,7 +273,7 @@ public class OrbGage : MonoBehaviour
 
     float delayTime = 0.0f;
     //                     Times { 星炎, 星氷, 星雷, 五炎, 五氷, 五雷,};
-    float[] Times = new float[6] { 2.0f, 4.0f, 1.5f, 3.0f, 1.5f, 2.0f, };
+    float[] Times = new float[6] { 2.0f, 4.0f, 2.0f, 2.5f, 1.5f, 2.0f, };
     public void UseOrb(int num) {
 
         if (num == 0)
@@ -301,6 +305,7 @@ public class OrbGage : MonoBehaviour
         }
         Debug.Log("たいむｓ" + Times[num]);
 
+        mACame.SetShakeTime(Times[num]);
 
         //オーブのレベルを0にする
         Orb_Level[num] = 0;

@@ -227,9 +227,12 @@ public class PointControl : MonoBehaviour
             {
                 if(!puzzleOnlyMode) sePlay.Play("MagicChange");//SEを鳴らす（魔方陣の位置が入れ替わる）
                 selB = obj;
-                oldOverlapObject.GetComponent<GoToParent>().FadeSelectCircle();
-                oldOverlapObject = selA;
-                oldOverlapObject.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+                if (selB != selA)//前回と同じ位置ならこの中の処理はやらない
+                {
+                    oldOverlapObject.GetComponent<GoToParent>().FadeSelectCircle();//Selectorを消す
+                    oldOverlapObject = selA;
+                    oldOverlapObject.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);//Selector出現
+                }
 
                 selA.transform.parent = selB.transform.parent;
                 selB.transform.parent = selTf;
@@ -239,7 +242,7 @@ public class PointControl : MonoBehaviour
                 selB = null;
                 selTf = null;
                 isSelect = false;
-                Destroy(circleA);
+                Destroy(circleA);//選択している状態を解除
 
                 
             }
