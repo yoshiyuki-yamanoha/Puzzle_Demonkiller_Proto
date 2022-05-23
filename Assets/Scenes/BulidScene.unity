@@ -7270,19 +7270,15 @@ MonoBehaviour:
       goalPort: {fileID: 0}
   - circle: {fileID: 5631804625997891140}
     goalPorts:
-    - ang: 0
+    - ang: 5
       goalPort: {fileID: 5631804626184482033}
-    - ang: 91
+    - ang: 87
       goalPort: {fileID: 5631804627719206284}
     - ang: 135
       goalPort: {fileID: 5631804626117904307}
     - ang: 170
       goalPort: {fileID: 5631804626811996162}
     - ang: 260
-      goalPort: {fileID: 5631804625997891140}
-    - ang: 340
-      goalPort: {fileID: 5631804626184482033}
-    - ang: 360
       goalPort: {fileID: 0}
   - circle: {fileID: 5631804626811996162}
     goalPorts:
@@ -7294,12 +7290,12 @@ MonoBehaviour:
       goalPort: {fileID: 5631804627719206284}
     - ang: 90
       goalPort: {fileID: 5631804626117904307}
-    - ang: 200
+    - ang: 170
       goalPort: {fileID: 5631804626811996162}
     - ang: 280
       goalPort: {fileID: 5631804625997891140}
     - ang: 360
-      goalPort: {fileID: 0}
+      goalPort: {fileID: 5631804625997891140}
   - circle: {fileID: 5631804626117904307}
     goalPorts:
     - ang: 0
