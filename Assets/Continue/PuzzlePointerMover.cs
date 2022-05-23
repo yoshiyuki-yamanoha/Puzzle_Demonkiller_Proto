@@ -112,6 +112,8 @@ public class PuzzlePointerMover : TrunManager
             diff = Mathf.Abs(oldAngle - leftStickAngle);
             seconddiff = Mathf.Abs(oldSecondAngle - leftSecondStoclAngle);
 
+            moveOk = true;
+
             //魔法陣間の移動を制御する
             if (isStickMove && /*interCount == 0 &&*/ /*(diff >= 10.0f)*/moveOk == true)
             {
