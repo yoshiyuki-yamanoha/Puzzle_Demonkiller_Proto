@@ -43,7 +43,7 @@ public class GoToParent : MonoBehaviour
     {
         if (transform.localPosition != Vector3.zero)
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, 0.5f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, 0.7f);
         }
 
         //色替え

@@ -69,7 +69,7 @@ public class ManageBarricade : TrunManager
             List<GameObject> remove_obj = new List<GameObject>();
             foreach(GameObject o in bariicades)
             {
-                if(o.GetComponent<ManageBarricade>() != null)//nullチェック
+                if(o != null)//nullチェック
                 if(o.GetComponent<ManageBarricade>().myNumber == this.myNumber)
                 {
                     remove_obj.Add(o);
