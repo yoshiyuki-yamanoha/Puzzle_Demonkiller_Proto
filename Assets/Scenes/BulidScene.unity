@@ -7243,11 +7243,11 @@ MonoBehaviour:
     goalPorts:
     - ang: 0
       goalPort: {fileID: 5631804626184482033}
-    - ang: 45
+    - ang: 35
       goalPort: {fileID: 5631804627719206284}
     - ang: 135
       goalPort: {fileID: 5631804626117904307}
-    - ang: 225
+    - ang: 255
       goalPort: {fileID: 5631804626811996162}
     - ang: 270
       goalPort: {fileID: 5631804625997891140}
@@ -7287,9 +7287,9 @@ MonoBehaviour:
       goalPort: {fileID: 5631804626184482033}
     - ang: 70
       goalPort: {fileID: 5631804627719206284}
-    - ang: 90
+    - ang: 95
       goalPort: {fileID: 5631804626117904307}
-    - ang: 170
+    - ang: 175
       goalPort: {fileID: 5631804626811996162}
     - ang: 280
       goalPort: {fileID: 5631804625997891140}
@@ -7299,7 +7299,7 @@ MonoBehaviour:
     goalPorts:
     - ang: 0
       goalPort: {fileID: 5631804626184482033}
-    - ang: 25
+    - ang: 30
       goalPort: {fileID: 5631804627719206284}
     - ang: 135
       goalPort: {fileID: 5631804626117904307}
@@ -7307,7 +7307,7 @@ MonoBehaviour:
       goalPort: {fileID: 5631804626811996162}
     - ang: 300
       goalPort: {fileID: 5631804625997891140}
-    - ang: 335
+    - ang: 315
       goalPort: {fileID: 5631804626184482033}
     - ang: 360
       goalPort: {fileID: 0}

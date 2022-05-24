@@ -292,15 +292,11 @@ public class MagicRangeDetector : TrunManager
 
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
-                if (magicLevel < 3)
-                {
-                    if ((x - magicLevel) < 0 || (x + magicLevel > stageWidth - 1)) return false;
-                    if (y < 0 || y> stageHeight - 1) return false;
-                }
-                else {
-                    if ((x - 1) < 0 || (x + 1 > stageWidth - 1)) return false;
-                    if ((y - 1) < 0 || (y + 1 > stageHeight - 1)) return false;
-                }
+                int subRight = (magicLevel-1) / 2;
+                int subLeft = magicLevel / 2;
+
+                if (x - subLeft < 0 || x + (subRight) >= stageWidth) return false;
+                if (y < 0 || y >= stageHeight) return false;
 
                 break;
         }

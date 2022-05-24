@@ -62,7 +62,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[7], 0.5f);
                 break;
             case "Select3"://9魔方陣時のカーソル移動
-                audioSource.PlayOneShot(audioClips[8], 1.0f);
+                audioSource.PlayOneShot(audioClips[8], 6.0f);
                 break;
             case "matchSE"://10魔方陣を組んだとき(パズルをクリアしたとき)
                 audioSource.PlayOneShot(audioClips[9], 3.4f);//0.4
