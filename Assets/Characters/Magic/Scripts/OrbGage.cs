@@ -303,6 +303,12 @@ public class OrbGage : MonoBehaviour
                 Times[num] = 4.0f;
             }
         }
+        if (Orb_Level[num] >= 5) {
+            mACame.SetMagni(5);
+        }else
+        {
+            mACame.SetMagni(1);
+        }
         Debug.Log("たいむｓ" + Times[num]);
         if (num == 0 || num == 1 || num == 2)
         {

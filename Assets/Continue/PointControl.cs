@@ -113,6 +113,9 @@ public class PointControl : MonoBehaviour
     //オーブの処理
     OrbCon oc;
 
+
+    [SerializeField] private Animator puzzleAnimator;
+
     //魔法の五角形五芒星
     public enum MAGIC_MODE
     {
@@ -125,7 +128,7 @@ public class PointControl : MonoBehaviour
     {
 
 
-        
+
 
         //sePlay = GameObject.Find("SePlayer").GetComponent<SEPlayer>();
 
@@ -306,6 +309,8 @@ public class PointControl : MonoBehaviour
         //Bボタンで色入れ替え
         if (Input.GetButtonDown("Cont_L1"))
         {
+            puzzleAnimator.SetTrigger("Go3");
+            puzzleAnimator.SetTrigger("Go4");
             //魔方陣の入れ替えの音を入れる
 
             int next = 0;
@@ -337,6 +342,9 @@ public class PointControl : MonoBehaviour
 
         }else if(Input.GetButtonDown("Cont_R1"))
         {
+
+            puzzleAnimator.SetTrigger("Go3");
+            puzzleAnimator.SetTrigger("Go4");
             int next = 0;
             for (int i = 0; i < changeCircleNum; i++)
             {

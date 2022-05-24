@@ -37,6 +37,8 @@ public class MagicAttackCamera : TrunManager
     bool attackMagickFlag = false;//魔法攻撃をしたか
     float shakeTime;//揺らす時間
 
+    float magni = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -219,7 +221,7 @@ public class MagicAttackCamera : TrunManager
 
         if (attackMagickFlag == true)
         {
-            Shake(0.25f, 0.1f);
+            Shake(0.25f, magni);
             shakeTimer += Time.deltaTime;
             if(shakeTimer > shakeTime)
             {
@@ -249,7 +251,8 @@ public class MagicAttackCamera : TrunManager
         while (elapsed < duration)
         {
             var x = pos.x + Random.Range(-1f, 1f) * magnitude;
-            var y = pos.y + Random.Range(-1f, 1f) * magnitude;
+            var y = pos.y;
+           // var y = pos.y + Random.Range(-1f, 1f) * magnitude;
 
             shakeCamera.transform.localPosition = new Vector3(x, y, pos.z);
 
@@ -269,5 +272,9 @@ public class MagicAttackCamera : TrunManager
     public void SetShakeTime(float shake_time)
     {
         shakeTime = shake_time;
+    }
+    public void SetMagni(float magni_Power)
+    {
+        magni = (magni_Power * 0.1f);
     }
 }

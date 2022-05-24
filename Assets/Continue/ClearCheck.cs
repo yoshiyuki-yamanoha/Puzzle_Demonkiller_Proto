@@ -132,7 +132,7 @@ public class ClearCheck : TrunManager
         {
             //1回だけシャッフル
             if (isShuffle) { Shuffle(); isShuffle = false;  }
-            if (magicCircleAnimOn == true) { puzzleAnimator.SetTrigger("Go1"); magicCircleAnimOn = false; }
+            if (magicCircleAnimOn == true) { puzzleAnimator.SetTrigger("Go1"); magicCircleAnimOn = false; sld.value = 1; }
             else { puzzleAnimator.SetTrigger(""); }
             if (!cleared)
             {
@@ -205,6 +205,11 @@ public class ClearCheck : TrunManager
                         //AttackV.attackvar_erase();
                         nowComboTime = 0;
                     }
+
+                    //ゲージに反映
+                    float per = nowComboTime / comboTime;
+                    sld.value = per;
+                    comboTex.text = "コンボ：" + comboNum.ToString();
                 }
 
                 //コンボタイムが切れた時
@@ -227,14 +232,11 @@ public class ClearCheck : TrunManager
                     pointer.SetActive(true);
                     //puzzle.SetActive(true);
                     gauge.SetActive(true);
+                    //sld.value = 1;
                     //bgCircle.SetActive(true);
                     //s_PointControl.enabled = true;
                 }
 
-                //ゲージに反映
-                float per = nowComboTime / comboTime;
-                sld.value = per;
-                comboTex.text = "コンボ：" + comboNum.ToString();
             }
 
 

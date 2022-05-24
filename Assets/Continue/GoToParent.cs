@@ -25,6 +25,8 @@ public class GoToParent : MonoBehaviour
     //線用
     [SerializeField] LineRenderer lr;
 
+    [SerializeField] private MagicCircleColorChange s_MCCC;
+
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
@@ -147,6 +149,8 @@ public class GoToParent : MonoBehaviour
 
         a.a = 1f;
         b.a = 1f;
+
+        s_MCCC.CircleColorChange(a);
 
         //線の色をオブジェクトに合わせる
         lr.startColor = a;
