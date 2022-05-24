@@ -100,6 +100,10 @@ public class GoToParent : MonoBehaviour
         }
     }
 
+    public bool GetIsCircle() { 
+        return s_circle != null;
+    }
+
     public void FadeSelectCircle() {
         Destroy(s_circle);
     }

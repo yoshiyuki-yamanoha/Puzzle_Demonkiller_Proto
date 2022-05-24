@@ -33,6 +33,7 @@ public class PuzzlePointerMover : TrunManager
 
     //現在選択している魔法陣オブジェクト
     [SerializeField] GameObject currentSelectedCircle;
+    GoToParent currentScript;
 
     //スティックの角度を獲る
     [SerializeField] float leftStickAngle = 0;
@@ -62,6 +63,9 @@ public class PuzzlePointerMover : TrunManager
 
     //動けるかどうか
     bool moveOk = true;
+
+    //初期化フラグ
+    bool turnInit = true;
     
     private void Start()
     {
@@ -86,28 +90,17 @@ public class PuzzlePointerMover : TrunManager
             //現在選択してる魔法陣を取得
             GetCurrentSelecterCircle();
 
+
+            if (currentScript.GetIsCircle() == false)
+            {
+                currentScript.ShowSelectCircle(selectCircle);
+                Debug.Log("おほっほｈっほ");
+            }
+            
+
             //スティックの角度
             CalcAngle();
 
-            ////インターバルを減らす
-            //if (interCount != 0)
-            //{
-            //    interCount -= Time.deltaTime;
-
-            //    if (interCount <= 0f)
-            //    {
-            //        interCount = 0;
-            //        moveOk = true;
-            //    }
-            //}
-            //if ((seconddiff >= 10.0f))
-            //{
-            //    moveOk = true;
-            //}
-            //if ((diff >= 10.0f))
-            //{
-            //    moveOk = true;
-            //}
 
             diff = Mathf.Abs(oldAngle - leftStickAngle);
             seconddiff = Mathf.Abs(oldSecondAngle - leftSecondStoclAngle);
@@ -134,6 +127,7 @@ public class PuzzlePointerMover : TrunManager
     //現在選択してる魔法陣を取得する関数
     void GetCurrentSelecterCircle() {
         currentSelectedCircle = s_PointControl.oldOverlapObject;
+        currentScript = currentSelectedCircle.GetComponent<GoToParent>();
     }
 
     //魔法陣間の移動を制御する関数aa
@@ -189,12 +183,15 @@ public class PuzzlePointerMover : TrunManager
 
             if (leftStickAngle >= thisAng && leftStickAngle < nextAng)
             {
-                if (goal.transform.GetChild(0).gameObject == currentSelectedCircle) return;
+                bool sameFlag = false;
+                if (goal.transform.GetChild(0).gameObject == currentSelectedCircle)
+                    sameFlag = true;
 
                 if (goal != null)
                 {
                     //選択サークルを消す
-                    currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
+                    if(!sameFlag)
+                        currentSelectedCircle.GetComponent<GoToParent>().FadeSelectCircle();
 
                     //ポインター移動
                     if (goal.transform.childCount > 0)
@@ -205,12 +202,14 @@ public class PuzzlePointerMover : TrunManager
                             currentSelectedCircle = goal.transform.GetChild(1).gameObject;
 
                         //選択サークルを出す
-                        currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
+                        if(!sameFlag)
+                            currentSelectedCircle.GetComponent<GoToParent>().ShowSelectCircle(selectCircle);
                     }
 
                     //移動音を鳴らす
                     //audioSource.PlayOneShot(moveSound);
-                    sePlay.Play("MagicCursorSelect");
+                    if(!sameFlag)
+                        sePlay.Play("MagicCursorSelect");
 
                     //インターバルをリセット
                     interCount = interval;
