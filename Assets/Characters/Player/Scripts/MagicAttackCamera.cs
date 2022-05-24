@@ -271,7 +271,7 @@ public class MagicAttackCamera : TrunManager
 
     public void SetShakeTime(float shake_time)
     {
-        shakeTime = shake_time;
+        shakeTime = shake_time /2;
     }
     public void SetMagni(float magni_Power)
     {
