@@ -72,7 +72,13 @@ public class BombEnemy : EnemyBase
                 case EnemyAction.Generation:
                     break;
                 case EnemyAction.Movement:
-                    EnemyMovement(4);//動けるマス範囲
+                    if (Abnormal_condition != AbnormalCondition.Ice) {
+                        EnemyMovement(4);//動けるマス範囲
+                    }
+                    else
+                    {
+                        Is_action = true;
+                    }
                     break;
             }
         }

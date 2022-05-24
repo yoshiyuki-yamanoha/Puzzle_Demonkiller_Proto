@@ -49,7 +49,13 @@ public class Enemy : EnemyBase
                 case EnemyAction.Generation:
                     break;
                 case EnemyAction.Movement:
-                    EnemyMovement(2);//動けるマス範囲
+                    if (Abnormal_condition != AbnormalCondition.Ice) {
+                        EnemyMovement(2);//動けるマス範囲
+                    }
+                    else
+                    {
+                        Is_action = true;
+                    }
                     break;
             }
         }
