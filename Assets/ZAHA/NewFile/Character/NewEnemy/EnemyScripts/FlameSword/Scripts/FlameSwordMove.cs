@@ -9,7 +9,12 @@ public class FlameSwordMove : EnemyBase
     [SerializeField] MaterialChange material_change;
     float time = 0;
 
+    bool ice_status = false;
+
     bool icebreak_flg = false;
+
+    public bool Ice_status { get => ice_status; set => ice_status = value; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +91,7 @@ public class FlameSwordMove : EnemyBase
             material_change.SetMaterial(material_change.change_material);
             Enemy_anim.SetFloat(0);
             Enemy_anim.TriggerAttack("NoIceAttack");
+            Ice_status = true;
             //Noimage.gameObject.SetActive(true);
             //ここでエフェクトを出す。
             //foreach(var effect in effect_motion)

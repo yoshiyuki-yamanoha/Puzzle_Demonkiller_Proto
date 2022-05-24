@@ -18,6 +18,8 @@ public class EnemyCamera : MonoBehaviour
     GameObject coreAttackEnemy = null;//コアを攻撃する敵
     GameObject fenceAttackEnemy = null;//フェンスを攻撃する敵
     GameObject coreCloseEnemy = null;//コアに近い敵
+    GameObject fireEnemy = null;
+    bool fireEnemyLookFlag = false;
 
     //敵の出現種類確認用
     GenerationEnemy GEnemy;
@@ -216,6 +218,17 @@ public class EnemyCamera : MonoBehaviour
             {
                 Debug.Log("コアを攻撃している敵がいる");
                 coreAttackEnemy = target;
+            }
+
+            //敵の情報を貰う 炎
+            if (target.GetComponent<EnemyBase>().enemy_kinds == EnemyBase.EnemyKinds.Flame)
+            {
+                //Debug.Log("コアを攻撃している敵がいる");
+                fireEnemy = target;
+                if(fireEnemy.GetComponent<FlameSwordMove>().Ice_status)
+                {
+                    fireEnemyLookFlag = true;
+                }
             }
             //else
             //if (target.GetComponent<BombEnemy>().Camera_Target_Core_flg() == true)
@@ -443,6 +456,19 @@ public class EnemyCamera : MonoBehaviour
                     if (timer >= 3)
                     {
                         closeFireEnemy = true;
+                    }
+                }
+                if(fireEnemyLookFlag == true)
+                {
+                    Debug.Log("炎の敵");
+                    //camera_targe = fireEnemySpone;
+                    camera_tage_pos = new Vector3(fireEnemy.transform.position.x, transform.position.y, fireEnemy.transform.position.z);
+                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                    timer += Time.deltaTime;
+                    transform.LookAt(fireEnemy.transform.position);
+                    if (timer >= 3)
+                    {
+                        fireEnemyLookFlag = false;
                     }
                 }
                 else

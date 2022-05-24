@@ -11,9 +11,11 @@ public class AnimEvent : MonoBehaviour
 
     [SerializeField] ParticleSystem[] fire = null;
     [SerializeField] ParticleSystem[] ice_star = null;
+    [SerializeField] ParticleSystem[] ice_glow = null;
     [SerializeField] Transform destroy_effect = null;
     [SerializeField] ParticleSystem hit_effect = null;
     [SerializeField] TrailRenderer trail_renderer = null;
+    [SerializeField] Animator anim;
 
     bool is_anim_attack = false;
     bool is_flame_ice_break;
@@ -34,6 +36,16 @@ public class AnimEvent : MonoBehaviour
         //敵が消える音を入れる//
         if (sePlay != null) sePlay.Play("EnemyDead");
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
+    }
+
+    public void AnimVelocity()
+    {
+        anim.SetFloat("AttackSpeed",0.1f);
+    }
+
+    public void InitAnimVelocity()
+    {
+        anim.SetFloat("AttackSpeed", 1f);
     }
 
     public void SetAnimAttack(bool flg)
@@ -106,9 +118,22 @@ public class AnimEvent : MonoBehaviour
 
         if (ice_star != null)
         {
-            for (int i = 0; i< ice_star.Length; i++)
+            for (int i = 0; i < ice_star.Length; i++)
             {
                 ice_star[i].Play();
+            }
+        }
+    }
+
+    public void Ice_Grow()
+    {
+        ice_glow[0].gameObject.SetActive(true); //アクティブオン
+
+        if (ice_glow != null)
+        {
+            for (int i = 0; i< ice_glow.Length; i++)
+            {
+                ice_glow[i].Play();
             }
         }
     }

@@ -28,18 +28,18 @@ public class MaterialChange : MonoBehaviour
 
     public void IceBreakMaterial()
     {
-        float des = my_renderer.material.GetFloat("_Destruction");//materialの値を取得
+        //float des = my_renderer.material.GetFloat("_Destruction");//materialの値を取得
 
-        des += Time.deltaTime;//分解materialの値を生成
+        //des += Time.deltaTime;//分解materialの値を生成
 
-        if (des >= 0.35f) { 
-            des = 0f;
-            anim_event.FlameBreakIceOff(); //氷を壊すフラグをオフ
-            SetMaterial(material);//materialを戻す。
-            anim_event.Ice_star();
-        }
+        //if (des >= 1f) { 
+        //    des = 0f;
+        SetMaterial(material);//materialを戻す。
+        anim_event.Ice_star();
+        anim_event.FlameBreakIceOff(); //氷を壊すフラグをオフ
+        //}
 
-        my_renderer.material.SetFloat("_Destruction", des);//分解materialの値を更新
+        //my_renderer.material.SetFloat("_Destruction", des);//分解materialの値を更新
     }
 
     private void FixedUpdate()
