@@ -146,8 +146,8 @@ public class PuzzlePointerMover : TrunManager
         vert = Input.GetAxis("Vertical");
         horiB = Input.GetAxis("LEFTRIGHT");
         vertB = Input.GetAxis("UPDOWN");
-        if (hori + vert<= 0.4f && hori + vert >= -0.4f) isStickMove = false;
-        else isStickMove = true;
+        if (Mathf.Abs(hori)+ Mathf.Abs(vert) > 0.65f) isStickMove = true;
+        else isStickMove = false;
         if (horiB + vertB <= 0.1f && horiB + vertB >= -0.1f) isSecondStickMove = false;
         else isSecondStickMove = true;
         //スティックの角度を求める(今の所は角度は使ってない)
