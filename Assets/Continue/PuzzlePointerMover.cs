@@ -138,7 +138,7 @@ public class PuzzlePointerMover : TrunManager
         currentSelectedCircle = s_PointControl.oldOverlapObject;
     }
 
-    //魔法陣間の移動を制御する関数
+    //魔法陣間の移動を制御する関数aa
     void CalcAngle()
     {
 
