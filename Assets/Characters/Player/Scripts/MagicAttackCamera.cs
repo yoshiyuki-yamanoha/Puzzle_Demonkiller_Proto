@@ -231,10 +231,6 @@ public class MagicAttackCamera : TrunManager
                 attackMagickFlag = false;
             }
         }
-
-
-
-
     }
 
     public void Shake(float duration, float magnitude)
