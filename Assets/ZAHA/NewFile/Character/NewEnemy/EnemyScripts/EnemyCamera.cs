@@ -164,13 +164,10 @@ public class EnemyCamera : MonoBehaviour
 
             //enemy_camera.depth = -2;
             startFlag = false;
-            if (!initflg)
-            {
-                transform.position = defaultCamerapos;
-                initflg = true;
-            }
             if (finalDieflag == false)
             {
+                initflg = true;
+                transform.position = defaultCamerapos;
                 enemy_camera.depth = -2;//カメラの優先度
             }
             //initflg = true;// 
