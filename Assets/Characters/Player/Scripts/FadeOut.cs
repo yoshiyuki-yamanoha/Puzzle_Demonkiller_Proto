@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeOut : MonoBehaviour
 {
-    const float fadeSpeed = 0.04f;//フェードスピード
+    float fadeSpeed = 0.4f;//フェードスピード
     public float soundFadeSpeed/*fadeSpeed * 2*/;
     float red, green, blue, alpha;//色:r,g,b 透明度:a
     public bool fadeOutFlag = false;// Fadeoutのフラグ
@@ -45,8 +45,8 @@ public class FadeOut : MonoBehaviour
 
     void StartFadeIn()
     {
-        alpha -= fadeSpeed;
-        if(alpha <= 0.0f)
+        alpha -= fadeSpeed * Time.deltaTime;
+        if (alpha <= 0.0f)
         {
             alpha = 0.0f;
             fadeInFlag = false;
@@ -55,7 +55,7 @@ public class FadeOut : MonoBehaviour
 
     void StartFadeOut()
     {
-        alpha += fadeSpeed;
+        alpha += fadeSpeed * Time.deltaTime;
         if (alpha >= 1.0f)
         {
             alpha = 1.0f;
@@ -116,7 +116,12 @@ public class FadeOut : MonoBehaviour
 
         if (alpha >= fadeOut)
             return true;
-
+        
         return false;
+    }
+
+    public void SetFadeSpeed(float speed)
+    {
+        fadeSpeed = speed;
     }
 }

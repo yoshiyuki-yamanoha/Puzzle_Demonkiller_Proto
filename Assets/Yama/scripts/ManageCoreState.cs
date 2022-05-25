@@ -105,6 +105,7 @@ public class ManageCoreState : TrunManager
 
             // 画面フェードアウトの開始
             fadeMGR.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
+            fadeMGR.SetFadeSpeed(0.4f);
             fadeMGR.SetColor_Black();
             // 音量フェードアウトの開始
             float bgmVolume = bgmManager.GetBGMVolume();

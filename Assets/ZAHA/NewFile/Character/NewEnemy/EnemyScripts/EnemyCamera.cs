@@ -736,6 +736,7 @@ public class EnemyCamera : MonoBehaviour
         }
         if (timer > 3)
         {
+            fadeout.SetFadeSpeed(1.0f);
             fadeout.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
         }
         if (timer > 4)

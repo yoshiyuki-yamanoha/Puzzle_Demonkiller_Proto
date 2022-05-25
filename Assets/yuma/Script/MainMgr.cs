@@ -53,9 +53,8 @@ public class MainMgr : MonoBehaviour
         if(enemyDieNum >= enemyDieMax) {
             if (eCamera.endFlag)
             {
-                GameMgr.Instance.GotoGameClearScene();
-                isVictoryAnim = true;
                 //GameMgr.Instance.GotoGameClearScene();
+                isVictoryAnim = true;
             }
         }
 
@@ -97,10 +96,11 @@ public class MainMgr : MonoBehaviour
 
             // 画面フェードアウトの開始
             fadeMGR.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
+            fadeMGR.SetFadeSpeed(0.4f);
             fadeMGR.SetColor_White();
             // 音量フェードアウトの開始
             var bgmVolume = bgmManager.GetBGMVolume();
-            if (bgmVolume == 0) bgmVolume = 0.06f;
+            if (bgmVolume == 0) bgmVolume = 0.4f;
             float volumeAttenuation = bgmVolume * fadeMGR.soundFadeSpeed;
             bgmManager.StartSoundFadeOut(volumeAttenuation);
         }
