@@ -14,6 +14,7 @@ public class MagicAttackCamera : TrunManager
     private GameObject selepos;//セレクターの位置情報
     private MapMass selector;
     //private Vector3 subCamePos;
+    EnemyCamera enemyCamera;
 
     private Vector3 start;
     private Vector3 target;
@@ -47,6 +48,7 @@ public class MagicAttackCamera : TrunManager
         subCame = subCamera.GetComponent<Camera>();
         shakeCamera = GameObject.Find("ShakeCamera");
         shakeCame = shakeCamera.GetComponent<Camera>();
+        enemyCamera = GameObject.Find("EnemyCamera").GetComponent<EnemyCamera>();
 
         MSCameraflag = false;
         trunMgr = GameObject.Find("TrunManager").GetComponent<TrunManager>();
@@ -67,8 +69,10 @@ public class MagicAttackCamera : TrunManager
         if (trunMgr.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
         {
             if (attackMagickFlag == false)
-            {
-                subCame.depth = 0;
+            {if (enemyCamera.finalDieflag == false)
+                {
+                    subCame.depth = 0;
+                }
             }
 
             (soeX, soeY) = selector.GetMAgicMassSelector();
@@ -223,7 +227,7 @@ public class MagicAttackCamera : TrunManager
         {
             Shake(0.25f, magni);
             shakeTimer += Time.deltaTime;
-            if(shakeTimer > shakeTime)
+            if(shakeTimer > shakeTime && enemyCamera.finalDieflag == false)
             {
                 subCame.depth = 0;
                 shakeCame.depth = -2;
@@ -231,6 +235,7 @@ public class MagicAttackCamera : TrunManager
                 attackMagickFlag = false;
             }
         }
+
     }
 
     public void Shake(float duration, float magnitude)
