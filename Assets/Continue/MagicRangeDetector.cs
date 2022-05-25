@@ -260,6 +260,7 @@ public class MagicRangeDetector : TrunManager
     //魔法の範囲がステージ外に出ないようにするゴリラ
     public bool MagicRangeOverhangStageMap(int x,int y) {
 
+
         //魔法の種類によって行ける範囲を変える
         switch (magicType) {
             case MagicType.FireStar:     //五芒星　炎 (選択マスを中心に n^2)
@@ -271,12 +272,12 @@ public class MagicRangeDetector : TrunManager
                 break;
             case MagicType.IceStar:      //五芒星　氷 (選択マスを中心にステージ縦(レベル)列)　ボスにも当たる
 
-                if (magicLevel < 3)
                 {
-                    if (x < 0 || (x + (magicLevel - 1) > stageWidth - 1)) return false;
+                    int subRight = magicLevel / 2;
+                    int subLeft = (magicLevel - 1) / 2;
+
+                    if (x - subLeft < 0 || x + (subRight) >= stageWidth) return false;
                 }
-                else
-                    if ((x - 1) < 0 || (x + 1 > stageWidth - 1)) return false;
 
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
@@ -292,11 +293,13 @@ public class MagicRangeDetector : TrunManager
 
             case MagicType.IcePenta:     //五角形　氷 (選択マスを中心に横に広がる  )
 
-                int subRight = (magicLevel-1) / 2;
-                int subLeft = magicLevel / 2;
+                {
+                    int subRight = (magicLevel - 1) / 2;
+                    int subLeft = magicLevel / 2;
 
-                if (x - subLeft < 0 || x + (subRight) >= stageWidth) return false;
-                if (y < 0 || y >= stageHeight) return false;
+                    if (x - subLeft < 0 || x + (subRight) >= stageWidth) return false;
+                    if (y < 0 || y >= stageHeight) return false;
+                }
 
                 break;
         }
