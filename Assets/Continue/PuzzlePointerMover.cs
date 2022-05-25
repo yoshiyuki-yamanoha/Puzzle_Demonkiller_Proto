@@ -54,8 +54,8 @@ public class PuzzlePointerMover : TrunManager
     [SerializeField] private bool puzzleOnlyMode;
 
     //ポインター移動インターバル
-    const float interval = 0.065f;
-    float interCount = interval;
+    const int interval = 1;
+    int interCount = interval;
 
     //ほぼ同じ角度だったら連続で移動しない
     float oldAngle = 0;
@@ -94,7 +94,6 @@ public class PuzzlePointerMover : TrunManager
             if (currentScript.GetIsCircle() == false)
             {
                 currentScript.ShowSelectCircle(selectCircle);
-                Debug.Log("おほっほｈっほ");
             }
             
 
@@ -104,6 +103,9 @@ public class PuzzlePointerMover : TrunManager
 
             diff = Mathf.Abs(oldAngle - leftStickAngle);
             seconddiff = Mathf.Abs(oldSecondAngle - leftSecondStoclAngle);
+
+            if (diff < 20)
+                return;
 
             //魔法陣間の移動を制御する
             if (isStickMove)
@@ -186,6 +188,11 @@ public class PuzzlePointerMover : TrunManager
                 bool sameFlag = false;
                 if (goal.transform.GetChild(0).gameObject == currentSelectedCircle)
                     sameFlag = true;
+
+                //てっぺの場合
+                if (i == 0) { 
+                    
+                }
 
                 if (goal != null)
                 {
