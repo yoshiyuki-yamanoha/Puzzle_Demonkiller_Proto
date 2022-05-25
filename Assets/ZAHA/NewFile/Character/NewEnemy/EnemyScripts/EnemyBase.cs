@@ -16,18 +16,19 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] bool camera_target_core_flg;
     [SerializeField] bool camera_target_bari_flg;
 
-    bool move_wait_flg = false;
-    [SerializeField] float move_wait_time = 0;
-    float movetime = 0;
+    //bool move_wait_flg = false;
+    //[SerializeField] float move_wait_time = 0;
+    //float movetime = 0;
     //particleデス!
     [SerializeField] GameObject ice_obj = null;
     [SerializeField] ParticleSystem[] fire_effect = null;//ファイヤーエフェクト
+    [SerializeField] ParticleSystem[] ice_break_effeck = null;
     [SerializeField] Image fire_image = null;
     //ParticleSystem chilled_fire_effect = null;
 
     SEManager sePlay = null;  //SE
     FootSE footSEPlay;
-    [SerializeField]GameObject EnemyDeadBox;
+    [SerializeField] GameObject EnemyDeadBox;
     EnemySEBox SEdead;
 
 
@@ -188,7 +189,7 @@ public class EnemyBase : MonoBehaviour
     public ParticleSystem[] Fire_effect { get => fire_effect; set => fire_effect = value; }
     public Image Fire_image { get => fire_image; set => fire_image = value; }
     public bool Ice_instance_flg { get => ice_instance_flg; set => ice_instance_flg = value; }
-    public bool Ice_flg { get => ice_flg; set => ice_flg = value; }
+    public bool Ice_del_flg { get => ice_flg; set => ice_flg = value; }
     public Slider Hpbar_red { get => hpbar_red; set => hpbar_red = value; }
     public Slider Hpbar_green { get => hpbar_green; set => hpbar_green = value; }
 
@@ -199,7 +200,7 @@ public class EnemyBase : MonoBehaviour
             IceObjSetActivOff();//アイスオブジェクトオフ
         }
         Camera_TargetInit();//カメラのターゲット格納初期化
-        move_wait_time = Random.Range(0.0f, 1.0f);
+        //move_wait_time = Random.Range(0.0f, 1.0f);
         GetObject();
         Init_speed = Speed;//初期のスピード保存
         HPBarInit();
@@ -233,7 +234,7 @@ public class EnemyBase : MonoBehaviour
         Istrun = false;//ターン終了
         Init_anim_flg = true;
         Is_action = false;//アクションをオフにする
-        move_wait_flg = false;
+        //move_wait_flg = false;
     }
 
     public Vector3 TargetDir(GameObject Enemy, GameObject Target)//ターゲットの方向に向き処理(移動に使用予定) 
@@ -266,9 +267,9 @@ public class EnemyBase : MonoBehaviour
             speed = 0;
 
 
-            GameObject EmpEnemy=Instantiate(EnemyDeadBox);
+            GameObject EmpEnemy = Instantiate(EnemyDeadBox);
             EmpEnemy.GetComponent<EnemySEBox>().SetEnemyTyp((int)enemy_kinds);
-            
+
             //SEdead.SetEnemyTyp((int)enemy_kinds);
 
             //if (enemy_kinds == EnemyKinds.Goblin)//1:ゴブリンの死亡SE
@@ -379,7 +380,7 @@ public class EnemyBase : MonoBehaviour
         //Debug.Log("Im On fire");
         Fire_abnormality_turncount++;
 
-        Enemy_anim.SetFloat(1);//アニメーションスピードを0にするー
+        Enemy_anim.SetSpeed(1);//
 
         if (Fire_abnormality_turncount <= 3)
         {
@@ -388,26 +389,29 @@ public class EnemyBase : MonoBehaviour
             FireEffectPlay();
             Damage(2);
             enemy_anim.TriggerAttack("HitDamage");
-        }
-        else
-        {
-            Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
-            Fire_abnormality_turncount = 0;//ターンリセット
+
+            if(Fire_abnormality_turncount ==  3)
+            {
+                Fire_image.gameObject.SetActive(false);
+                Abnormal_condition = AbnormalCondition.NONE;//状態異常解除
+                Fire_abnormality_turncount = 0;//ターンリセット
+            }
         }
     }
+    
 
-    public void Fire_Abnormal_UI()
-    {
+    //public void Fire_Abnormal_UI()
+    //{
 
-        if (Fire_abnormality_turncount < 3)
-        {
-            Fire_image.gameObject.SetActive(true);
-        }
-        else
-        {
-            Fire_image.gameObject.SetActive(false);
-        }
-    }
+    //    if (Fire_abnormality_turncount < 3)
+    //    {
+    //        Fire_image.gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        Fire_image.gameObject.SetActive(false);
+    //    }
+    //}
 
     //凍結処理
     public void Ice_Abnormal_Condition()
@@ -420,7 +424,7 @@ public class EnemyBase : MonoBehaviour
 
         }
 
-        Enemy_anim.SetFloat(0);//アニメーションスピードを0にするー
+        Enemy_anim.SetSpeed(0);//アニメーションスピードを0にするー
 
         //Debug.Log(ice_abnormality_turncount);
         if (Ice_abnormality_turncount >= 3)//2ターン経過したら
@@ -430,7 +434,7 @@ public class EnemyBase : MonoBehaviour
                 IceObjSetActivOff();//オフ
             }
 
-            Enemy_anim.SetFloat(1);//アニメーションスピードを1に戻す―
+            Enemy_anim.SetSpeed(1);//アニメーションスピードを1に戻す―
             Abnormal_condition = AbnormalCondition.NONE;
             ice_abnormality_turncount = 0;
             Damage(1);
@@ -509,6 +513,7 @@ public class EnemyBase : MonoBehaviour
             map.Map[y, x] = (int)MapMass.Mapinfo.NONE;
 
             if (Init_animflg) { Enemy_anim.TriggerDeath("Death"); Init_animflg = false; }; //一回のみ死亡アニメーション再生
+            if (enemy_kinds == EnemyKinds.Bom) { Enemy_anim.SetSpeed(1);}//ボムだったら速度を1に戻します。
         }
     }
 
@@ -598,13 +603,14 @@ public class EnemyBase : MonoBehaviour
             //移動フラグがオンになった時
             if (Ismove && Abnormal_condition != AbnormalCondition.Ice)
             {
+
                 Map.Map[IndexCheckY(NextposY), IndexCheckX(NextposX)] = (int)MapMass.Mapinfo.Enemy;//移動先に敵情報を渡す。
 
-                if (MoveTime(move_wait_time))//移動するまで待機する時間
-                {
-                    MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));//実移動
-                    status = Status.Walk;//歩くアニメーション
-                }
+                //if (MoveTime(move_wait_time))//移動するまで待機する時間
+                //{
+                MassMove(IndexCheckY(NextposY), IndexCheckX(NextposX));//実移動
+                status = Status.Walk;//歩くアニメーション
+                //}
 
                 if (Abnormal_condition == AbnormalCondition.Fire)//炎の状態異常が掛かっていたら炎の状態異常をUIをオフ
                 {
@@ -620,7 +626,8 @@ public class EnemyBase : MonoBehaviour
             //目的値についているかフラグがオンなら
             if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)
             {
-                if (Ismove) {
+                if (Ismove)
+                {
                     Y = IndexCheckY(NextposY);//次の位置を現在位置にする
                     X = IndexCheckX(NextposX);//次の位置を現在位置にする
                 }
@@ -687,7 +694,8 @@ public class EnemyBase : MonoBehaviour
             if (map.Map[attackpos.y, attackpos.x] == (int)MapMass.Mapinfo.bari) //バリケードだったら
             {//バリケード
                 LookTarget(attack_pos_dir);//向き移動
-                if (enemy_kinds != EnemyKinds.Flame) {//フレームじゃなければ
+                if (enemy_kinds != EnemyKinds.Flame)
+                {//フレームじゃなければ
                     map.Core_bari_Data[attackpos.y, attackpos.x].GetComponent<ManageBarricade>().ReceiveDamage(Attack);//バリケードにダメージよーん
                 }
                 else
@@ -865,6 +873,16 @@ public class EnemyBase : MonoBehaviour
         fire_image.transform.forward = Vector3.back;
     }
 
+    public void IceBreakEffeckt()
+    {
+
+        foreach (var f_ice_break_effeck in ice_break_effeck)
+        {
+            f_ice_break_effeck.gameObject.SetActive(true);
+            f_ice_break_effeck.Play();
+        }
+    }
+
     public void FireEffectPlay()
     {
         foreach (var fire_effect in Fire_effect)
@@ -874,21 +892,22 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    bool MoveTime(float time)
-    {
-        if (!move_wait_flg)
-        {
-            movetime += Time.deltaTime;
-        }
+    //bool MoveTime(float move_wait_time)
+    //{
+    //    if (!move_wait_flg)
+    //    {
+    //        Debug.Log("敵の待機中カウント中");
+    //        movetime += Time.deltaTime;
+    //    }
 
-        if (movetime >= time)
-        {
-            move_wait_flg = true;
-            movetime = 0;
-        }
+    //    if (movetime <= move_wait_time)
+    //    {
+    //        move_wait_flg = true;
+    //        movetime = 0;
+    //    }
 
-        return move_wait_flg;
-    }
+    //    return move_wait_flg;
+    //}
 
     public bool Camera_Target_Core_flg()
     {

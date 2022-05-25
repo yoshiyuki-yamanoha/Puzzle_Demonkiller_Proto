@@ -35,7 +35,7 @@ public class EnemyAnimationBase : MonoBehaviour
         }
     }
 
-    public void SetFloat(int valu)
+    public void SetSpeed(int valu)
     {
         enemy_animator.SetFloat("Speed", valu);
     }

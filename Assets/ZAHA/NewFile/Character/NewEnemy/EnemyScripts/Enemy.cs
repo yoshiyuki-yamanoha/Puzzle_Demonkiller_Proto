@@ -15,10 +15,6 @@ public class Enemy : EnemyBase
 
     void FixedUpdate()
     {
-        //if (Abnormal_condition != AbnormalCondition.Ice)
-        //{
-
-
         //自分(敵)のターンだったら
         if (Trun_manager.trunphase == TrunManager.TrunPhase.Enemy)
         {
@@ -37,6 +33,7 @@ public class Enemy : EnemyBase
         else //ターンを終了する時
         {
             EnemyTurnEnd();//ターン終了 エネミーターン以外の時
+            time = 0;
         }
 
         HPber();//HPゲージ
@@ -111,41 +108,50 @@ public class Enemy : EnemyBase
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("魔法");
-        if (other.CompareTag("Magic"))//当たった相手が魔法だったら
-        {
-        }
-
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
-            FireEffectPlay();
-            Fire_Abnormal_UI();
-            Abnormal_condition = AbnormalCondition.Fire;
-            Fire_abnormality_turncount = 0;//持続リセット
-            Destroy(other.gameObject);
-            IceObjSetActivOff();//アイスオブジェクトオフ
-            if (Ice_flg)
+            Destroy(other.gameObject);//当たった魔法を消す
+
+            if(Abnormal_condition == AbnormalCondition.Ice)
             {
-                //ここは子供のオブジェクトが存在したら
-                gameObject.GetComponentInChildren<PentaIceWall>().DestroyIce();
-                //Ice_flg = false;
+                IceObjSetActivOff();//アイスオブジェクトオフ
+                IceBreakEffeckt();
+            }
+
+            Abnormal_condition = AbnormalCondition.Fire;//ファイヤー状態付与
+            FireEffectPlay();//ファイヤーeffect再生
+            //Fire_Abnormal_UI();//ファイヤーUI表示
+            Fire_image.gameObject.SetActive(true);
+            Fire_abnormality_turncount = 0;//持続リセット
+
+            if (Ice_del_flg)
+            {
+                Destroy(gameObject.GetComponentInChildren<PentaIceWall>().gameObject);
+                Ice_del_flg = false;
+                Ice_instance_flg = false;
             }
         }
 
         if (other.CompareTag("Ice"))
         {
+            Destroy(other.gameObject);//当たった魔法を消すよーん
+            if (Abnormal_condition == AbnormalCondition.Fire) //現在の状態異常がアイス状態なら
+            {
+                Fire_image.gameObject.SetActive(false);//ファイヤーUI非表示
+            }
+
             Abnormal_condition = AbnormalCondition.Ice;//状態異常をアイス状態
             if (!Ice_instance_flg)
             {
                 other.GetComponent<PentagonIce>().Tin(transform.position, this.gameObject, new Vector3(0.8f, 0.8f, 0.8f));
                 Ice_instance_flg = true;
             }
-            //pentaIceEff = GameObject.Find("BreakIce_honmono");
-            //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
-            Ice_flg = true;
+            Ice_del_flg = true;//アイス消す状態
             Ice_abnormality_turncount = 0; //状態異常カウントリセット
             IceObjSetActivOn();//アイスオブジェクトオン
-            Destroy(other.gameObject);//当たった魔法を消すよーん
+            
+            //pentaIceEff = GameObject.Find("BreakIce_honmono");
+            //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
         }
     }
 

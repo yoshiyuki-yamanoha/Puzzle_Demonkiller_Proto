@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FlameSwordMove : EnemyBase
 {
-    [SerializeField] Image Noimage = null; 
+    //[SerializeField] Image Noimage = null; 
     [SerializeField] ParticleSystem[] effect_motion = null;
     [SerializeField] MaterialChange material_change;
     float time = 0;
@@ -19,7 +19,7 @@ public class FlameSwordMove : EnemyBase
     void Start()
     {
         InitFunction();
-        Noimage.gameObject.SetActive(false);
+        //Noimage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,11 +35,6 @@ public class FlameSwordMove : EnemyBase
                 {
                     EnemyTurnStart();
                     time = 0;
-                }
-
-                if (Targetchangeflg)
-                {
-                    Noimage.gameObject.SetActive(false);
                 }
             }
         }
@@ -73,25 +68,24 @@ public class FlameSwordMove : EnemyBase
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Magic"))//当たった相手が魔法だったら
-        {
-        }
-
         if (other.CompareTag("Fire"))//燃焼のタグ
         {
+            Destroy(other.gameObject);
             FireEffectPlay();
-            Fire_Abnormal_UI();
+            //Fire_Abnormal_UI();
+            Fire_image.gameObject.SetActive(true);
             Abnormal_condition = AbnormalCondition.Fire;
             Fire_abnormality_turncount = 0;//持続リセット
-            Destroy(other.gameObject);
         }
 
         if (other.CompareTag("Ice"))
         {
-            material_change.SetMaterial(material_change.change_material);
-            Enemy_anim.SetFloat(0);
-            Enemy_anim.TriggerAttack("NoIceAttack");
-            Ice_status = true;
+            Destroy(other.gameObject);
+            material_change.SetMaterial(material_change.change_material);//氷のmaterialに変更
+            Enemy_anim.TriggerAttack("NoIceAttack");//animation再生
+            Ice_status = true; //アイスステータスOn
+            
+
             //Noimage.gameObject.SetActive(true);
             //ここでエフェクトを出す。
             //foreach(var effect in effect_motion)
@@ -104,7 +98,6 @@ public class FlameSwordMove : EnemyBase
             //pentaIceEff = GameObject.Find("BreakIce_honmono");
             //Instantiate(pentaIceEff, transform.position, Quaternion.identity);
             //Ice_abnormality_turncount = 0;
-            Destroy(other.gameObject);
         }
     }
 
