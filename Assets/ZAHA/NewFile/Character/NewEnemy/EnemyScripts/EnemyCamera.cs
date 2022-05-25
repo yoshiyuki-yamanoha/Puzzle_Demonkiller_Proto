@@ -651,7 +651,7 @@ public class EnemyCamera : MonoBehaviour
 
             if (camera_targe != null)
             {
-                enemyLookCamepos = new Vector3(/*transform.position.x*/camera_targe.transform.position.x, 4, camera_targe.transform.position.z - 15);
+                enemyLookCamepos = new Vector3(/*transform.position.x*/camera_targe.transform.position.x, 18, camera_targe.transform.position.z - 15);
                 floDistance = Vector3.Distance(transform.position, enemyLookCamepos);
                 //transform.position = enemyLookCamepos;
 
@@ -662,9 +662,13 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
-                transform.localPosition += transform.forward * (speed);//自分の前方に移動
-                //transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
-                transform.LookAt(camera_targe.transform.position);
+                if (floDistance > 10)
+                {
+                    transform.localPosition += transform.forward * (speed);//自分の前方に移動
+                                                                           //transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+                    transform.position = new Vector3(transform.position.x, 18, transform.position.z);//高さを一定に保つために高さを固定している
+                    transform.LookAt(camera_targe.transform.position);
+                }
                 //Debug.Log("敵を見ている camera_targeが入っている");
             }
             else
