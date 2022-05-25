@@ -611,6 +611,7 @@ public class EnemyCamera : MonoBehaviour
     }
     void EndEnemyCameraMove()//最後の敵が倒れた時に使う
     {
+        Debug.Log("最後の時間");
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
 
@@ -655,6 +656,8 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
+                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+                transform.LookAt(camera_targe.transform.position);
                 //Debug.Log("敵を見ている camera_targeが入っている");
             }
             else
@@ -662,8 +665,6 @@ public class EnemyCamera : MonoBehaviour
                 //Debug.Log("敵を見ている camera_targeが入っていない");
             }
 
-            transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
-            transform.LookAt(camera_targe.transform.position);
         }
         if (hpNoneEnemy == null)
         {
