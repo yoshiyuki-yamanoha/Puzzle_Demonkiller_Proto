@@ -620,7 +620,7 @@ public class EnemyCamera : MonoBehaviour
         Debug.Log("最後の時間");
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
-
+        float speed = 2;//最後に使う速度
         //timer += Time.deltaTime;
         if (photFlag == false)
         {
@@ -662,7 +662,8 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
-                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+                transform.localPosition += transform.forward * (speed);//自分の前方に移動
+                //transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
                 transform.LookAt(camera_targe.transform.position);
                 //Debug.Log("敵を見ている camera_targeが入っている");
             }
