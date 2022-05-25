@@ -47,7 +47,7 @@ public class Enemy : EnemyBase
                     break;
                 case EnemyAction.Movement:
                     if (Abnormal_condition != AbnormalCondition.Ice) {
-                        EnemyMovement(2);//動けるマス範囲
+                        EnemyMovement(Enemy_move);//動けるマス範囲
                     }
                     else
                     {

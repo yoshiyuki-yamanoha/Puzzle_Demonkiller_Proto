@@ -127,29 +127,21 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
     {
         if (game_mode == Mode.Game)
         {
-            enemy_generation_info = new EnemyGenerationInfo[6];//配列保存
+            enemy_generation_info = new EnemyGenerationInfo[5];//配列保存
 
+            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0, true);
+            enemy_generation_info[1] = new EnemyGenerationInfo(4, 0, 4, 0, 0, true);
+            enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
+            enemy_generation_info[3] = new EnemyGenerationInfo(4, 1, 1, 2, 0, true);
+            enemy_generation_info[4] = new EnemyGenerationInfo(8, 0, 3, 4, 1, true);
 
-            //enemy_generation_info[0] = new EnemyGenerationInfo(5, 0, 0, 5, 0, true);
-            //enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 1, 0, 1, true);
+            //enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0, true);
+            //enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 2, 0, 0, true);
             //enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
             //enemy_generation_info[3] = new EnemyGenerationInfo(4, 0, 2, 2, 0, true);
             //enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
             //enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
 
-            enemy_generation_info[0] = new EnemyGenerationInfo(5, 5, 0, 0, 0, true);
-            enemy_generation_info[1] = new EnemyGenerationInfo(4, 2, 2, 0, 0, true);
-            enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
-            enemy_generation_info[3] = new EnemyGenerationInfo(4, 0, 2, 2, 0, true);
-            enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
-            enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
-
-            //enemy_generation_info[0] = new EnemyGenerationInfo(4, 1, 1, 1, 1, true);
-            //enemy_generation_info[1] = new EnemyGenerationInfo(8, 2, 2, 4, 0, true);
-            //enemy_generation_info[2] = new EnemyGenerationInfo(9, 3, 3, 3, 0, true);
-            //enemy_generation_info[3] = new EnemyGenerationInfo(10, 5, 5, 0, 0, true);
-            //enemy_generation_info[4] = new EnemyGenerationInfo(10, 0, 5, 5, 0, true);
-            //enemy_generation_info[5] = new EnemyGenerationInfo(16, 5, 5, 5, 1, true);
         }
         else
         {

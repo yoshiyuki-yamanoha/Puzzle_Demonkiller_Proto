@@ -10,7 +10,7 @@ public class MainMgr : MonoBehaviour
     EnemyBase enemy;
     // 敵が倒された数
     static private int enemyDieNum;
-    const int enemyDieMax = 48;//定数はずしました。
+    const int enemyDieMax = 30;//48;
     // クリアしたフラグを取得
     EnemyCamera eCamera;
     // Start is called before the first frame update

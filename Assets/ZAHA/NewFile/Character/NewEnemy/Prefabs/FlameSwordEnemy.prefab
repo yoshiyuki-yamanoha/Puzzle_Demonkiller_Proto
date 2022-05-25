@@ -1297,6 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebba72e85e365f4c958538bbe965b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy_move: 4
   anim_event: {fileID: 690488530526995729}
   camera_target_core_flg: 0
   camera_target_bari_flg: 0

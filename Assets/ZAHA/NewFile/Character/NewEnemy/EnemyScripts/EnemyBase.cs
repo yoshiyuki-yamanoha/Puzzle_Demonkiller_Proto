@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class EnemyBase : MonoBehaviour
 {
+    [SerializeField] int enemy_move = 0;
     bool pos_register = false;
 
     [SerializeField] AnimEvent anim_event = null;
@@ -192,6 +193,7 @@ public class EnemyBase : MonoBehaviour
     public bool Ice_del_flg { get => ice_flg; set => ice_flg = value; }
     public Slider Hpbar_red { get => hpbar_red; set => hpbar_red = value; }
     public Slider Hpbar_green { get => hpbar_green; set => hpbar_green = value; }
+    public int Enemy_move { get => enemy_move; set => enemy_move = value; }
 
     public void InitFunction()
     {

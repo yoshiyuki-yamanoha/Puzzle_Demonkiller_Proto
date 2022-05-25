@@ -54,7 +54,7 @@ public class FlameSwordMove : EnemyBase
                 case EnemyAction.Generation:
                     break;
                 case EnemyAction.Movement:
-                    EnemyMovement(4);//動けるマス範囲
+                    EnemyMovement(Enemy_move);//動けるマス範囲
                     break;
             }
         }
