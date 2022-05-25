@@ -209,7 +209,7 @@ public class ClearCheck : TrunManager
                     //ゲージに反映
                     float per = nowComboTime / comboTime;
                     sld.value = per;
-                    comboTex.text = "コンボ：" + comboNum.ToString();
+                    //comboTex.text = "コンボ：" + comboNum.ToString();
                 }
 
                 //コンボタイムが切れた時
