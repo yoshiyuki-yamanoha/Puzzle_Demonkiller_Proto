@@ -164,11 +164,13 @@ public class EnemyCamera : MonoBehaviour
 
             //enemy_camera.depth = -2;
             startFlag = false;
-
-            initflg = true;
-            if (finalDieflag == false)
+            if (!initflg)
             {
                 transform.position = defaultCamerapos;
+                initflg = true;
+            }
+            if (finalDieflag == false)
+            {
                 enemy_camera.depth = -2;//カメラの優先度
             }
             //initflg = true;// 
@@ -428,8 +430,8 @@ public class EnemyCamera : MonoBehaviour
     {
 
         //if ((hpNoneEnemy == null || dieEnemyCount < dieEnemyMax - 1) && finalDieflag == false)
-        if (finalDieflag == false)
-        {
+        if (finalDieflag == false) {
+   
             Vector3 camera_tage_pos = new Vector3(0, 0, 0);
             targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
             float speed = 1;
@@ -594,6 +596,19 @@ public class EnemyCamera : MonoBehaviour
             //}
 
         }
+        else
+        {
+            if (finalDieflag == false)
+            {
+                targets = GameObject.FindGameObjectsWithTag("Enemy");//敵のタグがついているオブジェクト取得
+                HpNoneEnemy();
+            }
+            if (finalDieflag == true)//死んだフラグをカウントしてそれがマックスだったら入る
+            {
+                //HpNoneEnemy();
+                EndEnemyCameraMove();
+            }
+        }
         //Debug.Log(dieFlagEnemy + "たい倒れた");
 
     }
@@ -602,7 +617,7 @@ public class EnemyCamera : MonoBehaviour
         //transform.eulerAngles = new Vector3(0, 0, 0);
         //Vector3 tagepos;//一番近くの敵の座標を入れる
 
-        timer += Time.deltaTime;
+        //timer += Time.deltaTime;
         if (photFlag == false)
         {
             magicAttackCamera.depth = -2; 
@@ -624,7 +639,7 @@ public class EnemyCamera : MonoBehaviour
 
                 initflg = false;
             }
-            timer = 0;
+            //timer = 0;
             //if (camera_targe != null) this.transform.LookAt(camera_targe.transform);
         }
         else
@@ -643,14 +658,15 @@ public class EnemyCamera : MonoBehaviour
                     cameraMove.moveflag = true;
                     moveflag = false;
                 }
-                transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
-                transform.LookAt(camera_targe.transform.position);
                 //Debug.Log("敵を見ている camera_targeが入っている");
             }
             else
             {
                 //Debug.Log("敵を見ている camera_targeが入っていない");
             }
+
+            transform.position = Vector3.Lerp(defaultCamerapos, enemyLookCamepos, cameraMove.CalcMoveRatio());//倒れた敵に向かう
+            transform.LookAt(camera_targe.transform.position);
         }
         if (hpNoneEnemy == null)
         {
