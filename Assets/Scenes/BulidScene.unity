@@ -7243,7 +7243,7 @@ MonoBehaviour:
     goalPorts:
     - ang: 0
       goalPort: {fileID: 5631804626184482033}
-    - ang: 35
+    - ang: 85
       goalPort: {fileID: 5631804627719206284}
     - ang: 135
       goalPort: {fileID: 5631804626117904307}
@@ -7301,7 +7301,7 @@ MonoBehaviour:
       goalPort: {fileID: 5631804626184482033}
     - ang: 30
       goalPort: {fileID: 5631804627719206284}
-    - ang: 135
+    - ang: 95
       goalPort: {fileID: 5631804626117904307}
     - ang: 225
       goalPort: {fileID: 5631804626811996162}

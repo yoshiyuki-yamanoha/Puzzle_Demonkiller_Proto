@@ -88,6 +88,7 @@ public class MagicMassSelecter : MonoBehaviour
                 //if (selectType == 1) MoveSelecterEnemy();
                 //if (selectType == 0) SecondMoveSelecter();
                 //if (selectType == 1) SecondMoveSelecterEnemy();
+                SecondMoveSelecter();
                 MoveSelecter();
             }
 
