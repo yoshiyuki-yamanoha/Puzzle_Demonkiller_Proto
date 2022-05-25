@@ -282,6 +282,9 @@ public class MagicRangeDetector : TrunManager
                 break;
             case MagicType.ThunderStar:  //五芒星　雷 (レベル+1体選択できる　選択した順番に雷で攻撃)
 
+                if(x < 0 || x >= stageWidth)return false;
+                if(y < 0 || y >= stageHeight)return false;
+
                 break;
 
             case MagicType.FirePenta:    //五角形　炎 (地雷になる予定 )

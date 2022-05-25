@@ -84,10 +84,11 @@ public class MagicMassSelecter : MonoBehaviour
 
             if (s_OrbGage.orbChangeflag == true)
             {
-                if (selectType == 0) MoveSelecter();
-                if (selectType == 1) MoveSelecterEnemy();
-                if (selectType == 0) SecondMoveSelecter();
-                if (selectType == 1) SecondMoveSelecterEnemy();
+                //if (selectType == 0) MoveSelecter();
+                //if (selectType == 1) MoveSelecterEnemy();
+                //if (selectType == 0) SecondMoveSelecter();
+                //if (selectType == 1) SecondMoveSelecterEnemy();
+                MoveSelecter();
             }
 
             //インターバルを減らす処理
@@ -796,47 +797,37 @@ public class MagicMassSelecter : MonoBehaviour
                 if (Input.GetButtonDown("Fire1"))
                 {
 
-                    mACame.SetAttackMagicTrueFlag();
-
-                    //sePlay.Play("MagicShot");
-                    //一番最初に選択した時
-                    if (selectsNum == 0)
-                    {
-
-                        //選択上限
-                        if (typ == 2) selectsNumLimit = 1;
-                        //if (typ == 3) selectsNumLimit = lev;
-
-                        selectTargets = new GameObject[selectsNumLimit];
-
-                        currentEnemyNums = GameObject.FindGameObjectsWithTag("Enemy").Length;
+                    //そのマスに敵が居なかったら撃てない
+                    EnemyBase[] enemies = GameObject.FindObjectsOfType<EnemyBase>();
+                    GameObject tagEne = null;
+                    bool passFlg = false;
+                    foreach (var e in enemies) {
+                        if (e.X == nowSelX && e.Y == nowSelY)
+                        {
+                            passFlg = true;
+                            tagEne = e.gameObject;
+                            break;
+                        }
+                        
                     }
 
-                    //一番近い敵との距離をリセット
-                    bottomCost = 99;
+                    if (!passFlg || tagEne == null) return;
 
-                    //現在選択中のエネミー
-                    if (typ == 2)
-                        selectTargets[selectsNum] = SearchSameObjectInSelectArray(GetEnemyObjectOnCurrentSelectMass());
-                    if (typ == 3)
-                        selectTargets[selectsNum] = (s_MapMass.GetGameObjectOfSpecifiedMass(nowSelX, nowSelY));
 
+
+                    mACame.SetAttackMagicTrueFlag();
 
 
                     //上限に達したら
-                    if (selectsNum >= selectsNumLimit || selectsNum >= currentEnemyNums)
+                    if (passFlg || selectsNum >= selectsNumLimit || selectsNum >= currentEnemyNums)
                     {
 
-                        //魔法を放つ
-                        if (typ == 2 || typ == 3)
+                        if (typ == 2)
                         {
-                            if (typ == 2)
-                            {
-                                sePlay.Play("ThunderMagicFire");
-                            }
-                            s_PlayerContoller.ShotMagic(selectTargets[0], typ, lev, selectTargets);
-                            foreach (var e in selectTargets) e.tag = "Enemy";
+                            sePlay.Play("ThunderMagicFire");
                         }
+                        s_PlayerContoller.ShotMagic(tagEne, typ, lev, selectTargets);
+                        //foreach (var e in selectTargets) e.tag = "Enemy";
 
                         selectsNum = 0;
                     }
