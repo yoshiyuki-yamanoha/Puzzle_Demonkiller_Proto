@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class HPBarSystemsSc : MonoBehaviour
 {
     [SerializeField] ManageCoreState s_ManageCoreState;
@@ -22,6 +24,9 @@ public class HPBarSystemsSc : MonoBehaviour
     [SerializeField] AudioClip charge;
     [SerializeField] AudioSource source;
 
+    [SerializeField] GameObject puzzle;
+    [SerializeField] GameObject specialCircle;
+
     void FixedUpdate() {
 
         if (!s_ManageCoreState) {
@@ -38,7 +43,14 @@ public class HPBarSystemsSc : MonoBehaviour
 
         int hp = s_ManageCoreState.core.hp;
 
-        if(hp != oldCoreHp) currentCount = interval;
+        if (hp != oldCoreHp) {
+            currentCount = interval;
+            //if (hp == 0)
+            //{
+            //    puzzle.gameObject.SetActive(false);
+            //    specialCircle.gameObject.SetActive(false);
+            //}
+        }
 
         if (s_ManageCoreState) {
             if (interval != 0)
@@ -50,7 +62,6 @@ public class HPBarSystemsSc : MonoBehaviour
                 }
             }
         }
-
 
         oldCoreHp = hp;
     }
@@ -75,9 +86,25 @@ public class HPBarSystemsSc : MonoBehaviour
 
             //if (nowHP == hp) source.PlayOneShot(clip);
         }
+    }
 
-        
+    /// <summary>
+    /// 表示中の残HPの数を返す
+    /// </summary>
+    /// <returns>表示中の残HP</returns>
+    public int GetHPOnDisplay()
+    {
+        int hp = 0;
+        for (int i = 0; i < s_ManageCoreState.core.max_hp; i++)
+        {
+            if (partsList[i].enabled == true)
+                hp++;
+            else
+            {
+                return hp;
+            }
+        }
 
-        
+        return hp;
     }
 }
