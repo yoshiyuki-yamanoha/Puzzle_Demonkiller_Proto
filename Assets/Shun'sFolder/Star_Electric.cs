@@ -144,7 +144,7 @@ public class Star_Electric : MonoBehaviour
                 int total = eneX + eneY;
 
                 //中心との距離が2以下かつ0(自分ではない)以外の敵
-                if (total > 0 && total <= 2)
+                if (total > 0 && total <= 3)
                 {
                     //タグを変える
                     ene.tag = "Enemy2";

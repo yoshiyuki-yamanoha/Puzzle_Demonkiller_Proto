@@ -125,6 +125,7 @@ public class OrbGage : MonoBehaviour
                 pentflag = false;
             }
         }
+
         colorflag = 0;
         Gage_Draw();
         DelayPhase();
