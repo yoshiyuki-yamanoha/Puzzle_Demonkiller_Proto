@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d539e547a810413449def6ddbf31ceb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundFadeSpeed: 0
   fadeOutFlag: 0
   fadeInFlag: 0
 --- !u!114 &301066313
@@ -10119,6 +10120,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67ac60ec69e34534387dce7a2ca08151, type: 3}
   - {fileID: 8300000, guid: 3c489ba962b398d468337d683d392761, type: 3}
   - {fileID: 8300000, guid: 67ac60ec69e34534387dce7a2ca08151, type: 3}
+  isFadeOutFlag: 0
 --- !u!4 &1553800130
 Transform:
   m_ObjectHideFlags: 0
@@ -13464,6 +13466,8 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: ee758ad0614064f43ac4004c4d259994, type: 3}
   charge: {fileID: 8300000, guid: f087b61cc15a9004196c3e735cda56de, type: 3}
   source: {fileID: 1485256923043794680}
+  puzzle: {fileID: 5631804626748364819}
+  specialCircle: {fileID: 8605529657185709983}
 --- !u!1 &1485256923043794677
 GameObject:
   m_ObjectHideFlags: 0
@@ -20212,3 +20216,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dfdd2b8cfa30f249a6023bbdbb4df92, type: 3}
+--- !u!1 &8605529657185709983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6000509939400740605, guid: 0dfdd2b8cfa30f249a6023bbdbb4df92,
+    type: 3}
+  m_PrefabInstance: {fileID: 8605529657185709982}
+  m_PrefabAsset: {fileID: 0}

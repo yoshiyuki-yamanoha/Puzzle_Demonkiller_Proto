@@ -12,6 +12,8 @@ public class BGMManager : MonoBehaviour
     AudioSource audioSource;
     private AudioSource bgmPlay;
 
+    float soundAttenuation;
+    public bool isFadeOutFlag;
 
     // Start is called before the first frame update
     void Awake()
@@ -20,6 +22,13 @@ public class BGMManager : MonoBehaviour
         //audioSource = GetComponent<AudioSource>();
         audioSource = this.gameObject.transform.GetComponent<AudioSource>();
 
+        isFadeOutFlag = false;
+    }
+
+    void FixedUpdate()
+    {
+        if (isFadeOutFlag == true)
+            LowerTheVolume();
     }
 
     //効果音を再生する
@@ -27,6 +36,7 @@ public class BGMManager : MonoBehaviour
     {
         switch (bgmName)
         {
+
             case "TITLEBGM"://1　タイトルBGM
                 
                 audioSource.clip = audioClips[0];
@@ -73,5 +83,44 @@ public class BGMManager : MonoBehaviour
                 audioSource.Play();
                 break;
         }
+    }
+
+    public float GetBGMVolume()
+    {
+        return audioSource.volume;
+    }
+
+    /// <summary>
+    /// audioSourceのvolumeの値を減らします
+    /// </summary>
+    /// <param name="attenuation">一度に減らす値</param>
+    /// <returns>volumeの値を減らせたら真を、減らせなければ偽を返します</returns>
+    public bool LowerTheVolume()
+    {
+        
+        audioSource.volume -= soundAttenuation * Time.deltaTime;
+
+        if (audioSource.volume > 0)
+        {
+            return true;
+        }
+        else
+        {
+            audioSource.volume = 0;
+            isFadeOutFlag = false;
+
+            return false;
+        }
+    }
+
+    //public void SetSoundAttenuation(float attenuation)
+    //{
+    //    soundAttenuation = attenuation;
+    //}
+
+    public void StartSoundFadeOut(float attenuation)
+    {
+        soundAttenuation = attenuation;
+        isFadeOutFlag = true;
     }
 }

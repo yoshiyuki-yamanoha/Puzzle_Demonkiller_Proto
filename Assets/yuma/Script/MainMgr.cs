@@ -19,11 +19,26 @@ public class MainMgr : MonoBehaviour
     [SerializeField] Text enemyNum;
     GenerationEnemy generation_enmy; //敵の最大数を取得するため
 
+    // フェードマネージャー
+    FadeOut fadeMGR;
+    bool isVictoryAnim;
+    bool finishWaitFlag;
+    float waitTime;
+
+    BGMManager bgmManager;
+
     private void Awake()
     {
         generation_enmy = GameObject.Find("Sponer").GetComponent<GenerationEnemy>();
         enemyDieNum = 0;
         //enemyDieMax = generation_enmy.GetMaxEnemy();
+
+        fadeMGR = GameObject.Find("FadeCanvas/FadeImage").gameObject.GetComponent<FadeOut>();
+        isVictoryAnim = false;
+        finishWaitFlag = false;
+        waitTime = 2.0f;
+
+        bgmManager = GameObject.Find("BGMAudio").gameObject.GetComponent<BGMManager>();
     }
 
     void Start()
@@ -39,6 +54,20 @@ public class MainMgr : MonoBehaviour
             if (eCamera.endFlag)
             {
                 GameMgr.Instance.GotoGameClearScene();
+                isVictoryAnim = true;
+                //GameMgr.Instance.GotoGameClearScene();
+            }
+        }
+
+        if (isVictoryAnim == true)
+        {
+            if (finishWaitFlag == false)
+                StartVictoryAnimDirecting();
+            else
+            {
+
+                if (FinishFadeOutDirecting() == true)
+                    GameMgr.Instance.GotoGameClearScene();
             }
         }
 
@@ -58,6 +87,38 @@ public class MainMgr : MonoBehaviour
         return enemyDieMax;
     }
 
+    private void StartVictoryAnimDirecting()
+    {
+        if (waitTime > 0)
+            waitTime -= Time.deltaTime;
+        else
+        {
+            finishWaitFlag = true;
 
-    
+            // 画面フェードアウトの開始
+            fadeMGR.SetFadeMode(FadeOut.FadeMode.FADE_OUT);
+            fadeMGR.SetColor_White();
+            // 音量フェードアウトの開始
+            var bgmVolume = bgmManager.GetBGMVolume();
+            if (bgmVolume == 0) bgmVolume = 0.06f;
+            float volumeAttenuation = bgmVolume * fadeMGR.soundFadeSpeed;
+            bgmManager.StartSoundFadeOut(volumeAttenuation);
+        }
+    }
+
+    /// <summary>
+    /// フェードアウトが完了したら真を返す
+    /// </summary>
+    /// <returns></returns>
+    private bool FinishFadeOutDirecting()
+    {
+        //// hpの表示が0出なければfalse
+        //if (CheckDeath() == false) return false;
+        // フェードアウトが完了してなければfalse
+        if (fadeMGR.FinishFadeOut() == false) return false;
+        // bgmのボリュームが0になってなければfalse
+        if (bgmManager.LowerTheVolume() == true) return false;
+
+        return true;
+    }
 }
