@@ -155,8 +155,14 @@ public class EnemyCamera : MonoBehaviour
                     //fireEnemyGetFlag = true;
                     Debug.Log("炎の剣の情報とったっどー");
                 }
-                EnemyCameraMove();
-                //EndEnemyCameraMove();
+                if (finalDieflag == false)
+                {
+                    EnemyCameraMove();
+                }
+                else
+                {
+                    EndEnemyCameraMove();
+                }
             }
         }
         else

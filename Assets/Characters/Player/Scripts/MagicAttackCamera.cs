@@ -69,7 +69,8 @@ public class MagicAttackCamera : TrunManager
         if (trunMgr.GetTrunPhase() == TrunManager.TrunPhase.MagicAttack)
         {
             if (attackMagickFlag == false)
-            {if (enemyCamera.finalDieflag == false)
+            {
+                if (enemyCamera.finalDieflag == false)
                 {
                     subCame.depth = 0;
                 }
@@ -184,10 +185,13 @@ public class MagicAttackCamera : TrunManager
     {
         if (shakeCameraInit == true)
         {
-            shakeCame.depth = 0;
-            subCame.depth = -2;
-            shakeTimer = 0;
-            shakeCameraInit = false;
+            if (enemyCamera.finalDieflag == false)
+            {
+                shakeCame.depth = 0;
+                subCame.depth = -2;
+                shakeTimer = 0;
+                shakeCameraInit = false;
+            }
         }
 
         //if(subCamera.transform != shakeCamera.transform)
@@ -229,10 +233,13 @@ public class MagicAttackCamera : TrunManager
             shakeTimer += Time.deltaTime;
             if(shakeTimer > shakeTime && enemyCamera.finalDieflag == false)
             {
-                subCame.depth = 0;
-                shakeCame.depth = -2;
-                shakeCameraInit = true;
-                attackMagickFlag = false;
+                if (enemyCamera.finalDieflag == false)
+                {
+                    subCame.depth = 0;
+                    shakeCame.depth = -2;
+                    shakeCameraInit = true;
+                    attackMagickFlag = false;
+                }
             }
         }
 
