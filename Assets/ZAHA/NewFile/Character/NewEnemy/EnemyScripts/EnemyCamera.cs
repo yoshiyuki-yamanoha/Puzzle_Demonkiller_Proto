@@ -716,6 +716,7 @@ public class EnemyCamera : MonoBehaviour
         timer += Time.deltaTime;
         if (photFlag == false)
         {
+            Time.timeScale = 1;
             enemy_camera.depth = 0;
         }
         x += 0.5f;
