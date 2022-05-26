@@ -472,20 +472,20 @@ public class EnemyCamera : MonoBehaviour
                         closeFireEnemy = true;
                     }
                 }
-                if(fireEnemyLookFlag == true)
-                {
-                    Debug.Log("炎の敵");
-                    //camera_targe = fireEnemySpone;
-                    camera_tage_pos = new Vector3(fireEnemy.transform.position.x, transform.position.y, fireEnemy.transform.position.z);
-                    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
-                    timer += Time.deltaTime;
-                    transform.LookAt(fireEnemy.transform.position);
-                    if (timer >= 3)
-                    {
-                        fireEnemyLookFlag = false;
-                    }
-                }
-                else
+                //if(fireEnemyLookFlag == true)
+                //{
+                //    Debug.Log("炎の敵");
+                //    //camera_targe = fireEnemySpone;
+                //    camera_tage_pos = new Vector3(fireEnemy.transform.position.x, transform.position.y, fireEnemy.transform.position.z);
+                //    floDistance = Vector3.Distance(transform.position, camera_tage_pos);
+                //    timer += Time.deltaTime;
+                //    transform.LookAt(fireEnemy.transform.position);
+                //    if (timer >= 3)
+                //    {
+                //        fireEnemyLookFlag = false;
+                //    }
+                //}
+                //else
                 if (coreAttackEnemy != null)
                 {
                     camera_targe = coreAttackEnemy;
