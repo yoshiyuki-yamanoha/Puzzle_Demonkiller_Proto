@@ -370,7 +370,7 @@ public class OrbGage : MonoBehaviour
     public bool orbChangeflag = true;
     void DelayPhase()
     {
-        if(delayTime > 0)
+        if(delayTime != 0)
         {
             delayTime -= Time.deltaTime;
 
@@ -382,7 +382,9 @@ public class OrbGage : MonoBehaviour
             {
                 if (!OrbCheckExsistens())
                 {
+                    Debug.Log("敵遷移するよーーーーーーー!!!!");
                     HandOverPhase();
+                    delayTime = 0f;
                 }
                 else
                 {
@@ -392,13 +394,14 @@ public class OrbGage : MonoBehaviour
                         orbChangeflag = true;
                     }
                 }
-                delayTime = -1.0f;
+                
             }
         }
     }
 
     void HandOverPhase()
     {
+        //Debug.Log("敵遷移");
         s_TrunManager.SetTrunPhase(TrunManager.TrunPhase.Enemy);
         for (int i = 0; i < orb_Gage.Length; i++)
             orb_Gage[i].value = 0;

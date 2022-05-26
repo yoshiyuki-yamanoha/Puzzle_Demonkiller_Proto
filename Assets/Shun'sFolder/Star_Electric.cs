@@ -35,6 +35,8 @@ public class Star_Electric : MonoBehaviour
         target = _target;
         magic_Level = _level;
 
+        target.AddComponent<AttakedMark>();
+
         EnemyBase eb = target.GetComponent<EnemyBase>();
         
         tar_ene_pos.x = eb.X;
@@ -135,7 +137,7 @@ public class Star_Electric : MonoBehaviour
         {
             if (ene != null)
             {
-                if (ene.tag == "Enemy2") continue;
+                if (ene.GetComponent<AttakedMark>()) continue;
 
                 EnemyBase eb = ene.GetComponent<EnemyBase>();
 
@@ -147,7 +149,9 @@ public class Star_Electric : MonoBehaviour
                 if (total > 0 && total <= 3)
                 {
                     //タグを変える
-                    ene.tag = "Enemy2";
+                    //ene.tag = "Enemy2";
+
+                    ene.AddComponent<AttakedMark>();
 
                     return ene;
                 }
@@ -155,11 +159,11 @@ public class Star_Electric : MonoBehaviour
         }
 
         //タグを変えた敵全員を戻す
-        var tagChangedEnemies = GameObject.FindGameObjectsWithTag("Enemy2");
-        foreach (var tce in tagChangedEnemies)
-            tce.tag = "Enemy";
+        //var tagChangedEnemies = GameObject.FindGameObjectsWithTag("Enemy2");
+        //foreach (var tce in tagChangedEnemies)
+        //    tce.tag = "Enemy";
 
-        Debug.Log("敵居なかったわ");
+        //Debug.Log("敵居なかったわ");
         return null;
     }
 
