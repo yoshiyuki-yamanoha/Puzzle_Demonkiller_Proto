@@ -124,7 +124,7 @@ public class SEManager : MonoBehaviour
             case "IceBreak"://29：炎の剣凍結時氷を払う時のSE
                 audioSource.PlayOneShot(audioClips[28], 5f);
                 break;
-            case "SlowMotion"://29：炎の剣凍結時氷を払う時のSE
+            case "SlowMotion"://29：スローモーション
                 audioSource.PlayOneShot(audioClips[29], 5f);
                 break;
         }
