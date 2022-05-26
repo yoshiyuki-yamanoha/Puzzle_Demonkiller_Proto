@@ -8,7 +8,7 @@ public class AnimEvent : MonoBehaviour
     //[SerializeField] BoxCollider foot_boxcollider = null;
 
     private SEManager sePlay = null;
-
+    
     [SerializeField] ParticleSystem[] fire = null;
     [SerializeField] ParticleSystem[] ice_star = null;
     [SerializeField] ParticleSystem[] ice_glow = null;
@@ -26,7 +26,7 @@ public class AnimEvent : MonoBehaviour
             hit_effect.gameObject.SetActive(false);
 
         //sePlay = GameObject.Find("Audio").GetComponent<SEManager>();//Se再生用
-        if (sePlay != null) sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
+         sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }
 
     public void Destroy()
@@ -34,7 +34,7 @@ public class AnimEvent : MonoBehaviour
         //GameObject.Find("Stage1Mgr").GetComponent<Stage1Mgr>().DieEnemyCount();
         //GameObject.Find("Sphere").GetComponent<ShootMagic>().Enelist_Delete(this.gameObject);
         //敵が消える音を入れる//
-        if (sePlay != null) sePlay.Play("EnemyDead");
+        //if (sePlay != null) sePlay.Play("EnemyDead");
         Destroy(transform.root.gameObject);//一番上の親オブジェクト削除
     }
 
@@ -67,6 +67,12 @@ public class AnimEvent : MonoBehaviour
     {
         hit_effect.gameObject.SetActive(true);
         hit_effect.Play();
+    }
+
+    public void IceBreakSE()
+    {
+        Debug.Log("氷の音");
+        sePlay.Play("IceBreak");
     }
 
     public void EmittingOn()

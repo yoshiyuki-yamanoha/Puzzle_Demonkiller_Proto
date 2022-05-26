@@ -434,6 +434,7 @@ public class EnemyBase : MonoBehaviour
             if (enemy_kinds != EnemyKinds.Flame)
             {
                 IceObjSetActivOff();//オフ
+                IceBreakEffeckt();
             }
 
             Enemy_anim.SetSpeed(1);//アニメーションスピードを1に戻す―
