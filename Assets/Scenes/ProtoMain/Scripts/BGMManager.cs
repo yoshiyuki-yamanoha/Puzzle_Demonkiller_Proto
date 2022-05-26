@@ -41,7 +41,7 @@ public class BGMManager : MonoBehaviour
                 
                 audioSource.clip = audioClips[0];
                 audioSource.loop = true;
-                audioSource.volume = 0.1f;////もともと0.05
+                audioSource.volume = 0.1f;////もともと0.05 0.1
                 audioSource.Play();
                 break;
 
@@ -49,13 +49,13 @@ public class BGMManager : MonoBehaviour
  
                 audioSource.clip = audioClips[1];
                 audioSource.loop = true;
-                audioSource.volume = 0.06f; //音量の調整 //もともと0.02
+                audioSource.volume = 0.06f; //音量の調整 //もともと0.02 0.06
                 audioSource.Play();
                 break;
             case "ENDBGM"://3　エンドBGM
                 audioSource.clip = audioClips[2];
                 audioSource.loop = true;
-                audioSource.volume = 0.06f; //0.03
+                audioSource.volume = 0.06f; //0.03 0.06
                 audioSource.Play();
                 break;
 
