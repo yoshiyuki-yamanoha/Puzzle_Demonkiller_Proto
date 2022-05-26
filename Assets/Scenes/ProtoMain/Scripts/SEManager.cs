@@ -68,7 +68,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[9], 2.4f);//0.4
                 break;
             case "EnemyAtack"://11敵攻撃
-                audioSource.PlayOneShot(audioClips[10], 4.0f);  //2.0
+                audioSource.PlayOneShot(audioClips[10], 3.0f);  //2.0
                 break;
             case "DestroyBarricade"://12バリケード破壊
                 audioSource.PlayOneShot(audioClips[11], 1.5f);
@@ -89,7 +89,7 @@ public class SEManager : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[16], 9.0f); //1.3
                 break;
             case "BombEnemExplosion"://17ボム兵爆発
-                audioSource.PlayOneShot(audioClips[17], 5.0f);  //1.3
+                audioSource.PlayOneShot(audioClips[17], 3.0f);  //1.3
                 break;
             case "FlameSpawn"://18炎の剣のモンスター出現
                 audioSource.PlayOneShot(audioClips[18], 1.3f);
@@ -120,6 +120,12 @@ public class SEManager : MonoBehaviour
                 break;
             case "CoreExplosion"://28：コア爆発
                 audioSource.PlayOneShot(audioClips[27], 2.3f);
+                break;
+            case "IceBreak"://29：炎の剣凍結時氷を払う時のSE
+                audioSource.PlayOneShot(audioClips[28], 5f);
+                break;
+            case "SlowMotion"://29：炎の剣凍結時氷を払う時のSE
+                audioSource.PlayOneShot(audioClips[29], 5f);
                 break;
         }
     }

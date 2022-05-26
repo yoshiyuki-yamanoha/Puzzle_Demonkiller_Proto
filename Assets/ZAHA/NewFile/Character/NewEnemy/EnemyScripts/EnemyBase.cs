@@ -435,6 +435,7 @@ public class EnemyBase : MonoBehaviour
             {
                 IceObjSetActivOff();//オフ
                 IceBreakEffeckt();
+                sePlay.Play("IceBreak");
             }
 
             Enemy_anim.SetSpeed(1);//アニメーションスピードを1に戻す―

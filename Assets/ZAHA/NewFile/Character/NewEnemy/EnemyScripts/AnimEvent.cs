@@ -75,6 +75,11 @@ public class AnimEvent : MonoBehaviour
         sePlay.Play("IceBreak");
     }
 
+    public void SlowMotion()
+    {
+        sePlay.Play("SlowMotion");
+    }
+
     public void EmittingOn()
     {
         trail_renderer.gameObject.SetActive(true);
