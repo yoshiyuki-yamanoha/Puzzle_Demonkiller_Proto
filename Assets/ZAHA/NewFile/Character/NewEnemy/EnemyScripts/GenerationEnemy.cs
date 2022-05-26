@@ -318,16 +318,16 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         //生成フラグがオンなら
         if (generation_flg)
         {
-            SkipEnemy();//ターンをスキップする処理
+            //SkipEnemy();//ターンをスキップする処理
 
-            if (!init_skip)
-            {//飛ばされたら登録する
-                while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
-                {
-                    GenerationEnemyPos();//座標登録
-                    GenerationEnemyKinds();//敵の種類登録/////
-                }
-            }
+            //if (!init_skip)
+            //{//飛ばされたら登録する
+            //    while (enemy_generation_info[Nowturn].One_turn_Generation > 0)//1ターンに生成できる数分回す
+            //    {
+            //        GenerationEnemyPos();//座標登録
+            //        GenerationEnemyKinds();//敵の種類登録/////
+            //    }
+            //}
 
             //生成する
             while (enemys_pos.Count > enemy_oneturn_count)
@@ -600,20 +600,20 @@ public class GenerationEnemy : MonoBehaviour /*PseudoArray*/
         }
     }
 
-    void SkipEnemy()
-    {
-        if (!init_turn_generation_flg && init_skip)
-        {
-            if (stage_list_enemys.Count <= 0)//0以下なら存在しない
-            {
-                while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
-                {
-                    Nowturn++;
-                }
-                init_skip = false;
-            }
-        }
-    }
+    //void SkipEnemy()
+    //{
+    //    if (!init_turn_generation_flg && init_skip)
+    //    {
+    //        if (stage_list_enemys.Count <= 0)//0以下なら存在しない
+    //        {
+    //            while (enemy_generation_info[Nowturn].One_turn_Generation <= 0) //1ターン生成が0以下だったらNowターン追加
+    //            {
+    //                Nowturn++;
+    //            }
+    //            init_skip = false;
+    //        }
+    //    }
+    //}
 
     void SearchStageEnemy()
     {
