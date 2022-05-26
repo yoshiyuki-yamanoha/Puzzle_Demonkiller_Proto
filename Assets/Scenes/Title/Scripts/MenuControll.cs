@@ -43,8 +43,11 @@ public class MenuControll : MonoBehaviour
     //[SerializeField]float gray_coolTime; // グレーアウトの開始する時のクールタイム
     public bool grayOutFlg;
     bool buttonInputFlg;    // 一回しか押せないフラグ
+
+    SEManager sePlay = null;
     private void Start()
     {
+
         gray_alpha = 0.0f;
         grayOutFlg = false;
         buttonInputFlg = false;
@@ -54,6 +57,7 @@ public class MenuControll : MonoBehaviour
         selectMenuPos[0] = new Vector3(877.4f, 128.9f, 0.0f);
         selectMenuPos[1] = new Vector3(877.4f, -25.2f, 0.0f);
         grayOut = GameObject.Find("GrayOut").GetComponent<Image>();
+        sePlay = GameObject.Find("Audio").GetComponent<SEManager>();
     }
 
     public int GetUpDown()
@@ -93,12 +97,14 @@ public class MenuControll : MonoBehaviour
             int inputnum = GetUpDown();
             if (inputnum == ((int)MenuControll.UpDown.DOWN))
             {
+                if (selecter == Select.Start) sePlay.Play("MagicCursorSelect");
                 selecter = Select.Quit;
                 ui_Start.sprite = startImg[0];
                 ui_Quit.sprite = quitImg[1];
             }
             if (inputnum == ((int)MenuControll.UpDown.UP))
             {
+                if (selecter == Select.Quit) sePlay.Play("MagicCursorSelect");
                 selecter = Select.Start;
                 ui_Start.sprite = startImg[1];
                 ui_Quit.sprite = quitImg[0];
@@ -108,6 +114,7 @@ public class MenuControll : MonoBehaviour
 
         switch (selecter)
         {
+
             case Select.Start: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[0], 0.45f); break;
             case Select.Quit: cursor.localPosition = Vector3.Lerp(cursor.localPosition, selectMenuPos[1], 0.45f); break;
         }
@@ -115,6 +122,8 @@ public class MenuControll : MonoBehaviour
         // 選択しているStageによって飛ばすシーンを変える
         if (Input.GetButtonDown("Fire1"))
         {
+            sePlay.Play("TitleDecision");
+
             switch (selecter)
             {
                 case Select.Start: GameMgr.Instance.GotoBuildScene(); break;
