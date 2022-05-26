@@ -570,10 +570,6 @@ public class EnemyBase : MonoBehaviour
                     EnemyAttack();
                 }
             }
-            else
-            {
-                Debug.Log("eventanimがenemyBaseに入っていません!!" + gameObject.name);
-            }
         }
         else //移動処理
         {
@@ -584,7 +580,6 @@ public class EnemyBase : MonoBehaviour
 
                 if (map.Map[move_pos.y, move_pos.x] != (int)MapMass.Mapinfo.NONE)
                 {
-                    Debug.Log("移動出来ない" + gameObject.name);
                     Ismove = false;
                     Target_distance = true;
                 }
@@ -626,7 +621,7 @@ public class EnemyBase : MonoBehaviour
             }
 
             //目的値についているかフラグがオンなら
-            if (Target_distance || Abnormal_condition == AbnormalCondition.Ice)
+            if (Target_distance)
             {
                 if (Ismove)
                 {
