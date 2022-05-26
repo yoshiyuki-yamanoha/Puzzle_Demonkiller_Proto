@@ -1036,6 +1036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundFadeSpeed: 0
+  alpha: 0
   fadeOutFlag: 0
   fadeInFlag: 0
 --- !u!114 &301066313
@@ -7949,6 +7950,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6233bab195caf604cb5a9f0348786a02, type: 3}
   - {fileID: 8300000, guid: 766e2604c09851f4288bd7f9e3ad6614, type: 3}
   - {fileID: 8300000, guid: 766e2604c09851f4288bd7f9e3ad6614, type: 3}
+  - {fileID: 8300000, guid: 12db4b767008ca04ab97cf9bf9326dbc, type: 3}
+  - {fileID: 8300000, guid: 7d7f65036eb37b940a334216e5eb678c, type: 3}
 --- !u!82 &1161136428
 AudioSource:
   m_ObjectHideFlags: 0
