@@ -194,13 +194,17 @@ public class EnemyBase : MonoBehaviour
     public Slider Hpbar_red { get => hpbar_red; set => hpbar_red = value; }
     public Slider Hpbar_green { get => hpbar_green; set => hpbar_green = value; }
     public int Enemy_move { get => enemy_move; set => enemy_move = value; }
+    public GameObject Ice_obj { get => ice_obj; set => ice_obj = value; }
 
-    public void InitFunction()
+    private void Awake()
     {
         if (enemy_kinds != EnemyKinds.Flame)
         {
             IceObjSetActivOff();//アイスオブジェクトオフ
         }
+    }
+    public void InitFunction()
+    {
         Camera_TargetInit();//カメラのターゲット格納初期化
         //move_wait_time = Random.Range(0.0f, 1.0f);
         GetObject();
@@ -827,7 +831,6 @@ public class EnemyBase : MonoBehaviour
         }
         else
         {
-            Debug.Log("攻撃エリアなし!");
             Attackaria = false;
         }
     }
@@ -857,12 +860,12 @@ public class EnemyBase : MonoBehaviour
 
     public void IceObjSetActivOn()
     {
-        ice_obj.SetActive(true);
+        Ice_obj.SetActive(true);
     }
 
     public void IceObjSetActivOff()
     {
-        ice_obj.SetActive(false);
+        Ice_obj.SetActive(false);
     }
 
     public void UIFacing()
