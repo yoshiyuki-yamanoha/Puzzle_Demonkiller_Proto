@@ -10,9 +10,14 @@ public class GameOverMgr : MonoBehaviour
     public BGMManager bgmPlay = null;
 
     SEManager sePlay = null;
+    FadeOut fadeout;
 
     void Start()
     {
+        fadeout = GameObject.Find("FadeImage").GetComponent<FadeOut>();
+        fadeout.SetColor_Black();
+        fadeout.SetFadeSpeed(1.0f);
+        fadeout.SetFadeMode(FadeOut.FadeMode.FADE_IN);
         coolTime = 0.5f;
         GenerationGameOver_BGM();
     }

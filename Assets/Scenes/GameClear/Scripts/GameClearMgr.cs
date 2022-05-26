@@ -10,8 +10,13 @@ public class GameClearMgr : MonoBehaviour
     public BGMManager bgmPlay = null;
 
     SEManager sePlay = null;
+    FadeOut fadeout;
 
     void Start() {
+        fadeout = GameObject.Find("FadeImage").GetComponent<FadeOut>();
+
+        fadeout.SetFadeSpeed(1.0f);
+        fadeout.SetFadeMode(FadeOut.FadeMode.FADE_IN);
         coolTime = 0.5f;
         GenerationClear_Jingle();
     }
